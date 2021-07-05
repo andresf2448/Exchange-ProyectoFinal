@@ -22,14 +22,22 @@ export const Home = () => {
             </div>
             <div className='home-container'>
                 <div className='home-container_boxLeft'>
-                    <div className='crypto-graphics'></div>
+                    <div className='crypto-graphics'>
+                        <h3>CryptoGraphics</h3>
+                    </div>
                     <div className='home-container_boxLeft--bottom'>
-                        <div className='about'></div>
-                        <div className='statistics'></div>
+                        <div className='about'>
+                            <h3>ABOUT</h3>
+                        </div>
+                        <div className='statistics'>
+                            <h3>STATISTICS</h3>
+                        </div>
                     </div>
                 </div>
                 <div className='home-container_boxRight'>
-                    <div className='crypto-calculator'></div>
+                    <div className='crypto-calculator'>
+                        <h3>CryptoCalculator</h3>
+                    </div>
                 </div>
             </div>
         </div>
