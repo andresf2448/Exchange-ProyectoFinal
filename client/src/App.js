@@ -1,6 +1,6 @@
 import {BrowserRouter as Router, Route} from 'react-router-dom';
 import './App.scss';
-import {Home} from './containers/Home/Home';
+import {Home} from './containers/home/home';
 
 function App() {
   return (
