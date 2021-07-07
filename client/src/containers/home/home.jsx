@@ -1,6 +1,6 @@
 import {AppBar, Tabs, Tab, Box, Container, Grid, Paper, makeStyles} from '@material-ui/core';
 
-import './Home.scss';
+import './home.scss';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -11,7 +11,7 @@ const useStyles = makeStyles(theme => ({
     },
     text:{
         color:theme.palette.primary.contrastText,
-    }
+    },
 }));
 
 
