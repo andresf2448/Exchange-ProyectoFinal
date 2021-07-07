@@ -11,7 +11,7 @@ const useStyles = makeStyles(theme => ({
     },
     text:{
         color:theme.palette.primary.contrastText,
-    }
+    },
 }));
 
 
