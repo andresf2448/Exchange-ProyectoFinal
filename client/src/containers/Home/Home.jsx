@@ -1,19 +1,26 @@
-import {Button, AppBar, Tabs, Tab, TabPanel, Box, Container, Grid, Card} from '@material-ui/core';
+import {AppBar, Tabs, Tab, Box, Container, Grid, Paper, makeStyles} from '@material-ui/core';
 
 import './Home.scss';
 
-// const useStyles = makeStyles({
-//     root: {
-        
-//     }
-// });
+const useStyles = makeStyles(theme => ({
+    root: {
+        backgroundColor: theme.palette.primary.main,
+        color: theme.palette.primary.contrastText,
+        elevation: '3',
+        height: '10rem' 
+    },
+    text:{
+        color:theme.palette.primary.contrastText,
+    }
+}));
 
 
 export const Home = () => {
+    const classes = useStyles();
     return (
   
+        <div>
 
-        <Box>
             <AppBar position="static">
                 <Tabs >
                 {/* <Tabs value={value} onChange={handleChange} aria-label="simple tabs example"> */}
@@ -26,77 +33,37 @@ export const Home = () => {
                     <Tab label="Logout"/>
                 </Tabs>
             </AppBar>
-{/* <TabPanel value={value} index={0}>
-  Item One
-</TabPanel>
-<TabPanel value={value} index={1}>
-  Item Two
-</TabPanel>
-<TabPanel value={value} index={2}>
-  Item Three
-</TabPanel> */}
            <Box className='user-data'>
-                <ul>
-                    <li>UserName</li>
-                    <li>Cuenta</li>
-                    <li>Saldo</li>
-                    <li>otra cosa</li>
+                <ul className={classes.text}>
+                    <li>USERNAME</li>
+                    <li>ACCOUNT</li>
+                    <li>BALANCE</li>
+                    <li>SOMETHING ELSE...</li>
                 </ul>
            </Box>
-           
-            <Grid container className='home-container' >
-                <Grid container xs={9} >   
-                    <Container item style={{backgroundColor:'#301B3F'}} className='crypto-graphics'xs={12} >
-                        <Card style={{alignItems:'center'}}>CryptoGraphics</Card>
-                    </Container>
-                    <Grid container className='home-container_boxLeft--bottom' xs={12}>
-                        <Grid item style={{backgroundColor:'#301B3F'}} className='about'xs={6}>
-                            <h3>ABOUT</h3>
+           <Container maxWidth='xlg' >
+                <Grid container className='home-container' xs={12} spacing={2} justifyContent='center' > 
+                    <Grid item xs={9} container spacing={2} justifyContent='center'alignContent='space-around'>   
+                        <Grid item  className='crypto-graphics' xs={12} >
+                            <Paper className={classes.root} >CRYPTOGRAPHICS</Paper>
                         </Grid>
-                        <Grid item style={{backgroundColor:'#301B3F'}} className='statistics' xs={6}>
-                            <h3>STATISTICS</h3>
+                        <Grid container className='home-container_boxLeft--bottom' xs={12} spacing={2}>
+                            <Grid item  className='about'xs={6} >
+                                <Paper className={classes.root}>ABOUT</Paper>
+                            </Grid>
+                            <Grid item  className='statistics' xs={6}>
+                                <Paper className={classes.root}>STATISTICS</Paper>
+                            </Grid>
                         </Grid>
                     </Grid>
-                </Grid>
-                
-                <Grid container className='home-container_boxRight' xs={3}>
-                    <Grid item style={{backgroundColor:'#301B3F'}} className='crypto-calculator' color='primary'>
-                        <h3>CryptoCalculator</h3>
+                    
+                    <Grid item style={{width:'100%'}} className='crypto-calculator' xs={3} >
+                            <Paper className={classes.root} style={{height:'20.5rem'}}>CRYPTOCALCULATOR</Paper>
                     </Grid>
                 </Grid>
-            </Grid>
-        </Box>
+            </Container>
+        </div>
+
         
     )
 }
-
-
-// <Box className='user-data'>
-//                 <ul>
-//                     <li>UserName</li>
-//                     <li>Cuenta</li>
-//                     <li>Saldo</li>
-//                     <li>otra cosa</li>
-//                 </ul>
-//             </Box>
-//             <Box className='home-container'>
-//                 <Box className='home-container_boxLeft'>
-//                     <Box className='crypto-graphics'>
-//                         <h3>CryptoGraphics</h3>
-//                     </Box>
-//                     <Box className='home-container_boxLeft--bottom'>
-//                         <Box className='about'>
-//                             <h3>ABOUT</h3>
-//                         </Box>
-//                         <Box className='statistics'>
-//                             <h3>STATISTICS</h3>
-//                         </Box>
-//                     </Box>
-//                 </Box>
-//                 <Box className='home-container_boxRight'>
-//                     <Box className='crypto-calculator'>
-//                         <h3>CryptoCalculator</h3>
-//                     </Box>
-//                 </Box>
-//             </Box>
-//         </Box>
