@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router';
-import { supabase } from '../../supabase/supabase';
+import { supabase } from 'supabase/supabase';
 
 import {Container, Typography, Button, TextField, FormControl} from '@material-ui/core';
 

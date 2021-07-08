@@ -3,7 +3,7 @@ import { useHistory } from 'react-router';
 
 import {Container, Typography, Button, TextField, FormControl} from '@material-ui/core';
 
-import { supabase } from '../../supabase/supabase';
+import { supabase } from 'supabase/supabase';
 
 export const Login = () => {
   const history = useHistory();
@@ -35,7 +35,7 @@ export const Login = () => {
       });
 
       if (info.error) return alert(info.error.message);
-      return history.push('/home');
+      return history.push('/home/home');
     } catch (error) {
       console.log(error);
     }
