@@ -1,6 +1,6 @@
 import {Container, Grid} from '@material-ui/core';
 import {CryptoGraphics} from 'components/cryptoGraphics/cryptoGraphics';
-import {About} from 'components/about/about';
+import {AboutPreview} from 'components/aboutPreview/aboutPreview';
 import {Statistics} from 'components/statistics/statistics';
 import {CryptoCalculator} from 'components/cryptoCalculator/cryptoCalculator';
 
@@ -14,7 +14,7 @@ export const HomeGrid= ()=>{
                     </Grid>
                     <Grid container className="home-container_boxLeft--bottom" xs={12} spacing={2}>
                         <Grid item className="about" xs={6}>
-                            <About/>
+                            <AboutPreview/>
                         </Grid>
                         <Grid item className="statistics" xs={6}>
                             <Statistics/>

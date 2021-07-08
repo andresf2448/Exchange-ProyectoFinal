@@ -15,10 +15,10 @@ export const NavBar= () =>{
             <Tabs>
                 {/* <Tabs value={value} onChange={handleChange} aria-label="simple tabs example"> */}
                 <Tab label="Logo" onClick={()=>history.push('/home/home')}/>
-                <Tab label="About" />
-                <Tab label="Other Exchanges" />
-                <Tab label="Wallet" />
-                <Tab label="Balance" />
+                <Tab label="About" onClick={()=>history.push('/home/about')}/>
+                <Tab label="Other Exchanges" onClick={()=>history.push('/home/exchanges')}/>
+                <Tab label="Wallet" onClick={()=>history.push('/home/wallet')}/>
+                <Tab label="Balance" onClick={()=>history.push('/home/balance')}/>
                 <Tab label="Settings" onClick={()=>history.push('/home/settings')}/>
                 <Tab label="Logout" onClick={singOut} />
             </Tabs>
