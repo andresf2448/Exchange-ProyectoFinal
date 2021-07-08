@@ -4,10 +4,9 @@ const axios = require("axios");
 require("dotenv").config();
 const bcrypt = require('bcrypt');
 
-/* const { SECRET_KEY_ADMIN, PUBLIC_KEY_ADMIN } = process.env;
-const server = new StellarSdk.Server('https://horizon-testnet.stellar.org') */
-   router.get("/createWallet", async (req, res) => {   
-  
+
+  router.get("/createWallet", async (req, res) => {   
+  console.log('------------')
     const pair = StellarSdk.Keypair.random();
     const saltRounds = 10;
  /*    var opts = {
@@ -44,9 +43,9 @@ const server = new StellarSdk.Server('https://horizon-testnet.stellar.org') */
   createTestAccount();
   const publicKey = pair.publicKey()
   const result = [publicKey]   
-  bcrypt.hash(pair.secret(), saltRounds).then((response) => {
+  await bcrypt.hash(pair.secret(), saltRounds).then((response) => {
       result.push(response)
-     return console.log(result)
+      console.log(result)
   })
   
    return res.json(result); 
