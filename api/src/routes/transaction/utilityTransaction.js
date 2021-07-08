@@ -1,10 +1,19 @@
-export default async function main(sourcePublicKey, amount) {
+const StellarSdk = require('stellar-sdk');
+const server = new StellarSdk.Server('https://horizon-testnet.stellar.org');
+
+let main = async function (sourcePublicKey, sourceKeypair, receiverPublicKey, amount) {
     // Transactions require a valid sequence number that is specific to this account.
     // We can fetch the current sequence number for the source account from Horizon.
+    
     const account = await server.loadAccount(sourcePublicKey);
+    console.log(account)
+
+  
 
     // Right now, there's one function that fetches the base fee.
     const fee = await server.fetchBaseFee();
+
+    try {
 
     const transaction = new StellarSdk.TransactionBuilder(account, {
         fee,
@@ -13,6 +22,7 @@ export default async function main(sourcePublicKey, amount) {
         // networkPassphrase: StellarSdk.Networks.PUBLIC,
         networkPassphrase: StellarSdk.Networks.TESTNET
     })
+    
 
         // Add a payment operation to the transaction
         .addOperation(StellarSdk.Operation.payment({
@@ -29,20 +39,43 @@ export default async function main(sourcePublicKey, amount) {
 
         .build();
 
-    // Sign this transaction with the secret key
+         // Sign this transaction with the secret key
     transaction.sign(sourceKeypair);
 
     transaction.toEnvelope().toXDR('base64')
+
+    } catch (e) {
+        return {
+            isError: true,
+            error: e,
+            message: 'Invalid account'
+        }
+    }
+
+   
 
     // Submit the transaction to the Horizon server. The Horizon server will then
     // submit the transaction into the network for us.
     try {
         const transactionResult = await server.submitTransaction(transaction);
-        console.log(JSON.stringify(transactionResult, null, 2));
-        console.log('\nSuccess! View the transaction at: ');
-        console.log(transactionResult._links.transaction.href);
+        return {
+            transactionResult: JSON.stringify(transactionResult, null, 2),
+            transactionLink: transactionResult._links.transaction.href,
+            isError: false
+        }
+        // console.log(JSON.stringify(transactionResult, null, 2));
+        // console.log('\nSuccess! View the transaction at: ');
+        // console.log(transactionResult._links.transaction.href);
     } catch (e) {
-        console.log('An error has occured:');
-        console.log(e);
+        return {
+            isError: true,
+            error: e,
+            message: 'An error has occured'
+
+        }
+        // console.log('An error has occured:');
+        // console.log(e);
     }
 }
+
+module.exports = main;
