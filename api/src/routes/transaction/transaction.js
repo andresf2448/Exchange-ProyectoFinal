@@ -7,7 +7,18 @@ const main = require('./utilityTransaction')
 router.post('/transaction', async (req, res) => {
     const { sourceSecretKey, receiverPublicKey, amount} = req.body
 
-    const sourceKeypair = StellarSdk.Keypair.fromSecret(sourceSecretKey);
+    if(amount < 1 || amount === '') return res.status(400).json({message: 'Invalid amount'})
+
+    var sourceKeypair
+
+    try {
+        sourceKeypair = StellarSdk.Keypair.fromSecret(sourceSecretKey);
+        
+    } catch (error) {
+        return res.status(400).json({message: 'Invalid secretKey', error: error})
+    }
+    
+    
     
     const sourcePublicKey = sourceKeypair.publicKey();
 

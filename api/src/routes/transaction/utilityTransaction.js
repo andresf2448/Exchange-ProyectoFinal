@@ -6,16 +6,16 @@ let main = async function (sourcePublicKey, sourceKeypair, receiverPublicKey, am
     // We can fetch the current sequence number for the source account from Horizon.
     
     const account = await server.loadAccount(sourcePublicKey);
-    console.log(account)
-
-  
+      
 
     // Right now, there's one function that fetches the base fee.
     const fee = await server.fetchBaseFee();
 
+    var transaction
+
     try {
 
-    const transaction = new StellarSdk.TransactionBuilder(account, {
+    transaction = new StellarSdk.TransactionBuilder(account, {
         fee,
         // Uncomment the following line to build transactions for the live network. Be
         // sure to also change the horizon hostname.
