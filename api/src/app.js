@@ -2,7 +2,6 @@ const express = require('express')
 const cookieParser = require('cookie-parser');
 const morgan = require('morgan')
 const routes = require('./routes/index')
-
 const server = express()
 
 server.use(morgan('dev'))

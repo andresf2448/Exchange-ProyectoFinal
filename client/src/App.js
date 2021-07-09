@@ -1,3 +1,4 @@
+
 import { Login } from 'components/login/login';
 import { Register } from 'components/register/register';
 import {BrowserRouter as Router, Route} from 'react-router-dom';
@@ -26,6 +27,7 @@ function App() {
 
       </div>
     </Router>
+
   );
 }
 
