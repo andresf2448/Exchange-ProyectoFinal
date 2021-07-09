@@ -1,8 +1,8 @@
 const router = require('express').Router();
-const acount = require('./acount.js')
 
+module.exports= {
+    transaction: require('./transaction/transaction'),
+    acount = require('./acount.js'),
+    index: router
+};
 
-router.use('/createWallet', acount)
-
-
-module.exports= router;   
