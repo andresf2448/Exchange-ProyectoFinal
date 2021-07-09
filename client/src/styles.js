@@ -16,7 +16,11 @@ const useStyles = makeStyles(theme => ({
   badge: {
     marginRight: '10px',
     color: theme.palette.primary.contrastText
-
+  },
+  card: {
+    display: 'flex',
+    justifyContent: 'space-around',
+    backgroundColor: theme.palette.secondary.main
   }
 }));
 

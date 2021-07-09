@@ -1,4 +1,4 @@
-import {Paper} from '@material-ui/core';
+import {Container, Typography, Grid, Card} from '@material-ui/core';
 import useStyles from 'styles.js'
 import { useEffect, useState } from 'react';
 import './cryptoGraphics.css';
@@ -79,35 +79,48 @@ export const CryptoGraphics= ()=>{
   }
 
   return (
-    <div className='container'>
-      <h1>Crypto USD trade</h1>
-      <div className='currencyValues'>
-        <div className='cryptos'>
-          <h2> ETH </h2>
-          <h3 className={eth.color}>{eth.price ? eth.price : 'Searching currency value'}</h3>
-        </div>
-        <div className='cryptos'>
-          <h2> BTC </h2>
-          <h3 className={btc.color}>{btc.price ? btc.price : 'Searching currency value'}</h3>
-        </div>
-        <div className='cryptos'>
-          <h2> CHZ </h2>
-          <h3 className={chz.color}>{chz.price ? chz.price: 'Searching currency value'}</h3>
-        </div>
-        <div className='cryptos'>
-          <h2> FIL </h2>
-          <h3 className={fil.color}>{fil.price ? fil.price: 'Searching currency value'}</h3>
-        </div>
-        <div className='cryptos'>
-          <h2> ADA </h2>
-          <h3 className={ada.color}>{ada.price ? ada.price : 'Searching currency value'}</h3>
-        </div>
-        <div className='cryptos'>
-          <h2> BNB </h2>
-          <h3 className={bnb.color}>{bnb.price ? bnb.price : 'Searching currency value'}</h3>
-        </div>
-      </div>
-    </div>
+  <Container>
+        <Typography variant='h3'>Crypto USD trade</Typography>
+          <Grid container className='currencyValues' sm={12} spacing={2}>
+            <Grid item sm={12}>
+              <Card className={classes.card}>
+                  <h2> ETH </h2>
+                  <h3 className={eth.color}>{eth.price ? eth.price : 'Searching currency value'}</h3>
+              </Card>
+            </Grid>
+            <Grid item sm={12}>
+              <Card className={classes.card}>
+                  <h2> BTC </h2>
+                  <h3 className={btc.color}>{btc.price ? btc.price : 'Searching currency value'}</h3>
+              </Card>
+            </Grid>
+            <Grid item sm={12}>
+              <Card className={classes.card}>
+                  <h2> CHZ </h2>
+                  <h3 className={chz.color}>{chz.price ? chz.price: 'Searching currency value'}</h3>
+              </Card>
+            </Grid>
+            <Grid item sm={12}>
+              <Card className={classes.card}>
+                  <h2> FIL </h2>
+                  <h3 className={fil.color}>{fil.price ? fil.price: 'Searching currency value'}</h3>
+              </Card>
+            </Grid>
+            <Grid item sm={12}>
+              <Card className={classes.card}>
+                  <h2> ADA </h2>
+                  <h3 className={ada.color}>{ada.price ? ada.price : 'Searching currency value'}</h3>
+              </Card>
+            </Grid>
+            <Grid item sm={12}>
+              <Card className={classes.card}>
+                  <h2> BNB </h2>
+                  <h3 className={bnb.color}>{bnb.price ? bnb.price : 'Searching currency value'}</h3>
+              </Card>
+            </Grid>
+          </Grid>
+
+  </Container>     
     )
 }
 
