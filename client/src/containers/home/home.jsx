@@ -1,8 +1,14 @@
-import {AppBar, Tabs, Tab, Box, Container, Grid, Paper, makeStyles} from '@material-ui/core';
+import {Box, makeStyles} from '@material-ui/core';
+import {supabase} from 'supabase/supabase';
+
+import {NavBar} from 'components/navBar/navBar'
+import { useHistory } from "react-router";
 
 import './home.scss';
 
-const useStyles = makeStyles(theme => ({
+
+export const useStyles = makeStyles(theme => ({
+    
     root: {
         backgroundColor: theme.palette.primary.main,
         color: theme.palette.primary.contrastText,
@@ -16,54 +22,31 @@ const useStyles = makeStyles(theme => ({
 
 
 export const Home = () => {
+    const history = useHistory();
+      const session = supabase.auth.session();
+
+
+    
+
     const classes = useStyles();
+
+    
+
     return (
-  
-        <div>
-
-            <AppBar position="static">
-                <Tabs >
-                {/* <Tabs value={value} onChange={handleChange} aria-label="simple tabs example"> */}
-                    <Tab label="Logo"/>
-                    <Tab label="About"/>
-                    <Tab label="Other Exchanges"/>
-                    <Tab label="Wallet"/>
-                    <Tab label="Balance"/>
-                    <Tab label="Settings"/>
-                    <Tab label="Logout"/>
-                </Tabs>
-            </AppBar>
-           <Box className='user-data'>
-                <ul className={classes.text}>
-                    <li>USERNAME</li>
-                    <li>ACCOUNT</li>
-                    <li>BALANCE</li>
-                    <li>SOMETHING ELSE...</li>
-                </ul>
-           </Box>
-           <Container maxWidth='xlg' >
-                <Grid container className='home-container' xs={12} spacing={2} justifyContent='center' > 
-                    <Grid item xs={9} container spacing={2} justifyContent='center'alignContent='space-around'>   
-                        <Grid item  className='crypto-graphics' xs={12} >
-                            <Paper className={classes.root} >CRYPTOGRAPHICS</Paper>
-                        </Grid>
-                        <Grid container className='home-container_boxLeft--bottom' xs={12} spacing={2}>
-                            <Grid item  className='about'xs={6} >
-                                <Paper className={classes.root}>ABOUT</Paper>
-                            </Grid>
-                            <Grid item  className='statistics' xs={6}>
-                                <Paper className={classes.root}>STATISTICS</Paper>
-                            </Grid>
-                        </Grid>
-                    </Grid>
-                    
-                    <Grid item style={{width:'100%'}} className='crypto-calculator' xs={3} >
-                            <Paper className={classes.root} style={{height:'20.5rem'}}>CRYPTOCALCULATOR</Paper>
-                    </Grid>
-                </Grid>
-            </Container>
+      <div>
+        {session ? 
+          <div>
+            <NavBar />
+            <Box className="user-data">
+              <ul className={classes.text}>
+                <li>USERNAME</li>
+                <li>ACCOUNT</li>
+                <li>BALANCE</li>
+                <li>SOMETHING ELSE...</li>
+              </ul>
+            </Box>
         </div>
-
-        
-    )
+        : history.push('/')}
+      </div> 
+    );
 }
