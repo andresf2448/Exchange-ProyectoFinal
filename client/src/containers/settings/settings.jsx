@@ -1,10 +1,11 @@
-import {Container, Typography} from '@material-ui/core';
+import { Container, Typography } from "@material-ui/core";
+import { LoadingProfile } from "components/loadingProfile/LoadingProfile";
 
-
-export const Settings = ()=>{
-    return (
-        <Container>
-            <Typography variant='h3'>soy settings</Typography>
-        </Container>
-    )
+export function Settings() {
+  return (
+    <Container>
+      <Typography variant="h3">soy settings</Typography>
+      <LoadingProfile />
+    </Container>
+  );
 }
