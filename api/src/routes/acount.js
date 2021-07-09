@@ -5,7 +5,7 @@ require("dotenv").config();
 const bcrypt = require('bcrypt');
 
 
-  router.get("/createWallet", async (req, res) => {   
+  router.get("/", async (req, res) => {   
   console.log('------------')
     const pair = StellarSdk.Keypair.random();
     const saltRounds = 10;
@@ -42,13 +42,16 @@ const bcrypt = require('bcrypt');
   }
   createTestAccount();
   const publicKey = pair.publicKey()
-  const result = [publicKey]   
+  const result = { publicKey }  
   await bcrypt.hash(pair.secret(), saltRounds).then((response) => {
-      result.push(response)
+      result.secretKey = response;
       console.log(result)
   })
   
    return res.json(result); 
    });  
+
+
+
 
 module.exports = router;
