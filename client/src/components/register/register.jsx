@@ -1,24 +1,42 @@
-import React, { useState } from 'react';
-import { useHistory } from 'react-router';
-import { supabase } from 'supabase/supabase';
+import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router";
+import { supabase } from "supabase/supabase";
+import { validate } from "./validate";
 
-import {Container, Typography, Button, TextField, FormControl} from '@material-ui/core';
-
+import {
+  Container,
+  Typography,
+  Button,
+  TextField,
+  FormControl,
+} from "@material-ui/core";
 
 export const Register = () => {
   const history = useHistory();
 
-  const [data, setData] = useState({
+  const [error, setError] = useState({
     email: '',
-    password: '',
-    passwordValidate: '',
+    password: "",
+    passwordValidate: "",
+    isError: true
+  })
+  const [submit, setSubmit] = useState(false)
+
+  const [data, setData] = useState({
+    email: "",
+    password: "",
+    passwordValidate: "",
   });
 
-  function handleOnChange(e) {
+  function handleOnChange(event) {
     setData({
       ...data,
-      [e.target.name]: e.target.value,
+      [event.target.name]: event.target.value,
     });
+    setError(validate({
+      ...data,
+      [event.target.name]: event.target.value
+    }))
   }
 
   //! --------------------------------------------------------------
@@ -30,7 +48,6 @@ export const Register = () => {
     event.preventDefault();
 
     if (data.password === data.passwordValidate) {
-      
       await supabase.auth
         .signUp({
           email: data.email,
@@ -41,59 +58,79 @@ export const Register = () => {
 
           if (error) return alert(error.message);
           // se debe cambiar esta ruta por el home del UR
-          alert('congratulations your account has been created');
-          return history.push('/');
+          alert("congratulations your account has been created");
+          return history.push("/");
         })
         .catch((err) => console.log(err));
     } else {
-      alert('Error in Password');
+      alert("Error in Password");
     }
   };
 
   const back = () => {
-    // aca seria el landing page 
-    history.push('/');
+    // aca seria el landing page
+    history.push("/");
   };
 
+  useEffect(() => {
+    if(error.isError) {
+      setSubmit(false)
+    } else {
+      setSubmit(true)
+    }
+  }, [error])
+
   return (
-    <Container maxWidth='sm'>
-      <Typography variant='h3'>
-        Register
-      </Typography>
+    <Container maxWidth="sm">
+      <Typography variant="h3">Register</Typography>
       <form onSubmit={handleSubmit}>
         <FormControl>
           <TextField
             required
-            label='Email'
-            name='email'
-            type='text'
+            label={error.email === '' ? 'Email' : error.email}
+            name="email"
+            type="text"
             value={data.email}
             onChange={handleOnChange}
+            color={
+              error.email === ''
+                ? "primary"
+                : "secondary"
+            }
           />
+       
           <TextField
             required
-            label='Password'
-            name='password'
-            type='password'
+            label={error.password === '' ? 'Password' : error.password}
+            name="password"
+            type="password"
             value={data.password}
             onChange={handleOnChange}
+            color={
+              error.password === ''
+                ? "primary"
+                : "secondary"
+            }
           />
           <TextField
             required
-            label='Repeat Password'
-            name='passwordValidate'
-            type='password'
+            label={error.passwordValidate === '' ? 'Repeat password' : error.passwordValidate}
+            name="passwordValidate"
+            type="password"
             value={data.passwordValidate}
             onChange={handleOnChange}
-            color={data.password === data.passwordValidate ||
-              data.passwordValidate === ''
-              ? 'primary'
-              : 'secondary'}
-            />
-          
-          <Button type='submit' variant='contained' color='primary'>Sing up</Button>
-          <Button onClick={back} variant='contained' color='primary'>
-           Back
+            color={
+              error.passwordValidate ===  ""
+                ? "primary"
+                : "secondary"
+            }
+          />
+
+          <Button type="submit" variant="contained" color="primary" disabled={!submit} >
+            Sing up
+          </Button>
+          <Button onClick={back} variant="contained" color="primary" >
+            Back
           </Button>
         </FormControl>
       </form>
