@@ -52,7 +52,7 @@ export const Register = () => {
           const { error } = response;
 
           if (error) return alert(error.message);
-
+        
           alert("congratulations your account has been created");
           return history.push("/");
         })
@@ -63,8 +63,17 @@ export const Register = () => {
   };
 
   const back = () => {
+
     history.push("/");
   };
+  useEffect(() => {
+    if(error.isError) {
+      setSubmit(false)
+    } else {
+      setSubmit(true)
+    }
+  }, [error])
+
   useEffect(() => {
     if(error.isError) {
       setSubmit(false)
@@ -91,7 +100,7 @@ export const Register = () => {
                 : "secondary"
             }
           />
-           <TextField
+          <TextField
             required
             label={error.password === '' ? 'Password' : error.password}
             name="password"
