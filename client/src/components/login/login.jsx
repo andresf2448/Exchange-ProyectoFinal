@@ -7,6 +7,7 @@ import {
   Button,
   TextField,
   FormControl,
+  Link
 } from "@material-ui/core";
 
 import { supabase } from "supabase/supabase";
@@ -67,14 +68,14 @@ export const Login = () => {
             value={data.password}
             onChange={handleOnChange}
           />
+          <Link component="button" justifyContent="right" onClick={recoverPassword}>
+            Recover password
+          </Link>
           <Button type="submit" variant="contained" color="primary">
             Login
           </Button>
           <Button variant="contained" color="primary" onClick={singUpRoute}>
             Sing up
-          </Button>
-          <Button variant="contained" color="primary" onClick={recoverPassword}>
-            Recover password
           </Button>
         </FormControl>
       </form>

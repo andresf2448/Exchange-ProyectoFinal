@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 import { supabase } from "supabase/supabase";
+import { Container, Typography, TextField , FormControl, FormControlLabel, FormLabel, RadioGroup, Radio, Button } from '@material-ui/core'
+import useStyles from 'styles.js';
 
 export const LoadingProfile = () => {
+  const classes = useStyles();
+
   const [data, setData] = useState({
     additionalName: "",
     firstName: "",
@@ -16,17 +20,18 @@ export const LoadingProfile = () => {
     userName: "",
   });
 
-  function handleOnChange(e) {
+  function handleOnChange(event) {
     setData({
       ...data,
-      [e.target.name]: e.target.value,
+      [event.target.name]: event.target.value,
     });
   }
 
-  const sexUser = (e) => {
+  const sexUser = (event) => {
     setData({
       ...data,
-      sex: e.target.id,
+      //cambie e.target.id por e.target.value
+      sex: event.target.value,
     });
   };
 
@@ -65,117 +70,95 @@ export const LoadingProfile = () => {
   }
 
   return (
-    <div>
-      <span>Update Information</span>
-      <form onSubmit={updateProfile}>
-        <div>
-          <label>UserName</label>
-          <input
-            name="userName"
-            type="text"
-            value={data.userName}
-            onChange={handleOnChange}
-          />
-        </div>
-        <div>
-          <label>firstName</label>
-          <input
-            name="firstName"
-            type="text"
-            value={data.firstName}
-            onChange={handleOnChange}
-          />
-        </div>
-        <div>
-          <label>lastName</label>
-          <input
-            name="lastName"
-            type="text"
-            value={data.lastName}
-            onChange={handleOnChange}
-          />
-        </div>
-        <div>
-          <label>additional Name</label>
-          <input
-            name="additionalName"
-            type="text"
-            value={data.additionalName}
-            onChange={handleOnChange}
-          />
-        </div>
-        <div>
-          <label>mobile Number</label>
-          <input
-            name="mobileNumber"
-            type="text"
-            value={data.mobileNumber}
-            onChange={handleOnChange}
-          />
-        </div>
+    <Container>
+      <Typography variant="h4" >Update Information</Typography>
+        <form onSubmit={updateProfile}>
+          <FormControl>
+            <TextField
+              label='UserName'
+              name="userName"
+              type="text"
+              value={data.userName}
+              onChange={handleOnChange}
+            />
+            <TextField
+              label="First Name"
+              name="firstName"
+              type="text"
+              value={data.firstName}
+              onChange={handleOnChange}
+            />
+            <TextField
+              label="Last Name"
+              name="lastName"
+              type="text"
+              value={data.lastName}
+              onChange={handleOnChange}
+            />
+            <TextField
+              label="Additional Name"
+              name="additionalName"
+              type="text"
+              value={data.additionalName}
+              onChange={handleOnChange}
+            />
+            <TextField
+              label="Mobile Number"
+              name="mobileNumber"
+              type="text"
+              value={data.mobileNumber}
+              onChange={handleOnChange}
+            />
 
-        <div>
-          <label>taxt IdName</label>
-          <input
-            name="taxtIdName"
-            type="text"
-            value={data.taxtIdName}
-            onChange={handleOnChange}
-          />
-        </div>
-        <div>
-          <label>occupation</label>
-          <input
-            name="occupation"
-            type="text"
-            value={data.occupation}
-            onChange={handleOnChange}
-          />
-        </div>
-        <div>
-          <label>language Code</label>
-          <input
-            name="languageCode"
-            type="text"
-            value={data.languageCode}
-            onChange={handleOnChange}
-          />
-        </div>
-        <div>
-          <label>notary Approval Of Photold</label>
-          <input
-            name="notaryApprovalOfPhotoId"
-            type="text"
-            value={data.notaryApprovalOfPhotoId}
-            onChange={handleOnChange}
-          />
-        </div>
+            <TextField
+              label="Taxt IDName"
+              name="taxtIdName"
+              type="text"
+              value={data.taxtIdName}
+              onChange={handleOnChange}
+            />
+            <TextField
+              label="Occupation"
+              name="occupation"
+              type="text"
+              value={data.occupation}
+              onChange={handleOnChange}
+            />
+            <TextField
+              label="Languaje Code"
+              name="languageCode"
+              type="text"
+              value={data.languageCode}
+              onChange={handleOnChange}
+            />
+            <TextField
+              label="Notary Approval Of PhotoID"
+              name="notaryApprovalOfPhotoId"
+              className={classes.button}
+              type="text"
+              value={data.notaryApprovalOfPhotoId}
+              onChange={handleOnChange}
+            />
 
-        <div>
-          <label>photo Proof Residence</label>
-          <input
-            name="photoProofResidence"
-            type="text"
-            value={data.photoProofResidence}
-            onChange={handleOnChange}
-          />
-        </div>
+            <TextField
+              label="Photo Proof Residence"
+              name="photoProofResidence"
+              type="text"
+              value={data.photoProofResidence}
+              onChange={handleOnChange}
+            />
 
-        <div>
-          <label>Sex </label>
-
-          <div>
-            <label>Male</label>
-            <input name="sex" id="Male" type="radio" onChange={sexUser} />
-          </div>
-          <div>
-            <label>feminine</label>
-            <input name="sex" id="Feminine" type="radio" onChange={sexUser} />
-          </div>
-        </div>
-
-        <button type="submit">{"send"}</button>
+          <FormControl component="fieldset">
+            <FormLabel component="legend">Sex</FormLabel>
+            <RadioGroup aria-label="gender" name="gender1" >
+              <FormControlLabel value="Male" onClick={(value) => sexUser(value)} control={<Radio />} label="Male" />
+              <FormControlLabel value="Female" onClick={(value) => sexUser(value)} control={<Radio />} label="Female" />
+              <FormControlLabel value="Other" onClick={(value) => sexUser(value)} control={<Radio />} label="Other" />
+            </RadioGroup>
+          </FormControl>
+          <Button type="submit" variant="contained" color="primary"> Send </Button>
+        </FormControl>
       </form>
-    </div>
+    </Container>
   );
 };
