@@ -39,11 +39,6 @@ export const Register = () => {
     }))
   }
 
-  //! --------------------------------------------------------------
-  //A user with this email address has already been registered
-
-  //! --------------------------------------------------------------
-
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -57,7 +52,7 @@ export const Register = () => {
           const { error } = response;
 
           if (error) return alert(error.message);
-          // se debe cambiar esta ruta por el home del UR
+        
           alert("congratulations your account has been created");
           return history.push("/");
         })
@@ -68,9 +63,16 @@ export const Register = () => {
   };
 
   const back = () => {
-    // aca seria el landing page
+
     history.push("/");
   };
+  useEffect(() => {
+    if(error.isError) {
+      setSubmit(false)
+    } else {
+      setSubmit(true)
+    }
+  }, [error])
 
   useEffect(() => {
     if(error.isError) {
@@ -98,7 +100,6 @@ export const Register = () => {
                 : "secondary"
             }
           />
-       
           <TextField
             required
             label={error.password === '' ? 'Password' : error.password}

@@ -1,4 +1,5 @@
 export function validate(input) {
+
     let error = {
         email: "",
         password: "",
@@ -27,4 +28,5 @@ export function validate(input) {
         error.isError = true
     }
     return error;
+
 }
