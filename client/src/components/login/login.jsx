@@ -59,7 +59,7 @@ export const Login = () => {
 
   return (
     <Container maxWidth="sm">
-      {session ? history.push("/home") : null}
+      {session ? history.push("/home/home") : null}
       <form onSubmit={handleSubmit}>
         <FormControl>
           <Typography variant="h3"> LOGIN</Typography>
