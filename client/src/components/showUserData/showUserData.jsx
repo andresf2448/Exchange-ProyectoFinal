@@ -4,9 +4,11 @@ import DirectionsRunIcon from "@material-ui/icons/DirectionsRun";
 import { supabase } from "supabase/supabase";
 
 export const ShowUserData = () => {
-  let session = supabase.auth.session();
+  let { user } = supabase.auth.session();
 
-  console.log(session);
+  let { email } = user;
+
+  console.log(email);
   const classes = useStyles();
   return (
     <Container>
@@ -14,7 +16,7 @@ export const ShowUserData = () => {
         <Badge className={classes.badge}>
           <DirectionsRunIcon />
         </Badge>
-        <Badge className={classes.badge}>USERNAME</Badge>
+        <Badge className={classes.badge}>USER: {email}</Badge>
         <Badge className={classes.badge}>ACCOUNT</Badge>
         <Badge className={classes.badge}>BALANCE</Badge>
         <Badge className={classes.badge}>SOMETHING ELSE...</Badge>
