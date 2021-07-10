@@ -12,7 +12,7 @@ export const NavBar= () =>{
     };
     return(
         <AppBar position="static">
-            <Tabs>
+            <Tabs value={1}>
                 {/* <Tabs value={value} onChange={handleChange} aria-label="simple tabs example"> */}
                 <Tab label={<HomeIcon/>} onClick={()=>history.push('/home/home')}/>
                 <Tab label="About" onClick={()=>history.push('/home/about')}/>
