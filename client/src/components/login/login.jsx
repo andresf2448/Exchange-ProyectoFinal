@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router";
-import { Link } from "react-router-dom";
 
 import {
   Container,
@@ -8,6 +7,7 @@ import {
   Button,
   TextField,
   FormControl,
+  Link,
 } from "@material-ui/core";
 
 import { supabase } from "supabase/supabase";
