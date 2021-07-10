@@ -6,7 +6,7 @@ export const ShowUserData= () =>{
     const classes = useStyles();
     return(
         <Container>
-            <Grid container justifyContent="left">
+            <Grid container >
                 <Badge className={classes.badge}>
                     <DirectionsRunIcon/>
                 </Badge>
