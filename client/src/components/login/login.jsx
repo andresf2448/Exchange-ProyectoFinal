@@ -95,11 +95,15 @@ export const Login = () => {
           </Link>
         </FormControl>
       </form>
-      <div>
-        <button onClick={() => handleOAuthLogin("google")} type="button">
-          Google
-        </button>
-      </div>
+
+      <Link
+        component="button"
+        justifyContent="right"
+        onClick={() => handleOAuthLogin("google")}
+      >
+        Google
+      </Link>
+      <div></div>
     </Container>
   );
 };
