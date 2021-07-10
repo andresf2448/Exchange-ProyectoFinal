@@ -7,9 +7,24 @@
 }
 
 .equal{
-    color: black;
+    color: rgb(218, 218, 218);
 }
 
-.toFixedCoin{
-    width: 1%;
+.cryptoIcons{
+    width: 20%;
+    border-radius: 20px;
+    padding-top: 6%;
 }
+
+.cryptoIcons:hover {
+    filter: saturate(200%);
+}
+
+.coinSymbol{
+    color: rgb(218, 218, 218);
+}
+
+.ethIcon{
+    filter: grayscale(100%);  
+}
+

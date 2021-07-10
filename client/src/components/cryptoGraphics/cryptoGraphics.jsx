@@ -2,14 +2,24 @@ import { Container, Typography, Grid, Card } from '@material-ui/core';
 import useStyles from 'styles.js'
 import { useEffect, useState } from 'react';
 import './cryptoGraphics.css';
+import SkewLoader from 'react-spinners/SkewLoader';
 
-// webSocket data
+import btcIcon from  './cryptoIcons/bitcoin.png'
+import ethIcon from './cryptoIcons/ethereum.png'
+import chzIcon from  './cryptoIcons/chili.jpg'
+import filIcon from './cryptoIcons/filecoin.png' 
+import adaIcon from './cryptoIcons/ada.png' 
+import bnbIcon from './cryptoIcons/binance.png' 
+
+
+// webSocket data USD
 let ethSocket = new WebSocket('wss://stream.binance.com:9443/ws/ethusdt@trade');
 let btcSocket = new WebSocket('wss://stream.binance.com:9443/ws/btcusdt@trade');
 let chzSocket = new WebSocket('wss://stream.binance.com:9443/ws/chzusdt@trade');
 let filSocket = new WebSocket('wss://stream.binance.com:9443/ws/filusdt@trade');
 let adaSocket = new WebSocket('wss://stream.binance.com:9443/ws/adausdt@trade');
 let bnbSocket = new WebSocket('wss://stream.binance.com:9443/ws/bnbusdt@trade');
+
 // erros handlres
 ethSocket.onerror = (event) => { console.log(event) }
 btcSocket.onerror = (event) => { console.log(event) }
@@ -18,17 +28,17 @@ filSocket.onerror = (event) => { console.log(event) }
 adaSocket.onerror = (event) => { console.log(event) }
 bnbSocket.onerror = (event) => { console.log(event) }
 
-
 export const CryptoGraphics= ()=>{
-    const classes = useStyles();
-
+  const classes = useStyles();
 // Coins states
-  const [eth, setEth] = useState({ prevPrice: 0, price: 0, color: 'equal' })
-  const [btc, setBtc] = useState({ prevPrice: 0, price: 0, color: 'equal' })
-  const [chz, setChz] = useState({ prevPrice: 0, price: 0, color: 'equal' })
-  const [fil, setFil] = useState({ prevPrice: 0, price: 0, color: 'equal' })
-  const [ada, setAda] = useState({ prevPrice: 0, price: 0, color: 'equal' })
-  const [bnb, setBnb] = useState({ prevPrice: 0, price: 0, color: 'equal' })
+  const [eth, setEth] = useState({ s: 'ETH', prevPrice: 0, price: 0, color: 'equal', img: ethIcon })
+  const [btc, setBtc] = useState({ s: 'BTC', prevPrice: 0, price: 0, color: 'equal', img: btcIcon })
+  const [chz, setChz] = useState({ s: 'CHZ', prevPrice: 0, price: 0, color: 'equal', img: chzIcon })
+  const [fil, setFil] = useState({ s: 'FIL', prevPrice: 0, price: 0, color: 'equal', img: filIcon })
+  const [ada, setAda] = useState({ s: 'ADA', prevPrice: 0, price: 0, color: 'equal', img: adaIcon })
+  const [bnb, setBnb] = useState({ s: 'BNB', prevPrice: 0, price: 0, color: 'equal', img: bnbIcon })
+
+  let renderData = [eth, btc, chz, fil, ada, bnb];
 
   useEffect(() => {
     ethSocket.onmessage = (event) => {
@@ -79,62 +89,31 @@ export const CryptoGraphics= ()=>{
   }
 
   return (
-  <Container>
-        <Typography variant='h3'>Crypto USD trade</Typography>
+    <Container>
+          <Typography variant='h3'>Crypto USD trade</Typography>
           <Grid container className='currencyValues' sm={12} spacing={2}>
-            <Grid item sm={12}>
-              <Card className={classes.card}>
-                  <h2> ETH </h2>
-                  <div className="toFixedCoin">
-                    <h3 className={eth.color}>{eth.price ? eth.price : 'Searching currency value'}</h3>
-                  </div>
-              </Card>
-            </Grid>
-            <Grid item sm={12}>
-              <Card className={classes.card}>
-                  <h2> BTC </h2>
-                  <div className="toFixedCoin">
-                    <h3 className={btc.color}>{btc.price ? btc.price : 'Searching currency value'}</h3>
-                  </div>
-              </Card>
-            </Grid>
-            <Grid item sm={12}>
-              <Card className={classes.card}>
-                  <h2> CHZ </h2>
-                  <div className="toFixedCoin">
-                    <h3 className={chz.color}>{chz.price ? chz.price: 'Searching currency value'}</h3>
-                  </div>
-              </Card>
-            </Grid>
-            <Grid item sm={12}>
-              <Card className={classes.card}>
-                  <h2> FIL </h2>
-                  <div className="toFixedCoin">
-                    <h3 className={fil.color}>{fil.price ? fil.price: 'Searching currency value'}</h3>
-                  </div>
-              </Card>
-            </Grid>
-            <Grid item sm={12}>
-              <Card className={classes.card}>
-                  <h2> ADA </h2>
-                  <div className="toFixedCoin">
-                    <h3 className={ada.color}>{ada.price ? ada.price : 'Searching currency value'}</h3>
-                  </div>
-              </Card>
-            </Grid>
-            <Grid item sm={12}>
-              <Card className={classes.card}>
-                  <h2> BNB </h2>
-                  <div className="toFixedCoin">
-                    <h3 className={bnb.color}>{bnb.price ? bnb.price : 'Searching currency value'}</h3>
-                  </div>
-              </Card>
-            </Grid>
+                  {
+                    renderData.map((e) => (
+                      <Grid item sm={12}>
+                        <Card className={classes.cryptoCurrency}> 
+                            <Grid item sm={3}>
+                              <img className={e.s !== 'eth' ? 'cryptoIcons' : 'ethIcon'} src={e.img} alt='no img'/>
+                            </Grid>
+                            <Grid item sm={3}>
+                              <h2 className='coinSymbol'> {e.s} </h2>
+                            </Grid>
+                            <Grid item sm={3}>
+                                <h3 className={e.color}>{ e.price ? e.price : <SkewLoader size={10} />} </h3>
+                            </Grid>
+                        </Card>
+                      </Grid>
+                    ))
+                  }   
           </Grid>
-
-  </Container>     
-    )
+    </Container> 
+  )
 }
+
 
     
 
