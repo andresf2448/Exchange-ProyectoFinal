@@ -1,7 +1,7 @@
 import {AppBar, Tabs, Tab} from '@material-ui/core';
 import { useHistory } from "react-router";
 import {supabase} from 'supabase/supabase';
-
+import HomeIcon from '@material-ui/icons/Home';
 
 export const NavBar= () =>{
     const history = useHistory();
@@ -14,7 +14,7 @@ export const NavBar= () =>{
         <AppBar position="static">
             <Tabs>
                 {/* <Tabs value={value} onChange={handleChange} aria-label="simple tabs example"> */}
-                <Tab label="Logo" onClick={()=>history.push('/home/home')}/>
+                <Tab label={<HomeIcon/>} onClick={()=>history.push('/home/home')}/>
                 <Tab label="About" onClick={()=>history.push('/home/about')}/>
                 <Tab label="Other Exchanges" onClick={()=>history.push('/home/exchanges')}/>
                 <Tab label="Wallet" onClick={()=>history.push('/home/wallet')}/>

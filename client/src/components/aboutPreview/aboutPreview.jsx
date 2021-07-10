@@ -1,5 +1,5 @@
 import {Paper} from '@material-ui/core';
-import {useStyles} from 'containers/home/home'
+import useStyles from 'styles.js';
 
 export const AboutPreview = ()=>{
     const classes = useStyles();
