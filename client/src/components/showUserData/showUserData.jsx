@@ -1,30 +1,26 @@
-import {Badge, Container, Grid} from '@material-ui/core';
-import useStyles from 'styles.js';
-import DirectionsRunIcon from '@material-ui/icons/DirectionsRun';
+import { Badge, Container, Grid } from "@material-ui/core";
+import useStyles from "styles.js";
+import DirectionsRunIcon from "@material-ui/icons/DirectionsRun";
+import { supabase } from "supabase/supabase";
 
-export const ShowUserData= () =>{
-    const classes = useStyles();
-    return(
-        <Container>
-            <Grid container justifyContent="left">
-                <Badge className={classes.badge}>
-                    <DirectionsRunIcon/>
-                </Badge>
-                <Badge className={classes.badge}>
-                    USERNAME
-                </Badge>
-                <Badge className={classes.badge}>
-                    ACCOUNT
-                </Badge>
-                <Badge className={classes.badge}>
-                    BALANCE
-                </Badge>
-                <Badge className={classes.badge}>
-                    SOMETHING ELSE...
-                </Badge>    
-            </Grid>
+export const ShowUserData = () => {
+  let { user } = supabase.auth.session();
 
-        
-        </Container>
-    )
-}
+  let { email } = user;
+
+  console.log(email);
+  const classes = useStyles();
+  return (
+    <Container>
+      <Grid container justifyContent="left">
+        <Badge className={classes.badge}>
+          <DirectionsRunIcon />
+        </Badge>
+        <Badge className={classes.badge}>USER: {email}</Badge>
+        <Badge className={classes.badge}>ACCOUNT</Badge>
+        <Badge className={classes.badge}>BALANCE</Badge>
+        <Badge className={classes.badge}>SOMETHING ELSE...</Badge>
+      </Grid>
+    </Container>
+  );
+};
