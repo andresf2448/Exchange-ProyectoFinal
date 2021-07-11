@@ -25,7 +25,7 @@ const useStyles = makeStyles(theme => ({
   cryptoCurrency: {
     display: 'flex',
     justifyContent: 'space-around',
-    backgroundColor: theme.palette.primary.dark
+    backgroundColor: theme.palette.primary.contrastText
   }
 }));
 

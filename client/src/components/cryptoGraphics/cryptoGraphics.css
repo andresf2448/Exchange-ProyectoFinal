@@ -16,15 +16,8 @@
     padding-top: 6%;
 }
 
-.cryptoIcons:hover {
-    filter: saturate(200%);
-}
-
 .coinSymbol{
-    color: rgb(218, 218, 218);
+    color: rgb(44, 44, 44);
 }
 
-.ethIcon{
-    filter: grayscale(100%);  
-}
 
