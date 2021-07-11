@@ -10,7 +10,7 @@ import { About } from "components/about/about";
 import { Balance } from "components/balance/balance";
 import { Exchanges } from "components/exchanges/exchanges";
 import { RecoverPassword } from "components/recoverPassword/recoverPassword";
-import { LoadingProfile } from "components/loadingProfile/loadingProfile";
+import { LoadingProfile } from "components/loadingProfile/LoadingProfile";
 import { TransactionsHistory } from "components/transactionsHistory/transactionsHistory";
 import { Deposit } from "components/deposit/deposit";
 import { Withdraw } from "components/withdraw/withdraw";
@@ -20,7 +20,7 @@ function App() {
     <Router>
       <div className="App">
         <Route exact path="/" component={Login} />
-        <Route path="/register" component={Register} />
+        <Route path="/register" component={Register} />  
         <Route path="/home" component={Home} />
         <Route path="/home/home" component={HomeGrid} />
         <Route path="/home/settings" component={Settings} />
@@ -34,7 +34,7 @@ function App() {
         <Route path="/home/exchanges" component={Exchanges} />
         <Route path="/recoverPassword" component={RecoverPassword} />
       </div>
-    </Router>
+    </Router>  
   );
 }
 
