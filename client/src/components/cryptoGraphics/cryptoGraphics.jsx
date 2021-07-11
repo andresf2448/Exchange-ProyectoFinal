@@ -5,10 +5,12 @@ import { Container, Typography, Grid, Card } from '@material-ui/core';
 import SkewLoader from 'react-spinners/SkewLoader';
 
 import btcIcon from  './cryptoIcons/bitcoin.png'
-import ethIcon from './cryptoIcons/ethereum.png'
+//import ethIcon from './cryptoIcons/ethereum.png'
+import ethIcon from './cryptoIcons/ethereum2.png'
 import chzIcon from  './cryptoIcons/chili.jpg'
 import filIcon from './cryptoIcons/filecoin.png' 
-import adaIcon from './cryptoIcons/ada.png' 
+//import adaIcon from './cryptoIcons/ada.png' 
+import adaIcon from './cryptoIcons/ada2.png' 
 import bnbIcon from './cryptoIcons/binance.png' 
 
 // WebSocket data USD
@@ -103,7 +105,7 @@ export const CryptoGraphics= ()=>{
                               <h2 className='coinSymbol'> {e.s} </h2>
                             </Grid>
                             <Grid item sm={3}>
-                                <h3 className={e.color}>{ e.price ? e.price : <SkewLoader size={10} />} </h3>
+                                <h3 className={e.color}>{ e.price ? `$ ${e.price}` : <SkewLoader size={10} />} </h3>
                             </Grid>
                         </Card>
                       </Grid>
