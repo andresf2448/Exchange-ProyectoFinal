@@ -7,12 +7,12 @@ import {CryptoCalculator} from 'components/cryptoCalculator/cryptoCalculator';
 export const HomeGrid= ()=>{
     return (
         <Container maxWidth="xl">
-            <Grid container className="home-container" xs={12} spacing={2} justifyContent="center">
+            <Grid container className="home-container"  spacing={2} justifyContent="center">
                 <Grid item xs={9} container spacing={2} justifyContent="center" alignContent="space-around">
                     <Grid item className="crypto-graphics" xs={12}>
                         <CryptoGraphics />
                     </Grid>
-                    <Grid container className="home-container_boxLeft--bottom" xs={12} spacing={2}>
+                    <Grid container className="home-container_boxLeft--bottom"  spacing={2}>
                         <Grid item className="about" xs={6}>
                             <AboutPreview/>
                         </Grid>

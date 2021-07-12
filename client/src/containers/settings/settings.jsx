@@ -1,18 +1,32 @@
 import { Container, AppBar, Tabs, Tab } from "@material-ui/core";
-import { useHistory } from "react-router-dom";
+import {useState} from 'react';
+import { LoadingProfile } from "components/loadingProfile/loadingProfile";
+import { TransactionsHistory } from "components/transactionsHistory/transactionsHistory";
+import { Deposit } from "components/deposit/deposit";
+import { Withdraw } from "components/withdraw/withdraw";
 
 export function Settings() {
-  const history = useHistory();
+  const [value, setValue] = useState(0);
+
+    const handleChange= (event, newValue)=>{
+        event.preventDefault();
+        setValue(newValue);
+    }
   return (
     <Container maxWidth='md'>
       <AppBar position="static" >
-            <Tabs>
-                <Tab label="Profile" onClick={()=> history.push('/home/settings/profile')} />
-                <Tab label="Transactions History" onClick={()=> history.push('/home/settings/history')}/>
-                <Tab label="Deposit" onClick={()=> history.push('/home/settings/deposit')}/>
-                <Tab label="Withdraw"onClick={()=> history.push('/home/settings/withdraw')} />
+            <Tabs value={value} onChange={handleChange}>
+                <Tab label="Profile"/>
+                <Tab label="Transactions History"/>
+                <Tab label="Deposit" />
+                <Tab label="Withdraw"/>
             </Tabs>
+            {value === 0 && <LoadingProfile/>}
+            {value === 1 && <TransactionsHistory/>}
+            {value === 2 && <Deposit/>}
+            {value === 3 && <Withdraw/>}
         </AppBar>
+
     </Container>
   );
 }
