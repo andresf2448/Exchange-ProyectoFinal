@@ -26,7 +26,10 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     justifyContent: 'space-around',
     backgroundColor: theme.palette.primary.contrastText
-  }
+  },
+  offerTableHead: {
+    backgroundColor: theme.palette.primary.light
+  },
 }));
 
 export default useStyles;
