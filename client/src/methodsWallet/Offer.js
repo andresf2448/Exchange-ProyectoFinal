@@ -12,7 +12,7 @@ export default function Offer({ asks, bids }) {
           <Typography variant='h4' >Asks</Typography>
           <TableContainer component="Paper">
             <Table size="small" >
-              <TableHead color="#f44336" >
+              <TableHead >
                 <TableRow>
                   <TableCell align="right" >TYPE</TableCell>
                   <TableCell align="right" >PRICE</TableCell>
@@ -35,7 +35,7 @@ export default function Offer({ asks, bids }) {
           <Typography variant='h4'>Bids</Typography>
           <TableContainer component="Paper">
             <Table size="small" >
-              <TableHead color="#f44336" >
+              <TableHead >
                 <TableRow>
                   <TableCell>TYPE</TableCell>
                   <TableCell>PRICE</TableCell>
