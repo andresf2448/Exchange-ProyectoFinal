@@ -1,8 +1,11 @@
 import React, { useState, useRef } from "react";
 import axios from "axios";
+import {Button} from '@material-ui/core';
+import useStyles from 'styles';
 import { supabase } from "supabase/supabase";
 
 export default function CreateAccount() {
+  const classes = useStyles();
   const session = supabase.auth.session();
   const userName = useRef("");
   const [publicKey, setPublicKey] = useState()
@@ -49,7 +52,7 @@ export default function CreateAccount() {
       <form onSubmit={createdAccounts}>
         {/* <label > User Name :</label> */}
         {/* <input ref={userName} /> */}
-        {!publicKey && <button type="submit">Crear Wallet</button>}
+        {!publicKey && <Button className={classes.button} color="secondary" type="submit">Crear Wallet</Button>}
       </form>
     </div>
   );

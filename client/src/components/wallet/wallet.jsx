@@ -7,7 +7,6 @@ import Orderbook from '../../methodsWallet/orderbook'
 export const Wallet= ()=>{
     return(
         <Container>
-            <Typography variant='h3'>soy wallet</Typography>
             <CreateAccount />
             <Orderbook />
             {/* <ManageBuyOffer /> */}
