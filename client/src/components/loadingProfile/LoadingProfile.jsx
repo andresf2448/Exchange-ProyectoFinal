@@ -1,10 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { supabase } from "supabase/supabase";
 import { Container, Typography, TextField , FormControl, FormControlLabel, FormLabel, RadioGroup, Radio, Button } from '@material-ui/core'
 import useStyles from 'styles.js';
+import { validate } from "./validate";
 
 export const LoadingProfile = () => {
   const classes = useStyles();
+  const [error, setError] = useState({
+    isError: true,
+    firstName: "",
+    sex: "",
+    lastName: ""
+  })
+
+  const [submit, setSubmit] = useState(false)
 
   const [data, setData] = useState({
     additionalName: "",
@@ -25,6 +34,12 @@ export const LoadingProfile = () => {
       ...data,
       [event.target.name]: event.target.value,
     });
+    setError(
+      validate({
+        ...data,
+        [event.target.name]: event.target.value
+      })
+    )
   }
 
   const sexUser = (event) => {
@@ -69,6 +84,14 @@ export const LoadingProfile = () => {
     ]);
   }
 
+  useEffect(() => {
+    if (error.isError) {
+      setSubmit(false);
+    } else {
+      setSubmit(true);
+    }
+  }, [error]);
+
   return (
     <Container>
       <Typography variant="h4" >Update Information</Typography>
@@ -82,18 +105,20 @@ export const LoadingProfile = () => {
               onChange={handleOnChange}
             />
             <TextField
-              label="First Name"
+              label={error.firstName === '' ? "First Name" : error.firstName}
               name="firstName"
               type="text"
               value={data.firstName}
               onChange={handleOnChange}
+              color={error.firstName === '' ? "primary" : "secondary"}
             />
             <TextField
-              label="Last Name"
+              label={error.lastName === '' ? "Last Name" : error.lastName}
               name="lastName"
               type="text"
               value={data.lastName}
               onChange={handleOnChange}
+              color={error.lastName === '' ? "primary" : "secondary"}
             />
             <TextField
               label="Additional Name"
@@ -149,14 +174,14 @@ export const LoadingProfile = () => {
             />
 
           <FormControl component="fieldset">
-            <FormLabel component="legend">Sex</FormLabel>
+            <FormLabel component="legend">{error.sex === '' ? 'Gender' : error.sex}</FormLabel>
             <RadioGroup aria-label="gender" name="gender1" >
               <FormControlLabel value="Male" onClick={(value) => sexUser(value)} control={<Radio />} label="Male" />
               <FormControlLabel value="Female" onClick={(value) => sexUser(value)} control={<Radio />} label="Female" />
               <FormControlLabel value="Other" onClick={(value) => sexUser(value)} control={<Radio />} label="Other" />
             </RadioGroup>
           </FormControl>
-          <Button type="submit" variant="contained" color="primary"> Send </Button>
+          <Button type="submit" disabled={!submit} variant="contained" color="primary"> Send </Button>
         </FormControl>
       </form>
     </Container>
