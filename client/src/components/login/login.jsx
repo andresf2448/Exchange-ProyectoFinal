@@ -79,6 +79,11 @@ export const Login = () => {
             value={data.password}
             onChange={handleOnChange}
           />
+              
+          <Link component="button" onClick={recoverPassword}>
+            Recover password
+          </Link>
+
           <Button type="submit" variant="contained" color="primary">
             Login
           </Button>
