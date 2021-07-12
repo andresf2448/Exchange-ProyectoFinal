@@ -22,7 +22,7 @@ function App() {
     <Router>
       <div className="App">
         <Route exact path="/" component={Login} />
-        <Route path="/register" component={Register} />
+        <Route path="/register" component={Register} />  
         <Route path="/home" component={Home} />
         <Route path="/home/home" component={HomeGrid} />
         <Route path="/home/settings" component={Settings} />
@@ -36,7 +36,7 @@ function App() {
         <Route path="/home/exchanges" component={Exchanges} />
         <Route path="/recoverPassword" component={RecoverPassword} />
       </div>
-    </Router>
+    </Router>  
   );
 }
 

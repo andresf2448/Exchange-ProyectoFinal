@@ -4,7 +4,7 @@ const router = require('express').Router();
 const main = require('./utilityTransaction')
 
 
-router.post('/transaction', async (req, res) => {
+router.post('/', async (req, res) => {
     const { sourceSecretKey, receiverPublicKey, amount} = req.body
 
     if(amount < 1 || amount === '') return res.status(400).json({message: 'Invalid amount'})
