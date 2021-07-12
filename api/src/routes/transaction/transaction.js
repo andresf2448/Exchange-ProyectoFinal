@@ -4,7 +4,7 @@ const router = require('express').Router();
 const main = require('./utilityTransaction')
 
 
-router.post('/transaction', async (req, res) => {
+router.post('/', async (req, res) => {
     const { sourceSecretKey, receiverPublicKey, amount} = req.body
 
     if(amount < 1 || amount === '') return res.status(400).json({message: 'Invalid amount'})
@@ -26,7 +26,7 @@ router.post('/transaction', async (req, res) => {
 
     if (transaction.isError && transaction.message === 'Invalid account') return res.status(400).json({ message: transaction.message, error: transaction.error  })
     if (transaction.isError) return res.status(500).json({ message: transaction.message, error: transaction.error  })
-    
+    console.log(transaction)
     return res.json(transaction.transactionLink)
 
     
