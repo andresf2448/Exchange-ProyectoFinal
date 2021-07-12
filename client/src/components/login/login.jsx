@@ -36,7 +36,7 @@ export const Login = () => {
     });
 
     if (info.error) return alert(info.error.message);
-    return history.push("/home/home");
+    return history.push("/home");
   };
 
   const singUpRoute = () => {
@@ -59,7 +59,7 @@ export const Login = () => {
 
   return (
     <Container maxWidth="sm">
-      {session ? history.push("/home/home") : null}
+      {session ? history.push("/home") : null}
       <form onSubmit={handleSubmit}>
         <FormControl>
           <Typography variant="h3"> LOGIN</Typography>
@@ -90,14 +90,6 @@ export const Login = () => {
           <Button variant="contained" color="primary" onClick={singUpRoute}>
             Sing up
           </Button>
-
-          <Link
-            component="button"
-            justifyContent="right"
-            onClick={recoverPassword}
-          >
-            Recover password
-          </Link>
         </FormControl>
       </form>
 
@@ -106,7 +98,7 @@ export const Login = () => {
         justifyContent="right"
         onClick={() => handleOAuthLogin("google")}
       >
-        Google
+        Sign in with your Google account
       </Link>
       <div></div>
     </Container>

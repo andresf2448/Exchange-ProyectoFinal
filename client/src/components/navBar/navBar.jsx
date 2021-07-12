@@ -20,7 +20,7 @@ export const NavBar= () =>{
         setValue(newValue);
     }
 
-    const singOut = async () => {
+    const signOut = async () => {
         await supabase.auth.signOut();
         history.push("/");
     };
@@ -34,10 +34,10 @@ export const NavBar= () =>{
                     <Tab label="Wallet" />
                     <Tab label="Balance"/>
                     <Tab label="Settings" />
-                    <Tab label="Logout" onClick={singOut} />
+                    <Tab label="Logout" onClick={signOut}/>
                 </Tabs>
             </AppBar>
-            <ShowUserData/>
+           {value!== 6 && <ShowUserData/>}
            {value === 0 && <HomeGrid/>}
            {value === 1 && <About/>}
            {value === 2 && <Exchanges/>}
