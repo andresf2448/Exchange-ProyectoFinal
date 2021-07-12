@@ -1,86 +1,56 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import axios from "axios";
-import { supabase } from "supabase/supabase"; 
+import { supabase } from "supabase/supabase";
 
 export default function CreateAccount() {
-  const [data, setData] = useState();
-  const [dataUser, setDataUser] = useState();
   const session = supabase.auth.session();
+  const userName = useRef("");
+  const [publicKey, setPublicKey] = useState()
+  const [secretKey, setSecretKey] = useState()
 
-  async function crearCuenta() {
+  const createdAccounts = async (event) => {
+    event.preventDefault();
     const response = await axios.get("http://localhost:3001/createWallet");
-    console.log(response.data);
-    /* const { data, error } = await supabase.from("keywords").insert([
+    const { publicKey, secretKey } = response.data;
+    const { user } = session;
+
+    let id_user = user.id;
+    let username = userName.current.value;
+    let email = user.email;
+    let public_key = publicKey;
+    let secret_key = secretKey;
+
+    setPublicKey(public_key)
+    setSecretKey(secret_key)
+
+    await supabase.from("datauser").insert([
       {
-        publicKey: response.data[0].publicKey,
-        secretKey: response.data[0].secretKey,
-        userId: session.user.id,
+        id_user,
+        username,
+        email,
+        public_key,
+        federation_Address: null,
       },
-    ]); */
-    const infoDataUser = await supabase
-        .from("datauser")
-        .insert([
-          {
-            id_user: session.user.id,
-            /* username, */
-            email: session.email,
-            public_key: response.data.publicKey,
-            /* federation_Address: federation, */
-          },
-        ]);
-      if(infoDataUser) setDataUser(infoDataUser)
+    ]);
 
-    const { data, error }= await supabase
-      .from("wallet")
-      .insert([
-        {
-          id_user: session.user.id,
-          /* wallet_number: wallet, */
-          secret_key: response.data.secretKey,
-        },
-      ]);
-      if(data) setData(data) 
-      console.log('---------dataUser')
-       console.log(dataUser)
-       console.log('-------data')
-       console.log(data)
-
-
-      let info = await supabase
-        .from('datauser')
-        .select(`public_key`)
-        .eq('id_user', session.user.id)
-        .single()
-
-    console.log('----------------')
-     if(info) console.log(info)   
-      /* console.log('---------infoDataUser----------')
-      console.log(infoDataUser)
-      console.log('---------data----------')
-      console.log(data) */
-
-    /* if (error) throw new Error("wallet no encontrada"); */
-    /* if (data) {
-      setUser(true);
-      return setKeyword(data);
-    } */
-    
-  }
-
+    await supabase.from("wallet").insert([
+      {
+        id_user,
+        wallet_number: null,
+        secret_key,
+      },
+    ]);
+  };
+  
   return (
     <div>
-    
-      {dataUser && (
-        <div>
-          <div>Esta es su publicKey: {dataUser.publicKey}</div>
-        </div>
-      )}
-      {data && (
-        <div>
-          <div>Esta es su secretKey: {data.secretKey}</div>
-        </div>
-      )}
-      {session && <button onClick={() => crearCuenta()}>Crear Cuenta</button>}
+    {publicKey && <div> Esta es su publicKey: {publicKey} </div>}
+    {secretKey && <div> Esta es su secretKey: {secretKey} </div>}
+      <form onSubmit={createdAccounts}>
+        {/* <label > User Name :</label> */}
+        {/* <input ref={userName} /> */}
+        {!publicKey && <button type="submit">Crear Wallet</button>}
+      </form>
     </div>
   );
 }

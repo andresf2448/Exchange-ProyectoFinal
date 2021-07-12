@@ -7,6 +7,8 @@ const bcrypt = require('bcrypt');
 
   router.get("/", async (req, res) => {   
   console.log('------------')
+
+  
     const pair = StellarSdk.Keypair.random();
     const saltRounds = 10;
  /*    var opts = {
