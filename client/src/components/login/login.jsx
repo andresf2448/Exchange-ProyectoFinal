@@ -95,7 +95,6 @@ export const Login = () => {
 
       <Link
         component="button"
-        justifyContent="right"
         onClick={() => handleOAuthLogin("google")}
       >
         Sign in with your Google account

@@ -11,7 +11,7 @@ export default function Orderbook() {
     return setResponse(resp);
   };
 
-  const es = server
+  server
     .orderbook(
       new StellarSdk.Asset.native(),
       new StellarSdk.Asset(
@@ -21,6 +21,5 @@ export default function Orderbook() {
     )
     .cursor("now")
     .stream({ onmessage: callback });
-  console.log(response);
   return <>{response && <Offer asks={response.asks} bids={response.bids} />}</>;
 }

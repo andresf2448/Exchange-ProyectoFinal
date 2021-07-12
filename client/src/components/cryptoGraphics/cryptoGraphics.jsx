@@ -93,10 +93,10 @@ export const CryptoGraphics= ()=>{
   return (
     <Container>
           <Typography variant='h3'>Crypto USD trade</Typography>
-          <Grid container className='currencyValues' sm={12} spacing={2}>
+          <Grid container className='currencyValues' spacing={2}>
                   {
-                    renderData.map((e) => (
-                      <Grid item sm={12}>
+                    renderData.map((e, i) => (
+                      <Grid item sm={12} key={i}>
                         <Card className={classes.cryptoCurrency}> 
                             <Grid item sm={3}>
                               <img className='cryptoIcons' src={e.img} alt='no img'/>
