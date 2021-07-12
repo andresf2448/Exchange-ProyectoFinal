@@ -10,7 +10,7 @@ import { About } from "components/about/about";
 import { Balance } from "components/balance/balance";
 import { Exchanges } from "components/exchanges/exchanges";
 import { RecoverPassword } from "components/recoverPassword/recoverPassword";
-import { LoadingProfile } from "components/loadingProfile/LoadingProfile";
+import { LoadingProfile } from "components/loadingProfile/loadingProfile";
 import { TransactionsHistory } from "components/transactionsHistory/transactionsHistory";
 import { Deposit } from "components/deposit/deposit";
 import { Withdraw } from "components/withdraw/withdraw";

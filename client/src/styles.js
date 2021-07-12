@@ -26,6 +26,23 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     justifyContent: 'space-around',
     backgroundColor: theme.palette.primary.contrastText
+  },
+  offer: {
+    backgroundColor: theme.palette.primary.light
+  },
+  palette: {
+    primary: {
+      main: theme.palette.primary.main,
+      light: theme.palette.primary.light,
+      dark: theme.palette.primary.dark,
+      contrastText: theme.palette.primary.contrastText
+    },
+    secondary: {
+      main: theme.palette.secondary.main,
+      light: theme.palette.secondary.light,
+      dark: theme.palette.secondary.dark,
+      contrastText: theme.palette.secondary.contrastText
+    }
   }
 }));
 

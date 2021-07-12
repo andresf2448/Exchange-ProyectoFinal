@@ -1,5 +1,5 @@
 import './cryptoGraphics.css';
-import useStyles from 'styles.js'
+import useStyles from 'styles.js';
 import { useEffect, useState } from 'react';
 import { Container, Typography, Grid, Card } from '@material-ui/core';
 import SkewLoader from 'react-spinners/SkewLoader';
