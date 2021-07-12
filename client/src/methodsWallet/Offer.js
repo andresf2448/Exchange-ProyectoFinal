@@ -1,9 +1,6 @@
-import { Container, Typography, Grid, Card, TableContainer, Table, TableHead, TableBody, TableRow, TableCell } from '@material-ui/core';
-import useStyles from 'styles.js';
+import { Container, Typography, Grid, TableContainer, Table, TableHead, TableBody, TableRow, TableCell } from '@material-ui/core';
 
 export default function Offer({ asks, bids }) {
-  
-  const classes = useStyles();
 
   return (
     <Container width="100px">

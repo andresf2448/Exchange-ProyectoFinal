@@ -1,4 +1,4 @@
-import {Container, Typography} from '@material-ui/core';
+import {Container} from '@material-ui/core';
 import CreateAccount from '../../methodsWallet/createAccount';
 import Orderbook from '../../methodsWallet/orderbook'
 /*import ManageBuyOffer from '../../methodsWallet/manageBuyOffer' */
