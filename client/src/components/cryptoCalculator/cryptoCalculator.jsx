@@ -1,12 +1,12 @@
-import { Paper, Button, TextField, Select, MenuItem, Grid, Typography } from '@material-ui/core';
+import { Paper, Button, TextField, Select, MenuItem, Grid, Typography, Container } from '@material-ui/core';
 import useStyles from 'styles.js';
 import React, { useState } from 'react';
 import axios from 'axios';
-
+//API de cryptocompare.com
 
 export const CryptoCalculator = () => {
 
-
+const classes = useStyles()
     const [convertion, setConvertion] = useState({ firstCoin: '', secondCoin: '', amount: 0 });
     const [result, setResult] = useState('');
     async function convert() {
@@ -17,8 +17,8 @@ export const CryptoCalculator = () => {
         setResult(total);
     }
 
-    return (<div className='container'>
-        <Grid container >
+    return (<Container>
+        <Grid container className='calculatorContainer'  >
             {/* <form > */}
             {/* <div className='column'> */}
 
@@ -32,20 +32,20 @@ export const CryptoCalculator = () => {
                 <option value="ETH">ETH</option>
 
             </select> */}
-            {/* <Grid item sm='6'>
+            <Grid item sm='12'>
 
                 <Typography variant='h4'>Converter</Typography>
-            </Grid> */}
+            </Grid>
 
             <Grid item sm='6'>
 
-                <Select value='' displayEmpty onChange={(e) => setConvertion({ ...convertion, firstCoin: e.target.value })}>
-                    <MenuItem disabled>Select</MenuItem>
+                <Select  displayEmpty onChange={(e) => setConvertion({ ...convertion, firstCoin: e.target.value })}>
+                    <MenuItem disabled>Currency</MenuItem>
                     <MenuItem value='USD'>USD</MenuItem>
                     <MenuItem value='EUR'>EUR</MenuItem>
                     <MenuItem value='ARS'>ARS</MenuItem>
-                    <MenuItem value='BTC'>BTC</MenuItem>
-                    <MenuItem value='ETH'>ETH</MenuItem>
+                    <MenuItem value='BTC'>Bitcoin</MenuItem>
+                    <MenuItem value='ETH'>Ethereum</MenuItem>
                 </Select>
 
 
@@ -65,13 +65,13 @@ export const CryptoCalculator = () => {
                 <option value="BTC">BTC</option>
                 <option value="ETH">ETH</option>
             </select> */}
-                <Select displayEmpty onChange={(e) => setConvertion({ ...convertion, secondCoin: e.target.value })}>
-                    <MenuItem disabled>Select</MenuItem>
+                <Select  displayEmpty onChange={(e) => setConvertion({ ...convertion, secondCoin: e.target.value })}>
+                    <MenuItem disabled>Currency</MenuItem>
                     <MenuItem value='USD'>USD</MenuItem>
                     <MenuItem value='EUR'>EUR</MenuItem>
                     <MenuItem value='ARS'>ARS</MenuItem>
-                    <MenuItem value='BTC'>BTC</MenuItem>
-                    <MenuItem value='ETH'>ETH</MenuItem>
+                    <MenuItem value='BTC'>Bitcoin</MenuItem>
+                    <MenuItem value='ETH'>Ethereum</MenuItem>
                 </Select>
                 {/* <input type="number" disabled value={result} /> */}
                 <TextField disabled='true' value={result} margin='normal' />
@@ -83,7 +83,7 @@ export const CryptoCalculator = () => {
             <Button fullWidth='true' variant="contained" onClick={() => convert()}>Convert</Button>
         </Grid>
 
-    </div>)
+    </Container>)
 
 
 }
