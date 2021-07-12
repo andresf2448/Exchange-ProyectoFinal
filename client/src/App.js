@@ -16,6 +16,7 @@ import { Deposit } from "components/deposit/deposit";
 import { Withdraw } from "components/withdraw/withdraw";
 
 import "./App.scss";
+import Transaction from "components/transaction/transaction";
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
         <Route path="/home/balance" component={Balance} />
         <Route path="/home/exchanges" component={Exchanges} />
         <Route path="/recoverPassword" component={RecoverPassword} />
+        <Route path="/home/settings/transaction" component={Transaction} />
       </div>
     </Router>  
   );

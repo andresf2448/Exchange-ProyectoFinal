@@ -26,7 +26,7 @@ router.post('/', async (req, res) => {
 
     if (transaction.isError && transaction.message === 'Invalid account') return res.status(400).json({ message: transaction.message, error: transaction.error  })
     if (transaction.isError) return res.status(500).json({ message: transaction.message, error: transaction.error  })
-    
+    console.log(transaction)
     return res.json(transaction.transactionLink)
 
     
