@@ -9,6 +9,7 @@ export const LoadingProfile = () => {
   const [error, setError] = useState({
     isError: true,
     firstName: "",
+    sex: "",
     lastName: ""
   })
 
@@ -173,7 +174,7 @@ export const LoadingProfile = () => {
             />
 
           <FormControl component="fieldset">
-            <FormLabel component="legend">Sex</FormLabel>
+            <FormLabel component="legend">{error.sex === '' ? 'Gender' : error.sex}</FormLabel>
             <RadioGroup aria-label="gender" name="gender1" >
               <FormControlLabel value="Male" onClick={(value) => sexUser(value)} control={<Radio />} label="Male" />
               <FormControlLabel value="Female" onClick={(value) => sexUser(value)} control={<Radio />} label="Female" />

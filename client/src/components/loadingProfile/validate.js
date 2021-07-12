@@ -2,6 +2,7 @@ export function validate(input) {
     let error = {
         isError: false,
         firstName: '',
+        sex: "",
         lastName: ''
     }
     
@@ -19,5 +20,9 @@ export function validate(input) {
         error.lastName = "A valid last name is required"
         error.isError = true
     }
+    if (!input.sex) {
+        error.sex = "Gender is required"
+        error.isError = true
+    } 
     return error
 }
