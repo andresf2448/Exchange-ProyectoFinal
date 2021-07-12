@@ -88,7 +88,6 @@ export const Login = () => {
 
           <Link
             component="button"
-            justifyContent="right"
             onClick={recoverPassword}
           >
             Recover password
@@ -98,7 +97,6 @@ export const Login = () => {
 
       <Link
         component="button"
-        justifyContent="right"
         onClick={() => handleOAuthLogin("google")}
       >
         Google

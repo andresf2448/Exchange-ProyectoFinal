@@ -8,11 +8,10 @@ export const ShowUserData = () => {
 
   let { email } = user;
 
-  console.log(email);
   const classes = useStyles();
   return (
     <Container>
-      <Grid container justifyContent="left">
+      <Grid container >
         <Badge className={classes.badge}>
           <DirectionsRunIcon />
         </Badge>

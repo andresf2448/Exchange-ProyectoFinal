@@ -20,7 +20,6 @@ export const takeSecretKey = async () => {
     .eq('id_user', session.user.id )
     
     if (error) return alert(error.message)
-    // console.log('Errooooooor', error)
    return data[0].secret_key
 
 }

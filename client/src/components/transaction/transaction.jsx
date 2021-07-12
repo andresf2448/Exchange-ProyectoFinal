@@ -59,7 +59,6 @@ export default function Transaction() {
         amount: input.amount,
       });
       alert("Succes !");
-      console.log(succes.data);
       setSuccesTransaction(true);
       setTransaction(succes.data);
       setInput({
