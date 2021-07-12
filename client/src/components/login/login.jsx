@@ -7,7 +7,7 @@ import {
   Button,
   TextField,
   FormControl,
-  Link
+  Link,
 } from "@material-ui/core";
 
 import { supabase } from "supabase/supabase";
@@ -47,8 +47,19 @@ export const Login = () => {
     history.push("/recoverPassword");
   };
 
+  let session = supabase.auth.session();
+
+  const handleOAuthLogin = async (provider) => {
+    let info = await supabase.auth.signIn({ provider });
+
+    if (info.error) {
+      alert(info.error.message);
+    }
+  };
+
   return (
     <Container maxWidth="sm">
+      {session ? history.push("/home/home") : null}
       <form onSubmit={handleSubmit}>
         <FormControl>
           <Typography variant="h3"> LOGIN</Typography>
@@ -68,17 +79,31 @@ export const Login = () => {
             value={data.password}
             onChange={handleOnChange}
           />
-          <Link component="button" justifyContent="right" onClick={recoverPassword}>
-            Recover password
-          </Link>
           <Button type="submit" variant="contained" color="primary">
             Login
           </Button>
           <Button variant="contained" color="primary" onClick={singUpRoute}>
             Sing up
           </Button>
+
+          <Link
+            component="button"
+            justifyContent="right"
+            onClick={recoverPassword}
+          >
+            Recover password
+          </Link>
         </FormControl>
       </form>
+
+      <Link
+        component="button"
+        justifyContent="right"
+        onClick={() => handleOAuthLogin("google")}
+      >
+        Google
+      </Link>
+      <div></div>
     </Container>
   );
 };

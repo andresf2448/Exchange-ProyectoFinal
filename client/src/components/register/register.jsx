@@ -15,12 +15,12 @@ export const Register = () => {
   const history = useHistory();
 
   const [error, setError] = useState({
-    email: '',
+    email: "",
     password: "",
     passwordValidate: "",
-    isError: true
-  })
-  const [submit, setSubmit] = useState(false)
+    isError: true,
+  });
+  const [submit, setSubmit] = useState(false);
 
   const [data, setData] = useState({
     email: "",
@@ -33,10 +33,12 @@ export const Register = () => {
       ...data,
       [event.target.name]: event.target.value,
     });
-    setError(validate({
-      ...data,
-      [event.target.name]: event.target.value
-    }))
+    setError(
+      validate({
+        ...data,
+        [event.target.name]: event.target.value,
+      })
+    );
   }
 
   const handleSubmit = async (event) => {
@@ -52,35 +54,34 @@ export const Register = () => {
           const { error } = response;
 
           if (error) return alert(error.message);
-        
+
           alert("congratulations your account has been created");
           return history.push("/");
         })
-        .catch((err) => console.log(err));
+        .catch((err) => err);
     } else {
       alert("Error in Password");
     }
   };
 
   const back = () => {
-
     history.push("/");
   };
   useEffect(() => {
-    if(error.isError) {
-      setSubmit(false)
+    if (error.isError) {
+      setSubmit(false);
     } else {
-      setSubmit(true)
+      setSubmit(true);
     }
-  }, [error])
+  }, [error]);
 
   useEffect(() => {
-    if(error.isError) {
-      setSubmit(false)
+    if (error.isError) {
+      setSubmit(false);
     } else {
-      setSubmit(true)
+      setSubmit(true);
     }
-  }, [error])
+  }, [error]);
 
   return (
     <Container maxWidth="sm">
@@ -88,49 +89,44 @@ export const Register = () => {
       <form onSubmit={handleSubmit}>
         <FormControl>
           <TextField
-            required
-            label={error.email === '' ? 'Email' : error.email}
+            label={error.email === "" ? "Email" : error.email}
             name="email"
             type="text"
             value={data.email}
             onChange={handleOnChange}
-            color={
-              error.email === ''
-                ? "primary"
-                : "secondary"
-            }
+            color={error.email === "" ? "primary" : "secondary"}
           />
           <TextField
-            required
-            label={error.password === '' ? 'Password' : error.password}
+            label={error.password === "" ? "Password" : error.password}
             name="password"
             type="password"
             value={data.password}
             onChange={handleOnChange}
-            color={
-              error.password === ''
-                ? "primary"
-                : "secondary"
-            }
+            color={error.password === "" ? "primary" : "secondary"}
           />
           <TextField
             required
-            label={error.passwordValidate === '' ? 'Repeat password' : error.passwordValidate}
+            label={
+              error.passwordValidate === ""
+                ? "Repeat password"
+                : error.passwordValidate
+            }
             name="passwordValidate"
             type="password"
             value={data.passwordValidate}
             onChange={handleOnChange}
-            color={
-              error.passwordValidate ===  ""
-                ? "primary"
-                : "secondary"
-            }
+            color={error.passwordValidate === "" ? "primary" : "secondary"}
           />
 
-          <Button type="submit" variant="contained" color="primary" disabled={!submit} >
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            disabled={!submit}
+          >
             Sing up
           </Button>
-          <Button onClick={back} variant="contained" color="primary" >
+          <Button onClick={back} variant="contained" color="primary">
             Back
           </Button>
         </FormControl>

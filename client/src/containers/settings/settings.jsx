@@ -8,9 +8,10 @@ export function Settings() {
       <AppBar position="static" >
             <Tabs>
                 <Tab label="Profile" onClick={()=> history.push('/home/settings/profile')} />
-                <Tab label="Transactions History" onClick={()=> history.push('/home/settings/history')}/>
                 <Tab label="Deposit" onClick={()=> history.push('/home/settings/deposit')}/>
                 <Tab label="Withdraw"onClick={()=> history.push('/home/settings/withdraw')} />
+                <Tab label="transaction"onClick={()=> history.push('/home/settings/transaction')} />
+                <Tab label="Transactions History" onClick={()=> history.push('/home/settings/history')}/>
             </Tabs>
         </AppBar>
     </Container>
