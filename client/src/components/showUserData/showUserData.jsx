@@ -3,6 +3,7 @@ import useStyles from "styles.js";
 import DirectionsRunIcon from "@material-ui/icons/DirectionsRun";
 import { supabase } from "supabase/supabase";
 
+
 export const ShowUserData = () => {
   let { user } = supabase.auth.session();
 

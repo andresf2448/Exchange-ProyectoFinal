@@ -6,8 +6,10 @@ import {CryptoCalculator} from 'components/cryptoCalculator/cryptoCalculator';
 
 export const HomeGrid= ()=>{
     return (
+
         <Container maxWidth="lg">
             <Grid container className="home-container" spacing={2} justifyContent="center">
+
                 <Grid item xs={9} container spacing={2} justifyContent="center" alignContent="space-around">
                     <Grid item className="crypto-graphics" xs={12}>
                         <CryptoGraphics />
