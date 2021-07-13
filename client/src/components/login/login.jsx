@@ -80,16 +80,16 @@ export const Login = () => {
             onChange={handleOnChange}
           />
               
-          <Link component="button" onClick={recoverPassword}>
-            Recover password
-          </Link>
-
+           {/* this button goes first for the submit function when pressing enter */}
           <Button type="submit" variant="contained" color="primary">
             Login
-          </Button>
+          </Button> 
           <Button variant="contained" color="primary" onClick={singUpRoute}>
             Sing up
           </Button>
+          <Link component="button" onClick={recoverPassword}>
+            Recover password
+          </Link>
         </FormControl>
       </form>
 

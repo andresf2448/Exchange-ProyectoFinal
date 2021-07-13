@@ -1,24 +1,24 @@
-import { Paper, Button, TextField, Select, MenuItem, Grid, Typography, Container } from '@material-ui/core';
-import useStyles from 'styles.js';
+import { Button, TextField, Select, MenuItem, Grid, Typography, Container } from '@material-ui/core';
 import React, { useState } from 'react';
 import axios from 'axios';
 //API de cryptocompare.com
 
 export const CryptoCalculator = () => {
 
-const classes = useStyles()
     const [convertion, setConvertion] = useState({ firstCoin: '', secondCoin: '', amount: 0 });
     const [result, setResult] = useState('');
-    async function convert() {
 
+    async function convert() {
         let currencies = await axios.get(`https://min-api.cryptocompare.com/data/price?api_key={0aec49a900c2d7469630114260688bb1914813d1f365aa38f494f6c8a6e946d1}&fsym=${convertion.firstCoin}&tsyms=${convertion.secondCoin}`)
         var total = Object.values(currencies.data)[0] * convertion.amount;
         // console.log(currencies);
         setResult(total);
     }
-
-    return (<Container>
-        <Grid container className='calculatorContainer'  >
+  
+    
+    return (
+    <Container>
+        <Grid container className='calculatorContainer'>
             {/* <form > */}
             {/* <div className='column'> */}
 
@@ -32,14 +32,12 @@ const classes = useStyles()
                 <option value="ETH">ETH</option>
 
             </select> */}
-            <Grid item sm='12'>
-
+            <Grid item sm={12}>
                 <Typography variant='h4'>Converter</Typography>
             </Grid>
 
-            <Grid item sm='6'>
-
-                <Select  displayEmpty onChange={(e) => setConvertion({ ...convertion, firstCoin: e.target.value })}>
+            <Grid item sm={6}>
+                <Select displayEmpty onChange={(e) => setConvertion({ ...convertion, firstCoin: e.target.value })}>
                     <MenuItem disabled>Currency</MenuItem>
                     <MenuItem value='USD'>USD</MenuItem>
                     <MenuItem value='EUR'>EUR</MenuItem>
@@ -53,7 +51,7 @@ const classes = useStyles()
                 <TextField required margin='normal' placeholder='amount' onChange={(e) => setConvertion({ ...convertion, amount: e.target.value })} />
             </Grid>
 
-            <Grid item sm='6'>
+            <Grid item sm={6}>
                 {/* </div>
         <div className='column'> */}
 
@@ -65,7 +63,7 @@ const classes = useStyles()
                 <option value="BTC">BTC</option>
                 <option value="ETH">ETH</option>
             </select> */}
-                <Select  displayEmpty onChange={(e) => setConvertion({ ...convertion, secondCoin: e.target.value })}>
+                <Select displayEmpty onChange={(e) => setConvertion({ ...convertion, secondCoin: e.target.value })}>
                     <MenuItem disabled>Currency</MenuItem>
                     <MenuItem value='USD'>USD</MenuItem>
                     <MenuItem value='EUR'>EUR</MenuItem>
@@ -74,13 +72,13 @@ const classes = useStyles()
                     <MenuItem value='ETH'>Ethereum</MenuItem>
                 </Select>
                 {/* <input type="number" disabled value={result} /> */}
-                <TextField disabled='true' value={result} margin='normal' />
+                <TextField disabled={true} value={result} margin='normal' />
                 {/* </div> */}
                 {/* <input type="button" value='Convert' onClick={() => convert()} /> */}
                 {/* </form> */}
 
             </Grid>
-            <Button fullWidth='true' variant="contained" onClick={() => convert()}>Convert</Button>
+            <Button fullWidth={true} variant="contained" onClick={() => convert()}>Convert</Button>
         </Grid>
 
     </Container>)

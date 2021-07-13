@@ -1,4 +1,4 @@
-import { Container, Typography, Grid, TableContainer, Table, TableHead, TableBody, TableRow, TableCell } from '@material-ui/core';
+import { Paper, Container, Typography, Grid, TableContainer, Table, TableHead, TableBody, TableRow, TableCell } from '@material-ui/core';
 
 export default function Offer({ asks, bids }) {
 
@@ -7,7 +7,7 @@ export default function Offer({ asks, bids }) {
       <Grid container justifyContent="center" spacing={2}>
         <Grid item >
           <Typography variant='h4' >Asks</Typography>
-          <TableContainer component="Paper">
+          <TableContainer component={Paper}>
             <Table size="small" >
               <TableHead >
                 <TableRow>
@@ -17,8 +17,8 @@ export default function Offer({ asks, bids }) {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {asks.map((ask) => (
-                  <TableRow>
+                {asks.map((ask, i) => (
+                  <TableRow key={i}>
                     <TableCell>Ask</TableCell>
                     <TableCell>{ask.price}</TableCell>
                     <TableCell>{ask.amount}</TableCell>
@@ -30,7 +30,7 @@ export default function Offer({ asks, bids }) {
         </Grid>
         <Grid item>
           <Typography variant='h4'>Bids</Typography>
-          <TableContainer component="Paper">
+          <TableContainer component={Paper}>
             <Table size="small" >
               <TableHead >
                 <TableRow>
@@ -40,8 +40,8 @@ export default function Offer({ asks, bids }) {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {bids.map((bid) => (
-                  <TableRow>
+                {bids.map((bid, i) => (
+                  <TableRow key={i}>
                     <TableCell>Bid</TableCell>
                     <TableCell>{bid.price}</TableCell>
                     <TableCell>{bid.amount}</TableCell>
