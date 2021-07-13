@@ -42,7 +42,7 @@ export default function CreateAccount() {
         wallet_number: null,
         secret_key,
       },
-    ]);
+    ])
   };
   
   return (
@@ -51,7 +51,9 @@ export default function CreateAccount() {
     {secretKey && <div> Esta es su secretKey: {secretKey} </div>}
       <form onSubmit={createdAccounts}>
         <label > User Name :</label>
-        <input ref={userName} />
+
+        {/* // pendiente validacioon */}
+        <input ref={userName}  required/>
         {!publicKey && <Button className={classes.button} color="secondary" type="submit">Crear Wallet</Button>}
       </form>
     </div>

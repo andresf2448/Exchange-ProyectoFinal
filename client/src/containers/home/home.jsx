@@ -1,21 +1,50 @@
-import {supabase} from 'supabase/supabase';
+import { useState } from "react";
 
-import {NavBar} from 'components/navBar/navBar'
+import { supabase } from "supabase/supabase";
+import { NavBar } from "components/navBar/navBar";
 import { useHistory } from "react-router";
+import { Administrador } from "components/administrator/administrator";
+import { ShowUserData } from "components/showUserData/showUserData";
 
-import './home.scss';
+import "./home.scss";
 
 export const Home = () => {
-    const history = useHistory();
-    const session = supabase.auth.session();
+  const history = useHistory();
+  const session = supabase.auth.session();
+  const [admin, setAdmin] = useState(false);
 
-    return (
-      <div>
-        {session ? 
+  async function getRole() {
+    let { data } = await supabase
+      .from("datauser")
+      .select("*")
+      .eq("id_user", session.user.id);
+
+    if (data.length !== 0) {
+      let info = data[0].Role;
+      if (info) setAdmin(true);
+    }
+  }
+
+   getRole();
+
+  return (
+    <div>
+      {session ? (
+        admin ? (
+          <div>
+            <Administrador />
+            <NavBar />
+            <ShowUserData />         
+          </div>
+        ) : (
           <div>
             <NavBar />
-        </div>
-        : history.push('/')}
-      </div> 
-    );
-}
+            <ShowUserData />
+          </div>
+        )
+      ) : (
+        history.push("/")
+      )}
+    </div>
+  );
+};
