@@ -71,7 +71,8 @@ export const CryptoGraphics= ()=>{
       let dataBnb = JSON.parse(event.data);
       updateQuote(dataBnb, bnb, setBnb);
     }
-
+    
+    
   });
 
   // UPDATE DATA COINS (info, prev info and color)

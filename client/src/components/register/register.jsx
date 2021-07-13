@@ -75,13 +75,6 @@ export const Register = () => {
     }
   }, [error]);
 
-  useEffect(() => {
-    if (error.isError) {
-      setSubmit(false);
-    } else {
-      setSubmit(true);
-    }
-  }, [error]);
 
   return (
     <Container maxWidth="sm">
