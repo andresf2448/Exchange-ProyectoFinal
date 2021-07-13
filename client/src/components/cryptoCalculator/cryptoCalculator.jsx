@@ -7,14 +7,15 @@ export const CryptoCalculator = () => {
 
     const [convertion, setConvertion] = useState({ firstCoin: '', secondCoin: '', amount: 0 });
     const [result, setResult] = useState('');
-    async function convert() {
 
+    async function convert() {
         let currencies = await axios.get(`https://min-api.cryptocompare.com/data/price?api_key={0aec49a900c2d7469630114260688bb1914813d1f365aa38f494f6c8a6e946d1}&fsym=${convertion.firstCoin}&tsyms=${convertion.secondCoin}`)
         var total = Object.values(currencies.data)[0] * convertion.amount;
         // console.log(currencies);
         setResult(total);
     }
-
+  
+    
     return (
     <Container>
         <Grid container className='calculatorContainer'>
@@ -36,8 +37,8 @@ export const CryptoCalculator = () => {
             </Grid>
 
             <Grid item sm={6}>
-                <Select  displayEmpty={true} onChange={(e) => setConvertion({ ...convertion, firstCoin: e.target.value })}>
-                    <MenuItem disabled={true}>Currency</MenuItem>
+                <Select displayEmpty onChange={(e) => setConvertion({ ...convertion, firstCoin: e.target.value })}>
+                    <MenuItem disabled>Currency</MenuItem>
                     <MenuItem value='USD'>USD</MenuItem>
                     <MenuItem value='EUR'>EUR</MenuItem>
                     <MenuItem value='ARS'>ARS</MenuItem>
@@ -62,8 +63,8 @@ export const CryptoCalculator = () => {
                 <option value="BTC">BTC</option>
                 <option value="ETH">ETH</option>
             </select> */}
-                <Select  displayEmpty={true} onChange={(e) => setConvertion({ ...convertion, secondCoin: e.target.value })}>
-                    <MenuItem disabled={true}>Currency</MenuItem>
+                <Select displayEmpty onChange={(e) => setConvertion({ ...convertion, secondCoin: e.target.value })}>
+                    <MenuItem disabled>Currency</MenuItem>
                     <MenuItem value='USD'>USD</MenuItem>
                     <MenuItem value='EUR'>EUR</MenuItem>
                     <MenuItem value='ARS'>ARS</MenuItem>

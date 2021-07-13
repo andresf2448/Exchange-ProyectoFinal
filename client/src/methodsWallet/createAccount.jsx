@@ -50,8 +50,8 @@ export default function CreateAccount() {
     {publicKey && <div> Esta es su publicKey: {publicKey} </div>}
     {secretKey && <div> Esta es su secretKey: {secretKey} </div>}
       <form onSubmit={createdAccounts}>
-        {/* <label > User Name :</label> */}
-        {/* <input ref={userName} /> */}
+        <label > User Name :</label>
+        <input ref={userName} />
         {!publicKey && <Button className={classes.button} color="secondary" type="submit">Crear Wallet</Button>}
       </form>
     </div>

@@ -40,40 +40,51 @@ export const CryptoGraphics= ()=>{
   const [bnb, setBnb] = useState({ s: 'BNB', prevPrice: 0, price: 0, color: 'equal', img: bnbIcon })
   
   let renderData = [eth, btc, chz, fil, ada, bnb];
-  
-  useEffect(() => {
+
+  useEffect(() => { //TODO: close useEffect
     ethSocket.onmessage = (event) => {
       let dataEth = JSON.parse(event.data);
       updateQuote(dataEth, eth, setEth);
-    }
+      return () => {WebSocket.close('reasons')}
+  }}, [eth])
 
+
+    useEffect(() => {
     btcSocket.onmessage = (event) => {
       let dataBtc = JSON.parse(event.data);
       updateQuote(dataBtc, btc, setBtc);
-    }
+      return () => {WebSocket.close('reasons')}
+    }}, [btc])
 
+    useEffect(() => {
     chzSocket.onmessage = (event) => {
       let dataChz = JSON.parse(event.data);
       updateQuote(dataChz, chz, setChz);
-    }
+      return () => {WebSocket.close('reasons')}
+    }}, [chz])
 
+    useEffect(() => {
     filSocket.onmessage = (event) => {
       let dataFil = JSON.parse(event.data);
       updateQuote(dataFil, fil, setFil);
-    }
+      return () => {WebSocket.close('reasons')}
+    }}, [fil])
 
+    useEffect(() => {
     adaSocket.onmessage = (event) => {
       let dataAda = JSON.parse(event.data);
       updateQuote(dataAda, ada, setAda); 
-    }
+      return () => {WebSocket.close('reasons')}
+    }}, [ada])
 
+    useEffect(() => {
     bnbSocket.onmessage = (event) => {
       let dataBnb = JSON.parse(event.data);
       updateQuote(dataBnb, bnb, setBnb);
-    }
-    
-    
-  });
+      return () => {WebSocket.close('reasons')}
+    }}, [bnb])
+
+
 
   // UPDATE DATA COINS (info, prev info and color)
   const updateQuote = (dato, coin, setCoin) => {
