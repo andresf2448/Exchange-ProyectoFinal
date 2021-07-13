@@ -4,6 +4,7 @@ import { LoadingProfile } from "components/loadingProfile/loadingProfile";
 import { TransactionsHistory } from "components/transactionsHistory/transactionsHistory";
 import { Deposit } from "components/deposit/deposit";
 import { Withdraw } from "components/withdraw/withdraw";
+import Transaction from "components/transaction/transaction";
 
 export function Settings() {
   const [value, setValue] = useState(0);
@@ -17,14 +18,16 @@ export function Settings() {
       <AppBar position="static" >
             <Tabs value={value} onChange={handleChange}>
                 <Tab label="Profile"/>
+                <Tab label="Transaction"/>
                 <Tab label="Transactions History"/>
                 <Tab label="Deposit" />
                 <Tab label="Withdraw"/>
             </Tabs>
             {value === 0 && <LoadingProfile/>}
-            {value === 1 && <TransactionsHistory/>}
-            {value === 2 && <Deposit/>}
-            {value === 3 && <Withdraw/>}
+            {value === 1 && <Transaction/>}
+            {value === 2 && <TransactionsHistory/>}
+            {value === 3 && <Deposit/>}
+            {value === 4 && <Withdraw/>}
         </AppBar>
 
     </Container>
