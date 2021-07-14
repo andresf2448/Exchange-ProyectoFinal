@@ -2,6 +2,7 @@ import './cryptoGraphics.css';
 import useStyles from 'styles.js';
 import { useEffect, useState } from 'react';
 import { Container, Typography, Grid, Card } from '@material-ui/core';
+import CryptoChart from '../cryptoChart/cryptoChart.jsx';
 import SkewLoader from 'react-spinners/SkewLoader';
 
 import btcIcon from  './cryptoIcons/bitcoin.png'
@@ -117,7 +118,10 @@ export const CryptoGraphics= ()=>{
                               <h2 className='coinSymbol'> {e.s} </h2>
                             </Grid>
                             <Grid item sm={3}>
-                                <h3 className={e.color}>{ e.price ? `$ ${e.price}` : <SkewLoader size={10} />} </h3>
+                              <h3 className={e.color}>{ e.price ? `$ ${e.price}` : <SkewLoader size={10} />} </h3>
+                            </Grid>
+                            <Grid item sm={3}>
+                              <CryptoChart crypto={e.s}/>
                             </Grid>
                         </Card>
                       </Grid>
