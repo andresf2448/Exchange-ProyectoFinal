@@ -19,18 +19,31 @@ export const Home = () => {
       .select("isAdmin,bannedUser ")
       .eq("id_user", session.user.id);
 
-    if (data[0].isAdmin) {
-      setAdmin(true);
+    if (data.length !== 0) {
+      if (data[0].isAdmin) {
+        setAdmin(true);
+      }
+
+      if (data[0].bannedUser) {
+        setBanned(true);
+      }
     }
 
-    console.log(data[0].bannedUser);
-    if (data[0].bannedUser) {
-      setBanned(true);
+    if (data.length === 0) {
+      const { user } = session;
+      const { email, id } = user;
+
+      await supabase.from("RegisteredUsers").insert([
+        {
+          id_user: id,
+          email,
+        },
+      ]);
     }
   }
 
   // ya quedo implementado el banned se sabe si esta o no baneado pero no logre
-  // como decir que se devuelva a home o salga una ventana
+  // como decir que se devuelva a home o salga una ventana de baneo si esta baneado en true
 
   getRole();
 
