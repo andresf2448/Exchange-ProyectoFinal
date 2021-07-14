@@ -1,6 +1,6 @@
 import { useState } from "react";
 import StellarSdk from "stellar-sdk";
-import Offer from "./Offer.jsx";
+import Offer from "./offer.jsx";
 
 export default function Orderbook() {
   const [response, setResponse] = useState();
