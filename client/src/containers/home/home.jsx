@@ -4,7 +4,6 @@ import { supabase } from "supabase/supabase";
 import { NavBar } from "components/navBar/navBar";
 import { useHistory } from "react-router";
 import { Administrador } from "components/administrator/administrator";
-import { ShowUserData } from "components/showUserData/showUserData";
 
 import "./home.scss";
 
@@ -25,7 +24,7 @@ export const Home = () => {
     }
   }
 
-   getRole();
+  getRole();
 
   return (
     <div>
@@ -34,12 +33,10 @@ export const Home = () => {
           <div>
             <Administrador />
             <NavBar />
-            <ShowUserData />         
           </div>
         ) : (
           <div>
             <NavBar />
-            <ShowUserData />
           </div>
         )
       ) : (

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useHistory } from "react-router";
 import { supabase } from "supabase/supabase";
 
@@ -6,7 +6,7 @@ export const AdministratorUser = () => {
   const history = useHistory();
   const session = supabase.auth.session();
   const { user } = session;
-  let id = user.id
+  let id = user.id;
   const [admin, setAdmin] = useState(false);
   const [users, setUsers] = useState([]);
 
@@ -16,7 +16,7 @@ export const AdministratorUser = () => {
       .select(`*`)
       .eq("id_user", session.user.id);
 
-    let info = data[0].Role;
+    let info = data[0].isAdmin;
     if (info) {
       setAdmin(true);
     }
@@ -24,14 +24,12 @@ export const AdministratorUser = () => {
 
   async function getUsers() {
     let { data } = await supabase.from("datauser").select("*");
-    console.log(data);
+
     setUsers(data);
   }
 
-  useEffect(() => {
-    getUsers();
-    getRole();
-  }, []);
+  getUsers();
+  getRole();
 
   let suspender = async (event) => {
     let user = event.target.id;
@@ -40,6 +38,8 @@ export const AdministratorUser = () => {
       .from("datauser")
       .update({ Banned: "true" })
       .match({ id_user: user });
+
+    console.log(data, error);
   };
 
   let back = () => {
