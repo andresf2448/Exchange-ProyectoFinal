@@ -12,7 +12,7 @@ export const HomeGrid= ()=>{
 
                 <Grid item xs={9} container spacing={2} justifyContent="center" alignContent="space-around">
                     <Grid item className="crypto-graphics" xs={12}>
-                        {/* <CryptoGraphics /> */}
+                        <CryptoGraphics />
                     </Grid>
                     <Grid container className="home-container_boxLeft--bottom" spacing={2}>
                         <Grid item className="about" xs={6}>
@@ -24,7 +24,7 @@ export const HomeGrid= ()=>{
                     </Grid>
                 </Grid>
                 <Grid item style={{ width: "100%" }} className="crypto-calculator" xs={3}>
-                    {/* <CryptoCalculator/> */}
+                    <CryptoCalculator/>
                 </Grid>
             </Grid>
         </Container>
