@@ -1,7 +1,6 @@
 import "./cryptoGraphics.css";
 import { useEffect, useState } from "react";
 import { Container, Typography, Grid } from "@material-ui/core";
-//import SkewLoader from "react-spinners/SkewLoader";
 
 import btcIcon from "./cryptoIcons/bitcoin.png";
 import ethIcon from "./cryptoIcons/ethereum2.png";
