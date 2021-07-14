@@ -1,51 +1,47 @@
 import { useState } from "react";
 import StellarSdk from "stellar-sdk";
-import axios from "axios";
 
 export default function ManageBuyOffer() {
-  const [asset, setAsset] = useState();
-  const [assets, setAssets] = useState();
+  const [assetAsk, setAssetAsk] = useState();
+  const [assetBid, setAssetBid] = useState();
+  /* const [assets, setAssets] = useState(); */
+  const [amount, setAmount] = useState();
+  const [price, setPrice] = useState();
   const server = new StellarSdk.Server("https://horizon-testnet.stellar.org");
-  /* console.log('------------')
-  const response = axios.get('https://horizon-testnet.stellar.org/offers?buying=native')
-  console.log(response.data)
-console.log('------------') */
-  /* const a = new StellarSdk.OfferCallBuilder('https://horizon-testnet.stellar.org') */
-  /* const astroDollar = new StellarSdk.Asset(
-    "AstroDollar",
-    "GDA2EHKPDEWZTAL6B66FO77HMOZL3RHZTIJO7KJJK5RQYSDUXEYMPJYY"
-  );
+  const assets = [
+    {
+      code: "POAT",
+      issuer: "GAECL2FYQAMR2YFVCMOBBAIOOZGEAER6HART2MW7JWGNRDN53Q3S2WOB",
+    },
+    {
+      code: "XLM",
+      issuer: undefined,
+    },
+  ]
 
-  const publicKey = "GAJ22WDPA3IOIJPOXBWPWAXU3MVVTHNXZJZ3DSGXZSK4LYKLKTJGJY33";
-  const secretKey = "SCNREEOCEUQBUXK773H2WEFMADCMH4BROZTWUPHMC4ITVOSJS3HIBDZM"; */
+  let ask = undefined;
+  if (assetAsk && ask === undefined && assetAsk.code !== "XLM") {
+    console.log("en if de assetAsk", assetAsk);
+    const { code, issuer } = assetAsk;
+    ask = new StellarSdk.Asset(code, issuer);
+  } else ask = StellarSdk.Asset.native();
 
-  /* var callback = function (resp) {
-  console.log(resp); */
-  /* var es = server
-  .offers()
-  .selling(
-    new StellarSdk.Asset(
-      "USD",
-      "GDUKMGUGDZQK6YHYA5Z6AY2G4XDSZPSZ3SW5UN3ARVMO6QSRDWP5YLEX",
-    ),
-  )
-  .cursor("now")
-  .stream({ onmessage: callback }); */
+  let bid = undefined;
+
+  if (assetBid && bid === undefined && assetBid.code !== "XLM") {
+    console.log("antes de return", assetBid);
+    const { code, issuer } = assetBid;
+    bid = new StellarSdk.Asset(code, issuer);
+  } else bid = StellarSdk.Asset.native();
 
   async function makeBuyOffer() {
     try {
-      console.log("aca anda1");
-      // Fetch the base fee and the account that will create our transaction
       const publicKey =
         "GAJ22WDPA3IOIJPOXBWPWAXU3MVVTHNXZJZ3DSGXZSK4LYKLKTJGJY33";
       const secretKey =
-        "SCNREEOCEUQBUXK773H2WEFMADCMH4BROZTWUPHMC4ITVOSJS3HIBDZM"
+        "SCNREEOCEUQBUXK773H2WEFMADCMH4BROZTWUPHMC4ITVOSJS3HIBDZM";
       const sourceKeypair = StellarSdk.Keypair.fromSecret(secretKey);
-      const USDC = new StellarSdk.Asset(
-        "USDC",
-        "GC5W3BH2MQRQK2H4A6LP3SXDSAAY2W2W64OWKKVNQIAOVWSAHFDEUSDC"
-      );
-      console.log("aca anda2");
+
       const [
         {
           max_fee: { mode: fee },
@@ -53,44 +49,55 @@ console.log('------------') */
         account,
       ] = await Promise.all([server.feeStats(), server.loadAccount(publicKey)]);
       console.log("aca anda3");
+      console.log(account);
       const transaction = new StellarSdk.TransactionBuilder(account, {
         fee,
         networkPassphrase: StellarSdk.Networks.TESTNET,
       })
+
         .addOperation(
-          // Our account needs to explicitly trust the asset before we can
-          // make an offer
           StellarSdk.Operation.changeTrust({
-            asset: USDC,
-            limit: "1000",
+            asset: bid,
+            limit: "10000",
           })
         )
-
-        // The `manageBuyOffer` operation creates (or alters) a buy offer.
         .addOperation(
           StellarSdk.Operation.manageBuyOffer({
-            selling: StellarSdk.Asset.native(),
-            buying: USDC,
-            buyAmount: "100",
-            price: "1",
+            selling: ask,
+            buying: bid,
+            buyAmount: amount,
+            price: price,
           })
         )
         .setTimeout(10000000)
         .build();
-        console.log("aca anda6")
-        transaction.sign(sourceKeypair);
-        console.log(transaction)
-      console.log("aca anda7");
-      console.log(server)
+
+      transaction.sign(sourceKeypair);
+      console.log(transaction)
       const txResult = await server.submitTransaction(transaction);
-      /* recoupLumens(accountKeypair.secret()); */
+
       console.log(txResult);
-      return `Success! ${publicKey} offered to buy 100 XLM for 1 AstroDollars each`;
     } catch (e) {
       console.error("Oh no! Something went wrong.");
       console.error(e);
     }
   }
+
+  const selectAssetAsk = (event) => {
+    const asset = assets.filter(
+      (element) =>
+        element.code === event.target.value && element.code !== assetBid
+    );
+    return setAssetAsk(asset[0]);
+  };
+
+  const selectAssetBid = (event) => {
+    const asset = assets.filter(
+      (element) =>
+        element.code === event.target.value && element.code !== assetAsk
+    );
+    return setAssetBid(asset[0]);
+  };
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -102,19 +109,35 @@ console.log('------------') */
       <div>
         <form onSubmit={(event) => handleSubmit(event)}>
           <select
-            name="asset"
-            onChange={(event) => setAsset(event.target.value)}
+            defaultValue=""
+            name="assetAsk"
+            onChange={(event) => selectAssetAsk(event)}
           >
-            {" "}
-            Assets{" "}
+            <option>Select a Asset</option>
+            {assets.map((element) => {
+              return <option key={element.code}>{element.code}</option>;
+            })}
           </select>
-          <option defaultValue="" selected>
-            Select a Asset
-          </option>
-          {/* {assets._embedded.records.map((element) => {
-              return <option key={element.asset_code}>{element.asset_code}</option>;
-            })} */}
+          <select
+            defaultValue=""
+            name="assetBid"
+            onChange={(event) => selectAssetBid(event)}
+          >
+            <option>Select a Asset</option>
+            {assets.map((element) => {
+              return (
+                <option
+                  onChange={(event) => selectAssetBid(event)}
+                  key={element.code}
+                >
+                  {element.code}
+                </option>
+              );
+            })}
+          </select>
           <input type="submit"></input>
+          <input type="text" name="amount" id="" onChange={(event)=> setAmount(event.target.value)} placeholder='Monto a vender' />
+          <input type="text" name="price" id="" onChange={(event)=> setPrice(event.target.value)} placeholder='Precio por cada token a vender' />
         </form>
       </div>
     </div>
