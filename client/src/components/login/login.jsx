@@ -30,21 +30,13 @@ export const Login = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    let banned = await supabase
-      .from("RegisteredUsers")
-      .select("bannedUser ")
-      .eq("email", data.email);
+    let info = await supabase.auth.signIn({
+      email: data.email,
+      password: data.password,
+    });
 
-    if (!banned.data[0].bannedUser) {
-      let info = await supabase.auth.signIn({
-        email: data.email,
-        password: data.password,
-      });
-
-      if (info.error) return alert(info.error.message);
-      return history.push("/home");
-    }
-    alert("Your account is blocked");
+    if (info.error) return alert(info.error.message);
+    return history.push("/home");
   };
 
   const singUpRoute = () => {

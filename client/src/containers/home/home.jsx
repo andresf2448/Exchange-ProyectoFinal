@@ -1,27 +1,23 @@
-import { useState } from "react";
-
 import { supabase } from "supabase/supabase";
 import { NavBar } from "components/navBar/navBar";
 import { useHistory } from "react-router";
-import { Administrador } from "components/administrator/administrator";
 
 import "./home.scss";
 
 export const Home = () => {
   const history = useHistory();
   const session = supabase.auth.session();
-  const [admin, setAdmin] = useState(false);
 
   async function getRole() {
     let { data } = await supabase
       .from("RegisteredUsers")
-      .select("isAdmin ")
+      .select("bannedUser")
       .eq("id_user", session.user.id);
 
-    if (data.length !== 0) {
-      if (data[0].isAdmin) {
-        setAdmin(true);
-      }
+    if (data[0].bannedUser) {
+      alert("Your account is blocked");
+      await supabase.auth.signOut();
+      history.push("/");
     }
 
     if (data.length === 0) {
@@ -45,16 +41,9 @@ export const Home = () => {
   return (
     <div>
       {session ? (
-        admin ? (
-          <div>
-            <Administrador />
-            <NavBar />
-          </div>
-        ) : (
-          <div>
-            <NavBar />
-          </div>
-        )
+        <div>
+          <NavBar />
+        </div>
       ) : (
         history.push("/")
       )}

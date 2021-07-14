@@ -1,15 +1,14 @@
-import React from "react";
 import { Grid, Card } from "@material-ui/core";
 import useStyles from "styles.js";
 import SkewLoader from "react-spinners/SkewLoader";
 
 const CryptoCard = (props) => {
-  const { symbol, img, price, color, i } = props;
+  const { symbol, img, price, color } = props;
 
   const classes = useStyles();
   return (
     <>
-      <Grid item sm={12} key={i}>
+      <Grid item sm={12}>
         <Card className={classes.cryptoCurrency}>
           <Grid item sm={3}>
             <img className="cryptoIcons" src={img} alt="no img" />
