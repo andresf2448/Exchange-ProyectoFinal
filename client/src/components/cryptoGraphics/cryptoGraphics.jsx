@@ -159,7 +159,6 @@ export const CryptoGraphics = () => {
 
   // UPDATE DATA COINS (info, coinState and setCoinState)
   const updateQuote = (dato, setCoin) => {
-  
     let numberPrice = parseFloat(dato.p);
     setCoin((prevState) => {
       return {

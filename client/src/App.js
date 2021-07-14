@@ -12,11 +12,11 @@ function App() {
     <Router>
       <div className="App">
         <Route exact path="/" component={Login} />
-        <Route path="/register" component={Register} />  
+        <Route path="/register" component={Register} />
         <Route path="/home" component={Home} />
         <Route path="/recoverPassword" component={RecoverPassword} />
       </div>
-    </Router>  
+    </Router>
   );
 }
 
