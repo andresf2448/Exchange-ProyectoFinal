@@ -9,7 +9,7 @@ export default function BalanceAccount() {
     const account = await server.loadAccount(accountToCheck)
     setCheckedAccount(account);
   };
-
+  checkedAccount && console.log(checkedAccount)
   return (
     <div>
       <input
@@ -22,12 +22,12 @@ export default function BalanceAccount() {
         Verificar balance
       </button>
 
-      {checkedAccount?.balances.map(({ balance, asset_code }, index) => (
+      {checkedAccount?.balances.map(({ balance, asset_code, selling_liabilities, buying_liabilities }, index) => (
         <div  key={index}>
-          <div>Número: {index}</div>
-          <div>{balance} </div>
-          <div>XLM</div>
-          <div>Asset: {asset_code}</div>
+          <div>Asset: { !asset_code ? 'XLM' : asset_code } </div>
+          <div>Balance: {balance} </div>
+          <div> Monto en ofertas de venta: {selling_liabilities}</div>
+          <div> Monto en ofertas de compra: {buying_liabilities}</div>
         </div>
       ))}
     </div>
