@@ -30,13 +30,21 @@ export const Login = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    let info = await supabase.auth.signIn({
-      email: data.email,
-      password: data.password,
-    });
+    let banned = await supabase
+      .from("RegisteredUsers")
+      .select("bannedUser ")
+      .eq("email", data.email);
 
-    if (info.error) return alert(info.error.message);
-    return history.push("/home");
+    if (!banned.data[0].bannedUser) {
+      let info = await supabase.auth.signIn({
+        email: data.email,
+        password: data.password,
+      });
+
+      if (info.error) return alert(info.error.message);
+      return history.push("/home");
+    }
+    alert("Your account is blocked");
   };
 
   const singUpRoute = () => {
@@ -79,11 +87,11 @@ export const Login = () => {
             value={data.password}
             onChange={handleOnChange}
           />
-              
-           {/* this button goes first for the submit function when pressing enter */}
+
+          {/* this button goes first for the submit function when pressing enter */}
           <Button type="submit" variant="contained" color="primary">
             Login
-          </Button> 
+          </Button>
           <Button variant="contained" color="primary" onClick={singUpRoute}>
             Sing up
           </Button>
@@ -93,10 +101,7 @@ export const Login = () => {
         </FormControl>
       </form>
 
-      <Link
-        component="button"
-        onClick={() => handleOAuthLogin("google")}
-      >
+      <Link component="button" onClick={() => handleOAuthLogin("google")}>
         Sign in with your Google account
       </Link>
       <div></div>

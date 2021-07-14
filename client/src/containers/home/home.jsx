@@ -11,21 +11,16 @@ export const Home = () => {
   const history = useHistory();
   const session = supabase.auth.session();
   const [admin, setAdmin] = useState(false);
-  const [banned, setBanned] = useState(false);
 
   async function getRole() {
     let { data } = await supabase
       .from("RegisteredUsers")
-      .select("isAdmin,bannedUser ")
+      .select("isAdmin ")
       .eq("id_user", session.user.id);
 
     if (data.length !== 0) {
       if (data[0].isAdmin) {
         setAdmin(true);
-      }
-
-      if (data[0].bannedUser) {
-        setBanned(true);
       }
     }
 
