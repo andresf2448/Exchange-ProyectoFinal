@@ -4,10 +4,8 @@ import { Login } from "components/login/login";
 import { Register } from "components/register/register";
 import { Home } from "containers/home/home";
 import { RecoverPassword } from "components/recoverPassword/recoverPassword";
-import Transaction from "components/transaction/transaction";
-import { AdministratorUser } from "components/administratorUser/admistratorUser";
-import "./App.scss";
 
+import "./App.scss";
 
 function App() {
   return (
@@ -17,8 +15,6 @@ function App() {
         <Route path="/register" component={Register} />
         <Route path="/home" component={Home} />
         <Route path="/recoverPassword" component={RecoverPassword} />
-        <Route path="/home/settings/transaction" component={Transaction} />
-        <Route path="/adminitratorUsers" component={AdministratorUser} />
       </div>
     </Router>
   );

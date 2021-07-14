@@ -3,7 +3,7 @@ import useStyles from "styles.js";
 import SkewLoader from "react-spinners/SkewLoader";
 
 const CryptoCard = (props) => {
-  const { symbol, img, price, color } = props;
+  const { symbol, img, price, color} = props;
 
   const classes = useStyles();
   return (
