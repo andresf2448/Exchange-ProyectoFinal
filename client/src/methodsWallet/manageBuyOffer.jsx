@@ -104,7 +104,8 @@ export default function ManageBuyOffer() {
   }
 
   return (
-    <div>
+    <div> 
+      <div>Este es el componente para crear ofertas de venta</div>
       <div>
         <form onSubmit={(event) => handleSubmit(event)}>
           <select
