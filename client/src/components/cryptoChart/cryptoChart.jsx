@@ -15,6 +15,11 @@ const CryptoChart = ({crypto}) => {
   useEffect(() => {
     let coin;
     if(crypto === 'BTC') coin = 'bitcoin';
+    if(crypto === 'CHZ') coin = 'chiliz';
+    if(crypto === 'FIL') coin = 'filecoin';
+    if(crypto === 'ADA') coin = 'cardano';
+    if(crypto === 'ETH') coin = 'ethereum';
+    if(crypto === 'BNB') coin = 'binancecoin';
     axios.get(`https://api.coingecko.com/api/v3/coins/${coin}/market_chart?vs_currency=usd&days=30&interval=daily`)
       .then((res) => {
         const data = []
@@ -30,7 +35,7 @@ const CryptoChart = ({crypto}) => {
   },[]);
   // console.log(price);
   return (
-    <ResponsiveContainer width="100%" height={300}>
+    <ResponsiveContainer width={200} height={200}>
       {/* <LineChart width={300} height={150} data={price} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
         <Line type="monotone" dataKey="precio" stroke="#8884d8" />
         <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
@@ -46,11 +51,11 @@ const CryptoChart = ({crypto}) => {
           </linearGradient>
         </defs>
         <Area dataKey="precio" stroke="#2451b7" fill="url(#color)"/>
-        <XAxis 
+        {/* <XAxis 
           dataKey="date"
           axisLine={false} 
           tickLine={false} 
-        />
+        /> */}
         <YAxis 
           dataKey="precio" 
           axisLine={false} 
