@@ -1,5 +1,5 @@
 import React from 'react'
-import { Container, Typography, Accordion, AccordionSummary, AccordionDetails, Grid } from '@material-ui/core'
+import { Container, Typography, Accordion, AccordionSummary, AccordionDetails } from '@material-ui/core'
 import { ExpandMore } from '@material-ui/icons'
 import useStyles from 'styles.js'
 

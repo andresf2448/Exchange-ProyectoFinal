@@ -36,7 +36,7 @@ export const NavBar = () => {
       }
     }
   }
-
+  getRole()
     const signOut = async () => {
         await supabase.auth.signOut();
         history.push("/");
@@ -52,6 +52,7 @@ export const NavBar = () => {
                     <Tab label="Balance"/>
                     <Tab label="Settings" />
                     <Tab label="FAQ" />
+                    {admin && <Tab label="Admin" />}
                     <Tab label="Logout" onClick={signOut}/>
                 </Tabs>
             </AppBar>

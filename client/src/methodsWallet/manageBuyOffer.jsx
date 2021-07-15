@@ -73,7 +73,7 @@ export default function ManageBuyOffer() {
 
       transaction.sign(sourceKeypair);
 
-      const txResult = await server.submitTransaction(transaction);
+       await server.submitTransaction(transaction);
     } catch (e) {
       console.error("Oh no! Something went wrong.");
       console.error(e);
