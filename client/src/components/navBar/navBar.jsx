@@ -1,5 +1,5 @@
-import {AppBar, Tabs, Tab} from '@material-ui/core';
-import {useState} from 'react';
+import { AppBar, Tabs, Tab } from "@material-ui/core";
+import { useState } from "react";
 import { useHistory } from "react-router";
 import {supabase} from 'supabase/supabase';
 import HomeIcon from '@material-ui/icons/Home';
@@ -11,15 +11,31 @@ import { Balance } from 'components/balance/balance';
 import { Settings } from 'containers/settings/settings';
 import { ShowUserData } from 'components/showUserData/showUserData';
 import  Faq  from 'components/faq/faq';
+import { AdministratorUser } from "components/administratorUser/admistratorUser";
 
-export const NavBar= () =>{
-    const history = useHistory();
-    const [value, setValue] = useState(0);
+export const NavBar = () => {
+  const history = useHistory();
+  const [value, setValue] = useState(0);
+  const [admin, setAdmin] = useState(false);
+  const session = supabase.auth.session();
 
-    const handleChange= (event, newValue)=>{
-        event.preventDefault();
-        setValue(newValue);
+  const handleChange = (event, newValue) => {
+    event.preventDefault();
+    setValue(newValue);
+  };
+
+  async function getRole() {
+    let { data } = await supabase
+      .from("RegisteredUsers")
+      .select("isAdmin ,bannedUser")
+      .eq("id_user", session.user.id);
+
+    if (data.length !== 0) {
+      if (data[0].isAdmin) {
+        setAdmin(true);
+      }
     }
+  }
 
     const signOut = async () => {
         await supabase.auth.signOut();
@@ -39,7 +55,7 @@ export const NavBar= () =>{
                     <Tab label="Logout" onClick={signOut}/>
                 </Tabs>
             </AppBar>
-           {value!== 6 && <ShowUserData/>}
+           {value!== 8 && <ShowUserData/>}
            {value === 0 && <HomeGrid/>}
            {value === 1 && <About/>}
            {value === 2 && <Exchanges/>}
@@ -47,6 +63,10 @@ export const NavBar= () =>{
            {value === 4 && <Balance/>}
            {value === 5 && <Settings/>}  
            {value === 6 && <Faq/>}   
+           {value === 7 && <AdministratorUser />}
+
         </>
     )
 }
+  
+
