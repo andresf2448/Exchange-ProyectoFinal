@@ -10,6 +10,7 @@ import { Wallet } from 'components/wallet/wallet';
 import { Balance } from 'components/balance/balance';
 import { Settings } from 'containers/settings/settings';
 import { ShowUserData } from 'components/showUserData/showUserData';
+import  Faq  from 'components/faq/faq';
 
 export const NavBar= () =>{
     const history = useHistory();
@@ -34,6 +35,7 @@ export const NavBar= () =>{
                     <Tab label="Wallet" />
                     <Tab label="Balance"/>
                     <Tab label="Settings" />
+                    <Tab label="FAQ" />
                     <Tab label="Logout" onClick={signOut}/>
                 </Tabs>
             </AppBar>
@@ -43,7 +45,8 @@ export const NavBar= () =>{
            {value === 2 && <Exchanges/>}
            {value === 3 && <Wallet/>}
            {value === 4 && <Balance/>}
-           {value === 5 && <Settings/>}     
+           {value === 5 && <Settings/>}  
+           {value === 6 && <Faq/>}   
         </>
     )
 }
