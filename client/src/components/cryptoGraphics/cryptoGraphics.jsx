@@ -159,6 +159,7 @@ export const CryptoGraphics = () => {
 
   // UPDATE DATA COINS (info, coinState and setCoinState)
   const updateQuote = (dato, setCoin) => {
+  
     let numberPrice = parseFloat(dato.p);
     setCoin((prevState) => {
       return {
@@ -182,16 +183,17 @@ export const CryptoGraphics = () => {
     <Container>
       <Typography variant="h3">Crypto USD trade</Typography>
       <Grid container className="currencyValues" spacing={2}>
-        {renderData.map((e, i) => (
-          <CryptoCard
-            key={i}
-            i={i}
-            price={e.price}
-            symbol={e.symbol}
-            img={e.img}
-            color={e.color}
-          />
-        ))}
+          {renderData.map((e, i) => (
+        <Grid item sm={4} key={i}>
+            <CryptoCard
+              i={i}
+              price={e.price}
+              symbol={e.symbol}
+              img={e.img}
+              color={e.color}
+            />
+        </Grid>
+          ))}
       </Grid>
     </Container>
   );
