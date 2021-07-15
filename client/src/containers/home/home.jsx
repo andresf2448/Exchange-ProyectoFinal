@@ -14,7 +14,7 @@ export const Home = () => {
       .select("bannedUser")
       .eq("id_user", session.user.id);
 
-    if (data[0].bannedUser) {
+    if (data[0]?.bannedUser) {
       alert("Your account is blocked");
       await supabase.auth.signOut();
       history.push("/");
