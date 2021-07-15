@@ -186,7 +186,6 @@ export const CryptoGraphics = () => {
           {renderData.map((e, i) => (
         <Grid item sm={4} key={i}>
             <CryptoCard
-              key={i}
               i={i}
               price={e.price}
               symbol={e.symbol}

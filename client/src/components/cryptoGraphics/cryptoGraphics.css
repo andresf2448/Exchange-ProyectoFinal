@@ -14,13 +14,14 @@
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
-    margin-top: 5px;
+    
 }
 
 .cryptoIcons{
     width: 30px;
     height: 30px;
     border-radius: 20px;
+    margin-top: 5px;
 }
 
 .coinSymbol{

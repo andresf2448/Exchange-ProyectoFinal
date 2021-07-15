@@ -1,4 +1,4 @@
-import { Card, Typography } from "@material-ui/core";
+import { Card, Typography, Grid } from "@material-ui/core";
 import CryptoChart from 'components/cryptoChart/cryptoChart';
 import useStyles from "styles.js";
 import SkewLoader from "react-spinners/SkewLoader";
@@ -11,18 +11,22 @@ const CryptoCard = (props) => {
   return (
     <>
         <Card className={classes.cryptoCurrency}>
-                <div>
-                  <div className="cryptoInfo">
+                <Grid container>
+                  <Grid item sm={6} >
                     <img className="cryptoIcons" src={img} alt="no img" />
+                  </Grid>
+                  <Grid item sm={6}>
                     <Typography variant="h5" className="coinSymbol"> {symbol} </Typography>
-                  </div>
-                    <h3 className={color}>
+                  </Grid>
+                  <Grid item sm={12}>
+                    <Typography variant="h5" className={color}>
                       {price ? `$ ${price}` : <SkewLoader size={10} />}{" "}
-                    </h3>
-                </div>
-                <div className={classes.cryptoChart} >
+                    </Typography>
+                  </Grid>
+                </Grid>
+                <Grid item sm={12} className={classes.cryptoChart} >
                     <CryptoChart crypto={symbol} />
-                </div>
+                </Grid>
         </Card>
     </>
   );
