@@ -7,7 +7,7 @@ export default function Orderbook() {
 
   var server = new StellarSdk.Server("https://horizon.stellar.org");
 
-  var callback = function(resp) {
+  var callback = function (resp) {
     return setResponse(resp);
   };
 
@@ -21,9 +21,5 @@ export default function Orderbook() {
     )
     .cursor("now")
     .stream({ onmessage: callback });
-  return (
-    <> 
-    {response && <Offer asks = { response.asks } bids = { response.bids }/>} 
-    </>
-    );
-  }
+  return <>{response && <Offer asks={response.asks} bids={response.bids} />}</>;
+}
