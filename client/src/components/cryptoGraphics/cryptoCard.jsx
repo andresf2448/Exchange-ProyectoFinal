@@ -1,6 +1,8 @@
-import { Grid, Card } from "@material-ui/core";
+import { Card, Typography, Grid } from "@material-ui/core";
+import CryptoChart from 'components/cryptoChart/cryptoChart';
 import useStyles from "styles.js";
 import SkewLoader from "react-spinners/SkewLoader";
+import 'components/cryptoGraphics/cryptoGraphics.css';
 
 const CryptoCard = (props) => {
   const { symbol, img, price, color} = props;
@@ -8,21 +10,24 @@ const CryptoCard = (props) => {
   const classes = useStyles();
   return (
     <>
-      <Grid item sm={12}>
         <Card className={classes.cryptoCurrency}>
-          <Grid item sm={3}>
-            <img className="cryptoIcons" src={img} alt="no img" />
-          </Grid>
-          <Grid item sm={3}>
-            <h2 className="coinSymbol"> {symbol} </h2>
-          </Grid>
-          <Grid item sm={3}>
-            <h3 className={color}>
-              {price ? `$ ${price}` : <SkewLoader size={10} />}{" "}
-            </h3>
-          </Grid>
+                <Grid container>
+                  <Grid item sm={6} >
+                    <img className="cryptoIcons" src={img} alt="no img" />
+                  </Grid>
+                  <Grid item sm={6}>
+                    <Typography variant="h5" className="coinSymbol"> {symbol} </Typography>
+                  </Grid>
+                  <Grid item sm={12}>
+                    <Typography variant="h5" className={color}>
+                      {price ? `$ ${price}` : <SkewLoader size={10} />}{" "}
+                    </Typography>
+                  </Grid>
+                </Grid>
+                <Grid item sm={12} className={classes.cryptoChart} >
+                    <CryptoChart crypto={symbol} />
+                </Grid>
         </Card>
-      </Grid>
     </>
   );
 };
