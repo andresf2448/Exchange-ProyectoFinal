@@ -1,15 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { ResponsiveContainer, LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, AreaChart, Area } from 'recharts';
+import { ResponsiveContainer, CartesianGrid, Tooltip, AreaChart, Area } from 'recharts';
 import CustomTooltip from 'components/customTooltip/customTooltip';
-import useStyles from 'styles';
-
-const data = [{name: 'Page A', uv: 400, pv: 2400, amt: 2400}, {name: 'Page B', uv: 200, pv: 2300, amt: 2300}];
 
 const CryptoChart = ({crypto}) => {
-  const classes = useStyles();
-  // console.log(crypto);
-  
   const [price, setPrice] = useState([]);
 
   useEffect(() => {
@@ -30,19 +24,10 @@ const CryptoChart = ({crypto}) => {
           })
         });
         setPrice(data);
-        // console.log(res.data);
       })
-  },[]);
-  // console.log(price);
+  },[crypto]);
   return (
-    <ResponsiveContainer width={200} height={200}>
-      {/* <LineChart width={300} height={150} data={price} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
-        <Line type="monotone" dataKey="precio" stroke="#8884d8" />
-        <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
-        <XAxis dataKey="name" />
-        <YAxis />
-        <Tooltip />
-      </LineChart> */}
+    <ResponsiveContainer width="100%" height={75}>
       <AreaChart data={price}> 
         <defs>
           <linearGradient id="color" x1="0" y1="0" x2="0" y2="1">
@@ -51,18 +36,6 @@ const CryptoChart = ({crypto}) => {
           </linearGradient>
         </defs>
         <Area dataKey="precio" stroke="#2451b7" fill="url(#color)"/>
-        {/* <XAxis 
-          dataKey="date"
-          axisLine={false} 
-          tickLine={false} 
-        /> */}
-        <YAxis 
-          dataKey="precio" 
-          axisLine={false} 
-          tickLine={false} 
-          tickCount={10} 
-          tickFormatter={(number => `$${number}`)}
-          />
         <Tooltip content={<CustomTooltip />} />
         <CartesianGrid opacity={0.1} vertical={false}/>
       </AreaChart>

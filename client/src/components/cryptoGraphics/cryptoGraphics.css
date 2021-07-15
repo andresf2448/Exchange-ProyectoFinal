@@ -10,14 +10,23 @@
     color: rgb(218, 218, 218);
 }
 
+.cryptoInfo{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    margin-top: 5px;
+}
+
 .cryptoIcons{
-    width: 20%;
+    width: 30px;
+    height: 30px;
     border-radius: 20px;
-    padding-top: 3.5%;
 }
 
 .coinSymbol{
     color: rgb(44, 44, 44);
 }
+
+
 
 

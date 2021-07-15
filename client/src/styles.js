@@ -24,8 +24,9 @@ const useStyles = makeStyles(theme => ({
   },
   cryptoCurrency: {
     display: 'flex',
-    justifyContent: 'space-around',
-    backgroundColor: theme.palette.primary.contrastText
+    flexDirection: 'column',
+    backgroundColor: theme.palette.primary.contrastText,
+    justifyContent: 'center'
   },
   offerTableHead: {
     backgroundColor: theme.palette.primary.light
@@ -37,7 +38,12 @@ const useStyles = makeStyles(theme => ({
     padding: "1px",
     boxShadow: "15px 30px 40px 5px rgba(0, 0, 0, 0.5)",
     textAlign: "center"
+  },
+  cryptoChart: {
+    display: 'flex',
+    justifyContent: "center"
   }
+
 }));
 
 export default useStyles;
