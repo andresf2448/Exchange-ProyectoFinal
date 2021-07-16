@@ -13,7 +13,7 @@ const CustomTooltip = ({active, payload, label}) => {
         <Container>
             { active === true &&
                 <Grid sm={12} className={classes.tooltip}>
-                    <Typography varian="h3" >{formatter.format(payload[0].value)}</Typography>
+                    <Typography varian="h3" >{formatter.format(payload[0]?.value)}</Typography>
                     <Typography variant="p" >{label}</Typography>
                 </Grid>
             }
