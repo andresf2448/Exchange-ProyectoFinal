@@ -1,6 +1,7 @@
+import {Container, Grid, Typography} from '@material-ui/core';
 import useStyles from 'styles';
 
-const CustomTooltip = ({active, payload}) => {
+const CustomTooltip = ({active, payload, label}) => {
     const classes = useStyles();
     
     let formatter = new Intl.NumberFormat('en-US', {
@@ -9,13 +10,14 @@ const CustomTooltip = ({active, payload}) => {
     });
     
     return (
-        <div>
+        <Container>
             { active === true &&
-                <div className={classes.tooltip}>
-                    <h4>{formatter.format(payload[0].value)}</h4>
-                </div>
+                <Grid sm={12} className={classes.tooltip}>
+                    <Typography varian="h3" >{formatter.format(payload[0].value)}</Typography>
+                    <Typography variant="p" >{label}</Typography>
+                </Grid>
             }
-        </div>
+        </Container>
     
     )
 }
