@@ -1,33 +1,32 @@
 const http = require('http');
 const router = require('express').Router()
-// const server = http.createServer(router);
-const server = require('../../app');
+const server = http.createServer(router);
 
 const socketIo = require('socket.io')   
 const io = socketIo(server);
 
 const needle = require('needle');
-const config = require('dotenv').config();
 const TOKEN = process.env.TWITTER_BEARER_TOKEN;
 
-// router.use((req, res, next) => {
-//     res.header('Access-Control-Allow-Origin', 'http://localhost:3000'); // update to match the domain you will make the request from
-//     res.header('Access-Control-Allow-Credentials', 'true');
-//     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-//     res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
-//     next(); 
-// });
+router.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*'); // update to match the domain you will make the request from
+    res.header('Access-Control-Allow-Credentials', 'true');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
+    next(); 
+});
 
 router.get('/', async (req, res) => {
-    
     res.send({ response: "Server is up and running" }).status(200);    
+});
+    
+const rulesURL = 'https://api.twitter.com/2/tweets/search/stream/rules';
+const streamURL = 'https://api.twitter.com/2/tweets/search/stream?tweet.fields=public_metrics&expansions=author_id';
 
-    const rulesURL = 'https://api.twitter.com/2/tweets/search/stream/rules';
-    const streamURL = 'https://api.twitter.com/2/tweets/search/stream?tweet.fields=public_metrics&expansions=author_id';
-
-    const rules = [{
-        value: 'Bitcoin is:verified lang:en'
-    }];
+const rules = [{
+    value: 'Bitcoin lang:en sample:10'
+}];
+//is:verified 
 
     // Get Stream rules
     async function getRules(){
@@ -110,11 +109,11 @@ router.get('/', async (req, res) => {
         process.exit(1) 
         }
         streamTweets(io);
-        socket.emit('message', 'Hi from server!');
-        socket.on('disconnect', () => {
-            console.log('User has left');
-        })
     })
+
+
+server.listen(3005, ()=>{
+    console.log('Listening on 3005 (twitter stream route)');
 });
 
 module.exports = router;
