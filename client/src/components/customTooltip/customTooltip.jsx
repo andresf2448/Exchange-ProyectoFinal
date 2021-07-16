@@ -8,11 +8,7 @@ const CustomTooltip = ({active, payload, label}) => {
         style: 'currency',
         currency: 'USD',
     });
-
-    const date = new Date();
-    console.log("label ", label)
-    console.log("date ", date.getDate())
-    console.log(date.getDate() - label);
+    
     return (
         <Container>
             { active === true &&
