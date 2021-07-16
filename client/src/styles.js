@@ -47,6 +47,9 @@ const useStyles = makeStyles(theme => ({
   cryptoChart: {
     display: 'flex',
     justifyContent: "center"
+  },
+  tableScroll: {
+    maxHeight: 500
   }
 
 }));
