@@ -1,7 +1,10 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
+import { Box, Grid } from '@material-ui/core';
+// import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { useEffect } from 'react';
 import io from 'socket.io-client';
 import './twitter.css'
+import TwittCard from 'components/twitter/twittCard'
+import { useState } from 'react';
 const SERVER = '//localhost:3005';
 
 var connectionOptions =  {
@@ -12,60 +15,41 @@ var connectionOptions =  {
 };
 
 export const Twitter = () => {
-    
+    const [arr, setArr]=useState([])
     useEffect(() =>{  
         handleSocket();
     },[]);
+    useEffect(()=>{
+        console.log('soy array', arr)
+    },[arr])
 
     const handleSocket = () => { 
         const tweetStream = document.getElementById('tweetStream');
         const socketClient = io(SERVER, connectionOptions );
         socketClient.on('tweet', (tweet) => {
-            // console.log(tweet)
-            const TweetData = {
+            console.log('soy tweet', tweet)
+            let TweetData = {
                 id: tweet.data.id,
                 text: tweet.data.text,
                 username: `@${tweet.includes.users[0].username}`,
                 likes: tweet.data.public_metrics.like_count,
                 retweet: tweet.data.public_metrics.retweet_count,
             }
-
-            const tweetEl = document.createElement('div');
-            tweetEl.className = 'card my-4 mx-4';
-            tweetEl.innerHTML = 
-            `
-                <div className='card-body'>
-                    
-                    <h4 className='card-title'>${TweetData.text}</h4>
-                    <h5 className='card-subtitle mb-2 text-muted'>${TweetData.username}</h5>
-
-                    <div class="d-flex justify-content-center">
-                        <h6 className='card-subtitle mb-2 text-muted'> ❤️ ${TweetData.likes}</h5>
-                        <h6 className='card-subtitle mb-2 text-muted'> 🔁 ${TweetData.retweet}</h5>
-                    </div>
-
-                    
-                    <a className='btn btn-primary px-2' href='https://twitter.com/${TweetData.username}/status/${TweetData.id}'>
-                    <i class='fab fa-twitter'></i> See on twitter! </a>
-                </div>
-            `;
-            tweetStream.appendChild(tweetEl);
+            setArr((prevState)=>{return [...prevState, TweetData]});
 
             setTimeout(() => {
-                tweetEl.remove();
-            }, 30000);
+                setArr((prevState)=>{
+                    return [prevState.slice(Math.max(prevState[3], 0))]})
+            }, 15000);
         })
     }
 
     return(
-        <div>
-            <nav className="navbar navbar-dark bg-dark my-4 mx-4 ">
-                <div className="container justify-content-center">
-                    <a href="#tweetStream" className="navbar-brand p-3">Real-Time Tweet Stream</a>
-                </div>    
-            </nav>
-              <div id='tweetStream' className="tweetsContainer"></div>           
-        </div>
+              <Grid container>
+                  {arr.map((twitt)=>{
+                      return <TwittCard data={twitt}/>
+                  })}
+              </Grid>
     )
 }
 

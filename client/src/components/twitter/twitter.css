@@ -1,10 +1,10 @@
-.tweetsContainer{
-    margin: 0;
-    height: 250px;
-    overflow-y: auto;
-    padding-left: 0;
+.tweetsContainer {
+  margin: 0;
+  height: 250px;
+  /* overflow-x: auto; */
+  padding-left: 0;
 }
 
-.public_metrics{
-    display:inline;
+.public_metrics {
+  /* display: inline; */
 }
