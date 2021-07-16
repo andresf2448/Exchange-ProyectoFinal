@@ -4,8 +4,7 @@ import { Login } from "components/login/login";
 import { Register } from "components/register/register";
 import { Home } from "containers/home/home";
 import { RecoverPassword } from "components/recoverPassword/recoverPassword";
-import Faq from 'components/faq/faq'
-
+import TradingView from "components/tradingView/tradingView";
 import "./App.scss";
 
 function App() {
@@ -16,7 +15,7 @@ function App() {
         <Route path="/register" component={Register} />
         <Route path="/home" component={Home} />
         <Route path="/recoverPassword" component={RecoverPassword} />
-        <Route path='/faq' component={Faq}/>
+        <Route path='/tv' component={TradingView}/>
       </div>
     </Router>
   );

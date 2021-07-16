@@ -49,7 +49,7 @@ export const NavBar = () => {
                     <Tab label="About" />
                     <Tab label="Other Exchanges" />
                     <Tab label="Wallet" />
-                    <Tab label="Balance"/>
+                    <Tab label="Trade"/>
                     <Tab label="Settings" />
                     <Tab label="FAQ" />
                     <Tab label="Logout" onClick={signOut}/>
