@@ -3,6 +3,7 @@ import Orderbook from "methodsWallet/orderbook";
 import Transaction from "components/transaction/transaction";
 import { TransactionsHistory } from "components/transactionsHistory/transactionsHistory";
 import { Deposit } from "components/deposit/deposit";
+import BalanceAccount from "methodsWallet/balanceAccount";
 import { Withdraw } from "components/withdraw/withdraw";
 import { Container, Tabs, Tab } from "@material-ui/core";
 import { useState } from "react";
@@ -17,7 +18,7 @@ export default function WalletContainer(){
         <Container>
             <Tabs value={value} onChange={handleChange} centered={true}>
                 <Tab label='Get Key'/>
-                <Tab label='OrderBook'/>
+                <Tab label='Balance'/>
                 <Tab label='Transaction'/>
                 <Tab label='TransactionHistory'/>
                 <Tab label='Deposit'/>
@@ -25,7 +26,7 @@ export default function WalletContainer(){
             </Tabs>
 
             {value === 0 && <CreateAccount />}      
-            {value === 1 && <Orderbook />}
+            {value === 1 && <BalanceAccount />}
             {value === 2 && <Transaction/>}
             {value === 3 && <TransactionsHistory/>}
             {value === 4 && <Deposit/>}
