@@ -1,7 +1,8 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { useEffect } from 'react';
-import   io   from 'socket.io-client';
-const SERVER = '//localhost:3001';
+import io from 'socket.io-client';
+import './twitter.css'
+const SERVER = '//localhost:3005';
 
 var connectionOptions =  {
     "force new connection" : true,
@@ -11,7 +12,7 @@ var connectionOptions =  {
 };
 
 export const Twitter = () => {
-
+    
     useEffect(() =>{  
         handleSocket();
     },[]);
@@ -19,15 +20,14 @@ export const Twitter = () => {
     const handleSocket = () => { 
         const tweetStream = document.getElementById('tweetStream');
         const socketClient = io(SERVER, connectionOptions );
-        socketClient.on('connect', () => {
-            console.log(socketClient.connected, "Im oonnn!!");
-        });
         socketClient.on('tweet', (tweet) => {
-            console.log(tweet, '(tweet from backend)');
+            // console.log(tweet)
             const TweetData = {
                 id: tweet.data.id,
                 text: tweet.data.text,
                 username: `@${tweet.includes.users[0].username}`,
+                likes: tweet.data.public_metrics.like_count,
+                retweet: tweet.data.public_metrics.retweet_count,
             }
 
             const tweetEl = document.createElement('div');
@@ -35,10 +35,17 @@ export const Twitter = () => {
             tweetEl.innerHTML = 
             `
                 <div className='card-body'>
+                    
                     <h4 className='card-title'>${TweetData.text}</h4>
                     <h5 className='card-subtitle mb-2 text-muted'>${TweetData.username}</h5>
+
+                    <div class="d-flex justify-content-center">
+                        <h6 className='card-subtitle mb-2 text-muted'> ❤️ ${TweetData.likes}</h5>
+                        <h6 className='card-subtitle mb-2 text-muted'> 🔁 ${TweetData.retweet}</h5>
+                    </div>
+
                     
-                    <a className='btn btn-primary mt-3' href='https://twitter.com/${TweetData.username}/status/${TweetData.id}'>
+                    <a className='btn btn-primary px-2' href='https://twitter.com/${TweetData.username}/status/${TweetData.id}'>
                     <i class='fab fa-twitter'></i> See on twitter! </a>
                 </div>
             `;
@@ -46,7 +53,7 @@ export const Twitter = () => {
 
             setTimeout(() => {
                 tweetEl.remove();
-            }, 15000);
+            }, 30000);
         })
     }
 
@@ -57,9 +64,7 @@ export const Twitter = () => {
                     <a href="#tweetStream" className="navbar-brand p-3">Real-Time Tweet Stream</a>
                 </div>    
             </nav>
-            <div id='tweetStream'>
-            
-            </div>                
+              <div id='tweetStream' className="tweetsContainer"></div>           
         </div>
     )
 }

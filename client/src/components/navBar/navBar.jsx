@@ -38,8 +38,13 @@ export const NavBar = () => {
 
   getRole();
   const signOut = async () => {
-    await supabase.auth.signOut();
-    history.push("/");
+    try {
+      await supabase.auth.signOut();
+      history.push("/");
+      
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <>
