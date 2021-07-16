@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { ResponsiveContainer, CartesianGrid, Tooltip, AreaChart, Area } from 'recharts';
+import { ResponsiveContainer, CartesianGrid, Tooltip, AreaChart, Area, XAxis } from 'recharts';
 import CustomTooltip from 'components/customTooltip/customTooltip';
 
 const CryptoChart = ({crypto}) => {
@@ -27,7 +27,7 @@ const CryptoChart = ({crypto}) => {
       })
   },[crypto]);
   return (
-    <ResponsiveContainer width="100%" height={75}>
+    <ResponsiveContainer width="100%" height={85}>
       <AreaChart data={price}> 
         <defs>
           <linearGradient id="color" x1="0" y1="0" x2="0" y2="1">
@@ -36,6 +36,7 @@ const CryptoChart = ({crypto}) => {
           </linearGradient>
         </defs>
         <Area dataKey="precio" stroke="#2451b7" fill="url(#color)"/>
+        <XAxis dataKey="date" hide="true" />
         <Tooltip content={<CustomTooltip />} />
         <CartesianGrid opacity={0.1} vertical={false}/>
       </AreaChart>
