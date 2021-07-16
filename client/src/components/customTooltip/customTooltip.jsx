@@ -8,7 +8,7 @@ const CustomTooltip = ({active, payload, label}) => {
         style: 'currency',
         currency: 'USD',
     });
-
+    
     return (
         <Container>
             { active === true &&
