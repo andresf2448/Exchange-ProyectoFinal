@@ -14,6 +14,10 @@ const useStyles = makeStyles(theme => ({
     width: '200px'
   },
   badge: {
+    display: ' flex',
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    paddingTop: '10px',
     marginRight: '10px',
     color: theme.palette.primary.contrastText
   },

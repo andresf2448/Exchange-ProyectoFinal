@@ -1,4 +1,4 @@
-import { AppBar, Tabs, Tab } from "@material-ui/core";
+import { AppBar, Tabs, Tab, Container } from "@material-ui/core";
 import { useState } from "react";
 import { useHistory } from "react-router";
 import {supabase} from 'supabase/supabase';
@@ -56,6 +56,7 @@ export const NavBar = () => {
                     {admin && <Tab label="Admin" />}
                 </Tabs>
             </AppBar>
+
            {value!== 7 && <ShowUserData/>}
            {value === 0 && <HomeGrid/>}
            {value === 1 && <About/>}
