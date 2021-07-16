@@ -6,7 +6,7 @@ import HomeIcon from '@material-ui/icons/Home';
 import { HomeGrid } from 'containers/homeGrid/homeGrid';
 import { About } from 'components/about/about';
 import { Exchanges } from 'components/exchanges/exchanges';
-import { Wallet } from 'components/wallet/wallet';
+import WalletContainer from 'containers/walletContainer/walletContainer';
 import { Balance } from 'components/balance/balance';
 import { Settings } from 'containers/settings/settings';
 import { ShowUserData } from 'components/showUserData/showUserData';
@@ -44,7 +44,7 @@ export const NavBar = () => {
     return(
         <>
             <AppBar position="static">
-                <Tabs value={value} onChange={handleChange}>
+                <Tabs value={value} onChange={handleChange} centered={true}>
                     <Tab label={<HomeIcon/>} />
                     <Tab label="About" />
                     <Tab label="Other Exchanges" />
@@ -52,19 +52,19 @@ export const NavBar = () => {
                     <Tab label="Balance"/>
                     <Tab label="Settings" />
                     <Tab label="FAQ" />
-                    {admin && <Tab label="Admin" />}
                     <Tab label="Logout" onClick={signOut}/>
+                    {admin && <Tab label="Admin" />}
                 </Tabs>
             </AppBar>
-           {value!== 8 && <ShowUserData/>}
+           {value!== 7 && <ShowUserData/>}
            {value === 0 && <HomeGrid/>}
            {value === 1 && <About/>}
            {value === 2 && <Exchanges/>}
-           {value === 3 && <Wallet/>}
+           {value === 3 && <WalletContainer/>}
            {value === 4 && <Balance/>}
            {value === 5 && <Settings/>}  
            {value === 6 && <Faq/>}   
-           {value === 7 && <AdministratorUser />}
+           {value === 8 && <AdministratorUser />}
 
         </>
     )
