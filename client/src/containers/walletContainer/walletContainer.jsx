@@ -1,5 +1,4 @@
 import CreateAccount from "methodsWallet/createAccount";
-import Orderbook from "methodsWallet/orderbook";
 import Transaction from "components/transaction/transaction";
 import { TransactionsHistory } from "components/transactionsHistory/transactionsHistory";
 import { Deposit } from "components/deposit/deposit";
