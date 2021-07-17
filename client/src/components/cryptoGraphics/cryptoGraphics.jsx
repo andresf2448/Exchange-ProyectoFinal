@@ -16,6 +16,7 @@ let chzSocket;
 let filSocket;
 let adaSocket;
 let bnbSocket;
+let axsSocket;
 
 export const CryptoGraphics = () => {
   // Coins states
@@ -61,6 +62,13 @@ export const CryptoGraphics = () => {
     color: "equal",
     img: bnbIcon,
   });
+  const [axs, setAxs] = useState({
+    symbol: "AXS",
+    prevPrice: 0,
+    price: 0,
+    color: "equal",
+    img: bnbIcon,
+  })
   const [connection, setConnection] = useState(true);
 
   let renderData = [eth, btc, chz, fil, ada, bnb];
@@ -86,6 +94,10 @@ export const CryptoGraphics = () => {
         "wss://stream.binance.com:9443/ws/bnbusdt@trade"
       );
 
+      axsSocket = new WebSocket(
+        "wss://stream.binance.com:9443/ws/axsbnb@trade"
+      );
+
       // websockets errors handlers
       ethSocket.onerror = (event) => {
         console.log(event);
@@ -105,6 +117,10 @@ export const CryptoGraphics = () => {
       bnbSocket.onerror = (event) => {
         console.log(event);
       };
+      axsSocket.onerror = (event) => {
+        console.log(event);
+      };
+
 
       ethSocket.onmessage = (event) => {
         let dataEth = JSON.parse(event.data);
@@ -136,6 +152,11 @@ export const CryptoGraphics = () => {
         updateQuote(dataFil, setFil);
       };
 
+      axsSocket.onmessage = (event) => {
+        let dataAxs = JSON.parse(event.data);
+        updateQuote(dataAxs, setAxs);
+      }
+
       return;
     } else {
       return alert("no connection");
@@ -151,6 +172,7 @@ export const CryptoGraphics = () => {
       filSocket.close();
       adaSocket.close();
       bnbSocket.close();
+      axsSocket.close();
       setConnection(false);
     };
     //Do not delete following code, avoid unrrelevant error

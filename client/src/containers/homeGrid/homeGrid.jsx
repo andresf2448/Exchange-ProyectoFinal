@@ -23,9 +23,8 @@ export const HomeGrid= ()=>{
                         </Grid>
                     </Grid>
                 </Grid>
-                <Grid item style={{ width: "100%" }} className="crypto-calculator" xs={3}>
-                    <CryptoCalculator/>
-                </Grid>
+                {/* <Grid item style={{ width: "100%" }} className="crypto-calculator" xs={3}>
+                </Grid> */}
             </Grid>
         </Container>
     )
