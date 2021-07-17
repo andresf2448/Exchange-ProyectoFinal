@@ -1,34 +1,25 @@
 const router = require("express").Router();
-const StellarSdk = require("stellar-sdk");
 const supabase = require("supabase");
 
 router.get("/", async (req, res) => {
   const { id } = req.query.type;
   const { name } = req.query.type;
   const { txid } = req.query.type;
-  const { forward } = req.query.type;
   const data = req.query.q;
 
   if (name) {
     let user = data.split("*");
 
-    const { data: email, error } = await supabase
+    const { data: response, error } = await supabase
       .from("datauser")
-      .select("email")
+      .select("public_key")
       .eq("email", user[0]);
 
-    if (email[0]?.email) {
-      const { data, error } = await supabase
-        .from("datauser")
-        .select("public_key")
-        .eq("email", user[0]);
-
-      if (data[0]?.public_key)
-        return res.json({
-          stellar_address: user,
-          account_id: data[0].public_key,
-        });
-    }
+    if (response[0]?.public_key)
+      return res.json({
+        stellar_address: user,
+        account_id: response[0].public_key,
+      });
   }
 
   if (id) {
