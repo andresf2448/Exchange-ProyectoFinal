@@ -1,15 +1,30 @@
 import React, { useState, useRef } from "react";
 import axios from "axios";
-import {Button} from '@material-ui/core';
-import useStyles from 'styles';
+import { Button } from "@material-ui/core";
+import useStyles from "styles";
 import { supabase } from "supabase/supabase";
 
 export default function CreateAccount() {
   const classes = useStyles();
   const session = supabase.auth.session();
   const userName = useRef("");
-  const [publicKey, setPublicKey] = useState()
-  const [secretKey, setSecretKey] = useState()
+  const [publicKey, setPublicKey] = useState();
+  const [secretKey, setSecretKey] = useState();
+  const [hasWallet, setHasWallet] = useState(false);
+
+  const userExist = async () => {
+    let { data } = await supabase
+      .from("datauser")
+      .select("public_key")
+      .eq("id_user", session.user.id);
+
+    console.log(data);
+
+    if (data.length === 0) setHasWallet(false);
+    if (data.length > 0) {
+      setHasWallet(true);
+    }
+  };
 
   const createdAccounts = async (event) => {
     event.preventDefault();
@@ -17,14 +32,16 @@ export default function CreateAccount() {
     const { publicKey, secretKey } = response.data;
     const { user } = session;
 
+    userExist();
+
     let id_user = user.id;
     let username = userName.current.value;
     let email = user.email;
     let public_key = publicKey;
     let secret_key = secretKey;
 
-    setPublicKey(public_key)
-    setSecretKey(secret_key)
+    setPublicKey(public_key);
+    setSecretKey(secret_key);
 
     await supabase.from("datauser").insert([
       {
@@ -42,20 +59,27 @@ export default function CreateAccount() {
         wallet_number: null,
         secret_key,
       },
-    ])
+    ]);
   };
-  
+
   return (
     <div>
-    {publicKey && <div> Esta es su publicKey: {publicKey} </div>}
-    {secretKey && <div> Esta es su secretKey: {secretKey} </div>}
-      <form onSubmit={createdAccounts}>
-        <label > User Name :</label>
+      {publicKey && <div> Esta es su publicKey: {publicKey} </div>}
+      {secretKey && <div> Esta es su secretKey: {secretKey} </div>}
 
-        {/* // pendiente validacioon */}
-        <input ref={userName}  required/>
-        {!publicKey && <Button className={classes.button} color="secondary" type="submit">Crear Wallet</Button>}
-      </form>
+      {hasWallet ? null : (
+        <form onSubmit={createdAccounts}>
+          <label> User Name :</label>
+
+          {/* // pendiente validacioon */}
+          <input ref={userName} required />
+          {!publicKey && (
+            <Button className={classes.button} color="secondary" type="submit">
+              Crear Wallet
+            </Button>
+          )}
+        </form>
+      )}
     </div>
   );
 }
