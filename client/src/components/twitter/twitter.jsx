@@ -15,19 +15,21 @@ var connectionOptions =  {
 };
 
 export const Twitter = () => {
-    const [arr, setArr]=useState([])
+
+    let [arr, setArr] = useState([])
+
     useEffect(() =>{  
         handleSocket();
     },[]);
+
     useEffect(()=>{
         console.log('soy array', arr)
     },[arr])
 
     const handleSocket = () => { 
-        const tweetStream = document.getElementById('tweetStream');
         const socketClient = io(SERVER, connectionOptions );
         socketClient.on('tweet', (tweet) => {
-            console.log('soy tweet', tweet)
+            // console.log('soy tweet', tweet)
             let TweetData = {
                 id: tweet.data.id,
                 text: tweet.data.text,
@@ -35,20 +37,35 @@ export const Twitter = () => {
                 likes: tweet.data.public_metrics.like_count,
                 retweet: tweet.data.public_metrics.retweet_count,
             }
-            setArr((prevState)=>{return [...prevState, TweetData]});
 
-            setTimeout(() => {
-                setArr((prevState)=>{
-                    return [prevState.slice(Math.max(prevState[3], 0))]})
-            }, 15000);
+            if(arr === []) {
+                setArr(TweetData);
+            }
+            else {
+                setArr((prevState)=>{ 
+                    return [
+                    ...prevState, TweetData
+                ]});
+            }
+                setTimeout(() => {
+                    setArr((prevState) => { 
+                        let newState = prevState.reverse();
+                        return  arr = newState.splice(0, 3);
+                    });
+                }, 15000);
+            
+        
         })
     }
 
     return(
               <Grid container>
-                  {arr.map((twitt)=>{
+                  {arr ?
+                  arr.map((twitt)=>{
                       return <TwittCard data={twitt}/>
-                  })}
+                  }):
+                  ""
+                }
               </Grid>
     )
 }
