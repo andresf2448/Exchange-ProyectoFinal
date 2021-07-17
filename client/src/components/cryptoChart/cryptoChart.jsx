@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { ResponsiveContainer, CartesianGrid, Tooltip, AreaChart, Area, XAxis } from 'recharts';
+import { ResponsiveContainer, CartesianGrid, Tooltip, AreaChart, Area } from 'recharts';
 import CustomTooltip from 'components/customTooltip/customTooltip';
 
 const CryptoChart = ({crypto}) => {
@@ -14,6 +14,8 @@ const CryptoChart = ({crypto}) => {
     if(crypto === 'ADA') coin = 'cardano';
     if(crypto === 'ETH') coin = 'ethereum';
     if(crypto === 'BNB') coin = 'binancecoin';
+    if(crypto === 'DOT') coin = 'polkadot';
+    if(crypto === 'AXS') coin = 'axie-infinity'
     axios.get(`https://api.coingecko.com/api/v3/coins/${coin}/market_chart?vs_currency=usd&days=30&interval=daily`)
       .then((res) => {
         const data = []
@@ -27,7 +29,7 @@ const CryptoChart = ({crypto}) => {
       })
   },[crypto]);
   return (
-    <ResponsiveContainer width="100%" height={85}>
+    <ResponsiveContainer width="100%" height={75}>
       <AreaChart data={price}> 
         <defs>
           <linearGradient id="color" x1="0" y1="0" x2="0" y2="1">
@@ -36,7 +38,6 @@ const CryptoChart = ({crypto}) => {
           </linearGradient>
         </defs>
         <Area dataKey="precio" stroke="#2451b7" fill="url(#color)"/>
-        <XAxis dataKey="date" hide="true" />
         <Tooltip content={<CustomTooltip />} />
         <CartesianGrid opacity={0.1} vertical={false}/>
       </AreaChart>
