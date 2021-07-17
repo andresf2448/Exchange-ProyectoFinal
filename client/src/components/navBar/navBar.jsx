@@ -49,8 +49,6 @@ export const NavBar = () => {
             <AppBar position="static">
                 <Tabs value={value} onChange={handleChange} centered={true}>
                     <Tab label={<HomeIcon/>} />
-                    <Tab label="About" />
-                    <Tab label="Other Exchanges" />
                     <Tab label="Wallet" />
                     <Tab label="Trade"/>
                     <Tab label="Settings" />
@@ -60,15 +58,13 @@ export const NavBar = () => {
                 </Tabs>
             </AppBar>
 
-           {value!== 7 && <ShowUserData/>}
+           {value!== 5 && <ShowUserData/>}
            {value === 0 && <HomeGrid/>}
-           {value === 1 && <About/>}
-           {value === 2 && <Exchanges/>}
-           {value === 3 && <WalletContainer/>}
-           {value === 4 && <Balance/>}
-           {value === 5 && <Settings/>}  
-           {value === 6 && <Faq/>}   
-           {value === 8 && <AdministratorUser />}
+           {value === 1 && <WalletContainer/>}
+           {value === 2 && <Balance/>}
+           {value === 3 && <Settings/>}  
+           {value === 4 && <Faq/>}   
+           {value === 6 && <AdministratorUser />}
 
         </>
     )

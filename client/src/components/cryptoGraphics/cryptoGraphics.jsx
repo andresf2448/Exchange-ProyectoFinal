@@ -8,6 +8,8 @@ import chzIcon from "./cryptoIcons/chili.jpg";
 import filIcon from "./cryptoIcons/filecoin.png";
 import adaIcon from "./cryptoIcons/ada2.png";
 import bnbIcon from "./cryptoIcons/binance.png";
+import dotIcon from "./cryptoIcons/dot.png"
+import axsIcon from "./cryptoIcons/axies.png"
 import CryptoCard from "./cryptoCard";
 
 let ethSocket;
@@ -68,14 +70,14 @@ export const CryptoGraphics = () => {
     prevPrice: 0,
     price: 0,
     color: "equal",
-    img: btcIcon,
+    img: dotIcon,
   });
   const [axs, setAxs] = useState({
     symbol: "AXS",
     prevPrice: 0,
     price: 0,
     color: "equal",
-    img: btcIcon,
+    img: axsIcon,
   });
 
 
