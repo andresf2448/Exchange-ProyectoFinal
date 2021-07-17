@@ -8,12 +8,21 @@ const CustomTooltip = ({active, payload, label}) => {
         style: 'currency',
         currency: 'USD',
     });
-    
+    // const price = payload[0].value;
+    // console.log(payload[0].value);
     return (
         <Container>
             { active === true &&
                 <Grid sm={12} className={classes.tooltip}>
-                    <Typography varian="h3" >{formatter?.format(payload[0]?.value)}</Typography>
+                    {payload === null || payload === undefined ?
+                    <Typography variant="h6" >
+                        Loading price...
+                    </Typography>
+                    :
+                    <Typography variant="h6" >
+                        {formatter.format(payload[0].value)}
+                    </Typography>
+                    }
                     <Typography variant="p" >{label}</Typography>
                 </Grid>
             }
