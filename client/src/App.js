@@ -5,6 +5,8 @@ import { Register } from "components/register/register";
 import { Home } from "containers/home/home";
 import { RecoverPassword } from "components/recoverPassword/recoverPassword";
 import TradingView from "components/tradingView/tradingView";
+import RestorePassword from "components/restorePassword/restorePassword";
+
 import "./App.scss";
 
 function App() {
@@ -16,6 +18,8 @@ function App() {
         <Route path="/home" component={Home} />
         <Route path="/recoverPassword" component={RecoverPassword} />
         <Route path='/tv' component={TradingView}/>
+                <Route path="/restorePassword" component={RestorePassword} />
+
       </div>
     </Router>
   );

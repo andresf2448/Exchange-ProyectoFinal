@@ -1,5 +1,5 @@
-import { AppBar, Tabs, Tab, Container } from "@material-ui/core";
-import { useState } from "react";
+import { AppBar, Tabs, Tab } from "@material-ui/core";
+import { useState, useEffect } from "react";
 import { useHistory } from "react-router";
 import {supabase} from 'supabase/supabase';
 import HomeIcon from '@material-ui/icons/Home';
@@ -36,7 +36,10 @@ export const NavBar = () => {
       }
     }
   }
-  getRole()
+  useEffect(() => {
+    getRole();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
     const signOut = async () => {
         await supabase.auth.signOut();
         history.push("/");
