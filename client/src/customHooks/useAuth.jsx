@@ -1,27 +1,31 @@
-import { useState } from "react";
+import { Utils } from "stellar-sdk";
 import {
   readChallenge,
   signChallenge,
-  postChallenge,
+  sendChallenge,
 } from "./functionsAuthentication";
-
 
 export default async function useAuth({
   authEndpoint,
-  serverPublicKey,  
+  serverPublicKey,
   publicKey,
   secretKey,
 }) {
-  const [error, setError] = useState();
+  try {
+    const tx = await readChallenge({
+      authEndpoint,
+      serverPublicKey,
+      publicKey,
+    });
 
-  
+    const transaction = await signChallenge({ tx, secretKey });
 
-  readChallenge({ authEndpoint, serverPublicKey, publicKey });
+    let token;
+    if (Utils.verifyTxSignedBy(transaction, publicKey))
+      token = await sendChallenge({ authEndpoint, transaction });
 
-
-  signChallenge({})
-
-  postChallenge({})
-
-  return token;
+    return token;
+  } catch (error) {
+    return error;
+  }
 }

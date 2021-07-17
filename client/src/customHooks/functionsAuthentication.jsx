@@ -40,9 +40,9 @@ export const signChallenge = ({ tx, secretKey }) => {
   };
 
 
-  export const sendChallenge = async ({ authEndpoint, signedChallengeTransaction }) => {
+  export const sendChallenge = async ({ authEndpoint, transaction }) => {
     const params = {
-      transaction: signedChallengeTransaction.toEnvelope().toXDR("base64"),
+      transaction: transaction.toEnvelope().toXDR("base64"),
     };
   
     const urlParams = new URLSearchParams(params);
@@ -54,7 +54,7 @@ export const signChallenge = ({ tx, secretKey }) => {
       headers: { "content-type": "application/x-www-form-urlencoded" },
     });
     if (!result.token) {
-      throw new Error("No token returned from `/auth`");
+      return new Error("No token returned from `/auth`");
     }
   
     return result.token;
