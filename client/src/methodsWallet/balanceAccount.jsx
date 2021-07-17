@@ -14,7 +14,7 @@ export default function BalanceAccount() {
       .from("datauser")
       .select("public_key")
       .eq("id_user", session.user.id);
-      console.log(publicKey)
+      
 
     const cuenta = await server.loadAccount(publicKey?.data[0]?.public_key);
     return setAccount(cuenta)
