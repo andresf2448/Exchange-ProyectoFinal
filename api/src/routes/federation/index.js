@@ -1,5 +1,6 @@
 const router = require("express").Router();
-const supabase = require("supabase");
+const supabase = require("../../supabase/supabase");
+ 
 
 router.get("/", async (req, res) => {
   const { id } = req.query.type;
@@ -59,5 +60,5 @@ router.get("/", async (req, res) => {
     .statusCode(404)
     .json({ error: "No se ha encontrado un usuario valido" });
 });
-
+  
 module.exports = router;
