@@ -6,14 +6,13 @@ export const send = async ({ authEndpoint, signedChallengeTransaction }) => {
   };
 
   const urlParams = new URLSearchParams(params);
-  const result = await axios(authEndpoint, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded",
-    },
-    body: urlParams.toString(),
-  });
 
+  const result = await axios({
+    method: "POST",
+    url: authEndpoint,
+    data: urlParams.toString(),
+    headers: { "content-type": "application/x-www-form-urlencoded" },
+  });
   if (!result.token) {
     throw new Error("No token returned from `/auth`");
   }

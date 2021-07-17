@@ -3,11 +3,11 @@ import axios from "axios";
 
 const startChallenge = async ({
   authEndpoint,
-  serverSigningKey,
+  serverPublicKey,
   publicKey,
-  homeDomain,
+  /* homeDomain, */
 }) => {
-  const params = { account: publicKey, homeDomain };
+  const params = { account: publicKey, /* homeDomain */ };
 
   const authURL = new URL(authEndpoint);
 
@@ -23,9 +23,9 @@ const startChallenge = async ({
 
   const { tx } = Utils.readChallengeTx(
     result.transaction,
-    serverSigningKey,
+    serverPublicKey,
     result.network_passphrase,
-    homeDomain,
+    /* homeDomain, */
     authURL.host
   );
 
