@@ -49,7 +49,7 @@ export default function CreateAccount() {
         username,
         email,
         public_key,
-        federation_Address: null,
+        stellar_address: null,
       },
     ]);
 
