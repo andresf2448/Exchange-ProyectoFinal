@@ -1,6 +1,8 @@
 import { Button, TextField, Select, MenuItem, Grid, Typography, Container } from '@material-ui/core';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import BuyButton from 'components/stripe/buyButton';
+
 //API de cryptocompare.com
 
 export const CryptoCalculator = () => {
@@ -14,30 +16,28 @@ export const CryptoCalculator = () => {
         // console.log(currencies);
         setResult(total);
     }
+
+    useEffect(() => {
+        if (convertion.amount === 0 || convertion.amount === '') {
+            setResult('')
+        }
+    }, [convertion])
+
+    useEffect(() => {
+        setResult('')
+    }, [convertion])
   
     
     return (
     <Container>
         <Grid container className='calculatorContainer'>
-            {/* <form > */}
-            {/* <div className='column'> */}
-
-            {/* <select onChange={(e) => setConvertion({ ...convertion, firstCoin: e.target.value })}>
-
-                <option value="" selected disabled>--First Currency--</option>
-                <option value="USD">USD</option>
-                <option value="EUR">EUR</option>
-                <option value="ARS">ARS</option>
-                <option value="BTC">BTC</option>
-                <option value="ETH">ETH</option>
-
-            </select> */}
+          
             <Grid item sm={12}>
                 <Typography variant='h4'>Converter</Typography>
             </Grid>
 
             <Grid item sm={6}>
-                <Select displayEmpty onChange={(e) => setConvertion({ ...convertion, firstCoin: e.target.value })}>
+                <Select displayEmpty value={convertion.firstCoin} onChange={(e) => setConvertion({ ...convertion, firstCoin: e.target.value })}>
                     <MenuItem disabled>Currency</MenuItem>
                     <MenuItem value='USD'>USD</MenuItem>
                     <MenuItem value='EUR'>EUR</MenuItem>
@@ -47,22 +47,12 @@ export const CryptoCalculator = () => {
                 </Select>
 
 
-                {/* <input type="number" placeholder='amount' onChange={(e) => setConvertion({ ...convertion, amount: e.target.value })} /> */}
-                <TextField required margin='normal' placeholder='amount' onChange={(e) => setConvertion({ ...convertion, amount: e.target.value })} />
+                
+                <TextField required margin='normal' placeholder='Amount' onChange={(e) => setConvertion({ ...convertion, amount: e.target.value })} />
             </Grid>
 
             <Grid item sm={6}>
-                {/* </div>
-        <div className='column'> */}
-
-                {/* <select onChange={(e) => setConvertion({ ...convertion, secondCoin: e.target.value })}>
-                <option value="" selected disabled>Second Currency</option>
-                <option value="USD">USD</option>
-                <option value="EUR">EUR</option>
-                <option value="ARS">ARS</option>
-                <option value="BTC">BTC</option>
-                <option value="ETH">ETH</option>
-            </select> */}
+       
                 <Select displayEmpty onChange={(e) => setConvertion({ ...convertion, secondCoin: e.target.value })}>
                     <MenuItem disabled>Currency</MenuItem>
                     <MenuItem value='USD'>USD</MenuItem>
@@ -71,14 +61,22 @@ export const CryptoCalculator = () => {
                     <MenuItem value='BTC'>Bitcoin</MenuItem>
                     <MenuItem value='ETH'>Ethereum</MenuItem>
                 </Select>
-                {/* <input type="number" disabled value={result} /> */}
+               
                 <TextField disabled={true} value={result} margin='normal' />
-                {/* </div> */}
-                {/* <input type="button" value='Convert' onClick={() => convert()} /> */}
-                {/* </form> */}
-
+              
             </Grid>
-            <Button fullWidth={true} variant="contained" onClick={() => convert()}>Convert</Button>
+            <Button 
+            fullWidth={true} 
+            variant="contained" 
+            onClick={() => convert()}
+            disabled={convertion.firstCoin === '' || convertion.secondCoin === '' || convertion.amount === 0 || convertion.amount === ''}
+            >
+                Convert
+                </Button>
+            <BuyButton 
+            convertion={convertion}
+            result={result} 
+            />
         </Grid>
 
     </Container>)
@@ -86,13 +84,3 @@ export const CryptoCalculator = () => {
 
 }
 
-
-
-
-
-// const classes = useStyles();
-//     return(
-//         <Paper className={classes.root} style={{ height: "20.5rem" }}>
-//             CRYPTOCALCULATOR
-//         </Paper>
-//     )
