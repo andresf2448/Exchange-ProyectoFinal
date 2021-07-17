@@ -22,8 +22,12 @@ export const Twitter = () => {
         handleSocket();
     },[]);
 
-    useEffect(()=>{
-        console.log('soy array', arr)
+    useEffect(()=> {
+        if(arr.length > 3) {
+            setTimeout(() =>{
+                setArr([])
+            }, 8000)
+        }
     },[arr])
 
     const handleSocket = () => { 
@@ -37,29 +41,20 @@ export const Twitter = () => {
                 likes: tweet.data.public_metrics.like_count,
                 retweet: tweet.data.public_metrics.retweet_count,
             }
-
             if(arr === []) {
                 setArr(TweetData);
             }
-            else {
+            else if(arr.length < 5) {
                 setArr((prevState)=>{ 
                     return [
                     ...prevState, TweetData
                 ]});
-            }
-                setTimeout(() => {
-                    setArr((prevState) => { 
-                        let newState = prevState.reverse();
-                        return  arr = newState.splice(0, 3);
-                    });
-                }, 15000);
-            
-        
+            }     
         })
     }
 
     return(
-              <Grid container>
+              <Grid container spacing={3}>
                   {arr ?
                   arr.map((twitt)=>{
                       return <TwittCard data={twitt}/>
