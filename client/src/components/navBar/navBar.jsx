@@ -12,6 +12,7 @@ import { Settings } from 'containers/settings/settings';
 import { ShowUserData } from 'components/showUserData/showUserData';
 import  Faq  from 'components/faq/faq';
 import { AdministratorUser } from "components/administratorUser/admistratorUser";
+import Trade from "containers/trade/trade";
 
 export const NavBar = () => {
   const history = useHistory();
@@ -65,7 +66,7 @@ export const NavBar = () => {
            {value === 1 && <About/>}
            {value === 2 && <Exchanges/>}
            {value === 3 && <WalletContainer/>}
-           {value === 4 && <Balance/>}
+           {value === 4 && <Trade/>}
            {value === 5 && <Settings/>}  
            {value === 6 && <Faq/>}   
            {value === 8 && <AdministratorUser />}
