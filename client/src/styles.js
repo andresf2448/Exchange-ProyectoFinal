@@ -14,6 +14,10 @@ const useStyles = makeStyles(theme => ({
     width: '200px'
   },
   badge: {
+    display: ' flex',
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    paddingTop: '10px',
     marginRight: '10px',
     color: theme.palette.primary.contrastText
   },
@@ -24,12 +28,30 @@ const useStyles = makeStyles(theme => ({
   },
   cryptoCurrency: {
     display: 'flex',
-    justifyContent: 'space-around',
-    backgroundColor: theme.palette.primary.contrastText
+    flexDirection: 'column',
+    backgroundColor: theme.palette.primary.contrastText,
+    justifyContent: 'center',
   },
   offerTableHead: {
     backgroundColor: theme.palette.primary.light
   },
+  tooltip: {
+    borderRadius: "5px",
+    background: "#26313c",
+    color: "#fff",
+    paddingLeft: "2px",
+    paddingRigth: "2px",
+    boxShadow: "15px 30px 40px 5px rgba(0, 0, 0, 0.5)",
+    textAlign: "center"
+  },
+  cryptoChart: {
+    display: 'flex',
+    justifyContent: "center"
+  },
+  tableScroll: {
+    maxHeight: 500
+  }
+
 }));
 
 export default useStyles;

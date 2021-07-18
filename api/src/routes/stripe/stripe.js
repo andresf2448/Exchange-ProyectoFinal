@@ -4,7 +4,7 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY)
 
 
 router.post('/', async (req, res) => {
-    console.log('veamos que onda el req.body', req.body)
+    
     const { currency, amount } = req.body
    
     let centavoAmount = amount * 100

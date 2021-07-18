@@ -1,7 +1,6 @@
 import { Badge, Container, Grid } from "@material-ui/core";
 import useStyles from "styles.js";
-import DirectionsRunIcon from "@material-ui/icons/DirectionsRun";
-import { supabase } from "supabase/supabase";
+import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';import { supabase } from "supabase/supabase";
 
 
 export const ShowUserData = () => {
@@ -14,12 +13,10 @@ export const ShowUserData = () => {
     <Container>
       <Grid container >
         <Badge className={classes.badge}>
-          <DirectionsRunIcon />
+          <MonetizationOnIcon />
         </Badge>
-        <Badge className={classes.badge}>USER: {email}</Badge>
-        <Badge className={classes.badge}>ACCOUNT</Badge>
-        <Badge className={classes.badge}>BALANCE</Badge>
-        <Badge className={classes.badge}>SOMETHING ELSE...</Badge>
+        <Badge className={classes.badge}>Logged as: {email}</Badge>
+     
       </Grid>
     </Container>
   );

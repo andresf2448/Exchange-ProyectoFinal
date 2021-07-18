@@ -8,6 +8,7 @@ import {
   TextField,
   FormControl,
   Link,
+  Grid,
 } from "@material-ui/core";
 
 import { supabase } from "supabase/supabase";
@@ -15,13 +16,13 @@ import { supabase } from "supabase/supabase";
 export const Login = () => {
   const history = useHistory();
 
-  const [data, setdata] = useState({
+  const [data, setData] = useState({
     email: "",
     password: "",
   });
 
   function handleOnChange(e) {
-    setdata({
+    setData({
       ...data,
       [e.target.name]: e.target.value,
     });
@@ -60,46 +61,49 @@ export const Login = () => {
   return (
     <Container maxWidth="sm">
       {session ? history.push("/home") : null}
-      <form onSubmit={handleSubmit}>
-        <FormControl>
-          <Typography variant="h3"> LOGIN</Typography>
-          <TextField
-            required
-            label="Email"
-            name="email"
-            type="text"
-            value={data.email}
-            onChange={handleOnChange}
-          />
-          <TextField
-            required
-            label="Password"
-            name="password"
-            type="password"
-            value={data.password}
-            onChange={handleOnChange}
-          />
-              
-           {/* this button goes first for the submit function when pressing enter */}
-          <Button type="submit" variant="contained" color="primary">
-            Login
-          </Button> 
-          <Button variant="contained" color="primary" onClick={singUpRoute}>
-            Sing up
-          </Button>
-          <Link component="button" onClick={recoverPassword}>
-            Recover password
-          </Link>
-        </FormControl>
-      </form>
+      <Typography variant="h3" gutterBottom> LOGIN</Typography>
+      <Grid container>
+        <Grid item xs={12}>
+          <form onSubmit={handleSubmit}>
+            <FormControl>
+              <TextField
+                required
+                label="Email"
+                name="email"
+                type="text"
+                value={data.email}
+                onChange={handleOnChange}
+              />
+              <TextField
+                required
+                label="Password"
+                name="password"
+                type="password"
+                value={data.password}
+                onChange={handleOnChange}
+              />
 
-      <Link
-        component="button"
-        onClick={() => handleOAuthLogin("google")}
-      >
-        Sign in with your Google account
-      </Link>
-      <div></div>
+              {/* this button goes first for the submit function when pressing enter */}
+              <Button type="submit" variant="contained" color="primary">
+                Login
+              </Button>
+              <Button variant="contained" color="primary" onClick={singUpRoute}>
+                Sing up
+              </Button>
+            </FormControl>
+          </form>
+        </Grid>
+        <Grid item xs={12}>
+          <Link component="button" onClick={()=>recoverPassword()}>
+            Forgot your password?
+          </Link>
+        </Grid>
+        <Grid item xs={12}>
+          <Link component="button" onClick={() => handleOAuthLogin("google")}>
+            Sign in with your Google account
+          </Link>
+        </Grid>
+      </Grid>
     </Container>
   );
 };

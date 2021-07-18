@@ -4,5 +4,6 @@ module.exports = {
   transaction: require('./transaction/transaction'),
   acount: require('./createWallet/acount'),
   stripe: require('./stripe/stripe'),
+  federation: require('./federation'),
   index: router
 };

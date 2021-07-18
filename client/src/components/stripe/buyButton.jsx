@@ -11,7 +11,7 @@ export default function BuyButton({convertion, result}) {
     const handleBuy = () => {
         dispatch(waitingClientSecret())
         dispatch(getClientSecret({currency: convertion.firstCoin, amount: convertion.amount}))
-        history.push('/stripe')
+        history.push('/payment')
     }
 
     return (

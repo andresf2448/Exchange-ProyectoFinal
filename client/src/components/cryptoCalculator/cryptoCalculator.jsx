@@ -21,10 +21,8 @@ export const CryptoCalculator = () => {
             return alert('Something went wrong');
         }
         var total = Object.values(currencies.data)[0] * convertion.amount;
-        // console.log(currencies);
-        
+         
         setResult(total);
-    
     }
 
     function handleChange(orderCoin, e){
@@ -39,7 +37,6 @@ export const CryptoCalculator = () => {
         setConvertion({ ...convertion, secondCoin: e.target.value })
     }
 
-
     useEffect(() => {
         if (convertion.amount === 0 || convertion.amount === '') {
             setResult('')
@@ -50,11 +47,10 @@ export const CryptoCalculator = () => {
         setResult('')
     }, [convertion])
   
-    
     return (
     <Container>
-        <Grid container className='calculatorContainer'>
-          
+        <Grid container className='calculatorContainer'>   
+
             <Grid item sm={12}>
                 <Typography variant='h4'>Converter</Typography>
             </Grid>
@@ -68,9 +64,7 @@ export const CryptoCalculator = () => {
                     <MenuItem value='BTC'>Bitcoin</MenuItem>
                     <MenuItem value='ETH'>Ethereum</MenuItem>
                 </Select>
-
-
-                
+    
                 <TextField required margin='normal' placeholder='Amount' onChange={(e) => setConvertion({ ...convertion, amount: e.target.value })} />
             </Grid>
 
@@ -94,8 +88,8 @@ export const CryptoCalculator = () => {
             onClick={() => convert()}
             disabled={convertion.firstCoin === '' || convertion.secondCoin === '' || convertion.amount === 0 || convertion.amount === ''}
             >
-                Convert
-                </Button>
+            Convert
+            </Button>
             <BuyButton 
             convertion={convertion}
             result={result} 

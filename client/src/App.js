@@ -6,6 +6,8 @@ import { Home } from "containers/home/home";
 import { RecoverPassword } from "components/recoverPassword/recoverPassword";
 import CheckoutForm from "components/stripe/checkoutForm";
 
+import TradingView from "components/tradingView/tradingView";
+import RestorePassword from "components/restorePassword/restorePassword";
 
 import "./App.scss";
 
@@ -14,12 +16,15 @@ function App() {
     <Router>
       <div className="App">
         <Route exact path="/" component={Login} />
-        <Route path="/register" component={Register} />  
+        <Route path="/register" component={Register} />
         <Route path="/home" component={Home} />
         <Route path="/recoverPassword" component={RecoverPassword} />
-        <Route path="/stripe" component={CheckoutForm} />
+        <Route path="/payment" component={CheckoutForm} />
+        <Route path='/tv' component={TradingView}/>
+        <Route path="/restorePassword" component={RestorePassword} />
+
       </div>
-    </Router>  
+    </Router>
   );
 }
 
