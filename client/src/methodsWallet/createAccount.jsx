@@ -5,12 +5,12 @@ import useStyles from "styles";
 import { supabase } from "supabase/supabase";
 
 export default function CreateAccount() {
-  const classes = useStyles();
-  const session = supabase.auth.session();
-  const userName = useRef("");
   const [publicKey, setPublicKey] = useState();
   const [secretKey, setSecretKey] = useState();
   const [hasWallet, setHasWallet] = useState(false);
+  const classes = useStyles();
+  const userName = useRef("");
+  const session = supabase.auth.session();
 
   const userExist = async () => {
     let { data } = await supabase
@@ -18,21 +18,19 @@ export default function CreateAccount() {
       .select("public_key")
       .eq("id_user", session.user.id);
 
-    console.log(data);
-
-    if (data.length === 0) setHasWallet(false);
     if (data.length > 0) {
-      setHasWallet(true);
+      return setHasWallet(true);
     }
+    return setHasWallet(false);
   };
+
+  userExist();
 
   const createdAccounts = async (event) => {
     event.preventDefault();
     const response = await axios.get("http://localhost:3001/createWallet");
     const { publicKey, secretKey } = response.data;
     const { user } = session;
-
-    userExist();
 
     let id_user = user.id;
     let username = userName.current.value;
@@ -49,7 +47,7 @@ export default function CreateAccount() {
         username,
         email,
         public_key,
-        federation_Address: null,
+        stellar_address: null,
       },
     ]);
 
@@ -60,6 +58,8 @@ export default function CreateAccount() {
         secret_key,
       },
     ]);
+
+    return setHasWallet(true)
   };
 
   return (
@@ -71,13 +71,11 @@ export default function CreateAccount() {
         <form onSubmit={createdAccounts}>
           <label> User Name :</label>
 
-          {/* // pendiente validacioon */}
           <input ref={userName} required />
-          {!publicKey && (
-            <Button className={classes.button} color="secondary" type="submit">
-              Crear Wallet
-            </Button>
-          )}
+
+          <Button className={classes.button} color="secondary" type="submit">
+            Crear Wallet
+          </Button>
         </form>
       )}
     </div>
