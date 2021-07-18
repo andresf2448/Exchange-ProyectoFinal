@@ -19,6 +19,7 @@ server.use((req, res, next) => {
 
   server.use('/transaction', routes.transaction)
   server.use('/createWallet', routes.acount)
+  server.use('/create-payment-intent', routes.stripe)
 
   server.use((err, req, res, next) => { // eslint-disable-line no-unused-vars
     const status = err.status || 500;
