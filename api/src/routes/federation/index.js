@@ -40,14 +40,14 @@ router.get("/", async (req, res) => {
   if (txid) {
     const { data: hash } = await supabase
       .from("transactionId")
-      .select("*")
-      .eq("id", id);
+      .select("id_user")
+      .eq("id", txid);
 
-    if (hash[0]?.id) {
+    if (hash[0]?.id_user) {
       const { data: response } = await supabase
         .from("datauser")
         .select("stellar_address", "public_key")
-        .eq("id", id);
+        .eq("id_user", hash[0].id_user);
 
       return res.json({
         stellar_address: response[0]?.stellar_address,
