@@ -6,13 +6,12 @@ router.get("/", async (req, res) => {
 
   if (!id && !stellar_transaction_id && !external_transaction_id)
     return res.json("parameters not provided");
-    
+
   if (id) {
     try {
       const { data } = await supabase
         .from("transactions")
         .select(
-          "id",
           "kind",
           "status",
           "status_eta",
@@ -27,7 +26,7 @@ router.get("/", async (req, res) => {
         .eq("id", id);
 
       let response = {
-        id: data[0].id,
+        id: id,
         kind: data[0].kind,
         status: data[0].status,
         status_eta: data[0].status_eta,
