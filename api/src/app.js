@@ -16,7 +16,11 @@ server.use((req, res, next) => {
     res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
     next();
   });
-
+  
+  server.use('/federation', routes.federation)
+  server.use('/info', routes.info)
+  server.use('/transactions', routes.transactions)
+  server.use('/payment', routes.payment)
   server.use('/transaction', routes.transaction)
   server.use('/createWallet', routes.acount)
   server.use('/create-payment-intent', routes.stripe)
