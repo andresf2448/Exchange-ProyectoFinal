@@ -39,9 +39,9 @@ router.get("/", async (req, res) => {
 
   if (txid) {
     const { data: hash } = await supabase
-      .from("transactionId")
+      .from("transactions")
       .select("id_user")
-      .eq("id", txid);
+      .eq("stellar_transaction_id", txid);
 
     if (hash[0]?.id_user) {
       const { data: response } = await supabase
