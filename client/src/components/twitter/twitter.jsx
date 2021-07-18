@@ -1,5 +1,4 @@
-import { Box, Grid } from '@material-ui/core';
-// import 'bootstrap/dist/css/bootstrap.min.css';
+import { Grid } from '@material-ui/core';
 import React, { useEffect } from 'react';
 import io from 'socket.io-client';
 import './twitter.css'
@@ -15,16 +14,16 @@ var connectionOptions =  {
 };
 
 export const Twitter = () => {
-
-    let [arr, setArr] = useState([])
+    let [arr, setArr] = useState([]);
 
     useEffect(() =>{  
         handleSocket();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     },[]);
 
     useEffect(()=> {
-        if(arr.length > 3) {
-            setTimeout(() =>{
+        if(arr.length >= 5) {
+            setTimeout(() => { 
                 setArr([])
             }, 8000)
         }
@@ -33,35 +32,33 @@ export const Twitter = () => {
     const handleSocket = () => { 
         const socketClient = io(SERVER, connectionOptions );
         socketClient.on('tweet', (tweet) => {
-            // console.log('soy tweet', tweet)
             let TweetData = {
                 id: tweet.data.id,
-                text: tweet.data.text,
+                text: tweet.data.text.slice(0, 130),
                 username: `@${tweet.includes.users[0].username}`,
                 likes: tweet.data.public_metrics.like_count,
                 retweet: tweet.data.public_metrics.retweet_count,
             }
+
             if(arr === []) {
                 setArr(TweetData);
             }
-            else if(arr.length < 5) {
+            else {
                 setArr((prevState)=>{ 
                     return [
-                    ...prevState, TweetData
+                        ...prevState, TweetData
                 ]});
             }     
         })
     }
 
     return(
-              <Grid container spacing={3}>
-                  {arr ?
-                  arr.map((twitt)=>{
-                      return <TwittCard data={twitt}/>
-                  }):
-                  ""
-                }
-              </Grid>
+            <Grid container spacing={3}>
+                {arr.length <= 4 && arr.map((twitt)=> {
+                    return <TwittCard data={twitt}/>}
+                )}                   
+            </Grid>
+
     )
 }
 

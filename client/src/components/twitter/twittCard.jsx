@@ -1,51 +1,76 @@
-import { Grid, Paper, Typography } from "@material-ui/core";
-import CardActionArea from '@material-ui/core/CardActionArea';
+import { Button, Grid, Paper, Typography } from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles';
+import Grow from '@material-ui/core/Grow';
 
 const  useStyles = makeStyles({
     root: {
-      maxWidth: 345,
+      width: '100%',
+      height: '100%',
+      margin: 'auto',
+      padding: '40px',
+      justifyContent: 'justify',
+      alignItems: "center",
+      justify:"center"
     },
-    media: {
+    paper: {
       height: 250,
+      paddingTop: 20,
+      justifyContent:"justify",
     },
-    title: {
-        fontSize: 14,
+    content: {
+        padding: 5,
+        fontSize: 18,
+        textAlign: "justify",
+    },  
+    link: {
+        margin: 4,
+        color: '#1DA1F2'
     },
-    pos: {
-        marginTop: 2,
-    }      
+    userMetrics: {
+        fontSize: 18,
+        bottom: 0,
+    },
+    user: {
+        fontWeight: 'bold', 
+        marginBottom: 5
+    }, 
+    publicMetrics: {
+        textAlign: 'center',
+        direction: 'row',
+        fontWeight: 'bold',
+        margin: 5,
+    }    
 });
 
-export default function TwittCard(props){
-    const {text, username, likes, retweet} = props.data;
+export default function TwittCard(props) {
+    const { text, username, likes, retweet, id } = props.data;
     const classes = useStyles();
 
     return(
-        <Grid container item sm={3} className={classes.root}>
-            <CardActionArea>
-                <Paper elevation={5} className={classes.media}>
-                    <Typography item sm={6} className={classes.pos}>
-                        {text}
+        <Grow container in='true' timeout='auto'>
+            <Grid item sm={3} className={classes.root} spacing={2}>
+                <Paper container sm={12} elevation={4} variant="outlined" className={classes.paper}>
+                    <Typography item sm={6} className={classes.content}>
+                            {text}...
+                            <Button item sm={12} className={classes.link} href={`https://twitter.com/${username}/status/${id}`}>
+                                See on twitter 
+                            </Button>
                     </Typography>
-                    <Grid item sm={12}>
-                    {username}
-                    </Grid>
-                    <Grid item sm={12}>
-                        <Grid item sm={6}>
-                        ❤️ {likes}
+                    <Grid className={classes.userMetrics}>
+                        <Typography  className={classes.user}>
+                            {username}
+                        </Typography >
+                        <Grid container sm={12} className={classes.publicMetrics}>
+                            <Grid item sm={6}>
+                                ❤️ {likes}
+                            </Grid>
+                            <Grid item sm={6}>
+                                🔁 {retweet}
+                            </Grid>
                         </Grid>
-                        <Grid item sm={6}>
-                        🔁 {retweet}
-                        </Grid>
-                    </Grid>
-                    <Grid item sm={12}>
-                    <a className='btn btn-primary px-2' href={`https://twitter.com/${props.username}/status/${props.id}`}>
-                    See on twitter! </a>
                     </Grid>
                 </Paper>
-            </CardActionArea>
-
-        </Grid>
+            </Grid>
+        </Grow>
     )
 }
