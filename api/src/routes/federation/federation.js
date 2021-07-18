@@ -3,9 +3,7 @@ const supabase = require("../../supabase/supabase");
  
 
 router.get("/", async (req, res) => {
-  const { id } = req.query.type;
-  const { name } = req.query.type;
-  const { txid } = req.query.type;
+  const { id, name, txid } = req.query.type;
   const data = req.query.q;
 
   if (name) {
