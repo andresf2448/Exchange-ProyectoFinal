@@ -4,6 +4,8 @@ import { Login } from "components/login/login";
 import { Register } from "components/register/register";
 import { Home } from "containers/home/home";
 import { RecoverPassword } from "components/recoverPassword/recoverPassword";
+import CheckoutForm from "components/stripe/checkoutForm";
+
 import TradingView from "components/tradingView/tradingView";
 import RestorePassword from "components/restorePassword/restorePassword";
 
@@ -17,8 +19,9 @@ function App() {
         <Route path="/register" component={Register} />
         <Route path="/home" component={Home} />
         <Route path="/recoverPassword" component={RecoverPassword} />
+        <Route path="/payment" component={CheckoutForm} />
         <Route path='/tv' component={TradingView}/>
-                <Route path="/restorePassword" component={RestorePassword} />
+        <Route path="/restorePassword" component={RestorePassword} />
 
       </div>
     </Router>

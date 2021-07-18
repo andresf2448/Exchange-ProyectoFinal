@@ -4,6 +4,7 @@ import {AboutPreview} from 'components/aboutPreview/aboutPreview';
 import {Statistics} from 'components/statistics/statistics';
 import {CryptoCalculator} from 'components/cryptoCalculator/cryptoCalculator';
 
+
 export const HomeGrid= ()=>{
     return (
 
@@ -25,6 +26,7 @@ export const HomeGrid= ()=>{
                 </Grid>
                 <Grid item style={{ width: "100%" }} className="crypto-calculator" xs={3}>
                     <CryptoCalculator/>
+                    
                 </Grid>
             </Grid>
         </Container>
