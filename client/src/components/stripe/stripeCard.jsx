@@ -8,7 +8,7 @@ export default function StripeCard() {
 
     return (
         <div className='cardStripeContainer'>
-            Card details
+            <h1>Card details</h1>
             <CardElement className='StripeElement' />
         </div>
     )

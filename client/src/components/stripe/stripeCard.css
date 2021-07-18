@@ -31,3 +31,7 @@
   .StripeElement--webkit-autofill {
     background-color: #fefde5 !important;
   }
+
+  #confirm-stripe {
+    display: none;
+  }

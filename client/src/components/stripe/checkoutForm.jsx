@@ -3,9 +3,12 @@ import { useStripe, useElements, CardElement } from "@stripe/react-stripe-js";
 import { useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { supabase } from "supabase/supabase";
+import {Button} from '@material-ui/core'
+import './stripeCard.css'
 
 import CardForm from "./stripeCard";
 import { deleteClientSecret } from "redux/actions/actions";
+import { useRef } from "react";
 
 export default function CheckoutForm() {
   const history = useHistory();
@@ -16,13 +19,18 @@ export default function CheckoutForm() {
   
   const [payment, setPayment] = useState(false);
   const [error, setError] = useState(false);
+  const [waiting, setWaiting] = useState(false)
   
   const session = supabase.auth.session()
+
+  const inputEl = useRef(null)
 
   
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setWaiting(() => true)
+    setError(() => false)
 
     if (!stripe || !elements) return;
 
@@ -33,17 +41,17 @@ export default function CheckoutForm() {
       .eq('id_user', session.user.id)
 
       if(error) return alert(error.message)
-      console.log('dasdadasdasdada', data)
+      
 
       const result = await stripe.confirmCardPayment(clientSecret, {
         payment_method: {
           card: elements.getElement(CardElement),
           billing_details: {
-            name: "Jenny Rosen",
+            name: data[0]?.email || 'Juan Perez',
           },
         },
       });
-
+      setWaiting(false)
       if (result.error) {
         setError(result.error.message);
       } else if (result.paymentIntent.status === "succeeded") {
@@ -69,13 +77,18 @@ export default function CheckoutForm() {
     return <h1>Loading...</h1>
   }
 
+  const handleConfirm = () => {
+    inputEl.current.click()
+  }
+
   return (
     <>
-      
       <form onSubmit={handleSubmit}>
         <CardForm />
-        <button disabled={!stripe}>Confirm order</button>
+        <Button onClick={handleConfirm} color='primary' variant="contained" disabled={payment}>Confirm order</Button>
+        <input ref={inputEl} type='submit' id='confirm-stripe' name='confirm-stripe' disabled={!stripe}/>
       </form>
+      {waiting ? <h3>Loading...</h3> : null}
       {payment ? (
         <div>
           <h1>Succes !!</h1>
@@ -83,14 +96,14 @@ export default function CheckoutForm() {
             Your payment of {payment.amount / 100}{" "}
             {payment.currency.toUpperCase()} was successful!
           </h3>
-          <button onClick={backHome}>Back Home</button>
+          <Button color='primary' variant="contained" onClick={backHome}>Back Home</Button>
         </div>
       ) : error === 'Your card has insufficient funds.' ? (
         <>
         <h1>{error}</h1>
         <h2>Try again with other card</h2>
         <h2>Or</h2>
-        <button onClick={backHome}>Back Home</button>
+        <Button color='primary' variant="contained" onClick={backHome}>Back Home</Button>
         </>
       ) : error ? 
       <h1>{error}</h1>
