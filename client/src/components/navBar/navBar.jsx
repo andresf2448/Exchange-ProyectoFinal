@@ -4,10 +4,7 @@ import { useHistory } from "react-router";
 import {supabase} from 'supabase/supabase';
 import HomeIcon from '@material-ui/icons/Home';
 import { HomeGrid } from 'containers/homeGrid/homeGrid';
-import { About } from 'components/about/about';
-import { Exchanges } from 'components/exchanges/exchanges';
 import WalletContainer from 'containers/walletContainer/walletContainer';
-import { Balance } from 'components/balance/balance';
 import { Settings } from 'containers/settings/settings';
 import { ShowUserData } from 'components/showUserData/showUserData';
 import  Faq  from 'components/faq/faq';
@@ -47,11 +44,9 @@ export const NavBar = () => {
     };
     return(
         <>
-            <AppBar position="static">
-                <Tabs value={value} onChange={handleChange} centered={true}>
+            <AppBar position="static" >
+                <Tabs value={value} variant='scrollable' onChange={handleChange} centered={true}>
                     <Tab label={<HomeIcon/>} />
-                    <Tab label="About" />
-                    <Tab label="Other Exchanges" />
                     <Tab label="Wallet" />
                     <Tab label="Trade"/>
                     <Tab label="Settings" />
@@ -61,15 +56,13 @@ export const NavBar = () => {
                 </Tabs>
             </AppBar>
 
-           {value!== 7 && <ShowUserData/>}
+           {value!== 5 && <ShowUserData/>}
            {value === 0 && <HomeGrid/>}
-           {value === 1 && <About/>}
-           {value === 2 && <Exchanges/>}
-           {value === 3 && <WalletContainer/>}
-           {value === 4 && <Trade/>}
-           {value === 5 && <Settings/>}  
-           {value === 6 && <Faq/>}   
-           {value === 8 && <AdministratorUser />}
+           {value === 1 && <WalletContainer/>}
+           {value === 2 && <Trade/>}
+           {value === 3 && <Settings/>}  
+           {value === 4 && <Faq/>}   
+           {value === 6 && <AdministratorUser />}
 
         </>
     )
