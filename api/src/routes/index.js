@@ -5,6 +5,7 @@ module.exports = {
   transaction: require('./transaction/transaction'),
   payment: require('./payment/payment'),
   acount: require('./createWallet/acount'),
+  twitter: require('./twitter/twitter'),
   stripe: require('./stripe/stripe'),
   federation: require('./federation/federation'),
   transactions: require('./transactions/transactions'),

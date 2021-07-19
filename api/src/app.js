@@ -23,13 +23,14 @@ server.use((req, res, next) => {
   server.use('/payment', routes.payment)
   server.use('/transaction', routes.transaction)
   server.use('/createWallet', routes.acount)
+  server.use('/twitter', routes.twitter);
   server.use('/create-payment-intent', routes.stripe)
 
-  server.use((err, req, res, next) => { // eslint-disable-line no-unused-vars
-    const status = err.status || 500;
-    const message = err.message || err;
-    console.error(err);  
-    res.status(status).send(message);
-  });
+server.use((err, req, res, next) => { // eslint-disable-line no-unused-vars
+  const status = err.status || 500;
+  const message = err.message || err;
+  console.error(err);  
+  res.status(status).send(message);
+});
 
-  module.exports = server;
+module.exports = server;

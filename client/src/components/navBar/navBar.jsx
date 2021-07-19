@@ -45,7 +45,7 @@ export const NavBar = () => {
     return(
         <>
             <AppBar position="static" >
-                <Tabs value={value} variant='scrollable' onChange={handleChange} centered={true}>
+                <Tabs value={value} variant='scrollable' onChange={handleChange} centered='true'>
                     <Tab label={<HomeIcon/>} />
                     <Tab label="Wallet" />
                     <Tab label="Trade"/>

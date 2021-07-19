@@ -8,6 +8,8 @@ import chzIcon from "./cryptoIcons/chili.jpg";
 import filIcon from "./cryptoIcons/filecoin.png";
 import adaIcon from "./cryptoIcons/ada2.png";
 import bnbIcon from "./cryptoIcons/binance.png";
+import dotIcon from "./cryptoIcons/dot.png"
+import axsIcon from "./cryptoIcons/axies.png"
 import CryptoCard from "./cryptoCard";
 
 let ethSocket;
@@ -16,6 +18,8 @@ let chzSocket;
 let filSocket;
 let adaSocket;
 let bnbSocket;
+let dotSocket;
+let axsSocket;
 
 export const CryptoGraphics = () => {
   // Coins states
@@ -61,9 +65,25 @@ export const CryptoGraphics = () => {
     color: "equal",
     img: bnbIcon,
   });
+  const [dot, setDot] = useState({
+    symbol: "DOT",
+    prevPrice: 0,
+    price: 0,
+    color: "equal",
+    img: dotIcon,
+  });
+  const [axs, setAxs] = useState({
+    symbol: "AXS",
+    prevPrice: 0,
+    price: 0,
+    color: "equal",
+    img: axsIcon,
+  });
+
+
   const [connection, setConnection] = useState(true);
 
-  let renderData = [eth, btc, chz, fil, ada, bnb];
+  let renderData = [eth, btc, chz, fil, ada, bnb, dot, axs];
 
   function handleConnection() {
     if (connection === true) {
@@ -85,6 +105,14 @@ export const CryptoGraphics = () => {
       bnbSocket = new WebSocket(
         "wss://stream.binance.com:9443/ws/bnbusdt@trade"
       );
+      dotSocket = new WebSocket(
+        "wss://stream.binance.com:9443/ws/dotusdt@trade"
+      );
+      axsSocket = new WebSocket(
+        "wss://stream.binance.com:9443/ws/axsusdt@trade"
+      );
+
+      console.log('test');
 
       // websockets errors handlers
       ethSocket.onerror = (event) => {
@@ -103,6 +131,12 @@ export const CryptoGraphics = () => {
         console.log(event);
       };
       bnbSocket.onerror = (event) => {
+        console.log(event);
+      };
+      dotSocket.onerror = (event) => {
+        console.log(event);
+      };
+      axsSocket.onerror = (event) => {
         console.log(event);
       };
 
@@ -135,7 +169,14 @@ export const CryptoGraphics = () => {
         let dataFil = JSON.parse(event.data);
         updateQuote(dataFil, setFil);
       };
-
+      dotSocket.onmessage = (event) => {
+        let dataDot = JSON.parse(event.data);
+        updateQuote(dataDot, setDot);
+      };
+      axsSocket.onmessage = (event) => {
+        let dataAxs = JSON.parse(event.data);
+        updateQuote(dataAxs, setAxs);
+      };
       return;
     } else {
       return alert("no connection");
@@ -151,6 +192,8 @@ export const CryptoGraphics = () => {
       filSocket.close();
       adaSocket.close();
       bnbSocket.close();
+      dotSocket.close();
+      axsSocket.close();
       setConnection(false);
     };
     //Do not delete following code, avoid unrrelevant error
@@ -184,7 +227,7 @@ export const CryptoGraphics = () => {
       <Typography variant="h3">Crypto USD trade</Typography>
       <Grid container className="currencyValues" spacing={2}>
           {renderData.map((e, i) => (
-        <Grid item sm={4} key={i}>
+        <Grid item sm={3} key={i}>
             <CryptoCard
               i={i}
               price={e.price}
