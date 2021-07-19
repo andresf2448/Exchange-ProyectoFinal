@@ -14,7 +14,7 @@ export default function CreateAccount() {
   const [hasWallet, setHasWallet] = useState(false);
   const [publicKeyUser, setPublicKeyUser] = useState(null);
   const [secretKeyUser, setSecretKeyUser] = useState(null);
-  
+
   const userExist = async () => {
     let { data } = await supabase
       .from("datauser")
@@ -78,6 +78,7 @@ export default function CreateAccount() {
 
   return (
     <div>
+      {!publicKey && ! secretKey ? null : null}
       {hasWallet ? (
         <div>
           {<div> Esta es su publicKey: {publicKeyUser} </div>}
