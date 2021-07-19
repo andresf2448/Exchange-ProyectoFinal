@@ -1,19 +1,38 @@
-import {Container, Grid} from '@material-ui/core';
+import { Container, Grid } from "@material-ui/core";
+import { CryptoGraphics } from "components/cryptoGraphics/cryptoGraphics";
 import { Twitter } from 'components/twitter/twitter';
-// import {CryptoGraphics} from 'components/cryptoGraphics/cryptoGraphics';
 
-
-export const HomeGrid= ()=>{
-    return (
-        <Container maxWidth="lg">
-            <Grid container m={12} className="home-container" spacing={2} justifyContent="center" alignContent="space-around">
-                <Grid item className="crypto-graphics" m={12}>
-                    {/* <CryptoGraphics /> */}
-                </Grid>
-                <Grid item className="crypto-graphics" m={12}>
-                    <Twitter />
-                </Grid>
+export const HomeGrid = () => {
+  return (
+    <Container maxWidth="lg">
+      <Grid
+        container
+        className="home-container"
+        spacing={2}
+        justifyContent="center"
+      >
+        <Grid
+          item
+          xs={12}
+          container
+          spacing={2}
+          justifyContent="center"
+          alignContent="space-around"
+        >
+          <Grid item className="crypto-graphics" xs={12}>
+            <CryptoGraphics />
+          </Grid>
+          <Grid
+            container
+            className="home-container_boxLeft--bottom"
+            spacing={2}
+          >
+            <Grid item xs={12}>
+              <Twitter />
             </Grid>
-        </Container>
-    )
-}
+          </Grid>
+        </Grid>
+      </Grid>
+    </Container>
+  );
+};

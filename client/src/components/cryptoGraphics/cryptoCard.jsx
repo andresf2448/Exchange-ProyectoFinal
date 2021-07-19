@@ -12,7 +12,7 @@ const CryptoCard = (props) => {
     <>
         <Card className={classes.cryptoCurrency}>
                 <Grid container>
-                  <Grid item sm={6} >
+                  <Grid item sm={4} >
                     <img className="cryptoIcons" src={img} alt="no img" />
                   </Grid>
                   <Grid item sm={6}>
