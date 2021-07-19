@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+[0:42, 19/7/2021] Julián Ruiz Henry: import React, { useState, useEffect } from "react";
 import StellarSdk from "stellar-sdk";
 import { supabase } from "../supabase/supabase";
 import CreateAccount from "./createAccount";
@@ -24,59 +24,101 @@ export default function BalanceAccount() {
     }
   };
 
-  const getBalance = async () => {
+  const getBalance…
+[0:42, 19/7/2021] Julián Ruiz Henry: import React, { useState, useRef } from "react";
+import axios from "axios";
+import { Button } from "@material-ui/core";
+import useStyles from "styles";
+import { supabase } from "supabase/supabase";
+import { useEffect } from "react";
+
+export default function CreateAccount() {
+  const classes = useStyles();
+  const session = supabase.auth.session();
+  const userName = useRef("");
+  const [publicKey, setPublicKey] = useState();
+  const [secretKey, setSecretKey] = useState();
+  const [hasWallet, setHasWallet] = useState(false);
+  const [publicKeyUser, setPublicKeyUser] = useState(null);
+  const [secretKeyUser, setSecretKeyUser] = useState(null);
+
+  const userExist = async () => {
     let { data } = await supabase
       .from("datauser")
       .select("public_key")
       .eq("id_user", session.user.id);
 
-    await server
-      .loadAccount(data[0]?.public_key)
-      .then((response) => setAccount(response))
-      .catch((err) => console.log(err));
+    if (data.length === 0) {
+      setHasWallet(false);
+    }
+    if (data.length > 0) {
+      let secret = await supabase
+        .from("wallet")
+        .select("secret_key")
+        .eq("id_user", session.user.id);
+
+      setSecretKeyUser(secret.data[0].secret_key);
+      setPublicKeyUser(data[0].public_key);
+      setHasWallet(true);
+    }
   };
 
   useEffect(() => {
     userExist();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [publicKeyUser]);
 
-  // siguen mandando warning de que no se desmonta en la consola
+  const createdAccounts = async (event) => {
+    event.preventDefault();
+    const response = await axios.get("http://localhost:3001/createWallet");
+    const { publicKey, secretKey } = response.data;
+    const { user } = session;
+
+    console.log(response);
+    let id_user = user.id;
+    let username = userName.current.value;
+    let email = user.email;
+    let public_key = publicKey;
+    let secret_key = secretKey;
+
+    setPublicKey(public_key);
+    setSecretKey(secret_key);
+
+    await supabase.from("datauser").insert([
+      {
+        id_user,
+        username,
+        email,
+        public_key,
+        stellar_address: null,
+      },
+    ]);
+
+    await supabase.from("wallet").insert([
+      {
+        id_user,
+        wallet_number: null,
+        secret_key,
+      },
+    ]);
+  };
 
   return (
     <div>
-      {user ? (
+      {hasWallet ? (
         <div>
-          {account ? (
-            <div>
-              {account?.balances?.map(
-                (
-                  {
-                    balance,
-                    asset_code,
-                    selling_liabilities,
-                    buying_liabilities,
-                  },
-                  index
-                ) => (
-                  <div key={index}>
-                    <div>Asset: {!asset_code ? "XLM" : asset_code} </div>
-                    <div>Balance: {balance} </div>
-                    <div> Monto en ofertas de venta: {selling_liabilities}</div>
-                    <div> Monto en ofertas de compra: {buying_liabilities}</div>
-                  </div>
-                )
-              )}
-            </div>
-          ) : (
-            "loading"
-          )}
+          {<div> Esta es su publicKey: {publicKeyUser} </div>}
+          <br />
+          {<div> Esta es su secretKey: {secretKeyUser} </div>}
         </div>
       ) : (
-        <div>
-          " Debes crear una wallet para ver tu balance"
-          <CreateAccount />
-        </div>
+        <form onSubmit={createdAccounts}>
+          <label> User Name :</label>
+          <input ref={userName} required />
+          <Button className={classes.button} color="secondary" type="submit">
+            Crear Wallet
+          </Button>
+        </form>
       )}
     </div>
   );

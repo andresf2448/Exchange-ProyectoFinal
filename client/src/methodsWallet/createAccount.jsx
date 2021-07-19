@@ -78,25 +78,19 @@ export default function CreateAccount() {
 
   return (
     <div>
-      {<div> Esta es su publicKey: {publicKeyUser} </div>}
-      <br />
-      {<div> Esta es su secretKey: {secretKeyUser} </div>}
       {hasWallet ? (
         <div>
-          {publicKey && <div> Esta es su publicKey: {publicKey} </div>}
-          {secretKey && <div> Esta es su secretKey: {secretKey} </div>}
+          {<div> Esta es su publicKey: {publicKeyUser} </div>}
+          <br />
+          {<div> Esta es su secretKey: {secretKeyUser} </div>}
         </div>
       ) : (
         <form onSubmit={createdAccounts}>
           <label> User Name :</label>
-
-          {/* // pendiente validacioon */}
           <input ref={userName} required />
-          {!publicKey && (
-            <Button className={classes.button} color="secondary" type="submit">
-              Crear Wallet
-            </Button>
-          )}
+          <Button className={classes.button} color="secondary" type="submit">
+            Crear Wallet
+          </Button>
         </form>
       )}
     </div>

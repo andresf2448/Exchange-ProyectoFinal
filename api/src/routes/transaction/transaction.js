@@ -9,6 +9,7 @@ router.get("/", async (req, res) => {
 
     if (id) {
       try {
+        console.log('entro al id transaction')
         const { data, error } = await supabase
           .from("transactions")
           .select(
@@ -24,7 +25,8 @@ router.get("/", async (req, res) => {
             "claimable_balance_id"
           )
           .eq("id", id);
-  
+          console.log('paso supabase')
+        console.log(data)
         let response = {
           id: id,
           kind: data[0].kind,
@@ -35,9 +37,10 @@ router.get("/", async (req, res) => {
           amount_in: data[0].amount_in,
           amount_fee: data[0].amount_fee,
         };
+        console.log(response)
         return res.json(response);
       } catch (error) {
-        return res.json(error);
+        return res.json('transaction no encontrada');
       }
     }
   
