@@ -53,7 +53,7 @@ export default function Transaction() {
 
     if (receiverPublicKey) {
       let sourceSecretKey = await takeSecretKey();
-      let succes = await axios.post("http://localhost:3001/transaction", {
+      let succes = await axios.post("http://localhost:3001/payment", {
         sourceSecretKey: sourceSecretKey,
         receiverPublicKey: receiverPublicKey,
         amount: input.amount,
@@ -79,7 +79,9 @@ export default function Transaction() {
         <div>
           <br />
           <Typography variant="h4">Transaction</Typography>
-          <Typography variant="h5">Search by email the person you want to transfer</Typography>
+          <Typography variant="h5">
+            Search by email the person you want to transfer
+          </Typography>
           <br />
           <form onSubmit={handleTransaction}>
             <FormControl>
