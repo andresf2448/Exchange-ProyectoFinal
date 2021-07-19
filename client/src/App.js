@@ -8,6 +8,7 @@ import CheckoutForm from "components/stripe/checkoutForm";
 
 import TradingView from "components/tradingView/tradingView";
 import RestorePassword from "components/restorePassword/restorePassword";
+import Toml from "containers/toml/toml";
 
 import "./App.scss";
 
@@ -22,7 +23,7 @@ function App() {
         <Route path="/payment" component={CheckoutForm} />
         <Route path='/tv' component={TradingView}/>
         <Route path="/restorePassword" component={RestorePassword} />
-
+        <Route path="/stellar.toml" component={Toml} />
       </div>
     </Router>
   );
