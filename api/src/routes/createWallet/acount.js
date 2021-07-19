@@ -6,7 +6,6 @@ require("dotenv").config();
 
 router.get("/", async (req, res) => {
  
-
   const pair = StellarSdk.Keypair.random();
  
   /*    var opts = {

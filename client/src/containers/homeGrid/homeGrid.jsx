@@ -1,9 +1,6 @@
 import { Container, Grid } from "@material-ui/core";
 import { CryptoGraphics } from "components/cryptoGraphics/cryptoGraphics";
-// import { Twitter } from 'components/twitter/twitter';
-// import {AboutPreview} from 'components/aboutPreview/aboutPreview';
-// import {Statistics} from 'components/statistics/statistics';
-// import {CryptoCalculator} from 'components/cryptoCalculator/cryptoCalculator';
+import { Twitter } from 'components/twitter/twitter';
 
 export const HomeGrid = () => {
   return (
@@ -31,23 +28,11 @@ export const HomeGrid = () => {
             spacing={2}
           >
             <Grid item xs={12}>
-              {/* <Twitter /> */}
+              <Twitter />
             </Grid>
           </Grid>
-        </Grid>
-        <Grid
-          item
-          style={{ width: "100%" }}
-          className="crypto-calculator"
-          xs={3}
-        >
-          <CryptoCalculator />
         </Grid>
       </Grid>
     </Container>
   );
 };
-
-//    {/* <Grid item style={{ width: "100%" }} className="crypto-calculator" xs={3}>
-//                 <CryptoCalculator/>
-//             </Grid> */}
