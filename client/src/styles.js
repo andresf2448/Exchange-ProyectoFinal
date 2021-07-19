@@ -49,7 +49,7 @@ const useStyles = makeStyles(theme => ({
     justifyContent: "center"
   },
   tableScroll: {
-    maxHeight: 500
+    maxHeight: 300
   }
 
 }));

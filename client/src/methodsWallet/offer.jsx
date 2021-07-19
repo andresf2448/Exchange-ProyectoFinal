@@ -10,8 +10,8 @@ const classes = useStyles();
   return (
     <Container width="100px">
       <Grid container justifyContent="center" spacing={2}>
-        <Grid item xs={12} sm={6}>
-          <Typography variant='h4' >Asks</Typography>
+        <Grid item xs={12}>
+          <Typography variant='h5' >Asks</Typography>
           <TableContainer className={classes.tableScroll} component={Paper} >
             <Table stickyHeader size="small" >
               <TableHead >
@@ -33,8 +33,8 @@ const classes = useStyles();
             </Table>
           </TableContainer>
         </Grid>
-        <Grid item xs={12} sm={6}>
-          <Typography variant='h4'>Bids</Typography>
+        <Grid item xs={12}>
+          <Typography variant='h5'>Bids</Typography>
           <TableContainer className={classes.tableScroll} component={Paper}>
             <Table stickyHeader size="small" >
               <TableHead >
