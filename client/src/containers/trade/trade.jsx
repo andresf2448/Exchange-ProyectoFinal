@@ -9,7 +9,7 @@ export default function Trade(){
         <Container maxWidth='lg'>
             <Grid container>
                 <Grid container item display='column'  justifyContent={true}>
-                    <Grid item xs={12} sm={3}>
+                    <Grid item xs={12} sm={3} style={{height:'700px'}}>
                         <Orderbook />
                     </Grid>
                     <Grid container item xs={12} sm={6}>
