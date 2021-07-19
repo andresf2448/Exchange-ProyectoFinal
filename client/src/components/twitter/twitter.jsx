@@ -2,7 +2,6 @@ import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import React, { useEffect } from 'react';
 import io from 'socket.io-client';
-import './twitter.css'
 import TwittCard from 'components/twitter/twittCard'
 import { useState } from 'react';
 const SERVER = '//localhost:3005';
