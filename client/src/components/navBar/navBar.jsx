@@ -4,14 +4,12 @@ import { useHistory } from "react-router";
 import {supabase} from 'supabase/supabase';
 import HomeIcon from '@material-ui/icons/Home';
 import { HomeGrid } from 'containers/homeGrid/homeGrid';
-import { About } from 'components/about/about';
-import { Exchanges } from 'components/exchanges/exchanges';
 import WalletContainer from 'containers/walletContainer/walletContainer';
-import { Balance } from 'components/balance/balance';
 import { Settings } from 'containers/settings/settings';
 import { ShowUserData } from 'components/showUserData/showUserData';
 import  Faq  from 'components/faq/faq';
 import { AdministratorUser } from "components/administratorUser/admistratorUser";
+import Trade from "containers/trade/trade";
 
 export const NavBar = () => {
   const history = useHistory();
@@ -46,8 +44,8 @@ export const NavBar = () => {
     };
     return(
         <>
-            <AppBar position="static">
-                <Tabs value={value} onChange={handleChange} centered={true}>
+            <AppBar position="static" >
+                <Tabs value={value} variant='scrollable' onChange={handleChange} centered={true}>
                     <Tab label={<HomeIcon/>} />
                     <Tab label="Wallet" />
                     <Tab label="Trade"/>
@@ -61,7 +59,11 @@ export const NavBar = () => {
            {value!== 5 && <ShowUserData/>}
            {value === 0 && <HomeGrid/>}
            {value === 1 && <WalletContainer/>}
+<<<<<<< HEAD
            {value === 2 && <Balance/>}
+=======
+           {value === 2 && <Trade/>}
+>>>>>>> 3ec08548641caddac086f0b11a3c9045b0ff0711
            {value === 3 && <Settings/>}  
            {value === 4 && <Faq/>}   
            {value === 6 && <AdministratorUser />}

@@ -44,9 +44,8 @@ export const AdministratorUser = () => {
     setUsers(data);
   }
 
-  let bannear = async (event) => {
-    let userBan = event.target.id;
-
+  let bannear = async (id) => {
+    let userBan = id;
     await supabase
       .from("RegisteredUsers")
       .update({ bannedUser: "true" })
@@ -54,8 +53,8 @@ export const AdministratorUser = () => {
     setReload(reload + 1);
   };
 
-  let desBanear = async (event) => {
-    let desban = event.target.id;
+  let desBanear = async (id) => {
+    let desban = id;
 
     await supabase
       .from("RegisteredUsers")
@@ -64,8 +63,8 @@ export const AdministratorUser = () => {
     setReload(reload - 1);
   };
 
-  let toBeAdmin = async (event) => {
-    let actAdmin = event.target.id;
+  let toBeAdmin = async (id) => {
+    let actAdmin = id;
 
     await supabase
       .from("RegisteredUsers")
@@ -74,8 +73,8 @@ export const AdministratorUser = () => {
     setReload(reload - 1);
   };
 
-  let noBeAdmin = async (event) => {
-    let desAdmin = event.target.id;
+  let noBeAdmin = async (id) => {
+    let desAdmin = id;
 
     await supabase
       .from("RegisteredUsers")
@@ -84,8 +83,8 @@ export const AdministratorUser = () => {
     setReload(reload - 1);
   };
 
-  let resetPassword = async (event) => {
-    let emailUser = event.target.id;
+  let resetPassword = async (email) => {
+    let emailUser = email;
     alert(` Email sent to ${emailUser}`);
     const data = await supabase.auth.api.resetPasswordForEmail(emailUser);
     console.log(data);
@@ -129,30 +128,30 @@ export const AdministratorUser = () => {
                     <TableCell>{id_user}</TableCell>
                     <TableCell>
                       {bannedUser ? (
-                        <button onClick={desBanear} id={id_user}>
+                        <Button onClick={()=>desBanear(id_user)}>
                           Unblock
-                        </button>
+                        </Button>
                       ) : (
-                        <button onClick={bannear} id={id_user}>
+                        <Button onClick={()=>bannear(id_user)}>
                           Blocked
-                        </button>
+                        </Button>
                       )}
                     </TableCell>
                     <TableCell>
                       {isAdmin ? (
-                        <button onClick={noBeAdmin} id={id_user}>
+                        <Button onClick={()=>noBeAdmin(id_user)}>
                           to user
-                        </button>
+                        </Button>
                       ) : (
-                        <button onClick={toBeAdmin} id={id_user}>
+                        <Button onClick={()=>toBeAdmin(id_user)}>
                           Up to Admin
-                        </button>
+                        </Button>
                       )}
                     </TableCell>
                     <TableCell>
-                      <button onClick={resetPassword} id={email}>
+                      <Button onClick={()=>resetPassword(email)}>
                         Reset
-                      </button>
+                      </Button>
                     </TableCell>
                   </TableRow>
                 </TableBody>

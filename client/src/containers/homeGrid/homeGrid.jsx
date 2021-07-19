@@ -5,6 +5,7 @@ import {CryptoGraphics} from 'components/cryptoGraphics/cryptoGraphics';
 // import {Statistics} from 'components/statistics/statistics';
 // import {CryptoCalculator} from 'components/cryptoCalculator/cryptoCalculator';
 
+
 export const HomeGrid= ()=>{
     return (
         <Container maxWidth="lg">
@@ -19,6 +20,13 @@ export const HomeGrid= ()=>{
                         </Grid>
                     </Grid>
                 </Grid>
+<<<<<<< HEAD
+=======
+                <Grid item style={{ width: "100%" }} className="crypto-calculator" xs={3}>
+                    <CryptoCalculator/>
+                    
+                </Grid>
+>>>>>>> 3ec08548641caddac086f0b11a3c9045b0ff0711
             </Grid>
         </Container>
     )

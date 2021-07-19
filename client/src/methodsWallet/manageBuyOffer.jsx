@@ -1,3 +1,4 @@
+import { Grid, Typography } from "@material-ui/core";
 import { useState } from "react";
 import StellarSdk from "stellar-sdk";
 import { supabase } from "../supabase/supabase";
@@ -104,58 +105,70 @@ export default function ManageBuyOffer() {
   }
 
   return (
-    <div> 
-      <div>Este es el componente para crear ofertas de venta</div>
-      <div>
-        <form onSubmit={(event) => handleSubmit(event)}>
-          <select
-            defaultValue=""
-            name="assetAsk"
-            onChange={(event) => selectAssetAsk(event)}
-          >
-            <option>Select a Asset</option>
-            {assets &&
-              assets.data.map((element) => {
-                return (
-                  <option key={element.asset_code}>{element.asset_code}</option>
-                );
-              })}
-          </select>
-          <select
-            defaultValue=""
-            name="assetBid"
-            onChange={(event) => selectAssetBid(event)}
-          >
-            <option>Select a Asset</option>
-            {assets &&
-              assets.data.map((element) => {
-                return (
-                  <option
+    <Grid container > 
+      <form onSubmit={(event) => handleSubmit(event)}>
+        <Grid container item alignContent='space-around'>
+          <Grid item xs={12}>
+            <Typography>Create your sale offer:</Typography>
+          </Grid>
+          <Grid item xs={12}>
+            <select
+              defaultValue=""
+              name="assetAsk"
+              onChange={(event) => selectAssetAsk(event)}
+            >
+              <option>Select an ask Asset</option>
+              {assets &&
+                assets.data.map((element) => {
+                  return (
+                    <option key={element.asset_code}>{element.asset_code}</option>
+                  );
+                })}
+            </select>
+          </Grid>
+          <Grid item xs={12}>
+            <input
+              type="text"
+              name="amount"
+              id=""
+              onChange={(event) => setAmount(event.target.value)}
+              placeholder="Amount to sell"
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <select
+              defaultValue=""
+              name="assetBid"
+              onChange={(event) => selectAssetBid(event)}
+            >
+              <option>Select a bid Asset</option>
+              {assets &&
+                assets.data.map((element) => {
+                  return (
+                    <option
                     onChange={(event) => selectAssetBid(event)}
                     key={element.asset_code}
-                  >
-                    {element.asset_code}
-                  </option>
-                );
-              })}
-          </select>
-          <input type="submit"></input>
-          <input
-            type="text"
-            name="amount"
-            id=""
-            onChange={(event) => setAmount(event.target.value)}
-            placeholder="Monto a vender"
-          />
-          <input
-            type="text"
-            name="price"
-            id=""
-            onChange={(event) => setPrice(event.target.value)}
-            placeholder="Precio por cada token a vender"
-          />
-        </form>
-      </div>
-    </div>
+                    >
+                      {element.asset_code}
+                    </option>
+                  );
+                })}
+            </select>
+          </Grid>
+          <Grid item xs={12} >
+            <input
+              type="text"
+              name="price"
+              id=""
+              onChange={(event) => setPrice(event.target.value)}
+              placeholder="Price per token"
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <input type="submit"></input>
+          </Grid>
+        </Grid>
+      </form>
+    </Grid>
   );
 }
