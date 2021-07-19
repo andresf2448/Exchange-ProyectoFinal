@@ -1,8 +1,13 @@
 const router = require("express").Router();
-const supabase = require("../../supabase/supabase");
+const { createClient } = require("@supabase/supabase-js");
+const supabase = createClient(
+  process.env.REACT_APP_SUPABASE_URL,
+  process.env.REACT_APP_SUPABASE_PUBLIC_KEY
+);
 
-router.get("/", async (req, res) => {
-  const { asset_code, no_older_than, limit, kind, paging_id } = req.query;
+
+router.get("/", async (req, res) => {//añadir account_id como parametro via jwt
+  const { asset_code, no_older_than, limit, kind, paging_id, account_id} = req.query;
   let transactions = [];
   if(!asset_code) return res.status(404).json('Asset no provisto')
 
@@ -12,24 +17,11 @@ router.get("/", async (req, res) => {
     const { data } = await supabase
     .from("transactions")
     .select(
-      "id",
-      "kind",
-      "status",
-      "status_eta",
-      "kyc_verified",
-      "more_info_url",
-      "amount_in",
-      "amount_out",
-      "amount_fee",
-      "started_at",
-      "completed_at",
-      "stellar_transaction_id",
-      "external_transaction_id",
-      "message",
-      "refunded"
+      "*"
     )
     .eq("account_id", account_id);
     console.log('paso supabase transactions')
+    console.log(data)
   if (data.length > 0/*  && kind === 'deposit ' */) {
     data.map((transaction) => {
       let response = {
