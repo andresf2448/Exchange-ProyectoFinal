@@ -23,7 +23,7 @@ function App() {
         <Route path="/payment" component={CheckoutForm} />
         <Route path='/tv' component={TradingView}/>
         <Route path="/restorePassword" component={RestorePassword} />
-        <Route path="/stellar.toml" component={Toml} />
+        <Route path="/.well-known/stellar.toml" component={Toml} />
       </div>
     </Router>
   );

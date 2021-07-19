@@ -1,9 +1,12 @@
 import { useEffect, useState} from 'react';
 import axios from 'axios';
-import { Container, Typography, Paper} from '@material-ui/core';
+import { Container, Typography} from '@material-ui/core';
+import useStyles from 'styles';
 
 
 const Toml = () => {
+    const classes = useStyles();
+
     const [toml, setToml] = useState();
 
     useEffect( () => {
@@ -13,14 +16,11 @@ const Toml = () => {
             });
         }, [])
     return (
-        <Container>
+        <Container className={classes.toml}>
             {toml === undefined ?
-                <Container>
-                    <Typography variant="h3"> Loading...</Typography>
-                </Container>
+                <Typography variant="h3"> Loading...</Typography>
                 :
-                <Container>
-                    <Paper>
+                    <Container>
                         <Typography align="left" variant="body1">Version = {toml.VERSION}</Typography>
                         <Typography align="left" variant="body1">Accounts = {toml.ACCOUNTS[0]}</Typography>
                         <Typography align="left" variant="body1">ORG_NAME = {toml.DOCUMENTATION.ORG_NAME}</Typography>
@@ -30,8 +30,7 @@ const Toml = () => {
                         <Typography align="left" variant="body1">ORG_DESCRIPTION = {toml.DOCUMENTATION.ORG_DESCRIPTION}</Typography>
                         <Typography align="left" variant="body1">ORG_PHYSICAL_ADDRESS = {toml.DOCUMENTATION.ORG_PHYSICAL_ADDRESS}</Typography>
                         <Typography align="left" variant="body1">ORG_OFFICIAL_EMAIL = {toml.DOCUMENTATION.ORG_OFFICIAL_EMAIL}</Typography>
-                    </Paper>
-                </Container>
+                    </Container>
             }
         </Container>
     )
