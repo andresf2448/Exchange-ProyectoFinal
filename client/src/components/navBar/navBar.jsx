@@ -59,7 +59,11 @@ export const NavBar = () => {
            {value!== 5 && <ShowUserData/>}
            {value === 0 && <HomeGrid/>}
            {value === 1 && <WalletContainer/>}
+<<<<<<< HEAD
+           {value === 2 && <Balance/>}
+=======
            {value === 2 && <Trade/>}
+>>>>>>> 3ec08548641caddac086f0b11a3c9045b0ff0711
            {value === 3 && <Settings/>}  
            {value === 4 && <Faq/>}   
            {value === 6 && <AdministratorUser />}
