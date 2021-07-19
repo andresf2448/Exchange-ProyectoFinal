@@ -1,14 +1,19 @@
 import { Paper, Container, Typography, Grid, TableContainer, Table, TableHead, TableBody, TableRow, TableCell } from '@material-ui/core';
+import useStyles from 'styles';
+
 
 export default function Offer({ asks, bids }) {
+
+
+const classes = useStyles(); 
 
   return (
     <Container width="100px">
       <Grid container justifyContent="center" spacing={2}>
-        <Grid item >
+        <Grid item xs={12} sm={6}>
           <Typography variant='h4' >Asks</Typography>
-          <TableContainer component={Paper}>
-            <Table size="small" >
+          <TableContainer className={classes.tableScroll} component={Paper} >
+            <Table stickyHeader size="small" >
               <TableHead >
                 <TableRow>
                   <TableCell align="right" >TYPE</TableCell>
@@ -18,8 +23,8 @@ export default function Offer({ asks, bids }) {
               </TableHead>
               <TableBody>
                 {asks.map((ask, i) => (
-                  <TableRow key={i}>
-                    <TableCell>Ask</TableCell>
+                  <TableRow  key={i}>
+                    <TableCell >Ask</TableCell>
                     <TableCell>{ask.price}</TableCell>
                     <TableCell>{ask.amount}</TableCell>
                   </TableRow>
@@ -28,10 +33,10 @@ export default function Offer({ asks, bids }) {
             </Table>
           </TableContainer>
         </Grid>
-        <Grid item>
+        <Grid item xs={12} sm={6}>
           <Typography variant='h4'>Bids</Typography>
-          <TableContainer component={Paper}>
-            <Table size="small" >
+          <TableContainer className={classes.tableScroll} component={Paper}>
+            <Table stickyHeader size="small" >
               <TableHead >
                 <TableRow>
                   <TableCell>TYPE</TableCell>
@@ -50,6 +55,7 @@ export default function Offer({ asks, bids }) {
               </TableBody>
             </Table>
           </TableContainer>
+
         </Grid>
       </Grid>
     </Container>

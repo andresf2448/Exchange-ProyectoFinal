@@ -9,6 +9,7 @@ import {
   Button,
   TextField,
   FormControl,
+  Grid
 } from "@material-ui/core";
 
 export const Register = () => {
@@ -41,11 +42,11 @@ export const Register = () => {
     );
   }
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
 
     if (data.password === data.passwordValidate) {
-      await supabase.auth
+      supabase.auth
         .signUp({
           email: data.email,
           password: data.password,
@@ -75,55 +76,58 @@ export const Register = () => {
     }
   }, [error]);
 
-
   return (
     <Container maxWidth="sm">
-      <Typography variant="h3">Register</Typography>
-      <form onSubmit={handleSubmit}>
-        <FormControl>
-          <TextField
-            label={error.email === "" ? "Email" : error.email}
-            name="email"
-            type="text"
-            value={data.email}
-            onChange={handleOnChange}
-            color={error.email === "" ? "primary" : "secondary"}
-          />
-          <TextField
-            label={error.password === "" ? "Password" : error.password}
-            name="password"
-            type="password"
-            value={data.password}
-            onChange={handleOnChange}
-            color={error.password === "" ? "primary" : "secondary"}
-          />
-          <TextField
-            required
-            label={
-              error.passwordValidate === ""
-                ? "Repeat password"
-                : error.passwordValidate
-            }
-            name="passwordValidate"
-            type="password"
-            value={data.passwordValidate}
-            onChange={handleOnChange}
-            color={error.passwordValidate === "" ? "primary" : "secondary"}
-          />
+      <Typography variant="h3" gutterBottom>REGISTER</Typography>
+      <Grid container>
+        <Grid item xs={12}>
+          <form onSubmit={handleSubmit}>
+            <FormControl>
+                <TextField
+                  label={error.email === "" ? "Email" : error.email}
+                  name="email"
+                  type="text"
+                  value={data.email}
+                  onChange={handleOnChange}
+                  color={error.email === "" ? "primary" : "secondary"}
+                />
+                <TextField
+                  label={error.password === "" ? "Password" : error.password}
+                  name="password"
+                  type="password"
+                  value={data.password}
+                  onChange={handleOnChange}
+                  color={error.password === "" ? "primary" : "secondary"}
+                />
+                <TextField
+                  required
+                  label={
+                    error.passwordValidate === ""
+                      ? "Repeat password"
+                      : error.passwordValidate
+                  }
+                  name="passwordValidate"
+                  type="password"
+                  value={data.passwordValidate}
+                  onChange={handleOnChange}
+                  color={error.passwordValidate === "" ? "primary" : "secondary"}
+                />
 
-          <Button
-            type="submit"
-            variant="contained"
-            color="primary"
-            disabled={!submit}
-          >
-            Sing up
-          </Button>
-          <Button onClick={back} variant="contained" color="primary">
-            Back
-          </Button>
-        </FormControl>
-      </form>
+                <Button
+                  type="submit"
+                  variant="contained"
+                  color="primary"
+                  disabled={!submit}
+                >
+                  Sing up
+                </Button>
+                <Button onClick={back} variant="contained" color="primary">
+                  Back
+                </Button>
+            </FormControl>
+          </form>
+        </Grid>
+      </Grid>
     </Container>
   );
 };

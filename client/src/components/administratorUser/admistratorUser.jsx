@@ -13,6 +13,8 @@ import {
 } from "@material-ui/core";
 import useStyles from "styles";
 
+// el compoonente administratorUser se renderiza 3  veces al iniciar  cuando se utiliza algo de aca . mirar porque
+
 export const AdministratorUser = () => {
   const classes = useStyles();
   const history = useHistory();
@@ -42,49 +44,50 @@ export const AdministratorUser = () => {
     setUsers(data);
   }
 
-  let bannear = async (event) => {
-    let user = event.target.id;
-
-    try {
-      await supabase
-        .from("RegisteredUsers")
-        .update({ bannedUser: "true" })
-        .match({ id_user: user });
-    } catch (error) {
-      console.log(error);
-    }
-
+  let bannear = async (id) => {
+    let userBan = id;
+    await supabase
+      .from("RegisteredUsers")
+      .update({ bannedUser: "true" })
+      .match({ id_user: userBan });
     setReload(reload + 1);
   };
 
-  let desBanear = async (event) => {
-    let user = event.target.id;
+  let desBanear = async (id) => {
+    let desban = id;
 
     await supabase
       .from("RegisteredUsers")
       .update({ bannedUser: "false" })
-      .match({ id_user: user });
+      .match({ id_user: desban });
     setReload(reload - 1);
   };
 
-  let toBeAdmin = async (event) => {
-    let user = event.target.id;
+  let toBeAdmin = async (id) => {
+    let actAdmin = id;
 
     await supabase
-      .from("isAdmin")
-      .update({ bannedUser: "true" })
-      .match({ id_user: user });
+      .from("RegisteredUsers")
+      .update({ isAdmin: "true" })
+      .match({ id_user: actAdmin });
     setReload(reload - 1);
   };
 
-  let noBeAdmin = async (event) => {
-    let user = event.target.id;
+  let noBeAdmin = async (id) => {
+    let desAdmin = id;
 
     await supabase
-      .from("isAdmin")
-      .update({ bannedUser: "false" })
-      .match({ id_user: user });
+      .from("RegisteredUsers")
+      .update({ isAdmin: "false" })
+      .match({ id_user: desAdmin });
     setReload(reload - 1);
+  };
+
+  let resetPassword = async (email) => {
+    let emailUser = email;
+    alert(` Email sent to ${emailUser}`);
+    const data = await supabase.auth.api.resetPasswordForEmail(emailUser);
+    console.log(data);
   };
 
   useEffect(() => {
@@ -110,9 +113,9 @@ export const AdministratorUser = () => {
                 <TableCell>User N° </TableCell>
                 <TableCell>Email </TableCell>
                 <TableCell>Id user </TableCell>
-                <TableCell>Block </TableCell>
-                <TableCell>Admin </TableCell>
-                {/* <TableCell>public_key </TableCell> */}
+                <TableCell>BLOCK USER </TableCell>
+                <TableCell>UPGRADE TO ADMIN </TableCell>
+                <TableCell>RESET PASSWORD </TableCell>
               </TableRow>
             </TableHead>
             {renderUsers.map((user, i) => {
@@ -123,50 +126,32 @@ export const AdministratorUser = () => {
                     <TableCell>{i + 1}</TableCell>
                     <TableCell>{email}</TableCell>
                     <TableCell>{id_user}</TableCell>
-                    {/*  <td>{username}</td>
-                    <td>{public_key}</td> */}
                     <TableCell>
                       {bannedUser ? (
-                        <Button
-                          onClick={desBanear}
-                          id={id_user}
-                          color="primary"
-                          variant="outlined"
-                        >
-                          Desbloquear
+                        <Button onClick={()=>desBanear(id_user)}>
+                          Unblock
                         </Button>
                       ) : (
-                        <Button
-                          onClick={bannear}
-                          id={id_user}
-                          color="secondary"
-                          variant="outlined"
-                        >
-                          Bloquear
+                        <Button onClick={()=>bannear(id_user)}>
+                          Blocked
                         </Button>
                       )}
                     </TableCell>
                     <TableCell>
-                      {" "}
                       {isAdmin ? (
-                        <Button
-                          onClick={toBeAdmin}
-                          id={id_user}
-                          color="primary"
-                          variant="outlined"
-                        >
+                        <Button onClick={()=>noBeAdmin(id_user)}>
                           to user
                         </Button>
                       ) : (
-                        <Button
-                          onClick={noBeAdmin}
-                          id={id_user}
-                          color="secondary"
-                          variant="outlined"
-                        >
+                        <Button onClick={()=>toBeAdmin(id_user)}>
                           Up to Admin
                         </Button>
                       )}
+                    </TableCell>
+                    <TableCell>
+                      <Button onClick={()=>resetPassword(email)}>
+                        Reset
+                      </Button>
                     </TableCell>
                   </TableRow>
                 </TableBody>

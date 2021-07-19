@@ -27,7 +27,6 @@ const rules = [{
     value: 'Bitcoin lang:en sample:2'
 }];
 //is:verified 
-
     // Get Stream rules
     async function getRules(){
         const response = await needle('get', rulesURL, {
@@ -35,7 +34,6 @@ const rules = [{
                 Authorization: `Bearer ${TOKEN}`
             }
         });
-        console.log(response.body);
         return response.body
     };
 
@@ -82,26 +80,17 @@ const rules = [{
         stream.on('data', (data) => {
             try {
                 const json = JSON.parse(data);
-                // console.log(json);  
                 socket.emit('tweet', json)  
             } 
-            // This is empty because this allow the conection open even is there no tweets
             catch (error) {}
         })
     };
 
-   
-    // Run when the client connects..
-    // The first arg is the event, and the callback which will be executed after every connection event.
     io.on('connection', async () => {
-        console.log('Client connected..');
         let currentRules;
         try {
-            // Get all stream rules
             currentRules = await getRules();
-            // Delete all stream rules
             await deleteRules(currentRules);
-            // Set rules based on array above
             await setRules();
         } 
         catch (error) {
@@ -110,7 +99,6 @@ const rules = [{
         }
         streamTweets(io);
     })
-
 
 server.listen(3005, ()=>{
     console.log('Listening on 3005 (twitter stream route)');
