@@ -14,7 +14,7 @@ export default function CreateAccount() {
   const [hasWallet, setHasWallet] = useState(false);
   const [publicKeyUser, setPublicKeyUser] = useState(null);
   const [secretKeyUser, setSecretKeyUser] = useState(null);
-
+  
   const userExist = async () => {
     let { data } = await supabase
       .from("datauser")
@@ -47,7 +47,7 @@ export default function CreateAccount() {
     const { publicKey, secretKey } = response.data;
     const { user } = session;
 
-    console.log(response);
+   
     let id_user = user.id;
     let username = userName.current.value;
     let email = user.email;

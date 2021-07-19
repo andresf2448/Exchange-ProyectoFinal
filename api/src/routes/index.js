@@ -8,5 +8,6 @@ module.exports = {
   twitter: require('./twitter/twitter'),
   stripe: require('./stripe/stripe'),
   federation: require('./federation/federation'),
+  transactions: require('./transactions/transactions'),
   index: router
 };
