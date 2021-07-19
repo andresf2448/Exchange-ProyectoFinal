@@ -9,7 +9,7 @@ const  useStyles = makeStyles({
       padding: 40,
       justifyContent: 'justify',
       alignItems: "center",
-      justify:"center"
+      justify:"center",
     },
     paper: {
       height: 260,
@@ -55,7 +55,7 @@ export default function TwittCard(props) {
                             {text}...
                     </Typography>
                     <Button item sm={4} className={classes.link} href={`https://twitter.com/${username}/status/${id}`}>
-                                See on twitter 
+                        now
                     </Button>
                     <Grid item sm={4} className={classes.userMetrics}>
                         <Typography  className={classes.user}>

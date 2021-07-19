@@ -1,7 +1,7 @@
 import { Grid } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
 import React, { useEffect } from 'react';
 import io from 'socket.io-client';
-import './twitter.css'
 import TwittCard from 'components/twitter/twittCard'
 import { useState } from 'react';
 const SERVER = '//localhost:3005';
@@ -13,21 +13,21 @@ var connectionOptions =  {
     "transports" : ["websocket"]
 };
 
+const  useStyles = makeStyles({
+    scroll:{
+        maxHeight: 290,
+        overflow: 'auto',
+    },
+})
+
 export const Twitter = () => {
     let [arr, setArr] = useState([]);
+    const classes = useStyles();
 
     useEffect(() =>{  
         handleSocket();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     },[]);
-
-    useEffect(()=> {
-        if(arr.length >= 5) {
-            setTimeout(() => { 
-                setArr([])
-            }, 8000)
-        }
-    },[arr])
 
     const handleSocket = () => { 
         const socketClient = io(SERVER, connectionOptions );
@@ -47,18 +47,18 @@ export const Twitter = () => {
                 setArr((prevState)=>{ 
                     return [
                         ...prevState, TweetData
-                ]});
+                    ]
+                });
             }     
         })
     }
 
     return(
-            <Grid container spacing={3}>
-                {arr.length <= 4 && arr.map((twitt)=> {
-                    return <TwittCard data={twitt}/>}
+        <Grid container spacing={3} className={classes.scroll}>
+            {arr && arr.map((twitt)=> {
+                return <TwittCard data={twitt}/>}
                 )}                   
-            </Grid>
-
+        </Grid>
     )
 }
 
