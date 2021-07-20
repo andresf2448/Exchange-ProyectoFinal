@@ -10,6 +10,8 @@ import { ShowUserData } from 'components/showUserData/showUserData';
 import  Faq  from 'components/faq/faq';
 import { AdministratorUser } from "components/administratorUser/admistratorUser";
 import Trade from "containers/trade/trade";
+import DropdownTab from 'components/dropdownTab/dropdownTab'
+
 
 export const NavBar = () => {
   const history = useHistory();
@@ -50,7 +52,8 @@ export const NavBar = () => {
                     <Tab label="Wallet" />
                     <Tab label="Trade"/>
                     <Tab label="Settings" />
-                    <Tab label="FAQ" />
+                    <DropdownTab/>
+                    {/* <Tab label="FAQ" /> */}
                     <Tab label="Logout" onClick={signOut}/>
                     {admin && <Tab label="Admin" />}
                 </Tabs>
