@@ -1,20 +1,26 @@
 const router = require("express").Router();
+const { createClient } = require("@supabase/supabase-js");
+const supabase = createClient(
+  "https://tmgftkiwxvealggjbuuw.supabase.co",
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTYyNTU1Mzc5NSwiZXhwIjoxOTQxMTI5Nzk1fQ.ABvEpuBbGTkr4y1UHyrjRbkUugTbhUNGPhbqAMy3cVs"
+);
 
 router.get("/", async (req, res) => {
   const { id, stellar_transaction_id, external_transaction_id } = req.query;
-
+  console.log("entra a ruta");
   if (!id && !stellar_transaction_id && !external_transaction_id)
     return res.json("parameters not provided");
-  console.log(id);
+
   if (id) {
     try {
       console.log("entro al id transaction");
-      const { data } = await supabase
+      const { data, error } = await supabase
         .from("transactions")
         .select("*")
-        .eq("id", 79220619-2861-4051-8631-b11ec73275d2);
+        .eq("id", id);
       console.log("paso supabase");
-      console.log(data);
+      if (error) return res.json("no existe esta transaccion");
+
       let response = {
         id: id,
         kind: data[0].kind,
@@ -28,7 +34,7 @@ router.get("/", async (req, res) => {
       console.log(response);
       return res.json(response);
     } catch (error) {
-      return res.json("transaction no encontrada");
+      return res.status(404).json(error);
     }
   }
 
