@@ -53,7 +53,6 @@ export const NavBar = () => {
                     <Tab label="Trade"/>
                     <Tab label="Settings" />
                     <DropdownTab/>
-                    {/* <Tab label="FAQ" /> */}
                     <Tab label="Logout" onClick={signOut}/>
                     {admin && <Tab label="Admin" />}
                 </Tabs>
