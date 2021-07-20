@@ -25,6 +25,7 @@ server.use((req, res, next) => {
   server.use('/createWallet', routes.acount)
   server.use('/twitter', routes.twitter);
   server.use('/create-payment-intent', routes.stripe)
+  server.use('/stellar.toml', routes.toml)
 
 server.use((err, req, res, next) => { // eslint-disable-line no-unused-vars
   const status = err.status || 500;

@@ -50,6 +50,11 @@ const useStyles = makeStyles(theme => ({
   },
   tableScroll: {
     maxHeight: 300
+  },
+  toml: {
+    minHeight:"100vh", 
+    minWidth:"100vw", 
+    backgroundColor: "white"
   }
 
 }));
