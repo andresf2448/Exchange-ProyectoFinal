@@ -24,6 +24,11 @@ export const AdministratorUser = () => {
   const [admin, setAdmin] = useState(false);
   const [users, setUsers] = useState([]);
   const [reload, setReload] = useState(0);
+  const [emails, setEmails] = useState([]);
+
+  function sendEmail(){
+    return
+  }
 
   async function validateRole() {
     let { data } = await supabase
@@ -116,6 +121,7 @@ export const AdministratorUser = () => {
                 <TableCell>BLOCK USER </TableCell>
                 <TableCell>UPGRADE TO ADMIN </TableCell>
                 <TableCell>RESET PASSWORD </TableCell>
+                <TableCell>Send message </TableCell>
               </TableRow>
             </TableHead>
             {renderUsers.map((user, i) => {
@@ -153,6 +159,11 @@ export const AdministratorUser = () => {
                         Reset
                       </Button>
                     </TableCell>
+                    <TableCell>
+                      <Button onClick={()=>sendEmail()}>
+                        Add
+                      </Button>
+                    </TableCell>
                   </TableRow>
                 </TableBody>
               );
@@ -169,6 +180,7 @@ export const AdministratorUser = () => {
           </Button>
         </Grid>
       ) : null}
+
     </Container>
   );
 };
