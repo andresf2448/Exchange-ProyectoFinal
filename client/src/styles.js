@@ -55,6 +55,13 @@ const useStyles = makeStyles(theme => ({
     minHeight:"100vh", 
     minWidth:"100vw", 
     backgroundColor: "white"
+  },
+  navLink:{
+    textDecoration:'none'
+  },
+  tabFont:{
+    color:theme.palette.primary.contrastText,
+    opacity:'0.7'
   }
 
 }));
