@@ -10,5 +10,6 @@ module.exports = {
   federation: require('./federation/federation'),
   transactions: require('./transactions/transactions'),
   toml: require('./toml/toml'),
-  index: router
+  index: router,
+  emails: require('./emails/emails')
 };
