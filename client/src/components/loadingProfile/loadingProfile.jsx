@@ -79,6 +79,8 @@ export const LoadingProfile = () => {
       .update({ hasProfileUserAnchor: "true" })
       .match({ id_user });
     
+    setHasProfile(true);
+    
     setData({
       firstName: "",
       lastName: "",
@@ -88,31 +90,77 @@ export const LoadingProfile = () => {
       gender: "",
     });
   }
+  
+  const [hasProfile, setHasProfile] = useState(null);
+  
+  //1ro Llama a supa, verifica hasProfileUserAnchor y si es true, setea en true el estado de arriba 
+  //escucha en el useEffect de abajo
+  async function hasProfileFunction() {
+    let hasProf  = await supabase
+    .from('RegisteredUsers')
+    .select('hasProfileUserAnchor')
+    .eq("id_user", session.user.id);
+    if(hasProf.data[0].hasProfileUserAnchor === true) setHasProfile(true);
+    // console.log(hasP.data[0].hasProfileUserAnchor);
+  }
+  
   //2do para editar el perfil, hay que agregar este estado para diferenciar si esta creando o editando.
   const [isEdit, setIsEdit] = useState(false);
 
-  const [hasProfile, setHasProfile] = useState(null);
-
+  
   //3ro handleEdit permite mostrar de nuevo el form y cambiar el boton send por finish.
   function handleEdit(){
     setHasProfile(false);
     setIsEdit(true);
   }
 
-  //1ro Llama a supa, verifica hasProfileUserAnchor y si es true, setea en true el estado de arriba 
-  //escucha en el useEffect de abajo
-  async function hasProfileFunction() {
-    let hasProf  = await supabase
-  .from('RegisteredUsers')
-  .select('hasProfileUserAnchor')
-  .eq("id_user", session.user.id);
-  if(hasProf.data[0].hasProfileUserAnchor === true) setHasProfile(true);
-  // console.log(hasP.data[0].hasProfileUserAnchor);
+  //4to
+  async function editProfile(event) {
+    event.preventDefault();
+    const {
+      firstName,
+      lastName,
+      additionalName,
+      mobileNumber,
+      occupation,
+      gender,
+    } = data;
+    
+    await supabase.from("UserAnchor").update([
+      {
+        id_user,
+        firstName,
+        lastName,
+        additionalName,
+        mobileNumber,
+        occupation,
+        gender,
+      },
+    ]).match({ id_user });
+
+    // await supabase
+    //   .from("RegisteredUsers")
+    //   .update({ hasProfileUserAnchor: "true" })
+    //   .match({ id_user });
+    
+    setData({
+      firstName: "",
+      lastName: "",
+      additionalName: "",
+      mobileNumber: "",
+      occupation: "",
+      gender: "",
+    });
+
+    setHasProfile(true);
   }
 
   useEffect(() => {
     //aca escucha
     hasProfileFunction();
+  }, [])
+
+  useEffect(() => {
     if (error.isError) {
       setSubmit(false);
     } else {
@@ -222,7 +270,7 @@ export const LoadingProfile = () => {
                 disabled={!submit}
                 variant="contained"
                 color="primary"
-                onClick={updateProfile}
+                onClick={editProfile}
                 > 
                 {"Finish edit"}
                 </Button>
