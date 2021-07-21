@@ -4,6 +4,7 @@ import { LoadingProfile } from "components/loadingProfile/loadingProfile";
 import RestorePassword from "components/restorePassword/restorePassword";
 import { LoadId } from "components/loadId/loadId";
 
+
 export function Settings() {
   const [value, setValue] = useState(0);
 

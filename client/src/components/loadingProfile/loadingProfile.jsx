@@ -152,9 +152,11 @@ export const LoadingProfile = () => {
     });
   }
 
+
+
   useEffect(() => {
-    //aca escucha
     hasProfileFunction();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {
@@ -173,7 +175,7 @@ export const LoadingProfile = () => {
       {hasProfile ?
         <Container>
           <Typography variant="h4" gutterBottom>Completaste tu perfil</Typography>
-          <Button onClick={() => handleEdit()}>Editar</Button>
+          <Button onClick={() => handleEdit()} color="primary" variant="contained">Editar</Button>
         </Container>
         :
         <form onSubmit={updateProfile}>
