@@ -88,19 +88,30 @@ export const LoadingProfile = () => {
       gender: "",
     });
   }
+  //2do para editar el perfil, hay que agregar este estado para diferenciar si esta creando o editando.
+  const [isEdit, setIsEdit] = useState(false);
 
   const [hasProfile, setHasProfile] = useState(null);
 
+  //3ro handleEdit permite mostrar de nuevo el form y cambiar el boton send por finish.
+  function handleEdit(){
+    setHasProfile(false);
+    setIsEdit(true);
+  }
+
+  //1ro Llama a supa, verifica hasProfileUserAnchor y si es true, setea en true el estado de arriba 
+  //escucha en el useEffect de abajo
   async function hasProfileFunction() {
-    let hasP  = await supabase
+    let hasProf  = await supabase
   .from('RegisteredUsers')
   .select('hasProfileUserAnchor')
   .eq("id_user", session.user.id);
-  if(hasP.data[0].hasProfileUserAnchor === true) setHasProfile(true);
+  if(hasProf.data[0].hasProfileUserAnchor === true) setHasProfile(true);
   // console.log(hasP.data[0].hasProfileUserAnchor);
   }
 
   useEffect(() => {
+    //aca escucha
     hasProfileFunction();
     if (error.isError) {
       setSubmit(false);
@@ -117,7 +128,7 @@ export const LoadingProfile = () => {
       {hasProfile ?
         <Container>
           <Typography variant="h4" gutterBottom>Completaste tu perfil</Typography>
-          <Button onClick={() => setHasProfile(false)}>Editar</Button>
+          <Button onClick={() => handleEdit()}>Editar</Button>
         </Container>
         :
         <form onSubmit={updateProfile}>
@@ -205,15 +216,27 @@ export const LoadingProfile = () => {
                   />
                 </RadioGroup>
               </FormControl>
-              <Button
+              {isEdit ?
+                <Button
                 type="submit"
                 disabled={!submit}
                 variant="contained"
                 color="primary"
                 onClick={updateProfile}
-              >
-                {"Send "}
-              </Button>
+                > 
+                {"Finish edit"}
+                </Button>
+                :
+                <Button
+                  type="submit"
+                  disabled={!submit}
+                  variant="contained"
+                  color="primary"
+                  onClick={updateProfile}
+                >
+                  {"Send "}
+                </Button>
+              }
             </Grid>
           </Grid>
         </form>
