@@ -92,10 +92,11 @@ export const LoadingProfile = () => {
     });
   }
   
-  const [hasProfile, setHasProfile] = useState(null);
   
-  //1ro Llama a supa, verifica hasProfileUserAnchor y si es true, setea en true el estado de arriba 
+  //1ro Llama a supa, verifica hasProfileUserAnchor y si es true, setea en true el estado de abajo 
   //escucha en el useEffect de abajo
+  const [hasProfile, setHasProfile] = useState(null);
+
   async function hasProfileFunction() {
     let hasProf  = await supabase
     .from('RegisteredUsers')
