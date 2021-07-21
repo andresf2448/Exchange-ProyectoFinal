@@ -155,7 +155,6 @@ export const LoadingProfile = () => {
 
 
   useEffect(() => {
-    //aca escucha
     hasProfileFunction();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
