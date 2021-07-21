@@ -62,6 +62,10 @@ const useStyles = makeStyles(theme => ({
   tabFont:{
     color:theme.palette.primary.contrastText,
     opacity:'0.7'
+  },
+  landingContainers: {
+    marginTop: "40px",
+    marginBottom: "40px"
   }
 
 }));
