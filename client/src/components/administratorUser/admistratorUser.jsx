@@ -27,12 +27,15 @@ export const AdministratorUser = () => {
   const [reload, setReload] = useState(0);
   const [emails, setEmails] = useState([]);
   const [statemessage, setStateMessage] = useState(false);
+  const [searchUser, setSearchUser] = useState(false);
+  const emailSearching = useRef("");
+  const [renderSearch, setrenderSearch] = useState([]);
+
   let message = useRef("");
 
   let addEmail = (email) => {
     setEmails([...emails, email]);
   };
-
   let deleteEmail = (email) => {
     setEmails(emails.filter((x) => x !== email));
   };
@@ -52,7 +55,9 @@ export const AdministratorUser = () => {
 
   let getUsers = async () => {
     let { data } = await supabase.from("RegisteredUsers").select("*");
-    setUsers(data);
+    let filter = data.filter((user) => user.id_user !== id);
+    let renderUsers = filter.sort((a, b) => (a.email > b.email ? 1 : -1));
+    setUsers(renderUsers);
   };
 
   let bannear = async (id) => {
@@ -100,10 +105,6 @@ export const AdministratorUser = () => {
     await supabase.auth.api.resetPasswordForEmail(emailUser);
   };
 
-  let back = () => {
-    history.push("/");
-  };
-
   let selectionAll = async () => {
     let { data } = await supabase.from("RegisteredUsers").select(`email`);
     setEmails(data.map((x) => x.email));
@@ -123,6 +124,7 @@ export const AdministratorUser = () => {
 
     if (emails.length > 0 && message !== "") {
       setStateMessage(false);
+      setEmails([]);
       await axios({
         url: "http://localhost:3001/emails",
         method: "Post",
@@ -151,14 +153,43 @@ export const AdministratorUser = () => {
   let filter = users.filter((user) => user.id_user !== id);
   let renderUsers = filter.sort((a, b) => (a.email > b.email ? 1 : -1));
 
+  let search = () => {
+    setSearchUser(true);
+
+    let filterSearch = renderUsers.filter((e) => {
+      let { email } = e;
+      let data = email.includes(emailSearching.current.value);
+      return data;
+    });
+
+    setrenderSearch(filterSearch);
+  };
+
+  let cancelSearch = () => {
+    setSearchUser(false);
+
+    return history.push("/home");
+  };
   return (
     <Container>
       <div>
-        <input type="text" placeholder="Search User by email" />
-        <button>Search</button>
+        <input
+          type="text"
+          placeholder="Search user by email"
+          ref={emailSearching}
+        />
+        <button type="button" onClick={search}>
+          Search
+        </button>
       </div>
-      {admin ? (
-        <Grid container>
+
+      <div>
+        <button onClick={cancelSearch} type="button">
+          All users
+        </button>
+      </div>
+      {searchUser ? (
+        <div>
           <Table>
             <TableHead className={classes.tableHead}>
               <TableRow>
@@ -169,14 +200,14 @@ export const AdministratorUser = () => {
                 <TableCell>UPGRADE TO ADMIN </TableCell>
                 <TableCell>RESET PASSWORD </TableCell>
                 <TableCell>
-                  Send message <br />
+                  Send Email <br />
                   <button onClick={selectionAll}>Select All</button>
                   <br />
                   <button onClick={unSelectionAll}>Unselect All</button>
                 </TableCell>
               </TableRow>
             </TableHead>
-            {renderUsers.map((user, i) => {
+            {renderSearch.map((user, i) => {
               const { email, bannedUser, id_user, isAdmin } = user;
               return (
                 <TableBody key={i} className={classes.tableBody}>
@@ -213,12 +244,10 @@ export const AdministratorUser = () => {
                     </TableCell>
                     <TableCell>
                       {!emails.includes(email) ? (
-                        <Button onClick={() => addEmail(email)}>
-                          Selected
-                        </Button>
+                        <Button onClick={() => addEmail(email)}>Select</Button>
                       ) : (
                         <Button onClick={() => deleteEmail(email)}>
-                          UnSelected
+                          UnSelect
                         </Button>
                       )}
                     </TableCell>
@@ -227,17 +256,8 @@ export const AdministratorUser = () => {
               );
             })}
           </Table>
-          <div></div>
+
           <div>
-            <Button
-              type="button"
-              onClick={back}
-              color="primary"
-              variant="contained"
-              className={classes.buttonBack}
-            >
-              {"Volver "}
-            </Button>
             {emails.length > 0 ? (
               <Button
                 type="button"
@@ -249,27 +269,134 @@ export const AdministratorUser = () => {
                 {" Add Message "}
               </Button>
             ) : null}
+            {!statemessage ? null : (
+              <div>
+                <h1> Message </h1>
+                <textarea
+                  ref={message}
+                  cols="30"
+                  rows="10"
+                  required
+                ></textarea>{" "}
+                <button type="button" onClick={cancelMessage}>
+                  {" "}
+                  Cancel Message
+                </button>
+                <button type="button" onClick={sendEmail}>
+                  Send Mails
+                </button>
+              </div>
+            )}
           </div>
-          {!statemessage ? null : (
-            <div>
-              <h1> Message </h1>
-              <textarea
-                ref={message}
-                cols="30"
-                rows="10"
-                required
-              ></textarea>{" "}
-              <button type="button" onClick={cancelMessage}>
-                {" "}
-                Cancel Message
-              </button>
-              <button type="button" onClick={sendEmail}>
-                Send Mails
-              </button>
-            </div>
-          )}
-        </Grid>
-      ) : null}
+        </div>
+      ) : (
+        <div>
+          {admin ? (
+            <Grid container>
+              <Table>
+                <TableHead className={classes.tableHead}>
+                  <TableRow>
+                    <TableCell>User N° </TableCell>
+                    <TableCell>Email </TableCell>
+                    <TableCell>Id user </TableCell>
+                    <TableCell>BLOCK USER </TableCell>
+                    <TableCell>UPGRADE TO ADMIN </TableCell>
+                    <TableCell>RESET PASSWORD </TableCell>
+                    <TableCell>
+                      Send Email <br />
+                      <button onClick={selectionAll}>Select All</button>
+                      <br />
+                      <button onClick={unSelectionAll}>Unselect All</button>
+                    </TableCell>
+                  </TableRow>
+                </TableHead>
+                {renderUsers.map((user, i) => {
+                  const { email, bannedUser, id_user, isAdmin } = user;
+                  return (
+                    <TableBody key={i} className={classes.tableBody}>
+                      <TableRow>
+                        <TableCell>{i + 1}</TableCell>
+                        <TableCell>{email}</TableCell>
+                        <TableCell>{id_user}</TableCell>
+                        <TableCell>
+                          {bannedUser ? (
+                            <Button onClick={() => desBanear(id_user)}>
+                              Unblock
+                            </Button>
+                          ) : (
+                            <Button onClick={() => bannear(id_user)}>
+                              Blocked
+                            </Button>
+                          )}
+                        </TableCell>
+                        <TableCell>
+                          {isAdmin ? (
+                            <Button onClick={() => noBeAdmin(id_user)}>
+                              to user
+                            </Button>
+                          ) : (
+                            <Button onClick={() => toBeAdmin(id_user)}>
+                              Up to Admin
+                            </Button>
+                          )}
+                        </TableCell>
+                        <TableCell>
+                          <Button onClick={() => resetPassword(email)}>
+                            Reset
+                          </Button>
+                        </TableCell>
+                        <TableCell>
+                          {!emails.includes(email) ? (
+                            <Button onClick={() => addEmail(email)}>
+                              Select
+                            </Button>
+                          ) : (
+                            <Button onClick={() => deleteEmail(email)}>
+                              UnSelect
+                            </Button>
+                          )}
+                        </TableCell>
+                      </TableRow>
+                    </TableBody>
+                  );
+                })}
+              </Table>
+              <div></div>
+              <div>
+                {emails.length > 0 ? (
+                  <Button
+                    type="button"
+                    onClick={addMessage}
+                    color="primary"
+                    variant="contained"
+                    className={classes.buttonBack}
+                  >
+                    {" Add Message "}
+                  </Button>
+                ) : null}
+              </div>
+              {!statemessage ? null : (
+                <div>
+                  <h1> Message </h1>
+                  <textarea
+                    ref={message}
+                    cols="30"
+                    rows="10"
+                    required
+                  ></textarea>{" "}
+                  <button type="button" onClick={cancelMessage}>
+                    {" "}
+                    Cancel Message
+                  </button>
+                  <button type="button" onClick={sendEmail}>
+                    Send Mails
+                  </button>
+                </div>
+              )}
+            </Grid>
+          ) : null}
+        </div>
+      )}
     </Container>
   );
 };
