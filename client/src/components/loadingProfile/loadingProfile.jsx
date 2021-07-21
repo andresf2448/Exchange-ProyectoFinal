@@ -11,6 +11,7 @@ import {
   RadioGroup,
   Radio,
   Button,
+  ButtonGroup,
 } from "@material-ui/core";
 import { validate } from "./validate";
 
@@ -114,7 +115,7 @@ export const LoadingProfile = () => {
     setIsEdit(true);
   }
 
-  //4to
+  //4to //envia los datos a supabase y cambia el estado de hasProfile
   async function editProfile(event) {
     event.preventDefault();
     const {
@@ -137,12 +138,9 @@ export const LoadingProfile = () => {
         gender,
       },
     ]).match({ id_user });
-
-    // await supabase
-    //   .from("RegisteredUsers")
-    //   .update({ hasProfileUserAnchor: "true" })
-    //   .match({ id_user });
     
+    setHasProfile(true);
+
     setData({
       firstName: "",
       lastName: "",
@@ -151,8 +149,6 @@ export const LoadingProfile = () => {
       occupation: "",
       gender: "",
     });
-
-    setHasProfile(true);
   }
 
   useEffect(() => {
@@ -265,15 +261,26 @@ export const LoadingProfile = () => {
                 </RadioGroup>
               </FormControl>
               {isEdit ?
-                <Button
-                type="submit"
-                disabled={!submit}
-                variant="contained"
-                color="primary"
-                onClick={editProfile}
-                > 
-                {"Finish edit"}
-                </Button>
+                <ButtonGroup>
+                  <Button
+                  type="submit"
+                  disabled={!submit}
+                  variant="contained"
+                  color="primary"
+                  onClick={editProfile}
+                  > 
+                  {"Finish edit"}
+                  </Button>
+                  <Button
+                  type="submit"
+                  variant="outlined"
+                  color="primary"
+                  onClick={() => setHasProfile(true)}
+                  > 
+                  {"Cancel"}
+                  </Button>
+                </ButtonGroup>
+                
                 :
                 <Button
                   type="submit"
