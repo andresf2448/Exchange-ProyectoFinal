@@ -14,13 +14,11 @@ router.get("/", async (req, res) => {
 
   /* if (asset_code && kind === 'deposit ') */
   try {
-    
     const { data } = await supabase
       .from("transactions")
       .select("*")
       .eq("account_id", account_id);
-    
-   
+
     if (data.length > 0 /*  && kind === 'deposit ' */) {
       data.map((transaction) => {
         let response = {
@@ -50,7 +48,6 @@ router.get("/", async (req, res) => {
 });
 
 router.post("/deposit/interactive", async (req, res) => {
-  1
   const {
     asset_code,
     account,
@@ -62,22 +59,42 @@ router.post("/deposit/interactive", async (req, res) => {
     wallet_url,
     claimable_balance_supported,
   } = req.body;
+  
   // jwt
   //validamos el asset q corresponda con uno valido de la base de datos q manejeamos nosotros
-  let { data: asset, error } = await supabase
+  let { data: asset } = await supabase
     .from("assets")
     .select("asset_code")
     .eq("asset_code", asset_code);
-  
+
   if (asset.length < 1)
     return res.json(
       "El asset no corresponde con uno valido del endpoint /info"
     );
-  retu ;
+
+  const { data } = await supabase
+    .from("transactions")
+    .insert([
+      {
+        account_id: account,
+        asset_code: asset_code,
+        status: "incompleted",
+        id_user: null,
+        withdrawal: false,
+        kyc_verified: false,
+      },
+    ]);
+  console.log(data);
+
   //conectamos stripe
   //seteamos en la base de datos el status de la operacion
   //cuando llega el aviso operacion de createClamaibleBalance
-  //return
+  const response = {
+    type: "interactive_customer_info_needed",
+    url: `https://localhost:3000/kycflow`,
+    id: data[0].id,
+  };
+  return res.json({ response });
 });
 
 //
