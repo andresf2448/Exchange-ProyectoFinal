@@ -1,4 +1,4 @@
-import { Container } from "@material-ui/core";
+import { Container, Grid, TextField, Button, Typography } from "@material-ui/core";
 import { useRef, useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { supabase } from "supabase/supabase";
@@ -15,16 +15,12 @@ export default function RestorePassword() {
         .from('RegisteredUsers')
         .select('resetPassword')
         .eq("id_user", session.user.id);
-        console.log("db ", hasReset.data[0].resetPassword)
-        if(hasReset.data[0].resetPassword === true) {
-        setHasResetPassword(true);
-        console.log("entre");
-        }
-        console.log(" state es ", hasResetPassword);
+        if(hasReset.data[0].resetPassword === true) setHasResetPassword(true);
     }
 
     useEffect(() => {
-        hasResetFunction()
+        hasResetFunction();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
     
     let history = useHistory();
@@ -50,21 +46,25 @@ export default function RestorePassword() {
     return (
         <Container>
             {hasResetPassword ?
-                <div>
-                    <input
+                <Grid container direction="column" justifyContent="center" alignItems="center">
+                    <TextField
                         type="password"
                         ref={newPassword}
-                        placeholder="your new password"
+                        placeholder="Your new password"
                     />
-                    <input
+                    <TextField
                         type="password"
                         ref={validatePassword}
-                        placeholder="confirm your password"
+                        placeholder="Confirm your password"
                     />
-                    <button onClick={submit}>Send</button>
-                </div>
+                    <Button color="primary" variant="contained" onClick={submit}>Send</Button>
+                </Grid>
                 :
-                <div>No pediste cambio</div>
+                <Container>
+                    <Typography variant="h4">
+                        No pediste cambio
+                    </Typography>
+                </Container>
             }
         </Container>
     );
