@@ -5,9 +5,10 @@ import { Register } from "components/register/register";
 import { Home } from "containers/home/home";
 import { RecoverPassword } from "components/recoverPassword/recoverPassword";
 import CheckoutForm from "components/stripe/checkoutForm";
-
-import TradingView from "components/tradingView/tradingView";
+import Faq from "components/faq/faq";
+import { About } from "components/about/about";
 import RestorePassword from "components/restorePassword/restorePassword";
+import Toml from "containers/toml/toml";
 
 import "./App.scss";
 
@@ -20,9 +21,10 @@ function App() {
         <Route path="/home" component={Home} />
         <Route path="/recoverPassword" component={RecoverPassword} />
         <Route path="/payment" component={CheckoutForm} />
-        <Route path='/tv' component={TradingView}/>
+        <Route path='/faq' component={Faq}/>
+        <Route path='/about' component={About}/>
         <Route path="/restorePassword" component={RestorePassword} />
-
+        <Route path="/.well-known/stellar.toml" component={Toml} />
       </div>
     </Router>
   );

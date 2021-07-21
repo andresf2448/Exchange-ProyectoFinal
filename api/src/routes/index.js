@@ -9,5 +9,6 @@ module.exports = {
   stripe: require('./stripe/stripe'), 
   federation: require('./federation/federation'),
   transactions: require('./transactions/transactions'),
+  toml: require('./toml/toml'),
   index: router
 };

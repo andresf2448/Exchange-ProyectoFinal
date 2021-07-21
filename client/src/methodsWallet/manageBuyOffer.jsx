@@ -130,7 +130,6 @@ export default function ManageBuyOffer() {
             <input
               type="text"
               name="amount"
-              id=""
               onChange={(event) => setAmount(event.target.value)}
               placeholder="Amount to sell"
             />
@@ -159,7 +158,6 @@ export default function ManageBuyOffer() {
             <input
               type="text"
               name="price"
-              id=""
               onChange={(event) => setPrice(event.target.value)}
               placeholder="Price per token"
             />
