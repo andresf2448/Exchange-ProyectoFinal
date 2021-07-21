@@ -21,8 +21,8 @@ function App() {
         <Route path="/home" component={Home} />
         <Route path="/recoverPassword" component={RecoverPassword} />
         <Route path="/payment" component={CheckoutForm} />
-        <Route path='/faq' component={Faq}/>
-        <Route path='/about' component={About}/>
+        <Route path="/faq" component={Faq} />
+        <Route path="/about" component={About} />
         <Route path="/restorePassword" component={RestorePassword} />
         <Route path="/.well-known/stellar.toml" component={Toml} />
       </div>
