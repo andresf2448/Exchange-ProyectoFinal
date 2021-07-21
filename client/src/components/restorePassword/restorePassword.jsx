@@ -35,6 +35,12 @@ export default function RestorePassword() {
         if (newPassword.current.value === validatePassword.current.value) {
             let password = newPassword.current.value;
             const { error } = await supabase.auth.update({ password });
+            
+            await supabase
+                .from("RegisteredUsers")
+                .update({ resetPassword: "false" })
+                .match({ id_user });
+            
             if (error) alert(error.message);
             else alert("Your password has been updated.");
             history.push("/");
