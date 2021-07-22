@@ -1,5 +1,3 @@
-const phones = require('arg.js').phone;
-
 export function validate(input) {
   let error = {
     isError: false,
