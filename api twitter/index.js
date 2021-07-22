@@ -2,6 +2,9 @@ const http = require("http");
 const router = require("express").Router();
 const server = http.createServer(router);
 
+require("dotenv").config();
+const { TWITTER_BEARER_TOKEN } = process.env;
+
 const socketIo = require("socket.io");
 const io = socketIo(server);
 
@@ -37,9 +40,10 @@ const rules = [
 async function getRules() {
   const response = await needle("get", rulesURL, {
     headers: {
-      Authorization: `Bearer ${TOKEN}`,
+      Authorization: `Bearer ${TWITTER_BEARER_TOKEN}`,
     },
   });
+
   return response.body;
 }
 

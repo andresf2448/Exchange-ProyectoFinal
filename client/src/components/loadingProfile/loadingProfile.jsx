@@ -38,7 +38,6 @@ export const LoadingProfile = () => {
     gender: "",
   });
 
-  
   function handleOnChange(event) {
     setData({
       ...data,
@@ -62,7 +61,7 @@ export const LoadingProfile = () => {
       occupation,
       gender,
     } = data;
-    
+
     await supabase.from("UserAnchor").insert([
       {
         id_user,
@@ -77,11 +76,11 @@ export const LoadingProfile = () => {
 
     await supabase
       .from("RegisteredUsers")
-      .update({ hasProfileUserAnchor: "true" })
+      .update({ resetPassword: "true" })
       .match({ id_user });
-    
+
     setHasProfile(true);
-    
+
     setData({
       firstName: "",
       lastName: "",
@@ -91,27 +90,25 @@ export const LoadingProfile = () => {
       gender: "",
     });
   }
-  
-  
-  //1ro Llama a supa, verifica hasProfileUserAnchor y si es true, setea en true el estado de abajo 
+
+  //1ro Llama a supa, verifica hasProfileUserAnchor y si es true, setea en true el estado de abajo
   //escucha en el useEffect de abajo
   const [hasProfile, setHasProfile] = useState(null);
 
   async function hasProfileFunction() {
-    let hasProf  = await supabase
-    .from('RegisteredUsers')
-    .select('hasProfileUserAnchor')
-    .eq("id_user", session.user.id);
-    if(hasProf.data[0].hasProfileUserAnchor === true) setHasProfile(true);
+    let hasProf = await supabase
+      .from("RegisteredUsers")
+      .select("hasProfileUserAnchor")
+      .eq("id_user", session.user.id);
+    if (hasProf.data[0].hasProfileUserAnchor === true) setHasProfile(true);
     // console.log(hasP.data[0].hasProfileUserAnchor);
   }
-  
+
   //2do para editar el perfil, hay que agregar este estado para diferenciar si esta creando o editando.
   const [isEdit, setIsEdit] = useState(false);
 
-  
   //3ro handleEdit permite mostrar de nuevo el form y cambiar el boton send por finish.
-  function handleEdit(){
+  function handleEdit() {
     setHasProfile(false);
     setIsEdit(true);
   }
@@ -127,19 +124,22 @@ export const LoadingProfile = () => {
       occupation,
       gender,
     } = data;
-    
-    await supabase.from("UserAnchor").update([
-      {
-        id_user,
-        firstName,
-        lastName,
-        additionalName,
-        mobileNumber,
-        occupation,
-        gender,
-      },
-    ]).match({ id_user });
-    
+
+    await supabase
+      .from("UserAnchor")
+      .update([
+        {
+          id_user,
+          firstName,
+          lastName,
+          additionalName,
+          mobileNumber,
+          occupation,
+          gender,
+        },
+      ])
+      .match({ id_user });
+
     setHasProfile(true);
 
     setData({
@@ -152,12 +152,10 @@ export const LoadingProfile = () => {
     });
   }
 
-
-
   useEffect(() => {
     hasProfileFunction();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, []);
 
   useEffect(() => {
     if (error.isError) {
@@ -172,12 +170,20 @@ export const LoadingProfile = () => {
       <Typography variant="h4" gutterBottom>
         Update Information
       </Typography>
-      {hasProfile ?
+      {hasProfile ? (
         <Container>
-          <Typography variant="h4" gutterBottom>Completaste tu perfil</Typography>
-          <Button onClick={() => handleEdit()} color="primary" variant="contained">Editar</Button>
+          <Typography variant="h4" gutterBottom>
+            Completaste tu perfil
+          </Typography>
+          <Button
+            onClick={() => handleEdit()}
+            color="primary"
+            variant="contained"
+          >
+            Editar
+          </Button>
         </Container>
-        :
+      ) : (
         <form onSubmit={updateProfile}>
           <Grid container>
             <Grid
@@ -263,28 +269,27 @@ export const LoadingProfile = () => {
                   />
                 </RadioGroup>
               </FormControl>
-              {isEdit ?
+              {isEdit ? (
                 <ButtonGroup>
                   <Button
-                  type="submit"
-                  disabled={!submit}
-                  variant="contained"
-                  color="primary"
-                  onClick={editProfile}
-                  > 
-                  {"Finish edit"}
+                    type="submit"
+                    disabled={!submit}
+                    variant="contained"
+                    color="primary"
+                    onClick={editProfile}
+                  >
+                    {"Finish edit"}
                   </Button>
                   <Button
-                  type="submit"
-                  variant="outlined"
-                  color="primary"
-                  onClick={() => setHasProfile(true)}
-                  > 
-                  {"Cancel"}
+                    type="submit"
+                    variant="outlined"
+                    color="primary"
+                    onClick={() => setHasProfile(true)}
+                  >
+                    {"Cancel"}
                   </Button>
                 </ButtonGroup>
-                
-                :
+              ) : (
                 <Button
                   type="submit"
                   disabled={!submit}
@@ -294,11 +299,11 @@ export const LoadingProfile = () => {
                 >
                   {"Send "}
                 </Button>
-              }
+              )}
             </Grid>
           </Grid>
         </form>
-      }
+      )}
     </Container>
   );
 };
