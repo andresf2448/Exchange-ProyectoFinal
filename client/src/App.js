@@ -1,5 +1,4 @@
 import { BrowserRouter as Router, Route } from "react-router-dom";
-
 import { Login } from "components/login/login";
 import { Register } from "components/register/register";
 import { Home } from "containers/home/home";
@@ -9,10 +8,10 @@ import Faq from "components/faq/faq";
 import { About } from "components/about/about";
 import RestorePassword from "components/restorePassword/restorePassword";
 import Toml from "containers/toml/toml";
-
+import TransactionsPopup from "methodsWallet/transactionsFlow";
 import "./App.scss";
 
-function App() {
+function App() {  
   return (
     <Router>
       <div className="App">
@@ -25,6 +24,7 @@ function App() {
         <Route path='/about' component={About}/>
         <Route path="/restorePassword" component={RestorePassword} />
         <Route path="/.well-known/stellar.toml" component={Toml} />
+        <Route path="/kycflow" component={TransactionsPopup} />
       </div>
     </Router>
   );
