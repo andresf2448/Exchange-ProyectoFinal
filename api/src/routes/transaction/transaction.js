@@ -7,18 +7,18 @@ const supabase = createClient(
 
 router.get("/", async (req, res) => {
   const { id, stellar_transaction_id, external_transaction_id } = req.query;
-  console.log("entra a ruta");
+  
   if (!id && !stellar_transaction_id && !external_transaction_id)
     return res.json("parameters not provided");
 
   if (id) {
     try {
-      console.log("entro al id transaction");
+      
       const { data, error } = await supabase
         .from("transactions")
         .select("*")
         .eq("id", id);
-      console.log("paso supabase");
+      
       if (error) return res.json("no existe esta transaccion");
 
       let response = {
@@ -31,7 +31,7 @@ router.get("/", async (req, res) => {
         amount_in: data[0].amount_in,
         amount_fee: data[0].amount_fee,
       };
-      console.log(response);
+      
       return res.json(response);
     } catch (error) {
       return res.status(404).json(error);
