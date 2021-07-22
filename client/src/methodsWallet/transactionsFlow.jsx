@@ -11,11 +11,11 @@ export default function TransactionsPopup() {
   const [kyc, setKyc] = useState(false);
 
   const aux = window.location.hash;
-  console.log(aux);
+  
   const id = aux.slice(1);
-  console.log(id);
+  
   const info = async () => {
-    console.log("adentro de function async");
+    
     const { data } = await supabase
       .from("transactions")
       .select("*")
