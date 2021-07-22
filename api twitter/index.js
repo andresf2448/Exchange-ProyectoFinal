@@ -27,24 +27,21 @@ const rulesURL = "https://api.twitter.com/2/tweets/search/stream/rules";
 const streamURL =
   "https://api.twitter.com/2/tweets/search/stream?tweet.fields=public_metrics&expansions=author_id";
 
-
-const rules = [{
-    value: 'Bitcoin lang:en sample:15'
-}];
-    //is:verified 
-    // Get Stream rules
-    async function getRules(){
-        const response = await needle('get', rulesURL, {
-            headers:{
-                Authorization: `Bearer ${TOKEN}`
-            }
-        });
-        return response.body
-    };
-
-
-
-
+const rules = [
+  {
+    value: "Bitcoin lang:en sample:15",
+  },
+];
+//is:verified
+// Get Stream rules
+async function getRules() {
+  const response = await needle("get", rulesURL, {
+    headers: {
+      Authorization: `Bearer ${TOKEN}`,
+    },
+  });
+  return response.body;
+}
 
 // Set stream rules (sendind and deleting rules its gonna be a post request)
 async function setRules() {
@@ -108,10 +105,8 @@ io.on("connection", async () => {
   streamTweets(io);
 });
 
-
 server.listen(3005, () => {
   console.log("Listening on 3005 (twitter stream route)");
 });
 
 module.exports = router;
-//>>>>>>> integration

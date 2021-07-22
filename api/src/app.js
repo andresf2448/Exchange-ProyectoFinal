@@ -26,7 +26,6 @@ server.use("/transactions", routes.transactions);
 server.use("/payment", routes.payment);
 server.use("/transaction", routes.transaction);
 server.use("/createWallet", routes.acount);
-server.use("/twitter", routes.twitter);
 server.use("/create-payment-intent", routes.stripe);
 server.use("/stellar.toml", routes.toml);
 server.use("/emails", routes.emails);
