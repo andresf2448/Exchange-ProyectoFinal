@@ -39,6 +39,15 @@ export const LoadingProfile = () => {
     gender: "",
   });
 
+  let {
+    firstName,
+    lastName,
+    additionalName,
+    mobileNumber,
+    occupation,
+    gender,
+  } = data;
+
   function handleOnChange(event) {
     setData({
       ...data,
@@ -54,14 +63,6 @@ export const LoadingProfile = () => {
 
   async function updateProfile(event) {
     event.preventDefault();
-    const {
-      firstName,
-      lastName,
-      additionalName,
-      mobileNumber,
-      occupation,
-      gender,
-    } = data;
 
     await supabase.from("UserAnchor").insert([
       {
@@ -85,14 +86,6 @@ export const LoadingProfile = () => {
 
   async function updateProfileEdit(event) {
     event.preventDefault();
-    const {
-      firstName,
-      lastName,
-      additionalName,
-      mobileNumber,
-      occupation,
-      gender,
-    } = data;
 
     await supabase.from("UserAnchor").update([
       {
@@ -185,12 +178,12 @@ export const LoadingProfile = () => {
       {hasProfile ? (
         <Container>
            <Box>
-            <Typography variant='h6'>First name: {data.firstName}</Typography>
-            <Typography variant='h6'>Last name: {data.lastName}</Typography>
-            <Typography variant='h6'>Additional name: {data.additionalName}</Typography>
-            <Typography variant='h6'>Mobile Number: {data.mobileNumber}</Typography>
-            <Typography variant='h6'>Occupation: {data.occupation}</Typography>
-            <Typography variant='h6'>Gender: {data.gender}</Typography>
+            <Typography variant='h6'>First name: {firstName}</Typography>
+            <Typography variant='h6'>Last name: {lastName}</Typography>
+            <Typography variant='h6'>Additional name: {additionalName}</Typography>
+            <Typography variant='h6'>Mobile Number: {mobileNumber}</Typography>
+            <Typography variant='h6'>Occupation: {occupation}</Typography>
+            <Typography variant='h6'>Gender: {gender}</Typography>
           </Box>
           <Button onClick={() => handleEdit()} color="primary" variant="contained">Edit</Button>
         </Container>

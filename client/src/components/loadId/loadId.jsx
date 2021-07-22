@@ -41,6 +41,15 @@ export const LoadId = () => {
     birthDate: "",
   });
 
+  let {
+    idType,
+    nationality,
+    idIssueDate,
+    idExpirationDate,
+    idNumber,
+    birthDate,
+} = data;
+
   
   function handleOnChange(event) {
     setData({
@@ -57,14 +66,6 @@ export const LoadId = () => {
 
   async function updateProfile(event) {
     event.preventDefault();
-    const {
-        idType,
-        nationality,
-        idIssueDate,
-        idExpirationDate,
-        idNumber,
-        birthDate,
-    } = data;
     
     await supabase.from("IdentityDocument").insert([
       {
@@ -85,17 +86,9 @@ export const LoadId = () => {
     
     setHasProfile(true);
   }
+
   async function updateProfileEdit(event) {
-    event.preventDefault();
-    const {
-        idType,
-        nationality,
-        idIssueDate,
-        idExpirationDate,
-        idNumber,
-        birthDate,
-    } = data;
-    
+    event.preventDefault();    
     await supabase.from("IdentityDocument").update([
       {
         idType,
@@ -191,12 +184,12 @@ export const LoadId = () => {
       {hasProfile ?
         <Container>
           <Box>
-            <Typography variant='h6'>ID type: {data.idType}</Typography>
-            <Typography variant='h6'>ID number: {data.idNumber}</Typography>
-            <Typography variant='h6'>Birth date: {data.birthDate}</Typography>
-            <Typography variant='h6'>Nationality: {data.nationality}</Typography>
-            <Typography variant='h6'>Issue date: {data.idIssueDate}</Typography>
-            <Typography variant='h6'>Expiration date{data.idExpirationDate}</Typography>
+            <Typography variant='h6'>ID type: {idType}</Typography>
+            <Typography variant='h6'>ID number: {idNumber}</Typography>
+            <Typography variant='h6'>Birth date: {birthDate}</Typography>
+            <Typography variant='h6'>Nationality: {nationality}</Typography>
+            <Typography variant='h6'>Issue date: {idIssueDate}</Typography>
+            <Typography variant='h6'>Expiration date{idExpirationDate}</Typography>
           </Box>
           <Button onClick={() => handleEdit()}>Edit</Button>
         </Container>
