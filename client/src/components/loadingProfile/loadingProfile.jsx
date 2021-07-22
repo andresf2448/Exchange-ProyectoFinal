@@ -76,7 +76,7 @@ export const LoadingProfile = () => {
 
     await supabase
       .from("RegisteredUsers")
-      .update({ resetPassword: "true" })
+      .update({ hasProfileUserAnchor: "true" })
       .match({ id_user });
 
     setHasProfile(true);
