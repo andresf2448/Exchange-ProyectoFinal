@@ -83,6 +83,38 @@ export const LoadingProfile = () => {
     setHasProfile(true);
   }
 
+  async function updateProfileEdit(event) {
+    event.preventDefault();
+    const {
+      firstName,
+      lastName,
+      additionalName,
+      mobileNumber,
+      occupation,
+      gender,
+    } = data;
+
+    await supabase.from("UserAnchor").update([
+      {
+        firstName,
+        lastName,
+        additionalName,
+        mobileNumber,
+        occupation,
+        gender,
+      },
+    ]).match({ id_user });;
+
+    await supabase
+      .from("RegisteredUsers")
+      .update({ hasProfileUserAnchor: "true" })
+      .match({ id_user });
+
+    setHasProfile(true);
+  }
+
+
+
   //1ro Llama a supa, verifica hasProfileUserAnchor y si es true, setea en true el estado de abajo
   //escucha en el useEffect de abajo
   const [hasProfile, setHasProfile] = useState(null);
@@ -129,7 +161,7 @@ export const LoadingProfile = () => {
 
   //4to //envia los datos a supabase y cambia el estado de hasProfile
   const finishEdit= (event)=>{
-    updateProfile(event)
+    updateProfileEdit(event)
     setHasProfile(true)
   }
   useEffect(() => {

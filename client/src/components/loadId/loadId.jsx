@@ -85,6 +85,36 @@ export const LoadId = () => {
     
     setHasProfile(true);
   }
+  async function updateProfileEdit(event) {
+    event.preventDefault();
+    const {
+        idType,
+        nationality,
+        idIssueDate,
+        idExpirationDate,
+        idNumber,
+        birthDate,
+    } = data;
+    
+    await supabase.from("IdentityDocument").update([
+      {
+        idType,
+        nationality,
+        idIssueDate,
+        idExpirationDate,
+        idNumber,
+        birthDate,
+      },
+    ]).match({ id_user });
+    ;
+
+    await supabase
+      .from("RegisteredUsers")
+      .update({ hasProfileDniDocument: "true" })
+      .match({ id_user });
+    
+    setHasProfile(true);
+  }
   
   
   //1ro Llama a supa, verifica hasProfileDniDocument y si es true, setea en true el estado de abajo 
@@ -136,7 +166,7 @@ export const LoadId = () => {
   //4to //envia los datos a supabase y cambia el estado de hasProfile
   
   const finishEdit= (event)=>{
-    updateProfile(event)
+    updateProfileEdit(event)
     setHasProfile(true)
   }
 
