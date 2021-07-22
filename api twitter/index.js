@@ -2,11 +2,14 @@ const http = require('http');
 const router = require('express').Router()
 const server = http.createServer(router);
 
-const socketIo = require('socket.io')   
+require("dotenv").config();
+const TOKEN = process.env.TWITTER_BEARER_TOKEN;
+
+
+const socketIo = require("socket.io");
 const io = socketIo(server);
 
 const needle = require('needle');
-const TOKEN = process.env.TWITTER_BEARER_TOKEN;
 
 router.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*'); // update to match the domain you will make the request from

@@ -3,7 +3,7 @@ export function validate(input) {
     isError: false,
     firstName: '',
     gender: "",
-    lastName: ''
+    lastName: "",
   }
 
   if (!input.firstName) {

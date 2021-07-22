@@ -80,7 +80,7 @@ export default function CreateAccount() {
 
   return (
     <div>
-      <br/>
+      {!publicKey && ! secretKey ? null : null}
       {hasWallet ? (
         <Grid item key={12}>
             {<Typography variant='h6'> PublicKey: {publicKeyUser} </Typography>}
