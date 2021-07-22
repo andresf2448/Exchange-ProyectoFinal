@@ -6,8 +6,8 @@ export default function TransactionsPopup() {
   const [firstName, setFirstName] = useState();
   const [lastName, setLastName] = useState();
   const [email, setEmail] = useState();
-  /* const [error, setError] = useState();
-  const [transaction, setTransaction] = useState(); */
+   const [ setError] = useState();
+  /*const [transaction, setTransaction] = useState(); */
   const [kyc, setKyc] = useState(false);
 
   const aux = window.location.hash;
@@ -23,8 +23,8 @@ export default function TransactionsPopup() {
 
     if (data.length < 1) return setError(true);
     if (data[0]) {
-      setTransactionType(data[0].kind);
-      return setTransaction(data[0]);
+      
+      return setTransactionType(data[0].kind);
     }
   };
   info();
@@ -38,7 +38,7 @@ export default function TransactionsPopup() {
     .subscribe(); */
 
   async function handleSubmit() {
-    const aux = await supabase
+     await supabase
       .from("transactions")
       .update([
         {
@@ -49,7 +49,7 @@ export default function TransactionsPopup() {
         },
       ])
       .eq("id", id);
-    setTransaction(aux[0]);
+    
     return setKyc(true);
   }
   return (
