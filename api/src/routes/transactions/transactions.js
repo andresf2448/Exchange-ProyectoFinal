@@ -19,7 +19,7 @@ router.get("/", async (req, res) => {
       .select("*")
       .eq("account_id", account_id);
 
-    if (data.length > 0 /*  && kind === 'deposit ' */) {
+    if (data.length > 0 ) {
       data.map((transaction) => {
         let response = {
           id: transaction.id,

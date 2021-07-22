@@ -6,10 +6,8 @@ export default function TransactionsPopup() {
   const [firstName, setFirstName] = useState();
   const [lastName, setLastName] = useState();
   const [email, setEmail] = useState();
-  const [deposit] = useState();
-  const [withdraw] = useState();
-  const [error, setError] = useState();
-  const [transaction, setTransaction] = useState();
+  /* const [error, setError] = useState();
+  const [transaction, setTransaction] = useState(); */
   const [kyc, setKyc] = useState(false);
 
   const aux = window.location.hash;
@@ -92,7 +90,7 @@ export default function TransactionsPopup() {
             <div>A que cuenta desea retirar sus fondos?</div>
             <input
               type="text"
-              onChange={(event) => setBankAccount(event)}
+              /* onChange={(event) => setBankAccount(event)} */
             />{" "}
           </div>
         )}
