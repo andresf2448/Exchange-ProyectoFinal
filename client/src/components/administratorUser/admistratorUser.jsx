@@ -106,6 +106,12 @@ export const AdministratorUser = () => {
   let resetPassword = async (email) => {
     let emailUser = email;
     alert(` Email sent to ${emailUser}`);
+
+    await supabase
+      .from("RegisteredUsers")
+      .update({ resetPassword: "true" })
+      .match({ email: emailUser });
+
     await supabase.auth.api.resetPasswordForEmail(emailUser);
   };
 
@@ -174,6 +180,8 @@ export const AdministratorUser = () => {
     emailSearching.current.value = "";
     return history.push("/home");
   };
+
+  console.log(emails);
 
   return (
     <Container>
@@ -274,7 +282,7 @@ export const AdministratorUser = () => {
               </Button>
             ) : null}
           </div>
-          {statemessage && emails.length !== 0? (
+          {statemessage && emails.length !== 0 ? (
             <div>
               <h1> Message </h1>
               <input type="text" ref={title} placeholder="Add Title" />
