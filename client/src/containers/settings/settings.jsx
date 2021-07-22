@@ -2,6 +2,7 @@ import { Container, Tabs, Tab } from "@material-ui/core";
 import {useState} from 'react';
 import { LoadingProfile } from "components/loadingProfile/loadingProfile";
 import RestorePassword from "components/restorePassword/restorePassword";
+import { LoadId } from "components/loadId/loadId";
 
 
 export function Settings() {
@@ -15,10 +16,12 @@ export function Settings() {
     <Container maxWidth='md'>
             <Tabs value={value} onChange={handleChange} centered={true}>
                 <Tab label="Profile"/>
+                <Tab label="Identification"/>
                 <Tab label="Change password"/>
             </Tabs>
             {value === 0 && <LoadingProfile />}
-            {value === 1 && <RestorePassword />}
+            {value === 1 && <LoadId/>}
+            {value === 2 && <RestorePassword />}
     </Container>
   );
 }

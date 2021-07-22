@@ -12,6 +12,7 @@ import {
   Radio,
   Button,
   ButtonGroup,
+  Box,
 } from "@material-ui/core";
 import { validate } from "./validate";
 
@@ -38,6 +39,15 @@ export const LoadingProfile = () => {
     gender: "",
   });
 
+  let {
+    firstName,
+    lastName,
+    additionalName,
+    mobileNumber,
+    occupation,
+    gender,
+  } = data;
+
   function handleOnChange(event) {
     setData({
       ...data,
@@ -53,14 +63,6 @@ export const LoadingProfile = () => {
 
   async function updateProfile(event) {
     event.preventDefault();
-    const {
-      firstName,
-      lastName,
-      additionalName,
-      mobileNumber,
-      occupation,
-      gender,
-    } = data;
 
     await supabase.from("UserAnchor").insert([
       {
@@ -80,28 +82,65 @@ export const LoadingProfile = () => {
       .match({ id_user });
 
     setHasProfile(true);
-
-    setData({
-      firstName: "",
-      lastName: "",
-      additionalName: "",
-      mobileNumber: "",
-      occupation: "",
-      gender: "",
-    });
   }
+
+  async function updateProfileEdit(event) {
+    event.preventDefault();
+
+    await supabase.from("UserAnchor").update([
+      {
+        firstName,
+        lastName,
+        additionalName,
+        mobileNumber,
+        occupation,
+        gender,
+      },
+    ]).match({ id_user });;
+
+    await supabase
+      .from("RegisteredUsers")
+      .update({ hasProfileUserAnchor: "true" })
+      .match({ id_user });
+
+    setHasProfile(true);
+  }
+
+
 
   //1ro Llama a supa, verifica hasProfileUserAnchor y si es true, setea en true el estado de abajo
   //escucha en el useEffect de abajo
   const [hasProfile, setHasProfile] = useState(null);
 
   async function hasProfileFunction() {
-    let hasProf = await supabase
-      .from("RegisteredUsers")
-      .select("hasProfileUserAnchor")
-      .eq("id_user", session.user.id);
-    if (hasProf.data[0].hasProfileUserAnchor === true) setHasProfile(true);
-    // console.log(hasP.data[0].hasProfileUserAnchor);
+    let hasProf  = await supabase
+    .from('RegisteredUsers')
+    .select('hasProfileUserAnchor')
+    .eq("id_user", session.user.id);
+    if(hasProf.data[0].hasProfileUserAnchor === true) setHasProfile(true);
+    setHasProfile(true);
+
+    let supaData= await supabase
+      .from("UserAnchor")
+      .select('*')
+      .match({ id_user });
+       
+      let {firstName,
+        lastName,
+        additionalName,
+        mobileNumber,
+        occupation,
+        gender,} = supaData.data[0];
+
+      setData({
+        firstName,
+        lastName,
+        additionalName,
+        mobileNumber,
+        occupation,
+        gender,
+        });
+
   }
 
   //2do para editar el perfil, hay que agregar este estado para diferenciar si esta creando o editando.
@@ -114,44 +153,10 @@ export const LoadingProfile = () => {
   }
 
   //4to //envia los datos a supabase y cambia el estado de hasProfile
-  async function editProfile(event) {
-    event.preventDefault();
-    const {
-      firstName,
-      lastName,
-      additionalName,
-      mobileNumber,
-      occupation,
-      gender,
-    } = data;
-
-    await supabase
-      .from("UserAnchor")
-      .update([
-        {
-          id_user,
-          firstName,
-          lastName,
-          additionalName,
-          mobileNumber,
-          occupation,
-          gender,
-        },
-      ])
-      .match({ id_user });
-
-    setHasProfile(true);
-
-    setData({
-      firstName: "",
-      lastName: "",
-      additionalName: "",
-      mobileNumber: "",
-      occupation: "",
-      gender: "",
-    });
+  const finishEdit= (event)=>{
+    updateProfileEdit(event)
+    setHasProfile(true)
   }
-
   useEffect(() => {
     hasProfileFunction();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -172,16 +177,15 @@ export const LoadingProfile = () => {
       </Typography>
       {hasProfile ? (
         <Container>
-          <Typography variant="h4" gutterBottom>
-            Completaste tu perfil
-          </Typography>
-          <Button
-            onClick={() => handleEdit()}
-            color="primary"
-            variant="contained"
-          >
-            Editar
-          </Button>
+           <Box>
+            <Typography variant='h6'>First name: {firstName}</Typography>
+            <Typography variant='h6'>Last name: {lastName}</Typography>
+            <Typography variant='h6'>Additional name: {additionalName}</Typography>
+            <Typography variant='h6'>Mobile Number: {mobileNumber}</Typography>
+            <Typography variant='h6'>Occupation: {occupation}</Typography>
+            <Typography variant='h6'>Gender: {gender}</Typography>
+          </Box>
+          <Button onClick={() => handleEdit()} color="primary" variant="contained">Edit</Button>
         </Container>
       ) : (
         <form onSubmit={updateProfile}>
@@ -248,7 +252,7 @@ export const LoadingProfile = () => {
                 <FormLabel component="legend">
                   {error.gender === "" ? "Gender" : error.gender}
                 </FormLabel>
-                <RadioGroup aria-label="gender" name="gender">
+                <RadioGroup aria-label="gender" name="gender" value={data.gender}>
                   <FormControlLabel
                     value="Male"
                     onClick={handleOnChange}
@@ -272,13 +276,13 @@ export const LoadingProfile = () => {
               {isEdit ? (
                 <ButtonGroup>
                   <Button
-                    type="submit"
-                    disabled={!submit}
-                    variant="contained"
-                    color="primary"
-                    onClick={editProfile}
-                  >
-                    {"Finish edit"}
+                  type="submit"
+                  disabled={!submit}
+                  variant="contained"
+                  color="primary"
+                  onClick={finishEdit}
+                  > 
+                  {"Finish edit"}
                   </Button>
                   <Button
                     type="submit"
