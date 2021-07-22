@@ -3,6 +3,7 @@ import { CryptoGraphics } from "components/cryptoGraphics/cryptoGraphics";
 import { Twitter } from 'components/twitter/twitter';
 
 export const HomeGrid = () => {
+
   return (
     <Container maxWidth="lg">
       <Grid
