@@ -39,7 +39,6 @@ export const LoadingProfile = () => {
     gender: "",
   });
 
-  
   function handleOnChange(event) {
     setData({
       ...data,
@@ -63,7 +62,7 @@ export const LoadingProfile = () => {
       occupation,
       gender,
     } = data;
-    
+
     await supabase.from("UserAnchor").insert([
       {
         id_user,
@@ -80,12 +79,11 @@ export const LoadingProfile = () => {
       .from("RegisteredUsers")
       .update({ hasProfileUserAnchor: "true" })
       .match({ id_user });
-    
+
     setHasProfile(true);
   }
-  
-  
-  //1ro Llama a supa, verifica hasProfileUserAnchor y si es true, setea en true el estado de abajo 
+
+  //1ro Llama a supa, verifica hasProfileUserAnchor y si es true, setea en true el estado de abajo
   //escucha en el useEffect de abajo
   const [hasProfile, setHasProfile] = useState(null);
 
@@ -119,13 +117,12 @@ export const LoadingProfile = () => {
         });
 
   }
-  
+
   //2do para editar el perfil, hay que agregar este estado para diferenciar si esta creando o editando.
   const [isEdit, setIsEdit] = useState(false);
 
-  
   //3ro handleEdit permite mostrar de nuevo el form y cambiar el boton send por finish.
-  function handleEdit(){
+  function handleEdit() {
     setHasProfile(false);
     setIsEdit(true);
   }
@@ -138,7 +135,7 @@ export const LoadingProfile = () => {
   useEffect(() => {
     hasProfileFunction();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, []);
 
   useEffect(() => {
     if (error.isError) {
@@ -153,7 +150,7 @@ export const LoadingProfile = () => {
       <Typography variant="h4" gutterBottom>
         Update Information
       </Typography>
-      {hasProfile ?
+      {hasProfile ? (
         <Container>
            <Box>
             <Typography variant='h6'>First name: {data.firstName}</Typography>
@@ -165,7 +162,7 @@ export const LoadingProfile = () => {
           </Box>
           <Button onClick={() => handleEdit()} color="primary" variant="contained">Edit</Button>
         </Container>
-        :
+      ) : (
         <form onSubmit={updateProfile}>
           <Grid container>
             <Grid
@@ -251,7 +248,7 @@ export const LoadingProfile = () => {
                   />
                 </RadioGroup>
               </FormControl>
-              {isEdit ?
+              {isEdit ? (
                 <ButtonGroup>
                   <Button
                   type="submit"
@@ -263,16 +260,15 @@ export const LoadingProfile = () => {
                   {"Finish edit"}
                   </Button>
                   <Button
-                  type="submit"
-                  variant="outlined"
-                  color="primary"
-                  onClick={() => setHasProfile(true)}
-                  > 
-                  {"Cancel"}
+                    type="submit"
+                    variant="outlined"
+                    color="primary"
+                    onClick={() => setHasProfile(true)}
+                  >
+                    {"Cancel"}
                   </Button>
                 </ButtonGroup>
-                
-                :
+              ) : (
                 <Button
                   type="submit"
                   disabled={!submit}
@@ -282,11 +278,11 @@ export const LoadingProfile = () => {
                 >
                   {"Send "}
                 </Button>
-              }
+              )}
             </Grid>
           </Grid>
         </form>
-      }
+      )}
     </Container>
   );
 };
