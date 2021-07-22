@@ -1,12 +1,10 @@
 import { Container, Typography, Button } from '@material-ui/core';
 import HomeIcon from '@material-ui/icons/Home';
-import useStyles from 'styles';
 import { NavLink } from 'react-router-dom';
 
 
 export const About = () => {
 
-    const classes = useStyles();
 
     return (
         <Container>

@@ -6,10 +6,6 @@ import {
   Typography,
   TextField,
   FormControl,
-  FormControlLabel,
-  FormLabel,
-  RadioGroup,
-  Radio,
   Button,
   ButtonGroup,
   InputLabel,
@@ -60,6 +56,7 @@ export const LoadId = () => {
 
   async function updateProfile(event) {
     event.preventDefault();
+    console.log('data', data)
     const {
         idType,
         nationality,
@@ -69,8 +66,9 @@ export const LoadId = () => {
         birthDate,
     } = data;
     
-    await supabase.from("IdentityDocument").insert([
+    let info = await supabase.from("IdentityDocument").insert([
       {
+        id_user,
         idType,
         nationality,
         idIssueDate,
@@ -79,7 +77,7 @@ export const LoadId = () => {
         birthDate,
       },
     ]);
-
+    console.log('info', info)
     await supabase
       .from("RegisteredUsers")
       .update({ hasProfileDniDocument: "true" })
@@ -88,12 +86,12 @@ export const LoadId = () => {
     setHasProfile(true);
     
     setData({
-        idType,
-        nationality,
-        idIssueDate,
-        idExpirationDate,
-        idNumber,
-        birthDate,
+        idType:"",
+        nationality:"",
+        idIssueDate:"",
+        idExpirationDate:"",
+        idNumber:"",
+        birthDate:"",
     });
   }
   
@@ -108,7 +106,6 @@ export const LoadId = () => {
     .select('hasProfileDniDocument')
     .eq("id_user", session.user.id);
     if(hasProf.data[0].hasProfileDniDocument === true) setHasProfile(true);
-    // console.log(hasP.data[0].hasProfileUserAnchor);
   }
   
   //2do para editar el perfil, hay que agregar este estado para diferenciar si esta creando o editando.
@@ -116,9 +113,26 @@ export const LoadId = () => {
 
   
   //3ro handleEdit permite mostrar de nuevo el form y cambiar el boton send por finish.
-  function handleEdit(){
+  async function handleEdit(){
     setHasProfile(false);
     setIsEdit(true);
+
+    let {data: IdentityDocument, error }= await supabase
+    .from("IdentityDocument")
+    .select('*')
+    .eq("id_user", id_user); //no me sale esto
+     
+    console.log('data', IdentityDocument)
+    console.log('error', error)
+
+    // setData({
+    //   idType: idType,
+    //   nationality: nationality,
+    //   idIssueDate: idIssueDate,
+    //   idExpirationDate:idExpirationDate,
+    //   idNumber: idNumber,
+    //   birthDate:birthDate,
+    // });
   }
 
   //4to //envia los datos a supabase y cambia el estado de hasProfile
@@ -135,6 +149,7 @@ export const LoadId = () => {
     
     await supabase.from("IdentityDocument").update([
       {
+        id_user,
         idType,
         nationality,
         idIssueDate,
@@ -147,18 +162,18 @@ export const LoadId = () => {
     setHasProfile(true);
 
     setData({
-        idType: "",
-        nationality: "",
-        idIssueDate: "",
-        idExpirationDate: "",
-        idNumber: "",
-        birthDate: "",
+        idType,
+        nationality,
+        idIssueDate,
+        idExpirationDate,
+        idNumber,
+        birthDate,
     });
   }
 
   useEffect(() => {
-    //aca escucha
     hasProfileFunction();
+    // eslint-disable-next-line
   }, [])
 
   useEffect(() => {
@@ -169,6 +184,10 @@ export const LoadId = () => {
     }
   }, [error]);
 
+  useEffect(() => {
+   console.log('data', data)
+  }, [data]);
+
   return (
     <Container>
       <Typography variant="h4" gutterBottom>
@@ -176,8 +195,8 @@ export const LoadId = () => {
       </Typography>
       {hasProfile ?
         <Container>
-          <Typography variant="h4" gutterBottom>Completaste tu perfil</Typography>
-          <Button onClick={() => handleEdit()}>Editar</Button>
+          <Typography variant="h4" gutterBottom>Your identification information is already uploaded</Typography>
+          <Button onClick={() => handleEdit()}>Edit</Button>
         </Container>
         :
         <form onSubmit={updateProfile}>
@@ -250,49 +269,6 @@ export const LoadId = () => {
                     shrink: true
                 }}
                 />
-
-              {/* <TextField
-                label={error.firstName === "" ? "First Name" : error.firstName}
-                required
-                name="firstName"
-                type="text"
-                value={data.firstName}
-                onChange={handleOnChange}
-                color={error.firstName === "" ? "primary" : "secondary"}
-              />
-
-              <TextField
-                label={error.lastName === "" ? "Last Name" : error.lastName}
-                required
-                name="lastName"
-                type="text"
-                value={data.lastName}
-                onChange={handleOnChange}
-                color={error.lastName === "" ? "primary" : "secondary"}
-              />
-
-              <TextField
-                label="Additional Name"
-                name="additionalName"
-                type="text"
-                value={data.additionalName}
-                onChange={handleOnChange}
-              />
-              <TextField
-                label="Mobile Number"
-                name="mobileNumber"
-                type="text"
-                value={data.mobileNumber}
-                onChange={handleOnChange}
-              />
-
-              <TextField
-                label="Occupation"
-                name="occupation"
-                type="text"
-                value={data.occupation}
-                onChange={handleOnChange}
-              /> */}
             </Grid>
 
             <Grid
@@ -302,31 +278,6 @@ export const LoadId = () => {
               direction="column"
               alignContent="space-around"
             >
-              {/* <FormControl component="fieldset">
-                <FormLabel component="legend">
-                  {error.gender === "" ? "Gender" : error.gender}
-                </FormLabel>
-                <RadioGroup aria-label="gender" name="gender">
-                  <FormControlLabel
-                    value="Male"
-                    onClick={handleOnChange}
-                    control={<Radio />}
-                    label="Male"
-                  />
-                  <FormControlLabel
-                    value="Female"
-                    onClick={handleOnChange}
-                    control={<Radio />}
-                    label="Female"
-                  />
-                  <FormControlLabel
-                    value="Other"
-                    onClick={handleOnChange}
-                    control={<Radio />}
-                    label="Other"
-                  />
-                </RadioGroup>
-              </FormControl> */}
               {isEdit ?
                 <ButtonGroup>
                   <Button

@@ -174,8 +174,8 @@ export const LoadingProfile = () => {
       </Typography>
       {hasProfile ?
         <Container>
-          <Typography variant="h4" gutterBottom>Completaste tu perfil</Typography>
-          <Button onClick={() => handleEdit()} color="primary" variant="contained">Editar</Button>
+          <Typography variant="h4" gutterBottom>Your profile is uploaded</Typography>
+          <Button onClick={() => handleEdit()} color="primary" variant="contained">Edit</Button>
         </Container>
         :
         <form onSubmit={updateProfile}>

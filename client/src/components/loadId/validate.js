@@ -54,7 +54,6 @@ export function validate(input) {
     let birthday = new Date(input.birthDate)
 
     let oldEnough = 568025136000;
-    console.log('cuenta', birthday.getTime() - oldEnough)
     if ((Date.now() - birthday.getTime()) < oldEnough) {
       error.birthDate = "You must be older than 18"
       error.isError = true

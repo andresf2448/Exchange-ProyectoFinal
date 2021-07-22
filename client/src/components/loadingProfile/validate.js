@@ -1,9 +1,11 @@
+const phones = require('arg.js').phone;
+
 export function validate(input) {
   let error = {
     isError: false,
     firstName: '',
     gender: "",
-    lastName: ''
+    lastName: "",
   }
 
   if (!input.firstName) {
