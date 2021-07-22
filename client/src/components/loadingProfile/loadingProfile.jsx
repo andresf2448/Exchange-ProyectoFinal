@@ -12,6 +12,7 @@ import {
   Radio,
   Button,
   ButtonGroup,
+  Box,
 } from "@material-ui/core";
 import { validate } from "./validate";
 
@@ -81,15 +82,6 @@ export const LoadingProfile = () => {
       .match({ id_user });
     
     setHasProfile(true);
-    
-    setData({
-      firstName: "",
-      lastName: "",
-      additionalName: "",
-      mobileNumber: "",
-      occupation: "",
-      gender: "",
-    });
   }
   
   
@@ -103,7 +95,29 @@ export const LoadingProfile = () => {
     .select('hasProfileUserAnchor')
     .eq("id_user", session.user.id);
     if(hasProf.data[0].hasProfileUserAnchor === true) setHasProfile(true);
-    // console.log(hasP.data[0].hasProfileUserAnchor);
+    setHasProfile(true);
+
+    let supaData= await supabase
+      .from("UserAnchor")
+      .select('*')
+      .match({ id_user });
+       
+      let {firstName,
+        lastName,
+        additionalName,
+        mobileNumber,
+        occupation,
+        gender,} = supaData.data[0];
+
+      setData({
+        firstName,
+        lastName,
+        additionalName,
+        mobileNumber,
+        occupation,
+        gender,
+        });
+
   }
   
   //2do para editar el perfil, hay que agregar este estado para diferenciar si esta creando o editando.
@@ -117,43 +131,10 @@ export const LoadingProfile = () => {
   }
 
   //4to //envia los datos a supabase y cambia el estado de hasProfile
-  async function editProfile(event) {
-    event.preventDefault();
-    const {
-      firstName,
-      lastName,
-      additionalName,
-      mobileNumber,
-      occupation,
-      gender,
-    } = data;
-    
-    await supabase.from("UserAnchor").update([
-      {
-        id_user,
-        firstName,
-        lastName,
-        additionalName,
-        mobileNumber,
-        occupation,
-        gender,
-      },
-    ]).match({ id_user });
-    
-    setHasProfile(true);
-
-    setData({
-      firstName: "",
-      lastName: "",
-      additionalName: "",
-      mobileNumber: "",
-      occupation: "",
-      gender: "",
-    });
+  const finishEdit= (event)=>{
+    updateProfile(event)
+    setHasProfile(true)
   }
-
-
-
   useEffect(() => {
     hasProfileFunction();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -174,7 +155,14 @@ export const LoadingProfile = () => {
       </Typography>
       {hasProfile ?
         <Container>
-          <Typography variant="h4" gutterBottom>Your profile is uploaded</Typography>
+           <Box>
+            <Typography variant='h6'>First name: {data.firstName}</Typography>
+            <Typography variant='h6'>Last name: {data.lastName}</Typography>
+            <Typography variant='h6'>Additional name: {data.additionalName}</Typography>
+            <Typography variant='h6'>Mobile Number: {data.mobileNumber}</Typography>
+            <Typography variant='h6'>Occupation: {data.occupation}</Typography>
+            <Typography variant='h6'>Gender: {data.gender}</Typography>
+          </Box>
           <Button onClick={() => handleEdit()} color="primary" variant="contained">Edit</Button>
         </Container>
         :
@@ -242,7 +230,7 @@ export const LoadingProfile = () => {
                 <FormLabel component="legend">
                   {error.gender === "" ? "Gender" : error.gender}
                 </FormLabel>
-                <RadioGroup aria-label="gender" name="gender">
+                <RadioGroup aria-label="gender" name="gender" value={data.gender}>
                   <FormControlLabel
                     value="Male"
                     onClick={handleOnChange}
@@ -270,7 +258,7 @@ export const LoadingProfile = () => {
                   disabled={!submit}
                   variant="contained"
                   color="primary"
-                  onClick={editProfile}
+                  onClick={finishEdit}
                   > 
                   {"Finish edit"}
                   </Button>

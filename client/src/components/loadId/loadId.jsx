@@ -11,6 +11,7 @@ import {
   InputLabel,
   Select,
   MenuItem,
+  Box,
 } from "@material-ui/core";
 import { validate } from "./validate";
 
@@ -56,7 +57,6 @@ export const LoadId = () => {
 
   async function updateProfile(event) {
     event.preventDefault();
-    console.log('data', data)
     const {
         idType,
         nationality,
@@ -66,7 +66,7 @@ export const LoadId = () => {
         birthDate,
     } = data;
     
-    let info = await supabase.from("IdentityDocument").insert([
+    await supabase.from("IdentityDocument").insert([
       {
         id_user,
         idType,
@@ -77,22 +77,13 @@ export const LoadId = () => {
         birthDate,
       },
     ]);
-    console.log('info', info)
+
     await supabase
       .from("RegisteredUsers")
       .update({ hasProfileDniDocument: "true" })
       .match({ id_user });
     
     setHasProfile(true);
-    
-    setData({
-        idType:"",
-        nationality:"",
-        idIssueDate:"",
-        idExpirationDate:"",
-        idNumber:"",
-        birthDate:"",
-    });
   }
   
   
@@ -105,7 +96,31 @@ export const LoadId = () => {
     .from('RegisteredUsers')
     .select('hasProfileDniDocument')
     .eq("id_user", session.user.id);
-    if(hasProf.data[0].hasProfileDniDocument === true) setHasProfile(true);
+    if(hasProf.data[0].hasProfileDniDocument === true) {
+      setHasProfile(true);
+
+      let supaData= await supabase
+      .from("IdentityDocument")
+      .select('*')
+      .match({ id_user });
+       
+      let {idType,
+        nationality,
+        idIssueDate,
+        idExpirationDate,
+        idNumber,
+        birthDate,} = supaData.data[0];
+
+      setData({
+          idType: idType,
+          nationality: nationality,
+          idIssueDate: idIssueDate,
+          idExpirationDate:idExpirationDate,
+          idNumber: idNumber,
+          birthDate:birthDate,
+        });
+
+    }
   }
   
   //2do para editar el perfil, hay que agregar este estado para diferenciar si esta creando o editando.
@@ -116,59 +131,13 @@ export const LoadId = () => {
   async function handleEdit(){
     setHasProfile(false);
     setIsEdit(true);
-
-    let {data: IdentityDocument, error }= await supabase
-    .from("IdentityDocument")
-    .select('*')
-    .eq("id_user", id_user); //no me sale esto
-     
-    console.log('data', IdentityDocument)
-    console.log('error', error)
-
-    // setData({
-    //   idType: idType,
-    //   nationality: nationality,
-    //   idIssueDate: idIssueDate,
-    //   idExpirationDate:idExpirationDate,
-    //   idNumber: idNumber,
-    //   birthDate:birthDate,
-    // });
   }
 
   //4to //envia los datos a supabase y cambia el estado de hasProfile
-  async function editProfile(event) {
-    event.preventDefault();
-    const {
-        idType,
-        nationality,
-        idIssueDate,
-        idExpirationDate,
-        idNumber,
-        birthDate,
-    } = data;
-    
-    await supabase.from("IdentityDocument").update([
-      {
-        id_user,
-        idType,
-        nationality,
-        idIssueDate,
-        idExpirationDate,
-        idNumber,
-        birthDate,
-      },
-    ]).match({ id_user });
-    
-    setHasProfile(true);
-
-    setData({
-        idType,
-        nationality,
-        idIssueDate,
-        idExpirationDate,
-        idNumber,
-        birthDate,
-    });
+  
+  const finishEdit= (event)=>{
+    updateProfile(event)
+    setHasProfile(true)
   }
 
   useEffect(() => {
@@ -184,10 +153,6 @@ export const LoadId = () => {
     }
   }, [error]);
 
-  useEffect(() => {
-   console.log('data', data)
-  }, [data]);
-
   return (
     <Container>
       <Typography variant="h4" gutterBottom>
@@ -195,7 +160,14 @@ export const LoadId = () => {
       </Typography>
       {hasProfile ?
         <Container>
-          <Typography variant="h4" gutterBottom>Your identification information is already uploaded</Typography>
+          <Box>
+            <Typography variant='h6'>ID type: {data.idType}</Typography>
+            <Typography variant='h6'>ID number: {data.idNumber}</Typography>
+            <Typography variant='h6'>Birth date: {data.birthDate}</Typography>
+            <Typography variant='h6'>Nationality: {data.nationality}</Typography>
+            <Typography variant='h6'>Issue date: {data.idIssueDate}</Typography>
+            <Typography variant='h6'>Expiration date{data.idExpirationDate}</Typography>
+          </Box>
           <Button onClick={() => handleEdit()}>Edit</Button>
         </Container>
         :
@@ -285,7 +257,7 @@ export const LoadId = () => {
                   disabled={!submit}
                   variant="contained"
                   color="primary"
-                  onClick={editProfile}
+                  onClick={finishEdit}
                   > 
                   {"Finish edit"}
                   </Button>
