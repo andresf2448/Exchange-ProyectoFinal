@@ -27,7 +27,7 @@ router.get("/", async (req, res) => {
   }
 
   if (req.query.type === "id") {
-    c;
+    
     let { data } = await supabase
       .from("datauser")
       .select("stellar_address")
