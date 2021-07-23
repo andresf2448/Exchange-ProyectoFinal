@@ -1,9 +1,10 @@
 export function validate(input) {
   let error = {
     isError: false,
-    firstName: '',
+    firstName: "",
     gender: "",
     lastName: "",
+    codeVerification: ""
   }
 
   if (!input.firstName) {
@@ -22,6 +23,13 @@ export function validate(input) {
   }
   if (!input.gender) {
     error.gender = "Gender is required"
+    error.isError = true
+  }
+  if (!input.codeVerification) {
+    error.codeVerification = "Check your whatsapp"
+    error.isError = true
+  } else if (Number(input.codeVerification) !== input.code) {
+    error.codeVerification = "invalid Code"
     error.isError = true
   }
   return error

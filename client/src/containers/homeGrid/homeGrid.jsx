@@ -22,7 +22,7 @@ export const HomeGrid = () => {
           alignContent="space-around"
         >
           <Grid item className="crypto-graphics" xs={12}>
-            <CryptoGraphics />
+            {/* <CryptoGraphics /> */}
           </Grid>
           <Grid
             container
