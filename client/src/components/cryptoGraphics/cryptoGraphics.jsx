@@ -225,7 +225,6 @@ export const CryptoGraphics = () => {
 
   return (
     <Container>
-      <Typography variant="h3">Crypto USD trade</Typography>
       <Grid container className="currencyValues" spacing={2}>
           {renderData.map((e, i) => (
         <Grid item sm={3} key={i}>
