@@ -117,13 +117,13 @@ export const LoadingProfile = () => {
     .from('RegisteredUsers')
     .select('hasProfileUserAnchor')
     .eq("id_user", session.user.id);
-    if(hasProf.data[0].hasProfileUserAnchor === true) setHasProfile(true);
-    setHasProfile(true);
+    if(hasProf.data[0].hasProfileUserAnchor === true){
+      setHasProfile(true);
 
-    let supaData= await supabase
-      .from("UserAnchor")
-      .select('*')
-      .match({ id_user });
+      let supaData= await supabase
+        .from("UserAnchor")
+        .select('*')
+        .match({ id_user });
        
       let {firstName,
         lastName,
@@ -140,6 +140,7 @@ export const LoadingProfile = () => {
         occupation,
         gender,
         });
+      }
 
   }
 
