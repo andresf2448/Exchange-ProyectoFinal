@@ -1,16 +1,18 @@
 import React, { useState, useRef } from "react";
 import axios from "axios";
-import { Button } from "@material-ui/core";
+import { Button, Grid, Typography, Divider } from "@material-ui/core";
 import useStyles from "styles";
 import { supabase } from "supabase/supabase";
 import { useEffect } from "react";
+import MuxedAccount from 'methodsWallet/muxedAccount.jsx';
+
 
 export default function CreateAccount() {
   const classes = useStyles();
   const session = supabase.auth.session();
   const userName = useRef("");
-  const [publicKey, setPublicKey] = useState();
-  const [secretKey, setSecretKey] = useState();
+  const [publicKey, setPublicKey] = useState();  // eslint-disable-line no-unused-vars
+  const [secretKey, setSecretKey] = useState();  // eslint-disable-line no-unused-vars
   const [hasWallet, setHasWallet] = useState(false);
   const [publicKeyUser, setPublicKeyUser] = useState(null);
   const [secretKeyUser, setSecretKeyUser] = useState(null);
@@ -80,11 +82,14 @@ export default function CreateAccount() {
     <div>
       {!publicKey && ! secretKey ? null : null}
       {hasWallet ? (
-        <div>
-          {<div> Esta es su publicKey: {publicKeyUser} </div>}
-          <br />
-          {<div> Esta es su secretKey: {secretKeyUser} </div>}
-        </div>
+        <Grid item key={12}>
+            {<Typography variant='h6'> PublicKey: {publicKeyUser} </Typography>}
+            {<Typography variant='h6' > SecretKey: {secretKeyUser} </Typography>}
+          <Divider variant="middle"/>
+          <br/>
+            <MuxedAccount pk={publicKeyUser}/>
+        </Grid>
+
       ) : (
         <form onSubmit={createdAccounts}>
           <label> User Name :</label>
