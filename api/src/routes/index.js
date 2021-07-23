@@ -12,4 +12,5 @@ module.exports = {
   toml: require("./toml/toml"),
   index: router,
   emails: require("./emails/emails"),
+  invite: require("./invite/invite")
 };
