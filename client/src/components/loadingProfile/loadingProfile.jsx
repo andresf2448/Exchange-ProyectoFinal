@@ -260,7 +260,7 @@ export const LoadingProfile = () => {
                 name="codeVerification"
                 type="text"
                 color={error.codeVerification === "" ? "primary" : "secondary"}
-                value={data.codeVerification}
+                value={codeVerification}
                 onChange={handleOnChange}
               /> )}
 
