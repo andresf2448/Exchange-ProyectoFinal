@@ -9,6 +9,7 @@ import Faq from "components/faq/faq";
 import { About } from "components/about/about";
 import RestorePassword from "components/restorePassword/restorePassword";
 import Toml from "containers/toml/toml";
+import ClaimableBalance from "components/claimableBalance/claimableBalance";
 
 import "./App.scss";
 
@@ -26,6 +27,7 @@ function App() {
         <Route path='/about' component={About}/>
         <Route path="/restorePassword" component={RestorePassword} />
         <Route path="/.well-known/stellar.toml" component={Toml} />
+        <Route path="/claimableBalance" component={ClaimableBalance}/>
       </div>
     </Router>
   );

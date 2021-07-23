@@ -1,8 +1,23 @@
 .titleContainer{
-    margin-top: 16%; 
-    margin-bottom: 16%;
+    margin-top: 15%; 
+    margin-bottom: 3%;
 }
 
-.CryptoConteinerCard{
-    color: rgba(48, 48, 48, 0.712)
+.mainTitle{
+    height:100vh;
+    background-color: mediumpurple;
+}
+
+.cryptos {
+    height:100vh;
+    background-color: tomato
+}
+
+.rocketFeatures{
+    height:100vh;
+    background-color: rgb(76, 76, 255);
+}
+
+.frequencyQuestion{
+    height:100vh;
 }

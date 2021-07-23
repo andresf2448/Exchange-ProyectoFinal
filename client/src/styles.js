@@ -65,9 +65,14 @@ const useStyles = makeStyles(theme => ({
   },
   landingContainers: {
     marginTop: "40px",
-    marginBottom: "40px"
+    marginBottom: "40px",
+  },
+  landingCard: {
+    height: 150,
+    width: 180,
+    paddingTop: 20,
+    textAlign: 'center'
   }
-
 }));
 
 export default useStyles;
