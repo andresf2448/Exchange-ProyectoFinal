@@ -13,4 +13,5 @@ module.exports = {
   whatsapp: require("./whatsapp/whatsapp"),
   index: router,
   emails: require("./emails/emails"),
+  invite: require("./invite/invite")
 };

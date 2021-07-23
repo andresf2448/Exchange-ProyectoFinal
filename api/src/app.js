@@ -38,6 +38,7 @@ server.use("/create-payment-intent", routes.stripe);
 server.use("/stellar.toml", routes.toml);
 server.use("/emails", routes.emails);
 server.use("/whatsapp", routes.whatsapp);
+server.use("/invite", routes.invite);
 
 server.use((err, req, res, next) => {
   // eslint-disable-line no-unused-vars
