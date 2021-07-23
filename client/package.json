@@ -30,6 +30,7 @@
     "sass": "^1.35.2",
     "socket.io-client": "^2.4.0",
     "stellar-sdk": "^8.2.3",
+    "twilio": "^3.66.0",
     "uninstall": "0.0.0",
     "uuid": "^8.3.2",
     "web-vitals": "^1.0.1"

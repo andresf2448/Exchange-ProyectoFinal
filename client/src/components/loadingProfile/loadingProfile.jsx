@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import sendCode from './whatsapp';
 import { supabase } from "supabase/supabase";
 import {
   Grid,
@@ -26,6 +27,7 @@ export const LoadingProfile = () => {
     firstName: "",
     gender: "",
     lastName: "",
+    codecodeVerification:""
   });
 
   const [submit, setSubmit] = useState(false);
@@ -37,6 +39,8 @@ export const LoadingProfile = () => {
     mobileNumber: "",
     occupation: "",
     gender: "",
+    code:"",
+    codeVerification:""
   });
 
   let {
@@ -46,7 +50,9 @@ export const LoadingProfile = () => {
     mobileNumber,
     occupation,
     gender,
+    codeVerification
   } = data;
+
 
   function handleOnChange(event) {
     setData({
@@ -142,7 +148,8 @@ export const LoadingProfile = () => {
         });
       }
 
-  }
+    }
+  
 
   //2do para editar el perfil, hay que agregar este estado para diferenciar si esta creando o editando.
   const [isEdit, setIsEdit] = useState(false);
@@ -158,9 +165,22 @@ export const LoadingProfile = () => {
     updateProfileEdit(event)
     setHasProfile(true)
   }
+
+  const handleVerifyClick=(e)=>{
+    e.preventDefault()
+    const random= Math.floor(Math.random()*1000000)
+    setData({...data, code: random})
+    try{
+      sendCode(random, mobileNumber)
+    }catch(err){
+      console.log('error', err)
+    }
+
+  }
+
   useEffect(() => {
     hasProfileFunction();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
@@ -227,11 +247,22 @@ export const LoadingProfile = () => {
               />
               <TextField
                 label="Mobile Number"
+                helperText='i.e. 54911********'
                 name="mobileNumber"
                 type="text"
                 value={data.mobileNumber}
                 onChange={handleOnChange}
-              />
+              /> 
+              <Button onClick={handleVerifyClick} disabled={!mobileNumber}> Verify Number</Button>
+              {data.code === ""? null: (
+              <TextField
+                label={error.codeVerification === "" ? "Check your whatsapp" : error.codeVerification}
+                name="codeVerification"
+                type="text"
+                color={error.codeVerification === "" ? "primary" : "secondary"}
+                value={codeVerification}
+                onChange={handleOnChange}
+              /> )}
 
               <TextField
                 label="Occupation"
