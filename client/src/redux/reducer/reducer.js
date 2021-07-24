@@ -1,31 +1,43 @@
-import {CLIENT_SECRET_PAYMENT_INTENT, DELETE_CLIENT_SECRET_PAYMENT_INTENT, WAITING_CLIENT_SECRET_PAYMENT_INTENT} from '../actions/actionsNames'
+import {
+  CLIENT_SECRET_PAYMENT_INTENT,
+  DELETE_CLIENT_SECRET_PAYMENT_INTENT,
+  WAITING_CLIENT_SECRET_PAYMENT_INTENT,
+} from "../actions/actionsNames";
 
 const initialState = {
-    client_secret: null
-}
+  client_secret: null,
+  detailsId: null,
+};
 
 export default function reducer(state = initialState, action) {
-    switch (action.type) {
+  switch (action.type) {
+    case CLIENT_SECRET_PAYMENT_INTENT:
+      return {
+        ...state,
+        client_secret: action.payload,
+      };
 
-        case CLIENT_SECRET_PAYMENT_INTENT: 
-            return {
-                ...state,
-                client_secret: action.payload
-            }
-        
-        case DELETE_CLIENT_SECRET_PAYMENT_INTENT:
-            return {
-                ...state,
-                client_secret: null
-            }
+    case DELETE_CLIENT_SECRET_PAYMENT_INTENT:
+      return {
+        ...state,
+        client_secret: null,
+      };
 
-        case WAITING_CLIENT_SECRET_PAYMENT_INTENT:
-            return {
-                ...state,
-                client_secret: undefined
-            }
+    case WAITING_CLIENT_SECRET_PAYMENT_INTENT:
+      return {
+        ...state,
+        client_secret: undefined,
+      };
 
-        default: return state
+    case "GET_USER_DETAILS_ID":
+      console.log("hola");
+      console.log(action.payload);
+      return {
+        ...state,
+        detailsId: action.payload,
+      };
 
-    }
+    default:
+      return state;
+  }
 }

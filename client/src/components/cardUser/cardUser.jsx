@@ -3,10 +3,13 @@ import { useHistory } from "react-router";
 import { supabase } from "../../supabase/supabase";
 import StellarSdk from "stellar-sdk";
 import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 
 export const CardUser = () => {
   const [account, setAccount] = useState();
   const history = useHistory();
+  const state = useSelector((state) => state.detailsId);
+  console.log(state);
 
   const session = supabase.auth.session();
   const server = new StellarSdk.Server("https://horizon-testnet.stellar.org");

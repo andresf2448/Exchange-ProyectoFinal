@@ -14,6 +14,8 @@ import {
   TableCell,
 } from "@material-ui/core";
 import useStyles from "styles";
+import { useDispatch } from "react-redux";
+import { GET_USER_DETAILS_ID } from "redux/actions/actions";
 
 export const AdministratorUser = () => {
   const classes = useStyles();
@@ -27,6 +29,7 @@ export const AdministratorUser = () => {
   const [emails, setEmails] = useState([]);
   const [statemessage, setStateMessage] = useState(false);
   const emailSearching = useRef("");
+  const dispatch = useDispatch();
 
   const [render, setRender] = useState([]);
   let title = useRef("");
@@ -181,7 +184,10 @@ export const AdministratorUser = () => {
     return history.push("/home");
   };
 
-  console.log(emails);
+  let detailsUser = (id) => {
+    dispatch(GET_USER_DETAILS_ID(id));
+    history.push("/detailsUsers");
+  };
 
   return (
     <Container>
@@ -266,7 +272,7 @@ export const AdministratorUser = () => {
                       )}
                     </TableCell>
                     <TableCell>
-                      <Button onClick={() => history.push("/detailsUsers")}>
+                      <Button onClick={() => detailsUser(id_user)}>
                         Details
                       </Button>
                     </TableCell>
