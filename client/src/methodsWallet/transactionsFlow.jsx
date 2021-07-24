@@ -6,24 +6,23 @@ export default function TransactionsPopup() {
   const [firstName, setFirstName] = useState();
   const [lastName, setLastName] = useState();
   const [email, setEmail] = useState();
-   const [ error, setError] = useState();
+  const [error, setError] = useState();
+  console.log(error);
   /*const [transaction, setTransaction] = useState(); */
   const [kyc, setKyc] = useState(false);
 
   const aux = window.location.hash;
-  
+
   const id = aux.slice(1);
-  
+
   const info = async () => {
-    
     const { data, error } = await supabase
       .from("transactions")
       .select("*")
       .eq("id", id);
-    
+
     if (error) return setError(true);
     if (data[0]) {
-      
       return setTransactionType(data[0].kind);
     }
   };
@@ -38,7 +37,7 @@ export default function TransactionsPopup() {
     .subscribe(); */
 
   async function handleSubmit() {
-     await supabase
+    await supabase
       .from("transactions")
       .update([
         {
@@ -49,7 +48,7 @@ export default function TransactionsPopup() {
         },
       ])
       .eq("id", id);
-    
+
     return setKyc(true);
   }
   return (
@@ -58,7 +57,6 @@ export default function TransactionsPopup() {
 
       {!firstName && !lastName && !email && !kyc && (
         <form onSubmit={() => handleSubmit()}>
-         
           <input
             type="text"
             placeholder="firts name"
@@ -78,15 +76,11 @@ export default function TransactionsPopup() {
       )}
 
       <div>
-       
         {transactionType === "deposit" && kyc && (
-          <div>
-            ACA IRIA EL COMPONENTE DE STRIPE PARA QUE NOS DEPOSITE
-          </div>
+          <div>ACA IRIA EL COMPONENTE DE STRIPE PARA QUE NOS DEPOSITE</div>
         )}
         {transactionType === "withdraw" && kyc && (
           <div>
-            
             <div>A que cuenta desea retirar sus fondos?</div>
             <input
               type="text"

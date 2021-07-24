@@ -8,6 +8,7 @@ export default function OffersByAccount({ publicKey }) {
 
   useEffect(() => {
     if (!offers) getOffers();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [offers]);
 
   async function getOffers() {

@@ -209,12 +209,14 @@ export const AdministratorUser = () => {
                 <TableCell>BLOCK USER </TableCell>
                 <TableCell>UPGRADE TO ADMIN </TableCell>
                 <TableCell>RESET PASSWORD </TableCell>
+
                 <TableCell>
                   Send message <br />
                   <button onClick={selectionAll}>Select All</button>
                   <br />
                   <button onClick={unSelectionAll}>Unselect All</button>
                 </TableCell>
+                <TableCell>Details Users</TableCell>
               </TableRow>
             </TableHead>
             {render.map((user, i) => {
@@ -262,6 +264,11 @@ export const AdministratorUser = () => {
                           UnSelected
                         </Button>
                       )}
+                    </TableCell>
+                    <TableCell>
+                      <Button onClick={() => history.push("/detailsUsers")}>
+                        Details
+                      </Button>
                     </TableCell>
                   </TableRow>
                 </TableBody>
