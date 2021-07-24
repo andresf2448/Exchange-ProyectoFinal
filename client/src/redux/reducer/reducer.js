@@ -30,8 +30,6 @@ export default function reducer(state = initialState, action) {
       };
 
     case "GET_USER_DETAILS_ID":
-      console.log("hola");
-      console.log(action.payload);
       return {
         ...state,
         detailsId: action.payload,
