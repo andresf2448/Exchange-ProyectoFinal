@@ -8,8 +8,8 @@ import chzIcon from "./cryptoIcons/chili.jpg";
 import filIcon from "./cryptoIcons/filecoin.png";
 import adaIcon from "./cryptoIcons/ada2.png";
 import bnbIcon from "./cryptoIcons/binance.png";
-import dotIcon from "./cryptoIcons/dot.png"
-import axsIcon from "./cryptoIcons/axies.png"
+import dotIcon from "./cryptoIcons/dot.png";
+import axsIcon from "./cryptoIcons/axies.png";
 import CryptoCard from "./cryptoCard";
 
 let ethSocket;
@@ -80,7 +80,6 @@ export const CryptoGraphics = () => {
     img: axsIcon,
   });
 
-
   const [connection, setConnection] = useState(true);
 
   let renderData = [eth, ]
@@ -112,8 +111,6 @@ export const CryptoGraphics = () => {
       axsSocket = new WebSocket(
         "wss://stream.binance.com:9443/ws/axsusdt@trade"
       );
-
-      console.log('test');
 
       // websockets errors handlers
       ethSocket.onerror = (event) => {
@@ -203,7 +200,6 @@ export const CryptoGraphics = () => {
 
   // UPDATE DATA COINS (info, coinState and setCoinState)
   const updateQuote = (dato, setCoin) => {
-  
     let numberPrice = parseFloat(dato.p);
     setCoin((prevState) => {
       return {
@@ -226,8 +222,8 @@ export const CryptoGraphics = () => {
   return (
     <Container>
       <Grid container className="currencyValues" spacing={2}>
-          {renderData.map((e, i) => (
-        <Grid item sm={3} key={i}>
+        {renderData.map((e, i) => (
+          <Grid item sm={3} key={i}>
             <CryptoCard
               i={i}
               price={e.price}
@@ -235,8 +231,8 @@ export const CryptoGraphics = () => {
               img={e.img}
               color={e.color}
             />
-        </Grid>
-          ))}
+          </Grid>
+        ))}
       </Grid>
     </Container>
   );

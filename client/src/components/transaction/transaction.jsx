@@ -56,20 +56,29 @@ export default function Transaction() {
     let receiverPublicKey = await handleMail();
 
     if (receiverPublicKey) {
-      let sourceSecretKey = await takeSecretKey();
-      let succes = await axios.post("http://localhost:3001/payment", {
-        sourceSecretKey: sourceSecretKey,
-        receiverPublicKey: receiverPublicKey,
-        amount: input.amount,
-      });
-      alert("Succes !");
-      setSuccesTransaction(true);
-      setTransaction(succes.data);
-      setInput({
-        email: "",
-        amount: "",
-      });
-      setTransfer(true);
+      let info = await supabase
+        .from("RegisteredUsers")
+        .select("bannedUser")
+        .eq("email", input.email);
+
+      if (info.data[0].bannedUser) {
+        alert("User is banned");
+      } else {
+        let sourceSecretKey = await takeSecretKey();
+        let succes = await axios.post("http://localhost:3001/payment", {
+          sourceSecretKey: sourceSecretKey,
+          receiverPublicKey: receiverPublicKey,
+          amount: input.amount,
+        });
+        alert("Succes !");
+        setSuccesTransaction(true);
+        setTransaction(succes.data);
+        setInput({
+          email: "",
+          amount: "",
+        });
+        setTransfer(true);
+      }
     } else {
       alert("Mail is not registered");
     }

@@ -1,8 +1,13 @@
 const router = require("express").Router();
-const supabase = require("../../supabase/supabase");
+const { createClient } = require("@supabase/supabase-js");
+const supabase = createClient(
+  process.env.REACT_APP_SUPABASE_URL,
+  process.env.REACT_APP_SUPABASE_PUBLIC_KEY
+);
 
 router.get("/", async (req, res) => {
   console.log("entro a request");
+
   /* const { id, name, txid } = req.query.type; */
   const params = req.query.q;
 
@@ -10,19 +15,19 @@ router.get("/", async (req, res) => {
     let user = params.split("*");
 
     const { data: response, error } = await supabase
-      .from('datauser')
+      .from("datauser")
       .select("public_key")
       .eq("email", user[0]);
 
-    if (response[0]?.public_key) 
+    if (response[0]?.public_key)
       return res.json({
-        stellar_address: user,
+        stellar_address: user[0],
         account_id: response[0].public_key,
       });
   }
 
   if (req.query.type === "id") {
-    console.log("entro a id");
+    
     let { data } = await supabase
       .from("datauser")
       .select("stellar_address")
@@ -31,16 +36,16 @@ router.get("/", async (req, res) => {
     if (data[0]?.stellar_address) {
       return res.json({
         stellar_address: data[0].stellar_address,
-        account_id: id,
+        account_id: params,
       });
     }
   }
 
   if (req.query.type === "txid") {
     const { data: hash } = await supabase
-      .from("transactionId")
+      .from("transactions")
       .select("id_user")
-      .eq("id", txid);
+      .eq("id", params);
 
     if (hash[0]?.id_user) {
       const { data: response } = await supabase

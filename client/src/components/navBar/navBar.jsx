@@ -10,8 +10,10 @@ import { ShowUserData } from 'components/showUserData/showUserData';
 import  Faq  from 'components/faq/faq';
 import { AdministratorUser } from "components/administratorUser/admistratorUser";
 import Trade from "containers/trade/trade";
-import DropdownTab from 'components/dropdownTab/dropdownTab'
 import useStyles from 'styles';
+import DropdownTab from 'components/dropdownTab/dropdownTab';
+import { InviteUser } from "components/invite/invite";
+
 
 
 export const NavBar = () => {
@@ -64,7 +66,7 @@ export const NavBar = () => {
                           <DropdownTab/>
                           <Tab label="Logout" onClick={signOut}/>
                           {admin && <Tab label="Admin" />}
-                          {/* {value!== 5 && <ShowUserData/>} */}
+                          <Tab label="Invite"/>
                           <Tab label={<ShowUserData/>}/>
                       </Tabs>
                 </AppBar>
@@ -76,8 +78,8 @@ export const NavBar = () => {
             {value === 3 && <Settings/>}  
             {value === 4 && <Faq/>}   
             {value === 6 && <AdministratorUser />}
-      </Grid>    
-    )
+            {value === 7 && <InviteUser />}
+      </Grid>  
+    )    
 }
   
-
