@@ -22,7 +22,7 @@ export const HomeGrid = () => {
           alignContent="space-around"
         >
           <Grid item className="crypto-graphics" xs={12}>
-            {/* <CryptoGraphics /> */}
+            <CryptoGraphics />
           </Grid>
           <Grid
             container
@@ -31,7 +31,7 @@ export const HomeGrid = () => {
           >
             <Typography variant='h5'>cryptocurrencies and blockchain tweets</Typography>
             <Grid item xs={12}>
-              {/* <Twitter /> */}
+              <Twitter />
             </Grid>
           </Grid>
         </Grid>
