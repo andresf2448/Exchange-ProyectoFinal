@@ -19,7 +19,7 @@ router.get("/", async (req, res) => {
       .select("*")
       .eq("account_id", account_id);
 
-    if (data.length > 0 ) {
+    if (data.length > 0) {
       data.map((transaction) => {
         let response = {
           id: transaction.id,
@@ -84,8 +84,16 @@ router.post("/deposit/interactive", async (req, res) => {
   let { data, error } = await supabase.from("transactions").select("*");
 
   if (amount && claimable_balance_supported) {
-    const amount_out = amount - amount * 0.05;
-    const amount_fee = amount * 0.05;
+    let { data: commsion_server } = await supabase
+      .from("commsion_server")
+      .select("*");
+
+    let ultimo = commsion_server.pop();
+
+    let { percentage } = ultimo;
+
+    const amount_out = amount - amount * (percentage / 100);
+    const amount_fee = amount * (percentage / 100);
     async function updateTransaction() {
       await supabase
         .from("transactions")
