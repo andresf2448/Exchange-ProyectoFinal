@@ -11,7 +11,7 @@ export function Settings() {
     const handleChange= (event, newValue)=>{
         event.preventDefault();
         setValue(newValue);
-    }
+    }  
   return (
     <Container maxWidth='md'>
             <Tabs value={value} onChange={handleChange} centered={true}>

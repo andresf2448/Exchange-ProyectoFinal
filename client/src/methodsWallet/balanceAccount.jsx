@@ -72,7 +72,7 @@ export default function BalanceAccount() {
             </div>
           ) : (
             "loading"
-          )}
+          )}  
         </div>
       ) : (
         <div>

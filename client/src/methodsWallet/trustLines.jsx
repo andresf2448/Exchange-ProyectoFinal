@@ -11,29 +11,29 @@ export default function ChangeTrust() {
   const session = supabase.auth.session();
 
   const getInfo = async () => {
-      const { data: asset } = await supabase.from("assets").select("*");
-      const { data: publicKey } = await supabase
+    const { data: asset } = await supabase.from("assets").select("*");
+    const { data: publicKey } = await supabase
       .from("datauser")
       .select("public_key")
       .eq("id_user", session.user.id);
-      const { data: secretKey } = await supabase
+    const { data: secretKey } = await supabase
       .from("wallet")
       .select("secret_key")
       .eq("id_user", session.user.id);
-      setSecretKey(secretKey[0].secret_key);
-      setPublicKey(publicKey[0].public_key);
+    setSecretKey(secretKey[0].secret_key);
+    setPublicKey(publicKey[0].public_key);
     const assetFilter = asset.filter((asset) => asset.code !== "XLM");
     return setAssets(assetFilter);
   };
   if (!assets) getInfo();
 
   async function trustLine(publicKey, secretKey, asset, limitAmount) {
-      const server = new StellarSdk.Server("https://horizon-testnet.stellar.org");
+    const server = new StellarSdk.Server("https://horizon-testnet.stellar.org");
     const sourceKeypair = StellarSdk.Keypair.fromSecret(secretKey);
-    
+
     const [
       {
-          max_fee: { mode: fee },
+        max_fee: { mode: fee },
       },
       account,
     ] = await Promise.all([server.feeStats(), server.loadAccount(publicKey)]);
@@ -54,16 +54,18 @@ export default function ChangeTrust() {
       .build();
 
     transaction.sign(sourceKeypair);
-    console.log(transaction);
-    const tx = await server.submitTransaction(transaction);
-    console.log(tx);
+
+    await server.submitTransaction(transaction);
   }
 
   const selectAsset = (event) => {
     const asset = assets.filter(
       (element) => element.asset_code === event.target.value
     );
-    const assetUntrust = new StellarSdk.Asset(asset[0].asset_code, asset[0].asset_issuer)
+    const assetUntrust = new StellarSdk.Asset(
+      asset[0].asset_code,
+      asset[0].asset_issuer
+    );
     return setAsset(assetUntrust);
   };
 
@@ -94,8 +96,7 @@ export default function ChangeTrust() {
           placeholder="limit for trust"
           onChange={(e) => setLimitAmount(e)}
         />{" "}
-        <input type='submit' /> 
-
+        <input type="submit" />
       </form>
     </div>
   );
