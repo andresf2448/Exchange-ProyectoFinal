@@ -34,7 +34,7 @@ keys()
       <Grid container>
         <Grid container item display="column" justifyContent={true}>
           <Grid item xs={12} sm={3} style={{ height: "700px" }}>
-            <Orderbook />
+            {/* <Orderbook /> */}
           </Grid>
           <Grid container item xs={12} sm={6}>
             <Grid
@@ -46,7 +46,7 @@ keys()
                 paddingTop: "40px",
               }}
             >
-              <TradingView />
+              {/* <TradingView /> */}
             </Grid>
             <Grid item xs={12} sm={6}>
               <ManageBuyOffer
@@ -61,10 +61,10 @@ keys()
           <Grid container item sm={3}>
             <Grid item xs={12} style={{ height: "300px", paddingTop: "40px" }}>
               {/* <Card style={{height:'300px'}}>Listado de ventas activas</Card> */}
-              <OffersByAccount publicKey={user.publicKey} />
+              {/* <OffersByAccount publicKey={user.publicKey} /> */}
             </Grid>
             <Grid item xs={12}>
-              <CryptoCalculator />
+              {/* <CryptoCalculator /> */}
             </Grid>
           </Grid>
           <Grid item xs={0} sm={3}></Grid>

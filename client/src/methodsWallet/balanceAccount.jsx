@@ -3,10 +3,12 @@ import StellarSdk from "stellar-sdk";
 import { supabase } from "../supabase/supabase";
 import CreateAccount from "./createAccount";
 
+
+
 export default function BalanceAccount() {
   const [account, setAccount] = useState(false);
   const [user, setUser] = useState(false);
-  //let validator = 0;
+ 
 
   const session = supabase.auth.session();
   const server = new StellarSdk.Server("https://horizon-testnet.stellar.org");
@@ -41,7 +43,7 @@ export default function BalanceAccount() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // siguen mandando warning de que no se desmonta en la consola
+  
 
   return (
     <div>
