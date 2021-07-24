@@ -6,12 +6,12 @@ import TradingView from "components/tradingView/tradingView";
 
 export default function Trade(){
     return(
-        <Container maxWidth='lg'>
+        <Container style={{ minWidth:'95vw', backgroundColor:'#1f1f1f'}}>
             <Grid container>
                 <Grid container item display='column'  justifyContent={true}>
                     <Grid item xs={12} sm={3} style={{height:'700px'}}>
                         <Orderbook />
-                    </Grid>
+                    </Grid >
                     <Grid container item xs={12} sm={6}>
                         <Grid item xs={12} style={{height:'400px', paddingRight:'25px', paddingTop:'40px'}}>
                             <TradingView />
@@ -28,7 +28,7 @@ export default function Trade(){
                             <Card style={{height:'300px'}}>Listado de ventas activas</Card>
                         </Grid>
                         <Grid item xs={12}>
-                            <CryptoCalculator/>
+                            <CryptoCalculator />
                         </Grid>
                     </Grid>
                     <Grid item xs={0} sm={3}></Grid>

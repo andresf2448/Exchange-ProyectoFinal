@@ -26,6 +26,23 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'space-around',
     backgroundColor: theme.palette.secondary.main
   },
+
+  cardCheck: {
+    backgroundColor: theme.palette.secondary.background,
+    color: theme.palette.primary.contrastText,
+    borderRadius: '6px', 
+    margin: 30, 
+    padding: 15,                   
+    display:"flex",
+    justifyContent: "center", 
+    alignItems: "center" 
+  },
+  formCheck :{                
+    display:"flex",
+    justifyContent: "center", 
+    alignItems: "center" 
+  },
+
   cryptoCurrency: {
     display: 'flex',
     flexDirection: 'column',

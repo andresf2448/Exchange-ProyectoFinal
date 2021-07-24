@@ -39,7 +39,7 @@ export const Home = () => {
   getRole();
 
   return (
-    <div style={{height: "100vh"}}>
+    <div style={{height: "100vh", minHeight: '100%'}}>
       {session ? (
         <div >
           <NavBar style={{height: "10vh"}}/>

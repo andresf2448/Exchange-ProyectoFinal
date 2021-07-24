@@ -48,14 +48,14 @@ export const NavBar = () => {
         history.push("/");
     };
     return(
-        <Grid container style={{ backgroundColor: '#fff658'}}>
+        <Grid container >
               <Grid item xs={2} >
                 <Typography  className={classes.appLogo}>
                     RocketExchange
                 </Typography>
               </Grid>
             <Grid item xs={10}> 
-              <AppBar position="static">
+              <AppBar position="static" >
                       <Tabs value={value} variant='scrollable' onChange={handleChange}>
                           <Tab label={<HomeIcon/>} />
                           <Tab label="Wallet" />
