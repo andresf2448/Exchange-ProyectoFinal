@@ -65,8 +65,8 @@ router.post("/deposit/interactive", async (req, res) => {
   let { data: asset } = await supabase
     .from("assets")
     .select("asset_code")
-    .eq("asset_code", asset_code);
-
+    .eq("asset_code", asset_code.toUpperCase());
+    
   if (asset.length < 1)
     return res.json(
       "El asset no corresponde con uno valido del endpoint /info"
@@ -80,10 +80,12 @@ router.post("/deposit/interactive", async (req, res) => {
       status: "incompleted",
     },
   ]);
-
-  let { data, error } = await supabase.from("transactions").select("*");
+  
+  let { data } = await supabase.from("transactions").select("*");
+  
 
   if (amount && claimable_balance_supported) {
+    console.log('Acá no entramos, no ?????')
     const amount_out = amount - amount * 0.05;
     const amount_fee = amount * 0.05;
     async function updateTransaction() {
@@ -101,13 +103,15 @@ router.post("/deposit/interactive", async (req, res) => {
     }
     await updateTransaction();
   }
-
+  let idTransaction = data[data.length - 1].id
+  
   const response = {
     type: "interactive_customer_info_needed",
-    url: `https://localhost:3000/kycflow#${info.data[data.length - 1].id}`,
-    id: info.data[data.length - 1].id,
+    url: `http://localhost:3000/kycflow#${idTransaction}`,
+    id: idTransaction,
   };
-  return res.json({ response });
+  
+  return res.json( response );
 });
 
 router.post("/withdraw/interactive", async (req, res) => {
@@ -128,8 +132,8 @@ router.post("/withdraw/interactive", async (req, res) => {
   let { data: asset } = await supabase
     .from("assets")
     .select("asset_code")
-    .eq("asset_code", asset_code);
-
+    .eq("asset_code", asset_code.toUpperCase());
+  
   if (asset.length < 1)
     return res.json(
       "El asset no corresponde con uno valido del endpoint /info"

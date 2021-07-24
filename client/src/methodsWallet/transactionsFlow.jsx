@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { getClientSecret } from "redux/actions/actions";
@@ -16,7 +17,7 @@ export default function TransactionsPopup() {
     amount: "",
   });
   const [error, setError] = useState();
-  /*const [transaction, setTransaction] = useState(); */
+  const [transaction, setTransaction] = useState(false); 
   const [kyc, setKyc] = useState(false);
 
   const aux = window.location.hash;
@@ -86,9 +87,24 @@ export default function TransactionsPopup() {
     );
   }
 
+  
+  const createTransaction = async (event) => {
+    event.preventDefault()
+    let transactionBack = await axios.post('http://localhost:3001/transactions/deposit/interactive', {
+      asset_code: 'usdc',
+      account: id,
+      
+    })
+     setTransaction(transactionBack.data)
+  }
+  
+
   console.log("Transaction type", transactionType);
   return (
     <div>
+      <button onClick={createTransaction}>Create Transaction</button>
+      {/* {transaction ? <h4 > {transaction.url} </h4> : null} */}
+      {transaction ? <a href={transaction.url} > Link </a> : null}
       <div> Hola </div>
 
       {!kyc && (
@@ -144,11 +160,11 @@ export default function TransactionsPopup() {
       )}
 
       <div>
-        {transactionType === "deposit" && kyc && intentionBuy && (
+        {transactionType === "deposit" && kyc && intentionBuy ? (
           <div>
-            <CheckoutForm />
+            <CheckoutForm amount={input.amount} currency={input.currency} />
           </div>
-        )}
+        ) : null}
         {transactionType === "withdraw" && kyc && intentionBuy && (
           <div>
             <div>A que cuenta desea retirar sus fondos?</div>
