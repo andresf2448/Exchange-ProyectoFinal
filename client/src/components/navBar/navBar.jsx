@@ -11,6 +11,7 @@ import  Faq  from 'components/faq/faq';
 import { AdministratorUser } from "components/administratorUser/admistratorUser";
 import Trade from "containers/trade/trade";
 import DropdownTab from 'components/dropdownTab/dropdownTab'
+import FaqAbout from 'containers/faqAbout/faqAbout'
 
 
 export const NavBar = () => {
@@ -52,7 +53,8 @@ export const NavBar = () => {
                     <Tab label="Wallet" />
                     <Tab label="Trade"/>
                     <Tab label="Settings" />
-                    <DropdownTab/>
+                    {/* <DropdownTab/> */}
+                    <Tab label='Others'/>
                     <Tab label="Logout" onClick={signOut}/>
                     {admin && <Tab label="Admin" />}
                 </Tabs>
@@ -63,7 +65,8 @@ export const NavBar = () => {
            {value === 1 && <WalletContainer/>}
            {value === 2 && <Trade/>}
            {value === 3 && <Settings/>}  
-           {value === 4 && <Faq/>}   
+           {/* {value === 4 && <Faq/>}    */}
+           {value === 4 && <FaqAbout/>}
            {value === 6 && <AdministratorUser />}
 
         </>
