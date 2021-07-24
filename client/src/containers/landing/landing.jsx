@@ -10,22 +10,15 @@ import './landing.css';
 import { Link,  } from 'react-scroll';
 
 
-<Link activeClass="active"
-      to="mainTitle"
-      spy={true}
-      smooth={true}
-      hashSpy={true}
-      offset={50}
-      duration={500}>
-  Your name
-</Link>
+
 
 const Landing = () => {
     const classes = useStyles();
+
     return (
-        <Container>
+        <Container className='landing'>
             <Grid container xs={12} className={classes.landingContainers} spacing={2}>
-                <Grid item xs={3} >
+                <Grid item xs={3}>
                     <Typography variant="h4"> 
                         <Link activeClass="active"
                         to="mainTitle"
@@ -141,8 +134,21 @@ const Landing = () => {
                     </Grid>
                 </Grid>
             </div>
+
+            <Link 
+                activeClass="active"
+                to="landing"
+                spy={true}
+                smooth={true}
+                hashSpy={true}
+                offset={50}
+                duration={500}
+                className="toTopButton">
+                    <Button>
+                        up!
+                    </Button>
+            </Link>
         </Container>
     )
 };
-
 export default Landing;

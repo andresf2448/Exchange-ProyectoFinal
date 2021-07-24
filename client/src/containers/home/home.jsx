@@ -39,10 +39,10 @@ export const Home = () => {
   getRole();
 
   return (
-    <div>
+    <div style={{height: "100vh"}}>
       {session ? (
-        <div>
-          <NavBar />
+        <div >
+          <NavBar style={{height: "10vh"}}/>
         </div>
       ) : (
         history.push("/")

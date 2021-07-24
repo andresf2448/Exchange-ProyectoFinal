@@ -1,6 +1,6 @@
 .titleContainer{
-    margin-top: 15%; 
-    margin-bottom: 3%;
+    margin-top: 8%; 
+    margin-bottom: 2%;
 }
 
 .mainTitle{
@@ -20,4 +20,10 @@
 
 .frequencyQuestion{
     height:100vh;
+}
+
+.toTopButton{
+    right: 0;
+    bottom: 0;
+    position: fixed;
 }

@@ -1,4 +1,4 @@
-import { AppBar, Tabs, Tab } from "@material-ui/core";
+import { AppBar, Tabs, Tab, Grid, Typography } from "@material-ui/core";
 import { useState, useEffect } from "react";
 import { useHistory } from "react-router";
 import {supabase} from 'supabase/supabase';
@@ -11,6 +11,7 @@ import  Faq  from 'components/faq/faq';
 import { AdministratorUser } from "components/administratorUser/admistratorUser";
 import Trade from "containers/trade/trade";
 import DropdownTab from 'components/dropdownTab/dropdownTab'
+import useStyles from 'styles';
 
 
 export const NavBar = () => {
@@ -18,6 +19,8 @@ export const NavBar = () => {
   const [value, setValue] = useState(0);
   const [admin, setAdmin] = useState(false);
   const session = supabase.auth.session();
+  const classes = useStyles();
+
 
   const handleChange = (event, newValue) => {
     event.preventDefault();
@@ -45,28 +48,35 @@ export const NavBar = () => {
         history.push("/");
     };
     return(
-        <>
-            <AppBar position="static" >
-                <Tabs value={value} variant='scrollable' onChange={handleChange}>
-                    <Tab label={<HomeIcon/>} />
-                    <Tab label="Wallet" />
-                    <Tab label="Trade"/>
-                    <Tab label="Settings" />
-                    <DropdownTab/>
-                    <Tab label="Logout" onClick={signOut}/>
-                    {admin && <Tab label="Admin" />}
-                </Tabs>
-            </AppBar>
-
-           {value!== 5 && <ShowUserData/>}
-           {value === 0 && <HomeGrid/>}
-           {value === 1 && <WalletContainer/>}
-           {value === 2 && <Trade/>}
-           {value === 3 && <Settings/>}  
-           {value === 4 && <Faq/>}   
-           {value === 6 && <AdministratorUser />}
-
-        </>
+        <Grid container style={{ backgroundColor: '#fff658'}}>
+              <Grid item xs={2} >
+                <Typography  className={classes.appLogo}>
+                    RocketExchange
+                </Typography>
+              </Grid>
+            <Grid item xs={10}> 
+              <AppBar position="static">
+                      <Tabs value={value} variant='scrollable' onChange={handleChange}>
+                          <Tab label={<HomeIcon/>} />
+                          <Tab label="Wallet" />
+                          <Tab label="Trade"/>
+                          <Tab label="Settings" />
+                          <DropdownTab/>
+                          <Tab label="Logout" onClick={signOut}/>
+                          {admin && <Tab label="Admin" />}
+                          {/* {value!== 5 && <ShowUserData/>} */}
+                          <Tab label={<ShowUserData/>}/>
+                      </Tabs>
+                </AppBar>
+              </Grid>
+          
+            {value === 0 && <HomeGrid/>}
+            {value === 1 && <WalletContainer/>}
+            {value === 2 && <Trade/>}
+            {value === 3 && <Settings/>}  
+            {value === 4 && <Faq/>}   
+            {value === 6 && <AdministratorUser />}
+      </Grid>    
     )
 }
   

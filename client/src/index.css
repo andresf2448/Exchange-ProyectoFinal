@@ -11,12 +11,12 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 
-:root {
+/* :root {
   --background-dark: #151515;
   --primary-dark: #301B3F;
   --secondary-dark: #3C415C;
   --text-dark: #B4A5A5;
-}
+} */
 
 .html {
   font-size: 62.5%;

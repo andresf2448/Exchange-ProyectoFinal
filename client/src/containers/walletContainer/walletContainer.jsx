@@ -4,7 +4,7 @@ import { TransactionsHistory } from "components/transactionsHistory/transactions
 import { Deposit } from "components/deposit/deposit";
 import BalanceAccount from "methodsWallet/balanceAccount";
 import { Withdraw } from "components/withdraw/withdraw";
-import { Container, Tabs, Tab } from "@material-ui/core";
+import { Tabs, Tab, Grid, AppBar } from "@material-ui/core";
 import { useState } from "react";
 
 export default function WalletContainer(){
@@ -14,22 +14,28 @@ export default function WalletContainer(){
         setValue(newValue);
       };
     return(
-        <Container>
-            <Tabs value={value} onChange={handleChange} centered={true}>
-                <Tab label='Get Key'/>
-                <Tab label='Balance'/>
-                <Tab label='Transaction'/>
-                <Tab label='TransactionHistory'/>
-                <Tab label='Deposit'/>
-                <Tab label='Withdraw'/>
-            </Tabs>
+            <Grid container >
+                <Grid item xs={2} >
+                    <AppBar position="static" style={{height:'91vh'}} >
+                        <Tabs orientation="vertical" value={value} onChange={handleChange} centered={true}>
+                            <Tab label='Get Key'/ >
+                            <Tab label='Balance'/>
+                            <Tab label='Transaction'/>
+                            <Tab label='TransactionHistory'/>
+                            <Tab label='Deposit'/>
+                            <Tab label='Withdraw'/>
+                        </Tabs>
+                    </AppBar>
+                </Grid>
+                <Grid item  xs={10}>
+                    {value === 0 && <CreateAccount />}      
+                    {value === 1 && <BalanceAccount />}
+                    {value === 2 && <Transaction/>}
+                    {value === 3 && <TransactionsHistory/>}
+                    {value === 4 && <Deposit/>}
+                    {value === 5 && <Withdraw/>}
+                </Grid>
+            </Grid>
 
-            {value === 0 && <CreateAccount />}      
-            {value === 1 && <BalanceAccount />}
-            {value === 2 && <Transaction/>}
-            {value === 3 && <TransactionsHistory/>}
-            {value === 4 && <Deposit/>}
-            {value === 5 && <Withdraw/>}
-        </Container>
     )
 }

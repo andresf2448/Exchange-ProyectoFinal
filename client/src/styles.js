@@ -72,6 +72,14 @@ const useStyles = makeStyles(theme => ({
     width: 180,
     paddingTop: 20,
     textAlign: 'center'
+  },
+  appLogo: {
+    height: "100%",
+    backgroundColor: theme.palette.primary.main,
+    color: theme.palette.primary.contrastText,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
   }
 }));
 
