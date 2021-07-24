@@ -7,7 +7,7 @@ import { NavLink } from 'react-router-dom';
 export const About = () => {
 
     const classes = useStyles();
-    let team = ['Rodrigo Juarez', 'Martín Bobrik', 'Javier Castro', 'Andrés Velazquez','Facundo Betella', 'Julián Ruiz','Juan Aguirre', 'Facundo Vaena']
+    let team = ['Rodrigo Juarez', 'Martín Bobrik', 'Javier Castro', 'Andrés Velásquez','Facundo Betella', 'Julián Ruiz','Juan Aguirre', 'Facundo Vaena']
 
     return (
         <Grid container style={{ display: 'flex', flexDirection: 'column', width:'90%', marginLeft:'86px' }}>
