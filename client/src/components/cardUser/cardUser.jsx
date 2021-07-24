@@ -4,6 +4,7 @@ import { supabase } from "../../supabase/supabase";
 import StellarSdk from "stellar-sdk";
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
+import {DataGrid} from '@material-ui/core';
 
 export const CardUser = () => {
   const [account, setAccount] = useState();
@@ -69,6 +70,15 @@ export const CardUser = () => {
       setValidatePublicKey(true);
     }
   };
+  const columns = [
+    { field: 'id', headerName: 'ID', width: 70 },
+    { field: 'amount', headerName: 'Amount', width: 70 },
+    { field: 'asset_code', headerName: 'Asset Code', width: 70 },
+    { field: 'price', headerName: 'Price', width: 70 },
+  ];
+  const rows = [
+    { id: '', amount: '', asset_code: '', price: '' },
+  ];
 
   useEffect(() => {
     getBalance();
@@ -84,6 +94,9 @@ export const CardUser = () => {
           <div>Balance: {account.balance} </div>
           <div> Monto en ofertas de venta: {account.selling_liabilities}</div>
           <div> Monto en ofertas de compra: {account.buying_liabilities}</div>
+          <div>
+          <DataGrid rows={rows} columns={columns} pageSize={5} />
+          </div>
         </div>
         /* {offers.length !== 0 ? (
           <label>Id: </label> <span></span>
