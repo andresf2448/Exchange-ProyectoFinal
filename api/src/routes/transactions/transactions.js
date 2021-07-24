@@ -6,21 +6,24 @@ const supabase = createClient(
 );
 
 router.get("/", async (req, res) => {
-  //añadir account_id como parametro via jwt
   const { asset_code, no_older_than, limit, kind, paging_id, account_id } =
     req.query;
-  let transactions = [];
+
   if (!asset_code) return res.status(404).json("Asset no provisto");
 
-  /* if (asset_code && kind === 'deposit ') */
-  try {
-    const { data } = await supabase
-      .from("transactions")
-      .select("*")
-      .eq("account_id", account_id);
+  const { data } = await supabase
+    .from("transactions")
+    .select("*")
+    .eq("account_id", account_id);
 
-    if (data.length > 0 ) {
-      data.map((transaction) => {
+  if (data.length > 0) {
+    const { data: withdraw } = await supabase.from("withdraw").select("*");
+
+    const { data: deposit } = await supabase.from("deposit").select("*");
+
+    const getTransactions = async () => {
+     
+      const transactions = data.map((transaction) => {
         let response = {
           id: transaction.id,
           kind: transaction.kind,
@@ -38,12 +41,36 @@ router.get("/", async (req, res) => {
           message: transaction.message,
           refunded: transaction.refunded,
         };
-        return transactions.push(response);
+
+        if (transaction.kind === "deposit") {
+          const aux = deposit.filter(
+            (deposito) => deposito.id === transaction.id
+          );
+          const respuesta = {
+            ...response,
+            to: (aux[0].to ??= "pending"),
+            from: (aux[0].from ??= "pending"),
+            claimable_balance_id: (aux[0].claimable_balance_id ??= "pending"),
+          };
+          return respuesta;
+        }
+        if (transaction.kind === "withdraw") {
+          const aux = withdraw.filter(
+            (withdraw) => withdraw.id === transaction.id
+          );
+          const respuesta = {
+            ...response,
+            to: (aux[0].to ??= "pending"),
+            from: (aux[0].from ??= "pending"),
+            claimable_balance_id: (aux[0].claimable_balance_id ??= "pending"),
+          };
+          return respuesta;
+        }
       });
+      if(transactions.length === 0) return res.json('This account not have transactions record')
       return res.json(transactions);
-    }
-  } catch (error) {
-    return res.status(404).json(error);
+    };
+    getTransactions();
   }
 });
 
