@@ -15,8 +15,7 @@ export default function Orderbook({ assets }) {
         element.asset_code === event.target.value &&
         element.asset_code !== assetSell
     );
-    if (aux[0].asset_code === "XLM")
-      return setAssetSell(new StellarSdk.Asset.native());
+    if (aux[0].asset_code === "XLM") return setAssetSell(false);
     const asset = new StellarSdk.Asset(aux[0].asset_code, aux[0].asset_issuer);
     return setAssetBuy(asset[0]);
   };
@@ -27,7 +26,7 @@ export default function Orderbook({ assets }) {
         element.asset_code !== assetBuy
     );
     if (aux[0].asset_code === "XLM")
-      return setAssetSell(new StellarSdk.Asset.native());
+      return setAssetSell(false);
     const asset = new StellarSdk.Asset(aux[0].asset_code, aux[0].asset_issuer);
     return setAssetSell(asset[0]);
   };
@@ -37,7 +36,10 @@ export default function Orderbook({ assets }) {
   };
 
   server
-    .orderbook(assetBuy, assetSell)
+    .orderbook(
+      !assetBuy ? new StellarSdk.Asset.native() : assetBuy,
+      !assetSell ? new StellarSdk.Asset.native() : assetSell
+    )
     .cursor("now")
     .stream({ onmessage: callback });
   return (
@@ -47,9 +49,9 @@ export default function Orderbook({ assets }) {
         name="asset"
         onChange={(event) => selectAssetBuy(event)}
       >
-        <option>Select a bid Asset</option>
+        <option>Buy Asset</option>
         {assets &&
-          assets.data.map((element) => {
+          assets.map((element) => {
             return (
               <option
                 onChange={(event) => selectAssetBuy(event)}
@@ -65,9 +67,9 @@ export default function Orderbook({ assets }) {
         name="asset"
         onChange={(event) => selectAssetSell(event)}
       >
-        <option>Select a bid Asset</option>
+        <option>Sell Asset</option>
         {assets &&
-          assets.data.map((element) => {
+          assets.map((element) => {
             return (
               <option
                 onChange={(event) => selectAssetSell(event)}

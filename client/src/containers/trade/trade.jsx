@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Container, Grid,/*  Card */ } from "@material-ui/core";
 import { CryptoCalculator } from "components/cryptoCalculator/cryptoCalculator";
 import ManageBuyOffer from "methodsWallet/manageBuyOffer";
@@ -7,9 +8,20 @@ import TradingView from "components/tradingView/tradingView";
 import OffersByAccount from "methodsWallet/offersByAccount";
 import { supabase } from "../../supabase/supabase";
 
+
 function Trade() {
+  const [assets, setAssets] = useState();
   const [user, setUser] = useState();
   const session = supabase.auth.session();
+  
+  async function getAssets() {
+    const { data:assets } = await supabase.from("assets").select("*");
+    return setAssets(assets)
+  }
+  if(!assets) getAssets()
+  
+
+
  const keys = async () => {
   const { data: public_key } = await supabase
     .from("datauser")
@@ -31,7 +43,7 @@ keys()
       <Grid container>
         <Grid container item display="column" justifyContent={true}>
           <Grid item xs={12} sm={3} style={{ height: "700px" }}>
-            <Orderbook />
+            <Orderbook assets={assets} />
           </Grid>
           <Grid container item xs={12} sm={6}>
             <Grid
@@ -47,8 +59,8 @@ keys()
             </Grid>
             <Grid item xs={12} sm={6}>
               <ManageBuyOffer
-                publicKey={user.publicKey}
-                secretKey={user.secretKey}
+                publicKey={user?.publicKey}
+                secretKey={user?.secretKey}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -58,7 +70,7 @@ keys()
           <Grid container item sm={3}>
             <Grid item xs={12} style={{ height: "300px", paddingTop: "40px" }}>
               {/* <Card style={{height:'300px'}}>Listado de ventas activas</Card> */}
-              <OffersByAccount publicKey={user.publicKey} />
+              <OffersByAccount publicKey={user?.publicKey} />
             </Grid>
             <Grid item xs={12}>
               <CryptoCalculator />
