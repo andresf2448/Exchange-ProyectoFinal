@@ -9,6 +9,7 @@ import OffersByAccount from "methodsWallet/offersByAccount";
 import { supabase } from "../../supabase/supabase";
 
 
+
 function Trade() {
   const [assets, setAssets] = useState();
   const [user, setUser] = useState();
@@ -75,13 +76,9 @@ keys()
             <Grid item xs={12}>
               <CryptoCalculator />
             </Grid>
+
           </Grid>
-          <Grid item xs={0} sm={3}></Grid>
-          <Grid item xs={0} sm={3}></Grid>
-        </Grid>
-      </Grid>
-    </Container>
+        </Container>
   );
 }
-
 export default Trade;

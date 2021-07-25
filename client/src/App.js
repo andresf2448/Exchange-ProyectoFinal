@@ -1,3 +1,4 @@
+
 import React, { Suspense, lazy } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "./App.scss";
@@ -37,6 +38,7 @@ function App() {
             <Route path="/kycflow" component={TransactionsPopup} />
           </Switch>
         </Suspense>
+
       </div>
     </Router>
   );
