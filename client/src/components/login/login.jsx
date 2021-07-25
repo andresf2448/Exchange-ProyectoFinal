@@ -13,7 +13,7 @@ import {
 
 import { supabase } from "supabase/supabase";
 
-export const Login = () => {
+export default function Login () {
   const history = useHistory();
 
   const [data, setData] = useState({

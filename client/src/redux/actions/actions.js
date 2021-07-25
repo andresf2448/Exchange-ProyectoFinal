@@ -1,9 +1,11 @@
+import axios from "axios";
+import { supabase } from "../../supabase/supabase";  
 import {
   CLIENT_SECRET_PAYMENT_INTENT,
   DELETE_CLIENT_SECRET_PAYMENT_INTENT,
   WAITING_CLIENT_SECRET_PAYMENT_INTENT,
+  GET_ASSETS
 } from "./actionsNames";
-import axios from "axios";
 
 export function getClientSecret(payload) {
   return async function (dispatch) {
@@ -31,6 +33,14 @@ export function deleteClientSecret() {
 export function waitingClientSecret() {
   return {
     type: WAITING_CLIENT_SECRET_PAYMENT_INTENT,
+  };
+}
+
+export async function getAssets() {
+  const { data:assets } = await supabase.from("assets").select("*");
+  return {
+    type: GET_ASSETS,
+    payload: assets,
   };
 }
 

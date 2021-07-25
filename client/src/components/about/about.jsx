@@ -3,7 +3,7 @@ import HomeIcon from "@material-ui/icons/Home";
 //import useStyles from "styles";
 import { NavLink } from "react-router-dom";
 
-export const About = () => {
+export default function About () {
   //const classes = useStyles();
 
   return (

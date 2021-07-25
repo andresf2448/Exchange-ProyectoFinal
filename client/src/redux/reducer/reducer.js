@@ -2,11 +2,13 @@ import {
   CLIENT_SECRET_PAYMENT_INTENT,
   DELETE_CLIENT_SECRET_PAYMENT_INTENT,
   WAITING_CLIENT_SECRET_PAYMENT_INTENT,
+  GET_ASSETS
 } from "../actions/actionsNames";
 
 const initialState = {
   client_secret: null,
   detailsId: null,
+  assets:[],
 };
 
 export default function reducer(state = initialState, action) {
@@ -35,6 +37,11 @@ export default function reducer(state = initialState, action) {
         detailsId: action.payload,
       };
 
+      case GET_ASSETS:
+      return {
+        ...state,
+        assets: action.payload,
+      };
     default:
       return state;
   }

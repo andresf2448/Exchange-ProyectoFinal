@@ -7,7 +7,7 @@ export default function OffersByAccount({ publicKey }) {
   const server = new StellarSdk.Server("https://horizon-testnet.stellar.org");
 
   useEffect(() => {
-    if (!offers) getOffers();
+    if (!offers && publicKey) getOffers();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [offers]);
 
@@ -19,9 +19,9 @@ export default function OffersByAccount({ publicKey }) {
       .limit(10)
       .call();
     setOffers(ofertas);
-    console.log(ofertas);
   }
 
+  
   return (
     <>
       {offers &&

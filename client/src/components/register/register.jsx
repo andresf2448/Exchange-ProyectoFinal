@@ -12,7 +12,7 @@ import {
   Grid
 } from "@material-ui/core";
 
-export const Register = () => {
+export default function Register () {
   const history = useHistory();
 
   const [error, setError] = useState({

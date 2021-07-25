@@ -17,11 +17,14 @@ import { InviteUser } from "components/invite/invite";
 
 
 export const NavBar = () => {
+  
   const history = useHistory();
   const [value, setValue] = useState(0);
   const [admin, setAdmin] = useState(false);
   const session = supabase.auth.session();
+  
   const classes = useStyles();
+
 
 
   const handleChange = (event, newValue) => {
@@ -42,6 +45,7 @@ export const NavBar = () => {
     }
   }
   useEffect(() => {
+    
     getRole();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -83,3 +87,4 @@ export const NavBar = () => {
     )    
 }
   
+

@@ -1,7 +1,7 @@
 const StellarSdk = require('stellar-sdk');
 const server = new StellarSdk.Server('https://horizon-testnet.stellar.org');
 
-let main = async function (sourcePublicKey, sourceKeypair, receiverPublicKey, amount) {
+const main = async function (sourcePublicKey, sourceKeypair, receiverPublicKey, amount) {
     // Transactions require a valid sequence number that is specific to this account.
     // We can fetch the current sequence number for the source account from Horizon.
     
@@ -45,6 +45,7 @@ let main = async function (sourcePublicKey, sourceKeypair, receiverPublicKey, am
     transaction.toEnvelope().toXDR('base64')
 
     } catch (e) {
+        console.log('Estamos en el catch', e)
         return {
             isError: true,
             error: e,
@@ -76,6 +77,10 @@ let main = async function (sourcePublicKey, sourceKeypair, receiverPublicKey, am
         // console.log('An error has occured:');
         // console.log(e);
     }
+}
+
+const assetCalculator = (sourceCurrency, receiverCurrency) => {
+
 }
 
 module.exports = main;
