@@ -1,8 +1,6 @@
 import React from 'react'
-import { Container, Typography, Accordion, AccordionSummary, AccordionDetails, Grid, Button } from '@material-ui/core'
-import { NavLink } from 'react-router-dom';
+import { Container, Typography, Accordion, AccordionSummary, AccordionDetails } from '@material-ui/core'
 import { ExpandMore } from '@material-ui/icons'
-import HomeIcon from '@material-ui/icons/Home';
 import useStyles from 'styles.js'
 
 export default function Faq() {

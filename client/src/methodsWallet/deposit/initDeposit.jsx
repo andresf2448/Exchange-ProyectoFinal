@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { getAssets } from "redux/actions/actions";
 import { useDispatch, useSelector } from "react-redux";
-import useAuth from "customHooks/useAuth";
 
 export default function InitDeposit() {
   const assets = useSelector((store) => store.assets);

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { Container, Grid, Typography, Tab, Tabs, Link, AppBar, Button, Card, CardContent, CardActions } from '@material-ui/core'
-import { NavLink } from 'react-router-dom';
+import {  Grid,  Tab, Tabs,  AppBar} from '@material-ui/core'
 import Faq from 'components/faq/faq';
 import About  from 'components/about/about';
 
@@ -41,29 +40,3 @@ export default function FaqAbout() {
 
 
 
-{/* <Card style={{width:'200px' ,padding:'20px'}}>
-            <CardContent>
-                <Typography variant='h4'>
-                    FAQ
-                </Typography>
-                <Typography variant='h5'>
-                    Lorem ipsum dolor sit amet. Ducimus numquam eos.
-                </Typography>
-            </CardContent>
-            <CardActions>
-            <Button><NavLink to='/faq' style={{textDecoration:'none'}}>Learn more</NavLink></Button>
-            </CardActions>
-        </Card>
-        <Card style={{width:'200px' ,padding:'20px'}}>
-            <CardContent>
-                <Typography variant='h4'>
-                    About
-                </Typography>
-                <Typography variant='h5'>
-                    Lorem ipsum dolor sit amet. Ducimus numquam eos.
-                </Typography>
-            </CardContent>
-            <CardActions>
-                <Button><NavLink to='/about' style={{textDecoration:'none'}}>Learn more</NavLink></Button>
-            </CardActions>
-        </Card> */}

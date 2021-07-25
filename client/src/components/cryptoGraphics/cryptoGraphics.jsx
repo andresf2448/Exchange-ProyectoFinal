@@ -1,6 +1,6 @@
 import "./cryptoGraphics.css";
 import { useEffect, useState } from "react";
-import { Container, Typography, Grid } from "@material-ui/core";
+import { Container, Grid } from "@material-ui/core";
 
 import btcIcon from "./cryptoIcons/bitcoin.png";
 import ethIcon from "./cryptoIcons/ethereum2.png";
@@ -30,6 +30,7 @@ export const CryptoGraphics = () => {
     color: "equal",
     img: ethIcon,
   });
+  // eslint-disable-next-line
   const [btc, setBtc] = useState({
     symbol: "BTC",
     prevPrice: 0,
@@ -37,6 +38,7 @@ export const CryptoGraphics = () => {
     color: "equal",
     img: btcIcon,
   });
+  // eslint-disable-next-line
   const [chz, setChz] = useState({
     symbol: "CHZ",
     prevPrice: 0,
@@ -44,6 +46,7 @@ export const CryptoGraphics = () => {
     color: "equal",
     img: chzIcon,
   });
+  // eslint-disable-next-line
   const [fil, setFil] = useState({
     symbol: "FIL",
     prevPrice: 0,
@@ -51,6 +54,7 @@ export const CryptoGraphics = () => {
     color: "equal",
     img: filIcon,
   });
+  // eslint-disable-next-line
   const [ada, setAda] = useState({
     symbol: "ADA",
     prevPrice: 0,
@@ -58,6 +62,7 @@ export const CryptoGraphics = () => {
     color: "equal",
     img: adaIcon,
   });
+  // eslint-disable-next-line
   const [bnb, setBnb] = useState({
     symbol: "BNB",
     prevPrice: 0,
@@ -65,6 +70,7 @@ export const CryptoGraphics = () => {
     color: "equal",
     img: bnbIcon,
   });
+  // eslint-disable-next-line
   const [dot, setDot] = useState({
     symbol: "DOT",
     prevPrice: 0,
@@ -72,6 +78,7 @@ export const CryptoGraphics = () => {
     color: "equal",
     img: dotIcon,
   });
+  // eslint-disable-next-line
   const [axs, setAxs] = useState({
     symbol: "AXS",
     prevPrice: 0,
@@ -82,8 +89,7 @@ export const CryptoGraphics = () => {
 
   const [connection, setConnection] = useState(true);
 
-  let renderData = [eth, ]
-  // btc, chz, fil, ada, bnb, dot, axs];
+  let renderData = [eth, btc, chz, fil, ada, bnb, dot, axs];
 
   function handleConnection() {
     if (connection === true) {

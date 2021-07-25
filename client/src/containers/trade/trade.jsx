@@ -1,5 +1,4 @@
-import { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useState } from "react";
 import { Container, Grid,/*  Card */ } from "@material-ui/core";
 import { CryptoCalculator } from "components/cryptoCalculator/cryptoCalculator";
 import ManageBuyOffer from "methodsWallet/manageBuyOffer";
@@ -76,10 +75,11 @@ function Trade() {
             <Grid item xs={12}>
               <CryptoCalculator />
             </Grid>
+            </Grid>
+            </Grid>
 
-          </Grid>
-        </Grid>
-      </Grid>
+          </Grid> 
+      
     </Container>
   );
 }
