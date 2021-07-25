@@ -1,32 +1,42 @@
-import { BrowserRouter as Router, Route } from "react-router-dom";
-import { Login } from "components/login/login";
-import { Register } from "components/register/register";
-import { Home } from "containers/home/home";
-import { RecoverPassword } from "components/recoverPassword/recoverPassword";
-import CheckoutForm from "components/stripe/checkoutForm";
-import Faq from "components/faq/faq";
-import { About } from "components/about/about";
-import RestorePassword from "components/restorePassword/restorePassword";
-import Toml from "containers/toml/toml";
-import TransactionsPopup from "methodsWallet/transactionsFlow";
-import InitDeposit from './methodsWallet/deposit/initDeposit'
+import React, { Suspense, lazy } from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "./App.scss";
 
-function App() {  
+const Login = lazy(() => import("components/login/login"));
+const Register = lazy(() => import("components/register/register"));
+const Home = lazy(() => import("containers/home/home"));
+const RecoverPassword = lazy(() =>
+  import("components/recoverPassword/recoverPassword")
+);
+const CheckoutForm = lazy(() => import("components/stripe/checkoutForm"));
+const Faq = lazy(() => import("components/faq/faq"));
+const About = lazy(() => import("components/about/about"));
+const RestorePassword = lazy(() =>
+  import("components/restorePassword/restorePassword")
+);
+const Toml = lazy(() => import("containers/toml/toml"));
+const TransactionsPopup = lazy(() => import("methodsWallet/transactionsFlow"));
+const InitDeposit = lazy(() => import("./methodsWallet/deposit/initDeposit"));
+
+function App() {
   return (
     <Router>
       <div className="App">
-        <Route exact path="/" component={Login} />
-        <Route path="/register" component={Register} />
-        <Route path="/home" component={Home} />
-        <Route path="/recoverPassword" component={RecoverPassword} />
-        <Route path="/payment" component={CheckoutForm} />
-        <Route path="/faq" component={Faq} />
-        <Route path="/about" component={About} />
-        <Route path="/restorePassword" component={RestorePassword} />
-        <Route path="/.well-known/stellar.toml" component={Toml} />
-        <Route path="/deposit" component={InitDeposit} />
-        <Route path="/kycflow" component={TransactionsPopup} />
+        <Suspense fallback={<div>Loading...</div>}>
+          <Switch>
+            <Route exact path="/" component={Login} />
+            <Route path="/register" component={Register} />
+            <Route path="/home" component={Home} />
+            <Route path="/recoverPassword" component={RecoverPassword} />
+            <Route path="/payment" component={CheckoutForm} />
+            <Route path="/faq" component={Faq} />
+            <Route path="/about" component={About} />
+            <Route path="/restorePassword" component={RestorePassword} />
+            <Route path="/.well-known/stellar.toml" component={Toml} />
+            <Route path="/deposit" component={InitDeposit} />
+            <Route path="/kycflow" component={TransactionsPopup} />
+          </Switch>
+        </Suspense>
       </div>
     </Router>
   );
