@@ -16,11 +16,12 @@ import { InviteUser } from "components/invite/invite";
 
 
 export const NavBar = () => {
+  
   const history = useHistory();
   const [value, setValue] = useState(0);
   const [admin, setAdmin] = useState(false);
   const session = supabase.auth.session();
-
+  
   const handleChange = (event, newValue) => {
     event.preventDefault();
     setValue(newValue);
@@ -39,6 +40,7 @@ export const NavBar = () => {
     }
   }
   useEffect(() => {
+    
     getRole();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -64,7 +66,7 @@ export const NavBar = () => {
            {value!== 5 && <ShowUserData/>}
            {value === 0 && <HomeGrid/>}
            {value === 1 && <WalletContainer/>}
-           {value === 2 && <Trade/>}
+           {value === 2 && <Trade />}
            {value === 3 && <Settings/>}  
            {value === 4 && <Faq/>}   
            {value === 6 && <AdministratorUser />}

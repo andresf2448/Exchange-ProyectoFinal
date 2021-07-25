@@ -9,6 +9,7 @@ import { About } from "components/about/about";
 import RestorePassword from "components/restorePassword/restorePassword";
 import Toml from "containers/toml/toml";
 import TransactionsPopup from "methodsWallet/transactionsFlow";
+import InitDeposit from './methodsWallet/deposit/initDeposit'
 import "./App.scss";
 
 function App() {  
@@ -24,6 +25,7 @@ function App() {
         <Route path="/about" component={About} />
         <Route path="/restorePassword" component={RestorePassword} />
         <Route path="/.well-known/stellar.toml" component={Toml} />
+        <Route path="/deposit" component={InitDeposit} />
         <Route path="/kycflow" component={TransactionsPopup} />
       </div>
     </Router>

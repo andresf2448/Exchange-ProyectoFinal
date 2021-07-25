@@ -1,22 +1,23 @@
-import { useEffect, useState} from 'react';
-import axios from 'axios';
-import { Container, Typography} from '@material-ui/core';
-import useStyles from 'styles';
-
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { Container, Typography } from "@material-ui/core";
+import useStyles from "styles";
 
 const Toml = () => {
-    const classes = useStyles();
+  const classes = useStyles();
 
-    const [toml, setToml] = useState();
+  const [toml, setToml] = useState();
 
-    useEffect( () => {
-        axios.get('http://localhost:3001/stellar.toml')
-            .then((res) => {
-                setToml(res.data);
-            });
-        }, [])
-    return (
-        <Container className={classes.toml}>
+  useEffect(() => {
+    axios.get("http://localhost:3001/stellar.toml").then((res) => {
+      setToml(res.data);
+    });
+  }, []);
+  return <>{toml && toml}</>;
+};
+
+export default Toml;
+{/* <Container className={classes.toml}>
             {toml === undefined ?
                 <Typography variant="h3"> Loading...</Typography>
                 :
@@ -32,8 +33,4 @@ const Toml = () => {
                         <Typography align="left" variant="body1">ORG_OFFICIAL_EMAIL = {toml.DOCUMENTATION.ORG_OFFICIAL_EMAIL}</Typography>
                     </Container>
             }
-        </Container>
-    )
-}
-
-export default Toml;
+        </Container> */}
