@@ -14,11 +14,18 @@ export const CardUser = () => {
 
   const server = new StellarSdk.Server("https://horizon-testnet.stellar.org");
 
-  const getBalance = async () => {
+  const getPublicKey = async () => {
     let { data } = await supabase
       .from("datauser")
       .select("public_key")
       .eq("id_user", state);
+
+      return data;
+  };
+
+  const getBalance = async () => {
+
+    let data = await getPublicKey();
 
     if (data.length > 0) {
       await server
@@ -32,10 +39,8 @@ export const CardUser = () => {
   };
 
   const getTransaction = async () => {
-    let { data } = await supabase
-      .from("datauser")
-      .select("public_key")
-      .eq("id_user", state);
+    
+    let data = await getPublicKey();
 
     if (data.length > 0) {
       let transactionsData = await supabase
@@ -49,20 +54,18 @@ export const CardUser = () => {
   };
 
   const getOffers = async () => {
-    let { data } = await supabase
-      .from("datauser")
-      .select("public_key")
-      .eq("id_user", state);
+    
+    let data = await getPublicKey();
 
     if (data.length > 0) {
       const ofertas = await server
         .offers()
-        .forAccount(data[0]?.public_key)
+        .forAccount('GAJ22WDPA3IOIJPOXBWPWAXU3MVVTHNXZJZ3DSGXZSK4LYKLKTJGJY33')
         .order("desc")
         .limit(10)
         .call();
 
-      console.log(ofertas);
+      console.log(ofertas.records);
       setValidatePublicKey(true);
     }
   };
@@ -82,6 +85,9 @@ export const CardUser = () => {
           <div> Monto en ofertas de venta: {account.selling_liabilities}</div>
           <div> Monto en ofertas de compra: {account.buying_liabilities}</div>
         </div>
+        /* {offers.length !== 0 ? (
+          <label>Id: </label> <span></span>
+        ) : null} */
       ) : (
         <div>Usuario no tiene Wallet</div>
       )}
