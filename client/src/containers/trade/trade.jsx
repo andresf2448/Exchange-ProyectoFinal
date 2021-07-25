@@ -34,7 +34,7 @@ keys()
       <Grid container>
         <Grid container item display="column" justifyContent={true}>
           <Grid item xs={12} sm={3} style={{ height: "700px" }}>
-           {/*  <Orderbook /> */}
+            <Orderbook />
           </Grid>
           <Grid container item xs={12} sm={6}>
             <Grid
@@ -46,7 +46,7 @@ keys()
                 paddingTop: "40px",
               }}
             >
-              {/* <TradingView /> */}
+              <TradingView />
             </Grid>
             <Grid item xs={12} sm={6}>
               <ManageBuyOffer
