@@ -10,6 +10,8 @@ module.exports = {
   transactions: require('./transactions/transactions'),
   authentication: require('./jesonWebToken/jwt'),
   toml: require("./toml/toml"),
+  whatsapp: require("./whatsapp/whatsapp"),
   index: router,
   emails: require("./emails/emails"),
+  invite: require("./invite/invite")
 };

@@ -10,7 +10,9 @@ import { ShowUserData } from 'components/showUserData/showUserData';
 import  Faq  from 'components/faq/faq';
 import { AdministratorUser } from "components/administratorUser/admistratorUser";
 import Trade from "containers/trade/trade";
-import DropdownTab from 'components/dropdownTab/dropdownTab'
+import DropdownTab from 'components/dropdownTab/dropdownTab';
+import { InviteUser } from "components/invite/invite";
+
 
 
 export const NavBar = () => {
@@ -45,7 +47,7 @@ export const NavBar = () => {
         history.push("/");
     };
     return(
-        <>
+        <> 
             <AppBar position="static" >
                 <Tabs value={value} variant='scrollable' onChange={handleChange}>
                     <Tab label={<HomeIcon/>} />
@@ -55,6 +57,7 @@ export const NavBar = () => {
                     <DropdownTab/>
                     <Tab label="Logout" onClick={signOut}/>
                     {admin && <Tab label="Admin" />}
+                    <Tab label="Invite"/>
                 </Tabs>
             </AppBar>
 
@@ -65,9 +68,8 @@ export const NavBar = () => {
            {value === 3 && <Settings/>}  
            {value === 4 && <Faq/>}   
            {value === 6 && <AdministratorUser />}
+           {value === 7 && <InviteUser />}
 
         </>
     )
 }
-  
-

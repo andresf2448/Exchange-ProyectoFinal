@@ -10,21 +10,21 @@ server.use(express.json({ limit: "50mb" }));
 server.use(cookieParser());
 
 server.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', '*'); // update to match the domain you will make the request from
-    res.header('Access-Control-Allow-Credentials', 'true');
-    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
-    res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
-    res.header("Access-Control-Allow-Credentials", "true");
-    res.header(
-      "Access-Control-Allow-Headers",
-      "Origin, X-Requested-With, Content-Type, Accept"
-    );
-    res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE");
-    next();
-    
-  });
-  
+  res.header('Access-Control-Allow-Origin', '*'); // update to match the domain you will make the request from
+  res.header('Access-Control-Allow-Credentials', 'true');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
+  res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
+  res.header("Access-Control-Allow-Credentials", "true");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE");
+  next();
+
+});
+
 
 
 server.use('/authentication', routes.authentication)
@@ -37,6 +37,8 @@ server.use("/createWallet", routes.acount);
 server.use("/create-payment-intent", routes.stripe);
 server.use("/stellar.toml", routes.toml);
 server.use("/emails", routes.emails);
+server.use("/whatsapp", routes.whatsapp);
+server.use("/invite", routes.invite);
 
 server.use((err, req, res, next) => {
   // eslint-disable-line no-unused-vars
