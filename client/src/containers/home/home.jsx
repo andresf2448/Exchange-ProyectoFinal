@@ -43,10 +43,10 @@ export const Home = () => {
   }, []);
 
   return (
-    <div>
+    <div style={{height: "100vh", minHeight: '100%'}}>
       {session ? (
-        <div>
-          <NavBar />
+        <div >
+          <NavBar style={{height: "10vh"}}/>
         </div>
       ) : (
         history.push("/")

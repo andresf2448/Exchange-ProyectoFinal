@@ -26,6 +26,23 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'space-around',
     backgroundColor: theme.palette.secondary.main
   },
+
+  cardCheck: {
+    backgroundColor: theme.palette.secondary.background,
+    color: theme.palette.primary.contrastText,
+    borderRadius: '6px', 
+    margin: 30, 
+    padding: 15,                   
+    display:"flex",
+    justifyContent: "center", 
+    alignItems: "center" 
+  },
+  formCheck :{                
+    display:"flex",
+    justifyContent: "center", 
+    alignItems: "center" 
+  },
+
   cryptoCurrency: {
     display: 'flex',
     flexDirection: 'column',
@@ -62,8 +79,25 @@ const useStyles = makeStyles(theme => ({
   tabFont:{
     color:theme.palette.primary.contrastText,
     opacity:'0.7'
+  },
+  landingContainers: {
+    marginTop: "40px",
+    marginBottom: "40px",
+  },
+  landingCard: {
+    height: 150,
+    width: 180,
+    paddingTop: 20,
+    textAlign: 'center'
+  },
+  appLogo: {
+    height: "100%",
+    backgroundColor: theme.palette.primary.main,
+    color: theme.palette.primary.contrastText,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
   }
-
 }));
 
 export default useStyles;
