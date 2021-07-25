@@ -12,18 +12,25 @@ import store from 'redux/store/store';
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLISHEABLE_KEY)
 
 const theme = createTheme({
+  typography: {
+    fontFamily: [
+      '"Segoe UI"'
+    ].join(','),
+  },
   palette: {
     primary: {
-      light: '#3C415C',
-      main: '#301B3F',
-      dark: '#151515',
-      contrastText: '#B4A5A5'
+      background: '#0F3460',
+      main: '#272727b3',
+      dark: '#2C2E43',
+      buttons: '#ffd523',
+      contrastText: '#fff'
     },
     secondary: {
       light: '#ff7961',
       main: '#f44336',
       dark: '#ba000d',
       contrastText: '#000',
+      background: '#393939'
     },
   },
 });

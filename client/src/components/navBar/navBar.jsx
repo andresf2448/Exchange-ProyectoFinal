@@ -1,4 +1,4 @@
-import { AppBar, Tabs, Tab } from "@material-ui/core";
+import { AppBar, Tabs, Tab, Grid, Typography } from "@material-ui/core";
 import { useState, useEffect } from "react";
 import { useHistory } from "react-router";
 import {supabase} from 'supabase/supabase';
@@ -12,13 +12,22 @@ import { AdministratorUser } from "components/administratorUser/admistratorUser"
 import Trade from "containers/trade/trade";
 import DropdownTab from 'components/dropdownTab/dropdownTab'
 import FaqAbout from 'containers/faqAbout/faqAbout'
+import useStyles from 'styles';
+// import DropdownTab from 'components/dropdownTab/dropdownTab';
+import { InviteUser } from "components/invite/invite";
+
 
 
 export const NavBar = () => {
+  
   const history = useHistory();
   const [value, setValue] = useState(0);
   const [admin, setAdmin] = useState(false);
   const session = supabase.auth.session();
+  
+  const classes = useStyles();
+
+
 
   const handleChange = (event, newValue) => {
     event.preventDefault();
@@ -38,6 +47,7 @@ export const NavBar = () => {
     }
   }
   useEffect(() => {
+    
     getRole();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

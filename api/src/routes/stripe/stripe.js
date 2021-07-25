@@ -21,7 +21,7 @@ router.post('/', async (req, res) => {
         return res.send({clientSecret: paymentIntent.client_secret})
 
     } catch (error) {
-        console.log(error)
+        
         return res.status(400).send({error: {message: error.message}})
 
     }

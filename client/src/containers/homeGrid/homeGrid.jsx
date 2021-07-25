@@ -1,6 +1,6 @@
 import { Container, Grid, Typography } from "@material-ui/core";
 import { CryptoGraphics } from "components/cryptoGraphics/cryptoGraphics";
-import { Twitter } from 'components/twitter/twitter';
+import { Twitter } from "components/twitter/twitter";
 
 export const HomeGrid = () => {
   return (
@@ -20,16 +20,18 @@ export const HomeGrid = () => {
           alignContent="space-around"
         >
           <Grid item className="crypto-graphics" xs={12}>
-            <CryptoGraphics />
+            {/* <CryptoGraphics /> */}
           </Grid>
           <Grid
             container
             className="home-container_boxLeft--bottom"
             spacing={2}
           >
-            <Typography variant='h5'>cryptocurrencies and blockchain tweets</Typography>
+            <Typography variant="h5">
+              cryptocurrencies and blockchain tweets
+            </Typography>
             <Grid item xs={12}>
-              <Twitter />
+              {/* <Twitter /> */}
             </Grid>
           </Grid>
         </Grid>

@@ -17,7 +17,7 @@ export default function Faq() {
                     <NavLink to='/home'><Button color='secondary'><HomeIcon fontSize='large' /></Button></NavLink>
                 </Grid>
                 <Grid imte sm={6}>
-                    <Typography variant='h4' className={classes.button} >FAQ</Typography>
+                    <Typography variant='h4' className={classes.text} >FAQ</Typography>
                 </Grid>
             </Grid> */}
 

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Container, Grid, Typography, Tab, Tabs, Link, AppBar, Button, Card, CardContent, CardActions } from '@material-ui/core'
 import { NavLink } from 'react-router-dom';
 import Faq from 'components/faq/faq';
-import { About } from 'components/about/about';
+import About  from 'components/about/about';
 
 
 export default function FaqAbout() {

@@ -1,10 +1,14 @@
+import React from 'react'
 import { Container, Typography, Button, Card, CardContent, CardMedia, Grid } from '@material-ui/core';
 import HomeIcon from '@material-ui/icons/Home';
 import useStyles from 'styles';
 import { NavLink } from 'react-router-dom';
+// import HomeIcon from "@material-ui/icons/Home";
+//import useStyles from "styles";
+// import { NavLink } from "react-router-dom";
 
+export default function About () {
 
-export const About = () => {
 
     const classes = useStyles();
     let team = ['Rodrigo Juarez', 'Martín Bobrik', 'Javier Castro', 'Andrés Velásquez','Facundo Betella', 'Julián Ruiz','Juan Aguirre', 'Facundo Vaena']

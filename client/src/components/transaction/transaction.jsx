@@ -9,7 +9,9 @@ import {
   Button,
   TextField,
   FormControl,
+  ButtonGroup,
 } from "@material-ui/core";
+import useStyles from 'styles';
 
 export default function Transaction() {
   const [error, setError] = useState({
@@ -27,6 +29,8 @@ export default function Transaction() {
   const history = useHistory();
   const submit = false;
   const [transfer, setTransfer] = useState(false);
+
+  const classes = useStyles();
 
   const handleChange = (event) => {
     setInput({
@@ -52,20 +56,29 @@ export default function Transaction() {
     let receiverPublicKey = await handleMail();
 
     if (receiverPublicKey) {
-      let sourceSecretKey = await takeSecretKey();
-      let succes = await axios.post("http://localhost:3001/payment", {
-        sourceSecretKey: sourceSecretKey,
-        receiverPublicKey: receiverPublicKey,
-        amount: input.amount,
-      });
-      alert("Succes !");
-      setSuccesTransaction(true);
-      setTransaction(succes.data);
-      setInput({
-        email: "",
-        amount: "",
-      });
-      setTransfer(true);
+      let info = await supabase
+        .from("RegisteredUsers")
+        .select("bannedUser")
+        .eq("email", input.email);
+
+      if (info.data[0].bannedUser) {
+        alert("User is banned");
+      } else {
+        let sourceSecretKey = await takeSecretKey();
+        let succes = await axios.post("http://localhost:3001/payment", {
+          sourceSecretKey: sourceSecretKey,
+          receiverPublicKey: receiverPublicKey,
+          amount: input.amount,
+        });
+        alert("Succes !");
+        setSuccesTransaction(true);
+        setTransaction(succes.data);
+        setInput({
+          email: "",
+          amount: "",
+        });
+        setTransfer(true);
+      }
     } else {
       alert("Mail is not registered");
     }
@@ -74,17 +87,16 @@ export default function Transaction() {
   const handleNewTransaction = () => window.location.reload();
 
   return (
-    <Container>
+    <Container className={classes.cardCheck}>
       {session ? (
         <div>
-          <br />
           <Typography variant="h4">Transaction</Typography>
           <Typography variant="h5">
             Search by email the person you want to transfer
           </Typography>
           <br />
           <form onSubmit={handleTransaction}>
-            <FormControl>
+            <FormControl className={classes.formCheck}>
               <TextField
                 label={error.email === "" ? "Email" : error.email}
                 name="email"
@@ -92,6 +104,7 @@ export default function Transaction() {
                 value={input.email}
                 onChange={handleChange}
                 color={error.email === "" ? "primary" : "secondary"}
+                fullWidth={true}
               />
               <TextField
                 label={error.amount === "" ? "Amount" : error.amount}
@@ -101,26 +114,29 @@ export default function Transaction() {
                 onChange={handleChange}
                 disabled={error.email === "" ? submit : !submit}
                 color={error.email === "" ? "primary" : "secondary"}
+                fullWidth={true}
               />
             </FormControl>{" "}
             <br /> <br />
-            <Button
-              type="submit"
-              variant="contained"
-              color="primary"
-              disabled={error.isError || transfer ? !submit : submit}
-            >
-              Transfer
-            </Button>{" "}
-            <br />
-            <Button
-              onClick={handleNewTransaction}
-              variant="contained"
-              color="primary"
-              disabled={succesTransaction ? submit : !submit}
-            >
-              New Transaction
-            </Button>
+            <ButtonGroup className={classes.formCheck}>
+              <Button
+                type="submit"
+                variant="outlined"
+                color="primary"
+                disabled={error.isError || transfer ? !submit : submit}
+                >
+                Transfer
+              </Button>{" "}
+              <br />
+              <Button
+                onClick={handleNewTransaction}
+                variant="contained"
+                color="primary"
+                disabled={succesTransaction ? submit : !submit}
+                >
+                New Transaction
+              </Button>
+            </ButtonGroup>
           </form>
         </div>
       ) : (
