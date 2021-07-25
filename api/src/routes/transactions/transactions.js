@@ -112,9 +112,16 @@ router.post("/deposit/interactive", async (req, res) => {
   
 
   if (amount && claimable_balance_supported) {
-    console.log('Acá no entramos, no ?????')
-    const amount_out = amount - amount * 0.05;
-    const amount_fee = amount * 0.05;
+    let { data: commsion_server } = await supabase
+      .from("commsion_server")
+      .select("*");
+
+    let ultimo = commsion_server.pop();
+
+    let { percentage } = ultimo;
+
+    const amount_out = amount - amount * (percentage / 100);
+    const amount_fee = amount * (percentage / 100);
     async function updateTransaction() {
       await supabase
         .from("transactions")

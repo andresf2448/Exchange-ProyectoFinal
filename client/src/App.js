@@ -1,7 +1,8 @@
-
 import React, { Suspense, lazy } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { CardUser } from "components/cardUser/cardUser";
 import "./App.scss";
+
 
 const Login = lazy(() => import("components/login/login"));
 const Register = lazy(() => import("components/register/register"));
@@ -36,6 +37,7 @@ function App() {
             <Route path="/.well-known/stellar.toml" component={Toml} />
             <Route path="/deposit" component={InitDeposit} />
             <Route path="/kycflow" component={TransactionsPopup} />
+            <Route path="/detailsUsers" component={CardUser} />
           </Switch>
         </Suspense>
 
