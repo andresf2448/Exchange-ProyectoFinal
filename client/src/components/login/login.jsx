@@ -65,11 +65,11 @@ export const Login = () => {
   return (
     <Container maxWidth="sm" className={classes.loginContainer}>
       {session ? history.push("/home") : null}
-      <Card elevation={3} className={classes.loginCheck}>  
+      <Card elevation={3} className={classes.loginCard}>  
         <Grid container alignContent="center" >
           <Grid item xs={12} >
-            <Typography variant="h3" gutterBottom className={classes.centered}> LOGIN</Typography>
-            <form onSubmit={handleSubmit} className={classes.formCheck}>
+            <Typography variant="h3" gutterBottom className={classes.loginGridItem}> LOGIN</Typography>
+            <form onSubmit={handleSubmit} className={classes.loginForm}>
               <FormControl>
                 <TextField
                   required
@@ -78,6 +78,7 @@ export const Login = () => {
                   type="text"
                   value={data.email}
                   onChange={handleOnChange}
+                  color="secondary"
                 />
                 <TextField
                   required
@@ -86,10 +87,11 @@ export const Login = () => {
                   type="password"
                   value={data.password}
                   onChange={handleOnChange}
+                  color="secondary"
                 />
 
                 {/* this button goes first for the submit function when pressing enter */}
-                <ButtonGroup className={classes.centered}>
+                <ButtonGroup className={classes.loginGridItem}>
                   <Button type="submit" variant="contained" color="secondary">
                     Login
                   </Button>
@@ -100,13 +102,13 @@ export const Login = () => {
               </FormControl>
             </form>
           </Grid>
-          <Grid item xs={12} className={classes.centered}>
-            <Link component="button" onClick={()=>recoverPassword()}>
+          <Grid item xs={12} className={classes.loginGridItem}>
+            <Link className={classes.text} component="button" onClick={()=>recoverPassword()}>
               Forgot your password?
             </Link>
           </Grid>
-          <Grid item xs={12} className={classes.centered}>
-            <Link component="button" onClick={() => handleOAuthLogin("google")}>
+          <Grid item xs={12} className={classes.loginGridItem}>
+            <Link className={classes.text} component="button" onClick={() => handleOAuthLogin("google")}>
               Sign in with your Google account
             </Link>
           </Grid>

@@ -37,25 +37,27 @@ const useStyles = makeStyles(theme => ({
     justifyContent: "center", 
     alignItems: "center" 
   },
-  formCheck :{                
+  loginContainer: {
+    height: "100vh",
+    display: "flex",
+    alignItems: "center",
+  },
+  loginCard:{
+    backgroundColor: theme.palette.secondary.background,
+    color: theme.palette.primary.contrastText,
+    borderRadius: '6px',
+    minWidth: "600px"
+  },
+  loginForm :{                
     display:"flex",
     justifyContent: "center", 
     alignItems: "center" 
   },
-  centered: {
+  loginGridItem: {
     display:"flex",
     justifyContent: "center", 
-    alignItems: "center"
-  },
-  loginContainer: {
-    height: "100vh",
-    display: "flex",
-    alignItems: "center"
-  },
-  loginCheck:{
-    backgroundColor: theme.palette.secondary.background,
-    color: theme.palette.primary.contrastText,
-    borderRadius: '6px',
+    alignItems: "center",
+    margin: "5px"
   },
   cryptoCurrency: {
     display: 'flex',

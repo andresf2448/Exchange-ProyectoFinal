@@ -82,11 +82,11 @@ export const Register = () => {
 
   return (
     <Container maxWidth="sm" className={classes.loginContainer}>
-      <Card elevation={3} className={classes.loginCheck}>
+      <Card elevation={3} className={classes.loginCard}>
         <Grid container alignContent="center">
           <Grid item xs={12} >
-            <Typography variant="h3" gutterBottom className={classes.centered}>REGISTER</Typography>
-            <form onSubmit={handleSubmit} className={classes.formCheck}>
+            <Typography variant="h3" gutterBottom className={classes.loginGridItem}>REGISTER</Typography>
+            <form onSubmit={handleSubmit} className={classes.loginForm}>
               <FormControl>
                   <TextField
                     label={error.email === "" ? "Email" : error.email}
@@ -117,7 +117,7 @@ export const Register = () => {
                     onChange={handleOnChange}
                     color={error.passwordValidate === "" ? "primary" : "secondary"}
                   />
-                  <ButtonGroup className={classes.centered}>
+                  <ButtonGroup className={classes.loginGridItem}>
                     <Button
                       type="submit"
                       variant="contained"
