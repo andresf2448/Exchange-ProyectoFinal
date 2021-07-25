@@ -5,7 +5,7 @@ import { useHistory } from "react-router";
 import "./home.scss";
 import { useEffect } from "react";
 
-export const Home = () => {
+export default function Home () {
   const history = useHistory();
   const session = supabase.auth.session();
 
