@@ -1,10 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Container, Typography } from "@material-ui/core";
-import useStyles from "styles";
 
 const Toml = () => {
-  const classes = useStyles();
 
   const [toml, setToml] = useState();
 

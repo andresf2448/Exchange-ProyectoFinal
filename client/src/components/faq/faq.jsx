@@ -1,8 +1,6 @@
 import React from 'react'
-import { Container, Typography, Accordion, AccordionSummary, AccordionDetails, Grid, Button } from '@material-ui/core'
-import { NavLink } from 'react-router-dom';
+import { Container, Typography, Accordion, AccordionSummary, AccordionDetails } from '@material-ui/core'
 import { ExpandMore } from '@material-ui/icons'
-import HomeIcon from '@material-ui/icons/Home';
 import useStyles from 'styles.js'
 
 export default function Faq() {
@@ -10,16 +8,16 @@ export default function Faq() {
 
     const classes = useStyles();
     return (
-        <Container>
+        <Container style={{width:'90%'}}>
 
-            <Grid container sm={12}>
+            {/* <Grid container sm={12} >
                 <Grid imte sm={6}>
                     <NavLink to='/home'><Button color='secondary'><HomeIcon fontSize='large' /></Button></NavLink>
                 </Grid>
                 <Grid imte sm={6}>
                     <Typography variant='h4' className={classes.text} >FAQ</Typography>
                 </Grid>
-            </Grid>
+            </Grid> */}
 
 
             <Typography variant='h5' className={classes.text}>About us</Typography>

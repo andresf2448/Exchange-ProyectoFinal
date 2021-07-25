@@ -1,6 +1,4 @@
 import { Container, Grid, Typography } from "@material-ui/core";
-import { CryptoGraphics } from "components/cryptoGraphics/cryptoGraphics";
-import { Twitter } from "components/twitter/twitter";
 
 export const HomeGrid = () => {
   return (

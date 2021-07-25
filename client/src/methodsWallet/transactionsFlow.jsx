@@ -16,7 +16,7 @@ export default function TransactionsPopup() {
     currency: "",
     amount: "",
   });
-  const [error, setError] = useState();
+  // const [error, setError] = useState();
   const [transaction, setTransaction] = useState(false); 
   const [kyc, setKyc] = useState(false);
 
@@ -29,11 +29,8 @@ export default function TransactionsPopup() {
       .from("transactions")
       .select("*")
       .eq("id", id);
-    console.log("El errorrrrrrr", error);
-    console.log("Dataaaaaa", data);
-    if (error) return setError(true);
+    if (error) return console.log(error); 
     if (data[0]) {
-      console.log("La dataaaaaaaa", data[0].kind);
       return setTransactionType(data[0].kind);
     }
   };
@@ -70,7 +67,7 @@ export default function TransactionsPopup() {
     event.preventDefault();
     const amount_out = input.amount - input.amount * 0.05;
     const amount_fee = input.amount * 0.05;
-    const supa = await supabase
+     await supabase
       .from("transactions")
       .update([
         {
@@ -80,7 +77,6 @@ export default function TransactionsPopup() {
         },
       ])
       .eq("id", id);
-    console.log("supaaaaaaaaaaaaaaaaaaaaaaa", supa);
     setIntentionBuy(true);
     dispatch(
       getClientSecret({ currency: input.currency, amount: input.amount })
@@ -98,8 +94,6 @@ export default function TransactionsPopup() {
      setTransaction(transactionBack.data)
   }
   
-
-  console.log("Transaction type", transactionType);
   return (
     <div>
       <button onClick={createTransaction}>Create Transaction</button>
