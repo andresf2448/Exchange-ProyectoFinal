@@ -76,6 +76,8 @@ keys()
             <Grid item xs={12}>
               <CryptoCalculator />
             </Grid>
+            </Grid>
+            </Grid>
 
           </Grid>
         </Container>
