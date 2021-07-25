@@ -1,0 +1,29 @@
+.titleContainer{
+    margin-top: 8%; 
+    margin-bottom: 2%;
+}
+
+.mainTitle{
+    height:100vh;
+    background-color: mediumpurple;
+}
+
+.cryptos {
+    height:100vh;
+    background-color: tomato
+}
+
+.rocketFeatures{
+    height:100vh;
+    background-color: rgb(76, 76, 255);
+}
+
+.frequencyQuestion{
+    height:100vh;
+}
+
+.toTopButton{
+    right: 0;
+    bottom: 0;
+    position: fixed;
+}

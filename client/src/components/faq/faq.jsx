@@ -17,12 +17,12 @@ export default function Faq() {
                     <NavLink to='/home'><Button color='secondary'><HomeIcon fontSize='large' /></Button></NavLink>
                 </Grid>
                 <Grid imte sm={6}>
-                    <Typography variant='h4' className={classes.button} >FAQ</Typography>
+                    <Typography variant='h4' className={classes.text} >FAQ</Typography>
                 </Grid>
             </Grid>
 
 
-            <Typography variant='h5' className={classes.cryptoCurrency}>About us</Typography>
+            <Typography variant='h5' className={classes.text}>About us</Typography>
             <Accordion>
                 <AccordionSummary
                     expandIcon={<ExpandMore />}
@@ -58,7 +58,7 @@ export default function Faq() {
             </Accordion>
 
 
-            <Typography variant='h5' className={classes.cryptoCurrency}>Cryptocurrency Exchange</Typography>
+            <Typography variant='h5' className={classes.text}>Cryptocurrency Exchange</Typography>
 
 
             <Accordion>
@@ -94,7 +94,7 @@ export default function Faq() {
                 </AccordionDetails>
 
             </Accordion>
-            <Typography variant='h5' className={classes.cryptoCurrency}>Buy crypto with Fiat</Typography>
+            <Typography variant='h5' className={classes.text}>Buy crypto with Fiat</Typography>
             <Accordion>
                 <AccordionSummary
                     expandIcon={<ExpandMore />}

@@ -3,7 +3,7 @@ import { useState } from "react";
 import StellarSdk from "stellar-sdk";
 import { supabase } from "../supabase/supabase";
 
-export default function ManageBuyOffer() {
+export default function ManageBuyOffer({ publicKey, secretKey }) {
   const [assetAsk, setAssetAsk] = useState();
   const [assetBid, setAssetBid] = useState();
   const [assets, setAssets] = useState();
@@ -13,14 +13,10 @@ export default function ManageBuyOffer() {
   const server = new StellarSdk.Server("https://horizon-testnet.stellar.org");
 
   const getAssets = async () => {
-    if (!assets) {
-      let assets = await supabase.from("assets").select("*");
-
-      return setAssets(assets);
-    }
-    return;
+    let assets = await supabase.from("assets").select("*");
+    return setAssets(assets);
   };
-  getAssets();
+  if (!assets) getAssets();
 
   let ask = undefined;
   if (assetAsk && ask === undefined && assetAsk.asset_code !== "XLM") {
@@ -37,10 +33,10 @@ export default function ManageBuyOffer() {
 
   async function makeBuyOffer() {
     try {
-      const publicKey =
+      /* const publicKey =
         "GAJ22WDPA3IOIJPOXBWPWAXU3MVVTHNXZJZ3DSGXZSK4LYKLKTJGJY33";
       const secretKey =
-        "SCNREEOCEUQBUXK773H2WEFMADCMH4BROZTWUPHMC4ITVOSJS3HIBDZM";
+        "SCNREEOCEUQBUXK773H2WEFMADCMH4BROZTWUPHMC4ITVOSJS3HIBDZM"; */
       const sourceKeypair = StellarSdk.Keypair.fromSecret(secretKey);
 
       const [
@@ -69,12 +65,12 @@ export default function ManageBuyOffer() {
             price: price,
           })
         )
-        .setTimeout(10000000)
+        .setTimeout(0)
         .build();
 
       transaction.sign(sourceKeypair);
 
-       await server.submitTransaction(transaction);
+      await server.submitTransaction(transaction);
     } catch (e) {
       console.error("Oh no! Something went wrong.");
       console.error(e);
@@ -105,9 +101,9 @@ export default function ManageBuyOffer() {
   }
 
   return (
-    <Grid container > 
+    <Grid container>
       <form onSubmit={(event) => handleSubmit(event)}>
-        <Grid container item alignContent='space-around'>
+        <Grid container item alignContent="space-around">
           <Grid item xs={12}>
             <Typography>Create your sale offer:</Typography>
           </Grid>
@@ -121,7 +117,9 @@ export default function ManageBuyOffer() {
               {assets &&
                 assets.data.map((element) => {
                   return (
-                    <option key={element.asset_code}>{element.asset_code}</option>
+                    <option key={element.asset_code}>
+                      {element.asset_code}
+                    </option>
                   );
                 })}
             </select>
@@ -145,8 +143,8 @@ export default function ManageBuyOffer() {
                 assets.data.map((element) => {
                   return (
                     <option
-                    onChange={(event) => selectAssetBid(event)}
-                    key={element.asset_code}
+                      onChange={(event) => selectAssetBid(event)}
+                      key={element.asset_code}
                     >
                       {element.asset_code}
                     </option>
@@ -154,7 +152,7 @@ export default function ManageBuyOffer() {
                 })}
             </select>
           </Grid>
-          <Grid item xs={12} >
+          <Grid item xs={12}>
             <input
               type="text"
               name="price"

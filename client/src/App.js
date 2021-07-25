@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Route } from "react-router-dom";
+import Landing from 'containers/landing/landing';
 import { Login } from "components/login/login";
 import { Register } from "components/register/register";
 import { Home } from "containers/home/home";
@@ -18,6 +19,7 @@ function App() {
       <div className="App">
         <Route exact path="/" component={Login} />
         <Route path="/register" component={Register} />
+        <Route path="/landing" component={Landing} />
         <Route path="/home" component={Home} />
         <Route path="/recoverPassword" component={RecoverPassword} />
         <Route path="/payment" component={CheckoutForm} />

@@ -2,7 +2,11 @@ const router = require("express").Router();
 const StellarSdk = require("stellar-sdk");
 const axios = require("axios");
 require("dotenv").config();
-
+const { createClient } = require("@supabase/supabase-js");
+const supabase = createClient(
+  process.env.REACT_APP_SUPABASE_URL,
+  process.env.REACT_APP_SUPABASE_PUBLIC_KEY
+);
 
 router.get("/", async (req, res) => {
  
@@ -29,6 +33,7 @@ router.get("/", async (req, res) => {
 
       console.log(`Public Key: ${pair.publicKey()}`);
       console.log(`Secret Key: ${pair.secret()}`);
+       
     } catch (e) {
       console.error("Oh no! Something went wrong:", e);
     }
