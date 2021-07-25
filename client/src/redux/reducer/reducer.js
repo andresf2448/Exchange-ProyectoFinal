@@ -7,6 +7,7 @@ import {
 
 const initialState = {
   client_secret: null,
+  detailsId: null,
   assets:[],
 };
 
@@ -28,6 +29,12 @@ export default function reducer(state = initialState, action) {
       return {
         ...state,
         client_secret: undefined,
+      };
+
+    case "GET_USER_DETAILS_ID":
+      return {
+        ...state,
+        detailsId: action.payload,
       };
 
       case GET_ASSETS:

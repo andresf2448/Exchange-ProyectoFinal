@@ -14,6 +14,8 @@ import {
   TableCell,
 } from "@material-ui/core";
 import useStyles from "styles";
+import { useDispatch } from "react-redux";
+import { GET_USER_DETAILS_ID } from "redux/actions/actions";
 
 export const AdministratorUser = () => {
   const classes = useStyles();
@@ -27,6 +29,14 @@ export const AdministratorUser = () => {
   const [emails, setEmails] = useState([]);
   const [statemessage, setStateMessage] = useState(false);
   const emailSearching = useRef("");
+  const dispatch = useDispatch();
+  const [commision, setCommision] = useState(false);
+  const confirmation = useRef("");
+  const [statusComision, setStatusComision] = useState({
+    porcentaje: "",
+    fecha: "",
+  });
+  const newComision = useRef("");
 
   const [render, setRender] = useState([]);
   let title = useRef("");
@@ -156,12 +166,6 @@ export const AdministratorUser = () => {
     setStateMessage(false);
   };
 
-  useEffect(() => {
-    getUsers();
-    validateRole();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [reload]);
-
   let search = (event) => {
     event.preventDefault();
 
@@ -181,12 +185,81 @@ export const AdministratorUser = () => {
     return history.push("/home");
   };
 
-  console.log(emails);
+  let detailsUser = (id) => {
+    dispatch(GET_USER_DETAILS_ID(id));
+    history.push("/detailsUsers");
+  };
+
+  let comisionChange = async (event) => {
+    event.preventDefault();
+    if (confirmation.current.value === "CONFIRM") {
+      await supabase
+        .from("commsion_server")
+        .insert([{ id_user: id, percentage: newComision.current.value }]);
+      setCommision(!commision);
+      return alert("Sucess");
+    }
+    alert('Complet or Write "CONFIRM" correctly');
+  };
+
+  let actualcomision = async () => {
+    let { data: commsion_server, error } = await supabase
+      .from("commsion_server")
+      .select("*");
+
+    let ultimo = commsion_server.pop();
+    let { percentage, date } = ultimo;
+
+    if (error) alert(error);
+    setStatusComision({
+      porcentaje: percentage,
+      fecha: date,
+    });
+  };
+
+  useEffect(() => {
+    getUsers();
+    validateRole();
+    actualcomision();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [reload]);
 
   return (
     <Container style={{ backgroundColor: '#fff658'}}>
       {admin ? (
         <Grid container>
+          <div>
+            <button onClick={() => setCommision(!commision)}>
+              {" Do you want change the commision server "}
+            </button>
+
+            {commision ? (
+              <div>
+                <form onSubmit={comisionChange}>
+                  <input
+                    type="text"
+                    placeholder="New value Commision Server"
+                    ref={newComision}
+                    required
+                  />
+
+                  <input
+                    type="text"
+                    placeholder="Write CONFIRM"
+                    ref={confirmation}
+                    required
+                  />
+                  <button type="submit"> Send</button>
+                </form>
+              </div>
+            ) : (
+              <div>
+                <div>comision actual : {statusComision.porcentaje} %</div>
+                <div> fecha : {statusComision.fecha}</div>
+              </div>
+            )}
+          </div>
           <div>
             <form onSubmit={search}>
               <input
@@ -209,12 +282,14 @@ export const AdministratorUser = () => {
                 <TableCell>BLOCK USER </TableCell>
                 <TableCell>UPGRADE TO ADMIN </TableCell>
                 <TableCell>RESET PASSWORD </TableCell>
+
                 <TableCell>
-                  Send message <br />
+                  Send Email <br />
                   <button onClick={selectionAll}>Select All</button>
                   <br />
                   <button onClick={unSelectionAll}>Unselect All</button>
                 </TableCell>
+                <TableCell>Details Users</TableCell>
               </TableRow>
             </TableHead>
             {render.map((user, i) => {
@@ -262,6 +337,11 @@ export const AdministratorUser = () => {
                           UnSelected
                         </Button>
                       )}
+                    </TableCell>
+                    <TableCell>
+                      <Button onClick={() => detailsUser(id_user)}>
+                        Details
+                      </Button>
                     </TableCell>
                   </TableRow>
                 </TableBody>

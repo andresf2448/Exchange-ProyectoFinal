@@ -43,3 +43,7 @@ export async function getAssets() {
     payload: assets,
   };
 }
+
+export const GET_USER_DETAILS_ID = (id) => {
+  return { type: "GET_USER_DETAILS_ID", payload: id };
+};
