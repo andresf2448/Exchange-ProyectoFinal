@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { getAssets } from "redux/actions/actions";
 import { useDispatch, useSelector } from "react-redux";
-import useAuth from 'customHooks/useAuth'
+import useAuth from "customHooks/useAuth";
 
 export default function InitDeposit() {
   const assets = useSelector((store) => store.assets);
@@ -23,11 +23,6 @@ export default function InitDeposit() {
     );
     return setAsset(asset[0]);
   };
-
-
-
-
-
 
   return (
     <>
@@ -57,7 +52,7 @@ export default function InitDeposit() {
 
       {
         <div>
-          <div>DEPOSIT</div>  
+          <div>DEPOSIT</div>
           <div>{asset.asset_code}</div>
           <div>{asset.home_domain}</div>
           <div>START THE TRANSFER </div>

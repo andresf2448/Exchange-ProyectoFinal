@@ -8,10 +8,7 @@ import OffersByAccount from "methodsWallet/offersByAccount";
 import { supabase } from "../../supabase/supabase";
 
 function Trade() {
-  const [user, setUser] = useState({
-    publicKey: "GAJ22WDPA3IOIJPOXBWPWAXU3MVVTHNXZJZ3DSGXZSK4LYKLKTJGJY33",
-    secretKey: "SCNREEOCEUQBUXK773H2WEFMADCMH4BROZTWUPHMC4ITVOSJS3HIBDZM",
-  });
+  const [user, setUser] = useState();
   const session = supabase.auth.session();
  const keys = async () => {
   const { data: public_key } = await supabase
@@ -34,7 +31,7 @@ keys()
       <Grid container>
         <Grid container item display="column" justifyContent={true}>
           <Grid item xs={12} sm={3} style={{ height: "700px" }}>
-            {/* <Orderbook /> */}
+            <Orderbook />
           </Grid>
           <Grid container item xs={12} sm={6}>
             <Grid
@@ -46,7 +43,7 @@ keys()
                 paddingTop: "40px",
               }}
             >
-              {/* <TradingView /> */}
+              <TradingView />
             </Grid>
             <Grid item xs={12} sm={6}>
               <ManageBuyOffer
