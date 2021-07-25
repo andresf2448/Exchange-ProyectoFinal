@@ -30,7 +30,6 @@ export const CryptoGraphics = () => {
     color: "equal",
     img: ethIcon,
   });
-  // eslint-disable-next-line
   const [btc, setBtc] = useState({
     symbol: "BTC",
     prevPrice: 0,
@@ -38,7 +37,6 @@ export const CryptoGraphics = () => {
     color: "equal",
     img: btcIcon,
   });
-  // eslint-disable-next-line
   const [chz, setChz] = useState({
     symbol: "CHZ",
     prevPrice: 0,
@@ -46,7 +44,6 @@ export const CryptoGraphics = () => {
     color: "equal",
     img: chzIcon,
   });
-  // eslint-disable-next-line
   const [fil, setFil] = useState({
     symbol: "FIL",
     prevPrice: 0,
@@ -54,7 +51,6 @@ export const CryptoGraphics = () => {
     color: "equal",
     img: filIcon,
   });
-  // eslint-disable-next-line
   const [ada, setAda] = useState({
     symbol: "ADA",
     prevPrice: 0,
@@ -62,7 +58,6 @@ export const CryptoGraphics = () => {
     color: "equal",
     img: adaIcon,
   });
-  // eslint-disable-next-line
   const [bnb, setBnb] = useState({
     symbol: "BNB",
     prevPrice: 0,
@@ -70,7 +65,6 @@ export const CryptoGraphics = () => {
     color: "equal",
     img: bnbIcon,
   });
-  // eslint-disable-next-line
   const [dot, setDot] = useState({
     symbol: "DOT",
     prevPrice: 0,
@@ -78,7 +72,6 @@ export const CryptoGraphics = () => {
     color: "equal",
     img: dotIcon,
   });
-  // eslint-disable-next-line
   const [axs, setAxs] = useState({
     symbol: "AXS",
     prevPrice: 0,
