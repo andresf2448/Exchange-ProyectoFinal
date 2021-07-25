@@ -42,7 +42,21 @@ const useStyles = makeStyles(theme => ({
     justifyContent: "center", 
     alignItems: "center" 
   },
-
+  centered: {
+    display:"flex",
+    justifyContent: "center", 
+    alignItems: "center"
+  },
+  loginContainer: {
+    height: "100vh",
+    display: "flex",
+    alignItems: "center"
+  },
+  loginCheck:{
+    backgroundColor: theme.palette.secondary.background,
+    color: theme.palette.primary.contrastText,
+    borderRadius: '6px',
+  },
   cryptoCurrency: {
     display: 'flex',
     flexDirection: 'column',
