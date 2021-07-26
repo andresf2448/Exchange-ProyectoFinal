@@ -61,6 +61,31 @@ const useStyles = makeStyles(theme => ({
     boxShadow: "15px 30px 40px 5px rgba(0, 0, 0, 0.5)",
     textAlign: "center"
   },
+  adminContainer: {
+    backgroundColor: "#1F1F1F",
+    minHeight:"100vh"
+  },
+  adminCard: {
+    backgroundColor: theme.palette.secondary.background,
+    marginTop: 15,
+    marginLeft: 15,
+    marginRight: 15,
+    marginBottom: 5,
+    padding: 10
+  },
+  adminCardSearch: {
+    display: "flex",
+    justifyContent: "center",
+  },
+  adminTableContainer: {
+    maxHeight: "70vh"
+  },
+  adminTable:{
+    backgroundColor: theme.palette.primary.light
+  },
+  adminTableHeadCell: {
+    backgroundColor: theme.palette.primary.dark
+  },
   cryptoChart: {
     display: 'flex',
     justifyContent: "center"
