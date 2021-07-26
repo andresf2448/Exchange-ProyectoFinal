@@ -9,11 +9,6 @@
 }
 
 
-.registerButton:hover{
-    color: #272727b3;
-    background-color: #ffe261
-}
-
 .presentation{
     align-content: space-around;
     height: 110vh;
@@ -24,8 +19,10 @@
     height: 110vh;
     width: 100%;
     display: inline-grid;
-    align-content: space-evenly;
-    background-image: linear-gradient(120deg, #fdfbfb 0%, #dadada 100%);
+    align-content:center;
+    /* align-items: center; */
+    background-image: linear-gradient(120deg, #fdfbfb 0%, #c5c5c5 100%);
+    border-radius: 20px;
     color: #272727b3;
 }
 
@@ -33,21 +30,27 @@
     height:110vh;
     width: 100%;
     background-image: linear-gradient(120deg, #172536 0%, #272727b3 100%);
-    border-radius: 30px;
-    margin-bottom: 2%;
+    border-radius: 20px;
 }
 
 .rocketFeatures{
     height:110vh;
-    background-image: linear-gradient(120deg, #fdfbfb 0%, #f3f3f3 100%);
+    background-image: url('./background.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-radius:20px;
+    
 }
 
 .rocketFeaturesTypography{
-    color:#272727b3;
-    letter-spacing: 2px;
+    color:#fdfbfb;
+    letter-spacing: 3px;
+    color: #ffd20a;
+    padding: 30px;
+}
+
+.aboutGrid{
     margin-top: 2%;
-    margin-bottom: 2%;
-    justify-content: center;
 }
 
 .frequencyQuestion{

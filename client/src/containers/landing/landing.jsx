@@ -9,6 +9,7 @@ import useStyles from 'styles';
 import './landing.css';
 import { Link } from 'react-scroll';
 
+
 const Landing = () => {
     const classes = useStyles();
 
@@ -73,7 +74,7 @@ const Landing = () => {
                 </Grid>
                 <Grid container xs={3} justifyContent="space-around">
                     <Button  color="secundary" variant="contained" justifyContent="left">Crear cuenta</Button> 
-                    <Button color="primary" variant="contained" justifyContent="left" style={{color:'#272727b3', backgroundColor: '#ffd523'}}>ingresar</Button>
+                    <Button color="primary" variant="contained" justifyContent="left" style={{color:'#000', backgroundColor: '#ffd523'}}>ingresar</Button>
                 </Grid>
             </Grid>
 
@@ -98,12 +99,15 @@ const Landing = () => {
 
 
             <div className="register">
-                <Grid container xs={12} className={classes.landingContainers} spacing={6} style={{padding:'8%'}}>
-                    <Typography item xs={12} variant="h4">
-                        don't let time go by, start trading now!
+                <Grid container={true} xs={12} className={classes.landingRegister} spacing={6} style={{padding:'8%'}}>
+                    <Typography item xs={8} variant="h4">
+                        Don't let time go by, start trading now!
                     </Typography>
-                    <Grid item xs={12}>
-                        <Button className='registerButton' style={{backgroundColor: '#ffd523', color: '#272727b3'}} variant="contained">Register!</Button> 
+                    <Box item xs={4}>
+                        Logo RocketXchange
+                    </Box>
+                    <Grid item xs={4} alignItems='center'>
+                        <Button className='registerButton' style={{ padding:'10px', width:'60%', backgroundColor: '#ffd523', color: '#272727b3', letterSpacing:'3px'}} variant="contained">REGISTER!</Button> 
                     </Grid>
                 </Grid>
             </div>
@@ -121,27 +125,26 @@ const Landing = () => {
                 </Grid>
             </div>
 
-
             <div className="rocketFeatures">
                 <Grid>
-                    <Typography variant="h4" className='rocketFeaturesTypography'> ¿Qué podés hacer con RocketExChange? </Typography>
+                    <Typography variant="h4" className='rocketFeaturesTypography'> What can you do with RocketExChange? </Typography>
                 </Grid>
-                <Grid container xs={12} justifyContent="space-around" >
-                        <Card item xs={6} className={classes.landingCard}>
+                <Grid container xs={12} justifyContent="space-evenly" className='aboutGrid'>
+                        <Card item xs={3} className={classes.landingCards}>
                             <MonetizationOnIcon fontSize="large"/>
-                            <Typography>Envía y recibí dinero de forma rápida y segura</Typography>
+                            <Typography>The better way to trade directly with other traders. There’s no one in the middle!</Typography>
                         </Card>
-                        <Card item xs={6} className={classes.landingCard}>
+                        <Card item xs={3} className={classes.landingCards}>
                             <SecurityIcon fontSize="large"/>
-                            <Typography>Adquirí tus cryptomonedas con seguridad</Typography>
+                            <Typography> Acquire your cryptocurrencies safely</Typography>
                         </Card>
-                        <Card item xs={6} className={classes.landingCard}>
+                        <Card item xs={3} className={classes.landingCards}>
                             <img className="cryptoIcons" src={stellarIcon} alt="no img"/>
-                            <Typography>Operá dentro de la red Stellar</Typography>
+                            <Typography>Deposit and withdraw, fiat and crypto</Typography>
                         </Card>
-                        <Card item xs={6} className={classes.landingCard}>
+                        <Card item xs={3} className={classes.landingCards}>
                             <img className="cryptoIcons" src={balance} alt="no img"/>
-                            <Typography >Utiliza nuestra plataforma para ver tus balances</Typography>
+                            <Typography >Use our platform to see your balances</Typography>
                         </Card>
                 </Grid>
             </div>
