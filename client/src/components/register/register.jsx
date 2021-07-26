@@ -2,18 +2,22 @@ import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router";
 import { supabase } from "supabase/supabase";
 import { validate } from "./validate";
+import useStyles from 'styles';
 
 import {
   Container,
   Typography,
   Button,
+  ButtonGroup,
   TextField,
   FormControl,
-  Grid
+  Grid,
+  Card
 } from "@material-ui/core";
 
 export default function Register () {
   const history = useHistory();
+  const classes = useStyles();
 
   const [error, setError] = useState({
     email: "",
@@ -77,57 +81,60 @@ export default function Register () {
   }, [error]);
 
   return (
-    <Container maxWidth="sm">
-      <Typography variant="h3" gutterBottom>REGISTER</Typography>
-      <Grid container>
-        <Grid item xs={12}>
-          <form onSubmit={handleSubmit}>
-            <FormControl>
-                <TextField
-                  label={error.email === "" ? "Email" : error.email}
-                  name="email"
-                  type="text"
-                  value={data.email}
-                  onChange={handleOnChange}
-                  color={error.email === "" ? "primary" : "secondary"}
-                />
-                <TextField
-                  label={error.password === "" ? "Password" : error.password}
-                  name="password"
-                  type="password"
-                  value={data.password}
-                  onChange={handleOnChange}
-                  color={error.password === "" ? "primary" : "secondary"}
-                />
-                <TextField
-                  required
-                  label={
-                    error.passwordValidate === ""
-                      ? "Repeat password"
-                      : error.passwordValidate
-                  }
-                  name="passwordValidate"
-                  type="password"
-                  value={data.passwordValidate}
-                  onChange={handleOnChange}
-                  color={error.passwordValidate === "" ? "primary" : "secondary"}
-                />
-
-                <Button
-                  type="submit"
-                  variant="contained"
-                  color="primary"
-                  disabled={!submit}
-                >
-                  Sing up
-                </Button>
-                <Button onClick={back} variant="contained" color="primary">
-                  Back
-                </Button>
-            </FormControl>
-          </form>
+    <Container maxWidth="sm" className={classes.loginContainer}>
+      <Card elevation={3} className={classes.loginCard}>
+        <Grid container alignContent="center">
+          <Grid item xs={12} >
+            <Typography variant="h3" gutterBottom className={classes.loginGridItem}>REGISTER</Typography>
+            <form onSubmit={handleSubmit} className={classes.loginForm}>
+              <FormControl>
+                  <TextField
+                    label={error.email === "" ? "Email" : error.email}
+                    name="email"
+                    type="text"
+                    value={data.email}
+                    onChange={handleOnChange}
+                    color={error.email === "" ? "primary" : "secondary"}
+                  />
+                  <TextField
+                    label={error.password === "" ? "Password" : error.password}
+                    name="password"
+                    type="password"
+                    value={data.password}
+                    onChange={handleOnChange}
+                    color={error.password === "" ? "primary" : "secondary"}
+                  />
+                  <TextField
+                    required
+                    label={
+                      error.passwordValidate === ""
+                        ? "Repeat password"
+                        : error.passwordValidate
+                    }
+                    name="passwordValidate"
+                    type="password"
+                    value={data.passwordValidate}
+                    onChange={handleOnChange}
+                    color={error.passwordValidate === "" ? "primary" : "secondary"}
+                  />
+                  <ButtonGroup className={classes.loginGridItem}>
+                    <Button
+                      type="submit"
+                      variant="contained"
+                      color="secondary"
+                      disabled={!submit}
+                    >
+                      Sing up
+                    </Button>
+                    <Button onClick={back} variant="outlined" color="secondary">
+                      Back
+                    </Button>
+                  </ButtonGroup>
+              </FormControl>
+            </form>
+          </Grid>
         </Grid>
-      </Grid>
+      </Card>
     </Container>
   );
 };

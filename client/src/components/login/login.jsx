@@ -1,20 +1,24 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router";
+import useStyles from 'styles';
 
 import {
   Container,
   Typography,
   Button,
+  ButtonGroup,
   TextField,
   FormControl,
   Link,
   Grid,
+  Card
 } from "@material-ui/core";
 
 import { supabase } from "supabase/supabase";
 
 export default function Login () {
   const history = useHistory();
+  const classes = useStyles();
 
   const [data, setData] = useState({
     email: "",
@@ -59,51 +63,57 @@ export default function Login () {
   };
 
   return (
-    <Container maxWidth="sm">
+    <Container maxWidth="sm" className={classes.loginContainer}>
       {session ? history.push("/home") : null}
-      <Typography variant="h3" gutterBottom> LOGIN</Typography>
-      <Grid container>
-        <Grid item xs={12}>
-          <form onSubmit={handleSubmit}>
-            <FormControl>
-              <TextField
-                required
-                label="Email"
-                name="email"
-                type="text"
-                value={data.email}
-                onChange={handleOnChange}
-              />
-              <TextField
-                required
-                label="Password"
-                name="password"
-                type="password"
-                value={data.password}
-                onChange={handleOnChange}
-              />
+      <Card elevation={3} className={classes.loginCard}>  
+        <Grid container alignContent="center" >
+          <Grid item xs={12} >
+            <Typography variant="h3" gutterBottom className={classes.loginGridItem}> LOGIN</Typography>
+            <form onSubmit={handleSubmit} className={classes.loginForm}>
+              <FormControl>
+                <TextField
+                  required
+                  label="Email"
+                  name="email"
+                  type="text"
+                  value={data.email}
+                  onChange={handleOnChange}
+                  color="secondary"
+                />
+                <TextField
+                  required
+                  label="Password"
+                  name="password"
+                  type="password"
+                  value={data.password}
+                  onChange={handleOnChange}
+                  color="secondary"
+                />
 
-              {/* this button goes first for the submit function when pressing enter */}
-              <Button type="submit" variant="contained" color="primary">
-                Login
-              </Button>
-              <Button variant="contained" color="primary" onClick={singUpRoute}>
-                Sing up
-              </Button>
-            </FormControl>
-          </form>
+                {/* this button goes first for the submit function when pressing enter */}
+                <ButtonGroup className={classes.loginGridItem}>
+                  <Button type="submit" variant="contained" color="secondary">
+                    Login
+                  </Button>
+                  <Button variant="outlined" color="secondary" onClick={singUpRoute}>
+                    Sing up
+                  </Button>
+                </ButtonGroup>
+              </FormControl>
+            </form>
+          </Grid>
+          <Grid item xs={12} className={classes.loginGridItem}>
+            <Link className={classes.text} component="button" onClick={()=>recoverPassword()}>
+              Forgot your password?
+            </Link>
+          </Grid>
+          <Grid item xs={12} className={classes.loginGridItem}>
+            <Link className={classes.text} component="button" onClick={() => handleOAuthLogin("google")}>
+              Sign in with your Google account
+            </Link>
+          </Grid>
         </Grid>
-        <Grid item xs={12}>
-          <Link component="button" onClick={()=>recoverPassword()}>
-            Forgot your password?
-          </Link>
-        </Grid>
-        <Grid item xs={12}>
-          <Link component="button" onClick={() => handleOAuthLogin("google")}>
-            Sign in with your Google account
-          </Link>
-        </Grid>
-      </Grid>
+      </Card>
     </Container>
   );
 };

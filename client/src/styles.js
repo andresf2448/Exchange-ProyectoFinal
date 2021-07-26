@@ -26,8 +26,7 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'space-around',
     backgroundColor: theme.palette.secondary.main
   },
-
-  cardCheck: {
+  cardContainer: {
     backgroundColor: theme.palette.secondary.background,
     color: theme.palette.primary.contrastText,
     borderRadius: '6px', 
@@ -37,12 +36,35 @@ const useStyles = makeStyles(theme => ({
     justifyContent: "center", 
     alignItems: "center" 
   },
-  formCheck :{                
+  loginContainer: {
+    height: "100vh",
+    display: "flex",
+    alignItems: "center",
+  },
+  loginCard:{
+    backgroundColor: theme.palette.secondary.background,
+    color: theme.palette.primary.contrastText,
+    borderRadius: '6px',
+    minWidth: "600px"
+  },
+  loginForm :{                
     display:"flex",
     justifyContent: "center", 
     alignItems: "center" 
   },
-
+  loginGridItem: {
+    display:"flex",
+    justifyContent: "center", 
+    alignItems: "center",
+    margin: "5px"
+  },
+  adminContainer: {
+    backgroundColor: "#1F1F1F",
+  },
+  adminCard: {
+    backgroundColor: theme.palette.secondary.background,
+    margin: "10px"
+  },
   cryptoCurrency: {
     display: 'flex',
     flexDirection: 'column',
@@ -81,14 +103,42 @@ const useStyles = makeStyles(theme => ({
     opacity:'0.7'
   },
   landingContainers: {
-    marginTop: "40px",
-    marginBottom: "40px",
+    display: "flex",
+    alignItems: "center",
   },
+  landingRegister: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-evenly"
+  },
+
   landingCard: {
-    height: 150,
-    width: 180,
-    paddingTop: 20,
-    textAlign: 'center'
+    margin: '3%',
+    height: 145,
+    width: 200,
+    padding: 20,
+    textAlign: 'center',
+    letterSpacing: 3,
+  },
+  landingCards: {
+    margin: '3%',
+    height: 145,
+    width: 200,
+    padding: 20,
+    textAlign: 'center',
+    letterSpacing: 3,
+    color: theme.palette.primary.contrastText,
+    backgroundColor: theme.palette.primary.main,
+    transition: 'all .2s linear',
+    
+    '&:hover': {
+      background: "#ffd523",
+      color: '#000',
+  }},
+
+
+  presentationBox: {
+    margin: "3%",
   },
   appLogo: {
     height: "100%",

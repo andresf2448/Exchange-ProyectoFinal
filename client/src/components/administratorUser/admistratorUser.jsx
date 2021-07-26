@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { useHistory } from "react-router";
 import axios from "axios";
 import { supabase } from "supabase/supabase";
+import useStyles from "styles";
 
 import {
   Button,
@@ -12,8 +13,15 @@ import {
   TableBody,
   TableRow,
   TableCell,
+  TableContainer,
+  TextField,
+  Card,
+  Typography,
+  ButtonGroup,
+  FormControl,
+  Paper,
+  TextareaAutosize
 } from "@material-ui/core";
-import useStyles from "styles";
 import { useDispatch } from "react-redux";
 import { GET_USER_DETAILS_ID } from "redux/actions/actions";
 
@@ -37,6 +45,7 @@ export const AdministratorUser = () => {
     fecha: "",
   });
   const newComision = useRef("");
+  const [selectAll, setSelectAll] = useState(true)
 
   const [render, setRender] = useState([]);
   let title = useRef("");
@@ -126,11 +135,13 @@ export const AdministratorUser = () => {
   };
 
   let selectionAll = async () => {
+    setSelectAll(false);
     let { data } = await supabase.from("RegisteredUsers").select(`email`);
     setEmails(data.map((x) => x.email));
   };
 
   let unSelectionAll = async () => {
+    setSelectAll(true);
     setEmails([]);
   };
 
@@ -161,10 +172,10 @@ export const AdministratorUser = () => {
     alert("Please add one email or add one message");
   };
 
-  let cancelMessage = () => {
-    setEmails([]);
-    setStateMessage(false);
-  };
+  // let cancelMessage = () => {
+  //   setEmails([]);
+  //   setStateMessage(false);
+  // };
 
   let search = (event) => {
     event.preventDefault();
@@ -226,162 +237,186 @@ export const AdministratorUser = () => {
   }, [reload]);
 
   return (
-    <Container style={{ backgroundColor: '#fff658'}}>
+    <Container disableGutters maxWidth={false} className={classes.adminContainer}>
+      <Card elevation={3} className={classes.adminCard}>
       {admin ? (
         <Grid container>
-          <div>
-            <button onClick={() => setCommision(!commision)}>
-              {" Do you want change the commision server "}
-            </button>
+          <Grid container xs={6} direction="column" alignContent="center">
+            {/* <Grid item xs={12}> */}
+            {/* </Grid> */}
 
+            <Button onClick={() => setCommision(!commision)} variant="contained">
+              {"Change the commision server"}
+            </Button>
             {commision ? (
-              <div>
+              <Grid item xs={5} direction="column" >
                 <form onSubmit={comisionChange}>
-                  <input
+                  <TextField
                     type="text"
-                    placeholder="New value Commision Server"
+                    placeholder="New value"
                     ref={newComision}
+                    color="secondary"
+                    variant="outlined"
+                    size="small"
                     required
                   />
 
-                  <input
+                  <TextField
                     type="text"
                     placeholder="Write CONFIRM"
                     ref={confirmation}
+                    color="secondary"
+                    variant="outlined"
+                    size="small"
                     required
                   />
-                  <button type="submit"> Send</button>
+                  <Button variant="contained" color="secondary" type="submit"> Send</Button>
                 </form>
-              </div>
+              </Grid>
             ) : (
-              <div>
-                <div>comision actual : {statusComision.porcentaje} %</div>
-                <div> fecha : {statusComision.fecha}</div>
-              </div>
+              <Grid item xs={6}>
+                <Typography variant="body1" color="secondary" gutterBottom align="left">Comision actual: {statusComision.porcentaje} %</Typography>
+                <Typography variant="body1" color="secondary" gutterBottom align="left">Fecha: {statusComision.fecha}</Typography>
+              </Grid>
             )}
-          </div>
-          <div>
-            <form onSubmit={search}>
-              <input
+            
+          </Grid>
+          <Grid item xs={6} direction="column">
+            <form onSubmit={search} className={classes.adminCardSearch}>
+            <FormControl margin="normal">
+              <TextField
                 type="text"
                 placeholder="Search User by email"
                 ref={emailSearching}
               />
-              <button type="submit">Search</button>
-              <button type="button" onClick={cancelSearch}>
-                Reset Search
-              </button>
+              <ButtonGroup>
+                <Button type="submit" variant="contained" color="secondary">Search</Button>
+                <Button type="button" variant="outlined" color="secondary" onClick={cancelSearch}>
+                  Reset Search
+                </Button>
+              </ButtonGroup>
+            </FormControl>
             </form>
-          </div>
-          <Table>
-            <TableHead className={classes.tableHead}>
-              <TableRow>
-                <TableCell>User N° </TableCell>
-                <TableCell>Email </TableCell>
-                <TableCell>Id user </TableCell>
-                <TableCell>BLOCK USER </TableCell>
-                <TableCell>UPGRADE TO ADMIN </TableCell>
-                <TableCell>RESET PASSWORD </TableCell>
-
-                <TableCell>
-                  Send Email <br />
-                  <button onClick={selectionAll}>Select All</button>
-                  <br />
-                  <button onClick={unSelectionAll}>Unselect All</button>
-                </TableCell>
-                <TableCell>Details Users</TableCell>
-              </TableRow>
-            </TableHead>
-            {render.map((user, i) => {
-              const { email, bannedUser, id_user, isAdmin } = user;
-              return (
-                <TableBody key={i} className={classes.tableBody}>
-                  <TableRow>
-                    <TableCell>{i + 1}</TableCell>
-                    <TableCell>{email}</TableCell>
-                    <TableCell>{id_user}</TableCell>
-                    <TableCell>
-                      {bannedUser ? (
-                        <Button onClick={() => desBanear(id_user)}>
-                          Unblock
-                        </Button>
-                      ) : (
-                        <Button onClick={() => bannear(id_user)}>
-                          Blocked
-                        </Button>
-                      )}
-                    </TableCell>
-                    <TableCell>
-                      {isAdmin ? (
-                        <Button onClick={() => noBeAdmin(id_user)}>
-                          to user
-                        </Button>
-                      ) : (
-                        <Button onClick={() => toBeAdmin(id_user)}>
-                          Up to Admin
-                        </Button>
-                      )}
-                    </TableCell>
-                    <TableCell>
-                      <Button onClick={() => resetPassword(email)}>
-                        Reset
-                      </Button>
-                    </TableCell>
-                    <TableCell>
-                      {!emails.includes(email) ? (
-                        <Button onClick={() => addEmail(email)}>
-                          Selected
-                        </Button>
-                      ) : (
-                        <Button onClick={() => deleteEmail(email)}>
-                          UnSelected
-                        </Button>
-                      )}
-                    </TableCell>
-                    <TableCell>
-                      <Button onClick={() => detailsUser(id_user)}>
-                        Details
-                      </Button>
-                    </TableCell>
-                  </TableRow>
-                </TableBody>
-              );
-            })}
-          </Table>
-          <div></div>
-          <div>
-            {emails.length > 0 ? (
-              <Button
-                type="button"
-                onClick={addMessage}
-                color="primary"
-                variant="contained"
-                className={classes.buttonBack}
-              >
-                {" Add Message "}
-              </Button>
+          </Grid>
+          {/* <Grid container xs={4} justifyContent="center" alignContent="center">
+            <Grid item xs={12} justifyContent="center">
+              {emails.length > 0 ? (
+                <Button
+                  type="button"
+                  onClick={addMessage}
+                  color="primary"
+                  variant="contained"
+                  className={classes.buttonBack}
+                >
+                  {" Add Message "}
+                </Button>
+              ) : null}
+            </Grid>
+            {statemessage && emails.length !== 0 ? (
+              <Grid item xs={10} direction="column">
+                <Typography variant="h5"> Message </Typography>
+                <TextField type="text" ref={title} placeholder="Add Title" />
+                <TextareaAutosize
+                  ref={message}
+                  placeholder="Write message..."
+                  minRows={5}
+                  fullWidth={true}
+                  required
+                ></TextareaAutosize>{" "}
+                <ButtonGroup>
+                  <Button type="button" variant="contained" color="secondary" onClick={sendEmail}>
+                    Send Mails
+                  </Button>
+                  <Button type="button" variant="outlined" color="secondary" onClick={cancelMessage}>
+                    {"Cancel Message "}
+                  </Button>
+                </ButtonGroup>
+              </Grid>
             ) : null}
-          </div>
-          {statemessage && emails.length !== 0 ? (
-            <div>
-              <h1> Message </h1>
-              <input type="text" ref={title} placeholder="Add Title" />
-              <textarea
-                ref={message}
-                cols="30"
-                rows="10"
-                required
-              ></textarea>{" "}
-              <button type="button" onClick={cancelMessage}>
-                {"Cancel Message "}
-              </button>
-              <button type="button" onClick={sendEmail}>
-                Send Mails
-              </button>
-            </div>
-          ) : null}
+          </Grid> */}
+          <Grid item xs={12}>
+            <TableContainer className={classes.adminTableContainer}>
+              <Table padding="checkbox" size="small" component={Paper} className={classes.adminTable}>
+                <TableHead >
+                  <TableRow>
+                    <TableCell variant="head">Number</TableCell>
+                    <TableCell variant="head">Email</TableCell>
+                    <TableCell variant="head">Id user</TableCell>
+                    <TableCell variant="head">Block user</TableCell>
+                    <TableCell variant="head">Upgrade to admin</TableCell>
+                    <TableCell variant="head">Reset password</TableCell>
+                    <TableCell variant="head">
+                      Send Email <br />
+                      {selectAll ?
+                        <Button size="small" variant="contained" color="secondary" onClick={selectionAll}>Select All</Button>
+                        :
+                        <Button size="small" variant="outlined" color="secondary" onClick={unSelectionAll}>Unselect All</Button>
+                      }
+                    </TableCell>
+                    <TableCell variant="head">Details Users</TableCell>
+                  </TableRow>
+                </TableHead>
+                {render.map((user, i) => {
+                  const { email, bannedUser, id_user, isAdmin } = user;
+                  return (
+                    <TableBody key={i} className={classes.tableBody}>
+                      <TableRow>
+                        <TableCell>{i + 1}</TableCell>
+                        <TableCell>{email}</TableCell>
+                        <TableCell>{id_user}</TableCell>
+                        <TableCell>
+                          {bannedUser ? (
+                            <Button onClick={() => desBanear(id_user)}>
+                              Unblock
+                            </Button>
+                          ) : (
+                            <Button onClick={() => bannear(id_user)}>
+                              Blocked
+                            </Button>
+                          )}
+                        </TableCell>
+                        <TableCell>
+                          {isAdmin ? (
+                            <Button onClick={() => noBeAdmin(id_user)}>
+                              to user
+                            </Button>
+                          ) : (
+                            <Button onClick={() => toBeAdmin(id_user)}>
+                              Up to Admin
+                            </Button>
+                          )}
+                        </TableCell>
+                        <TableCell>
+                          <Button onClick={() => resetPassword(email)}>
+                            Reset
+                          </Button>
+                        </TableCell>
+                        <TableCell>
+                          {!emails.includes(email) ? (
+                            <Button onClick={() => addEmail(email)}>
+                              Selected
+                            </Button>
+                          ) : (
+                            <Button onClick={() => deleteEmail(email)}>
+                              UnSelected
+                            </Button>
+                          )}
+                        </TableCell>
+                        <TableCell>
+                          <Button onClick={() => detailsUser(id_user)}>
+                            Details
+                          </Button>
+                        </TableCell>
+                      </TableRow>
+                    </TableBody>
+                  );
+                })}
+              </Table>
+            </TableContainer>
+          </Grid>
         </Grid>
-      ) : null}
+        ) : null}
+      </Card>
     </Container>
   );
 };
