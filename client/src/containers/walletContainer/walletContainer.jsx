@@ -20,7 +20,7 @@ export default function WalletContainer(){
     return(
             <Grid container >
                 <Grid item xs={2} alignItems="flex-start">
-                    <AppBar position="static" style={{height:'91vh'}} >
+                    <AppBar position="static" style={{height:'92vh'}} >
                         <Tabs orientation="vertical" value={value} onChange={handleChange}>
                         <Tab label='Get Key'/>
                         <Tab label='Balance'/>
