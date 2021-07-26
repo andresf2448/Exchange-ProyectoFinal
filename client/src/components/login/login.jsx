@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router";
+import sendCode from 'components/loadingProfile/whatsapp';
 
 import {
   Container,
@@ -12,13 +13,16 @@ import {
 } from "@material-ui/core";
 
 import { supabase } from "supabase/supabase";
+import { useEffect } from "react";
 
 export default function Login () {
   const history = useHistory();
-
+  const [login, setLogin] = useState(false)
   const [data, setData] = useState({
     email: "",
     password: "",
+    code:"",
+    codeVerification:""
   });
 
   function handleOnChange(e) {
@@ -37,8 +41,27 @@ export default function Login () {
     });
 
     if (info.error) return alert(info.error.message);
-    return history.push("/home");
+
+    let hasTwoStep  = await supabase
+    .from('UserAnchor')
+    .select('*')
+    .eq("id_user", info.user.id);
+    if(hasTwoStep.data[0].hasTwoFA){
+      verifyTwoStep(hasTwoStep.data[0].mobileNumber)
+    }else{
+      history.push('/home')
+    }
+    
   };
+
+  let session = supabase.auth.session();
+
+  const verifyTwoStep = async (number)=>{
+    console.log('number', number)
+    const random= Math.floor(Math.random()*1000000)
+    setData({...data, code: random})
+    sendCode(random, number)
+  }
 
   const singUpRoute = () => {
     history.push("/register");
@@ -48,7 +71,6 @@ export default function Login () {
     history.push("/recoverPassword");
   };
 
-  let session = supabase.auth.session();
 
   const handleOAuthLogin = async (provider) => {
     let info = await supabase.auth.signIn({ provider });
@@ -58,9 +80,16 @@ export default function Login () {
     }
   };
 
+  useEffect(()=>{
+    if(data.code === Number(data.codeVerification)){
+      setLogin(true)
+    }
+     // eslint-disable-next-line
+  }, [data.codeVerification])
+
   return (
     <Container maxWidth="sm">
-      {session ? history.push("/home") : null}
+      {session && login ? history.push("/home") : null}
       <Typography variant="h3" gutterBottom> LOGIN</Typography>
       <Grid container>
         <Grid item xs={12}>
@@ -83,6 +112,16 @@ export default function Login () {
                 onChange={handleOnChange}
               />
 
+              {data.code === ""? null :(
+                <TextField
+                required
+                label="Insert Code"
+                name="codeVerification"
+                type="text"
+                value={data.codeVerification}
+                onChange={handleOnChange}
+                />
+                )}
               {/* this button goes first for the submit function when pressing enter */}
               <Button type="submit" variant="contained" color="primary">
                 Login
