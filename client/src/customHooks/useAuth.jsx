@@ -35,13 +35,14 @@ const startChallenge = async (authEndpoint, serverPublicKey, publicKey) => {
   Object.entries(params).forEach(([key, value]) => {
     authURL.searchParams.append(key, value);
   });
-
+console.log('llegamos hasta el axios del auth', publicKey)
   const result = await axios.get(
     `http://localhost:3001/authentication?clientAccountID=${publicKey}&webDomain=${webDomain}&webAuthDomain=${webAuthDomain}`
   );
   // const result = await axios.get(authEndpoint, {publicKey: publicKey});
   // const result = await axios.get(authURL.toString());
-
+  
+console.log('pasamos pedido al back de inicio de challenge', result.data)
   if (!result.data) {
     throw new Error("The response didn’t contain a transaction");
   }

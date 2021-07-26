@@ -1,30 +1,38 @@
 import { getHomeDomain } from "./getHomeDomain";
-import { getToml } from ".createAccount/getToml";
+import { getToml } from "./getToml";
+import StellarSdk from 'stellar-sdk';
 
 export const checkTomlForFields = async ({
   assetIssuer,
   requiredKeys,
   networkUrl,
   homeDomain,
-}) => {
-  
 
+  toml
+}) => {
   if (!homeDomain) {
     homeDomain = await getHomeDomain({
       assetIssuer,
       networkUrl,
     });
   }
+  console.log("llego hasta antes del pedido del toml");
 
-  const tomlResponse = await getToml(homeDomain);
+  /* getToml(homeDomain) */
+  
+ /* StellarSdk.StellarTomlResolver.resolve(homeDomain, {
+    allowHttp: true,
+  }).then((tomlResponse) => {
 
-  const result = requiredKeys.reduce((res, key) => {
-    if (tomlResponse[key]) {
-      return { ...res, [key]: tomlResponse[key].replace(/\/$/, "") };
-    }
+    console.log("paso el pedido del toml", tomlResponse) */
 
-    return res;
-  }, {});
-
-  return result;
+    const result = requiredKeys.reduce((res, key) => {
+      if (toml[key]) {
+        return { ...res, [key]: toml[key].replace(/\/$/, "") };
+      }
+      return res;
+    }, {});
+    console.log(result)
+    return result;
+  
 };

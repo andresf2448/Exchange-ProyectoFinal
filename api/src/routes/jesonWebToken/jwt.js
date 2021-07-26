@@ -44,7 +44,7 @@ router.get('/', (req, res) => {
     
     if (webAuthDomain && webDomain && clientAccountID) {
 
-        let serverKeyPair = Keypair.fromSecret("SCMPRKSGUMJQHPZQJK27NWQ5MC7V2I2H35AK5MXTIH2YHX7E5SWMI5O4")
+        let serverKeyPair = Keypair.fromSecret('SDQOZQGOD7764PLHH3KGSUDVGA2ZUNFBPHHJKXYAHA63R7GEFVDV4T4P')
         
         const transaction = Utils.buildChallengeTx(serverKeyPair, clientAccountID, webDomain, 900, Networks.TESTNET, webAuthDomain )
         

@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { useDeposit } from "customHooks/useDeposit";
+import  deposit  from "../../customHooks/useDeposit";
 import { Link } from "react-router-dom";
-import { supabase } from "../supabase/supabase";
+import { supabase } from "../../supabase/supabase";
 
 export default function Deposit() {
   const [publicKey, setPublicKey] = useState();
@@ -21,11 +21,15 @@ export default function Deposit() {
     setPublicKey(publicKey[0].public_key);
     return setSecretKey(secretKey[0].secret_key);
   }
+  getKeys() 
+  const assetCode = 'ARSR';
+  const assetIssuer = 'GCHMQERSYAEIXDGRQLZZPXOLCZZLN535HWYC6ARIGSKZ2DKV4YQHJ6AB'
   
-  if(!publicKey && !secretKey) getKeys()
 
-
-  useDeposit({publicKey, secretKey});
+   const homeDomain = "localhost:3001" 
+   console.log('holaaa')
+   if(publicKey && secretKey) deposit({publicKey, secretKey, assetIssuer, assetCode, homeDomain});
+   
   return (
     <div>
       <div>

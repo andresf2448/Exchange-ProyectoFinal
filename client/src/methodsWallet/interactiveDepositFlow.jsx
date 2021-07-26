@@ -12,11 +12,11 @@ export const interactiveDepositFlow = async ({
     asset_code: assetCode,
     account: publicKey,
     lang: "en",
-    claimable_balance_supported: true,
+    claimable_balance_supported: claimableBalanceSupported,
   };
 
   each(postDepositParams, (value, key) => formData.append(key, value));
-
+console.log('llego hasta antes del pedido al back para empezar el deposito')
   const response = await fetch(
     `${sep24TransferServerUrl}/transactions/deposit/interactive`,
     {
@@ -27,6 +27,7 @@ export const interactiveDepositFlow = async ({
       },
     }
   );
+  console.log('paso el pedido del back para crear el deposito')
 
   const interactiveJson = await response.json();
 

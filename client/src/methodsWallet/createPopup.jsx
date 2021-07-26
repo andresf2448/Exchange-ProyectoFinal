@@ -1,6 +1,6 @@
 export const createPopup = (popupUrl) => {
     const url = new URL(popupUrl);
-    const popup = open(url.toString(), "popup", "width=500,height=800");
+    const popup = window.open(url.toString(), "popup", "width=500,height=800");
   
     if (!popup) {
       throw new Error(
