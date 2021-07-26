@@ -7,16 +7,16 @@ export const checkTomlForFields = async ({
   networkUrl,
   homeDomain,
 }) => {
-  let homeDomainParam = homeDomain;
+  
 
-  if (!homeDomainParam) {
-    homeDomainParam = await getHomeDomain({
+  if (!homeDomain) {
+    homeDomain = await getHomeDomain({
       assetIssuer,
       networkUrl,
     });
   }
 
-  const tomlResponse = await getToml(homeDomainParam);
+  const tomlResponse = await getToml(homeDomain);
 
   const result = requiredKeys.reduce((res, key) => {
     if (tomlResponse[key]) {
