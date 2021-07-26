@@ -31,7 +31,7 @@ function Trade(){
   keys()
 
     return(
-        <Container style={{ minWidth:'95vw', backgroundColor:'#1f1f1f'}}>
+        <Container disableGutters maxWidth={false} style={{ heigth: '110vh',minWidth:'95vw', backgroundColor:'#1f1f1f'}}>
           <Grid container>
               <Grid container item display='column'  justifyContent={true}>
                     <Grid item xs={12} sm={3} style={{height:'700px'}}>

@@ -33,7 +33,7 @@ export default function WalletContainer(){
                 </Grid>
                 
                 <Grid item  xs={10}>
-                    <Card elevation={3} className={classes.cardCheck}>
+                    <Card elevation={3} className={classes.cardContainer}>
                         {value === 0 && <CreateAccount />}      
                         {value === 1 && <BalanceAccount />}
                         {value === 2 && <Transaction/>}

@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { useHistory } from "react-router";
 import axios from "axios";
 import { supabase } from "supabase/supabase";
+import useStyles from "styles";
 
 import {
   Button,
@@ -12,8 +13,9 @@ import {
   TableBody,
   TableRow,
   TableCell,
+  TextField,
+  Card
 } from "@material-ui/core";
-import useStyles from "styles";
 
 export const AdministratorUser = () => {
   const classes = useStyles();
@@ -184,124 +186,126 @@ export const AdministratorUser = () => {
   console.log(emails);
 
   return (
-    <Container style={{ backgroundColor: '#fff658'}}>
-      {admin ? (
-        <Grid container>
-          <div>
-            <form onSubmit={search}>
-              <input
-                type="text"
-                placeholder="Search User by email"
-                ref={emailSearching}
-              />
-              <button type="submit">Search</button>
-              <button type="button" onClick={cancelSearch}>
-                Reset Search
-              </button>
-            </form>
-          </div>
-          <Table>
-            <TableHead className={classes.tableHead}>
-              <TableRow>
-                <TableCell>User N° </TableCell>
-                <TableCell>Email </TableCell>
-                <TableCell>Id user </TableCell>
-                <TableCell>BLOCK USER </TableCell>
-                <TableCell>UPGRADE TO ADMIN </TableCell>
-                <TableCell>RESET PASSWORD </TableCell>
-                <TableCell>
-                  Send message <br />
-                  <button onClick={selectionAll}>Select All</button>
-                  <br />
-                  <button onClick={unSelectionAll}>Unselect All</button>
-                </TableCell>
-              </TableRow>
-            </TableHead>
-            {render.map((user, i) => {
-              const { email, bannedUser, id_user, isAdmin } = user;
-              return (
-                <TableBody key={i} className={classes.tableBody}>
-                  <TableRow>
-                    <TableCell>{i + 1}</TableCell>
-                    <TableCell>{email}</TableCell>
-                    <TableCell>{id_user}</TableCell>
-                    <TableCell>
-                      {bannedUser ? (
-                        <Button onClick={() => desBanear(id_user)}>
-                          Unblock
+    <Container disableGutters maxWidth={false} className={classes.adminContainer}>
+      <Card elevation={3} className={classes.adminCard}>
+        {admin ? (
+          <Grid container>
+            <Grid item>
+              <form onSubmit={search}>
+                <TextField
+                  type="text"
+                  placeholder="Search User by email"
+                  ref={emailSearching}
+                />
+                <button type="submit">Search</button>
+                <button type="button" onClick={cancelSearch}>
+                  Reset Search
+                </button>
+              </form>
+            </Grid>
+            <Table >
+              <TableHead className={classes.tableHead}>
+                <TableRow>
+                  <TableCell>User N° </TableCell>
+                  <TableCell>Email </TableCell>
+                  <TableCell>Id user </TableCell>
+                  <TableCell>BLOCK USER </TableCell>
+                  <TableCell>UPGRADE TO ADMIN </TableCell>
+                  <TableCell>RESET PASSWORD </TableCell>
+                  <TableCell>
+                    Send message <br />
+                    <button onClick={selectionAll}>Select All</button>
+                    <br />
+                    <button onClick={unSelectionAll}>Unselect All</button>
+                  </TableCell>
+                </TableRow>
+              </TableHead>
+              {render.map((user, i) => {
+                const { email, bannedUser, id_user, isAdmin } = user;
+                return (
+                  <TableBody key={i} className={classes.tableBody}>
+                    <TableRow>
+                      <TableCell>{i + 1}</TableCell>
+                      <TableCell>{email}</TableCell>
+                      <TableCell>{id_user}</TableCell>
+                      <TableCell>
+                        {bannedUser ? (
+                          <Button onClick={() => desBanear(id_user)}>
+                            Unblock
+                          </Button>
+                        ) : (
+                          <Button onClick={() => bannear(id_user)}>
+                            Blocked
+                          </Button>
+                        )}
+                      </TableCell>
+                      <TableCell>
+                        {isAdmin ? (
+                          <Button onClick={() => noBeAdmin(id_user)}>
+                            to user
+                          </Button>
+                        ) : (
+                          <Button onClick={() => toBeAdmin(id_user)}>
+                            Up to Admin
+                          </Button>
+                        )}
+                      </TableCell>
+                      <TableCell>
+                        <Button onClick={() => resetPassword(email)}>
+                          Reset
                         </Button>
-                      ) : (
-                        <Button onClick={() => bannear(id_user)}>
-                          Blocked
-                        </Button>
-                      )}
-                    </TableCell>
-                    <TableCell>
-                      {isAdmin ? (
-                        <Button onClick={() => noBeAdmin(id_user)}>
-                          to user
-                        </Button>
-                      ) : (
-                        <Button onClick={() => toBeAdmin(id_user)}>
-                          Up to Admin
-                        </Button>
-                      )}
-                    </TableCell>
-                    <TableCell>
-                      <Button onClick={() => resetPassword(email)}>
-                        Reset
-                      </Button>
-                    </TableCell>
-                    <TableCell>
-                      {!emails.includes(email) ? (
-                        <Button onClick={() => addEmail(email)}>
-                          Selected
-                        </Button>
-                      ) : (
-                        <Button onClick={() => deleteEmail(email)}>
-                          UnSelected
-                        </Button>
-                      )}
-                    </TableCell>
-                  </TableRow>
-                </TableBody>
-              );
-            })}
-          </Table>
-          <div></div>
-          <div>
-            {emails.length > 0 ? (
-              <Button
-                type="button"
-                onClick={addMessage}
-                color="primary"
-                variant="contained"
-                className={classes.buttonBack}
-              >
-                {" Add Message "}
-              </Button>
-            ) : null}
-          </div>
-          {statemessage && emails.length !== 0 ? (
+                      </TableCell>
+                      <TableCell>
+                        {!emails.includes(email) ? (
+                          <Button onClick={() => addEmail(email)}>
+                            Selected
+                          </Button>
+                        ) : (
+                          <Button onClick={() => deleteEmail(email)}>
+                            UnSelected
+                          </Button>
+                        )}
+                      </TableCell>
+                    </TableRow>
+                  </TableBody>
+                );
+              })}
+            </Table>
+            <div></div>
             <div>
-              <h1> Message </h1>
-              <input type="text" ref={title} placeholder="Add Title" />
-              <textarea
-                ref={message}
-                cols="30"
-                rows="10"
-                required
-              ></textarea>{" "}
-              <button type="button" onClick={cancelMessage}>
-                {"Cancel Message "}
-              </button>
-              <button type="button" onClick={sendEmail}>
-                Send Mails
-              </button>
+              {emails.length > 0 ? (
+                <Button
+                  type="button"
+                  onClick={addMessage}
+                  color="primary"
+                  variant="contained"
+                  className={classes.buttonBack}
+                >
+                  {" Add Message "}
+                </Button>
+              ) : null}
             </div>
-          ) : null}
-        </Grid>
-      ) : null}
+            {statemessage && emails.length !== 0 ? (
+              <div>
+                <h1> Message </h1>
+                <input type="text" ref={title} placeholder="Add Title" />
+                <textarea
+                  ref={message}
+                  cols="30"
+                  rows="10"
+                  required
+                ></textarea>{" "}
+                <button type="button" onClick={cancelMessage}>
+                  {"Cancel Message "}
+                </button>
+                <button type="button" onClick={sendEmail}>
+                  Send Mails
+                </button>
+              </div>
+            ) : null}
+          </Grid>
+        ) : null}
+      </Card>
     </Container>
   );
 };

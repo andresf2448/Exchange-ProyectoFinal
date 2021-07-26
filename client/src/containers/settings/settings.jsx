@@ -28,7 +28,7 @@ const classes = useStyles();
         </AppBar>
       </Grid>
       <Grid item xs={10}>
-        <Card elevation={3} className={classes.cardCheck}>
+        <Card elevation={3} className={classes.cardContainer}>
           {value === 0 && <LoadingProfile />}
           {value === 1 && <LoadId/>}
           {value === 2 && <RestorePassword />}

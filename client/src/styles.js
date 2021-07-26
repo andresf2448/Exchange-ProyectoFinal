@@ -27,7 +27,7 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: theme.palette.secondary.main
   },
 
-  cardCheck: {
+  cardContainer: {
     backgroundColor: theme.palette.secondary.background,
     color: theme.palette.primary.contrastText,
     borderRadius: '6px', 
@@ -58,6 +58,13 @@ const useStyles = makeStyles(theme => ({
     justifyContent: "center", 
     alignItems: "center",
     margin: "5px"
+  },
+  adminContainer: {
+    backgroundColor: "#1F1F1F",
+  },
+  adminCard: {
+    backgroundColor: theme.palette.secondary.background,
+    margin: "10px"
   },
   cryptoCurrency: {
     display: 'flex',
