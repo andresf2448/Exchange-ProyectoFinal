@@ -172,10 +172,10 @@ export const AdministratorUser = () => {
     alert("Please add one email or add one message");
   };
 
-  // let cancelMessage = () => {
-  //   setEmails([]);
-  //   setStateMessage(false);
-  // };
+  let cancelMessage = () => {
+    setEmails([]);
+    setStateMessage(false);
+  };
 
   let search = (event) => {
     event.preventDefault();
