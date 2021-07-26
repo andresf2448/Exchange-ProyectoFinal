@@ -19,6 +19,7 @@ const theme = createTheme({
   },
   palette: {
     primary: {
+      // choreado: '072453#',
       background: '#0F3460',
       main: '#272727b3',
       dark: '#2C2E43',
@@ -31,7 +32,7 @@ const theme = createTheme({
       dark: '#ba000d',
       contrastText: '#000',
       background: '#393939'
-    },
+    }
   },
 });
 
