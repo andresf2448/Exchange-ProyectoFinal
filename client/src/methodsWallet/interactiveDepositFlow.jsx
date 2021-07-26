@@ -12,7 +12,7 @@ export const interactiveDepositFlow = async ({
     asset_code: assetCode,
     account: publicKey,
     lang: "en",
-    claimable_balance_supported: claimableBalanceSupported.toString(),
+    claimable_balance_supported: true,
   };
 
   each(postDepositParams, (value, key) => formData.append(key, value));

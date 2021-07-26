@@ -48,9 +48,9 @@ router.get("/", async (req, res) => {
           );
           const respuesta = {
             ...response,
-            to: (aux[0].to ?? "pending"),
-            from: (aux[0].from ?? "pending"),
-            claimable_balance_id: (aux[0].claimable_balance_id ?? "pending"),
+            to: (aux[0].to ? aux[0].to : "pending"),
+            from: (aux[0].from ? aux[0].from : "pending"),
+            claimable_balance_id: (aux[0].claimable_balance_id ? aux[0].claimable_balance_id : "pending"),
           };
           return respuesta;
         }
@@ -60,9 +60,9 @@ router.get("/", async (req, res) => {
           );
           const respuesta = {
             ...response,
-            to: (aux[0].to ?? "pending"),
-            from: (aux[0].from ?? "pending"),
-            claimable_balance_id: (aux[0].claimable_balance_id ?? "pending"),
+            to: (aux[0].to ?aux[0].to :  "pending"),
+            from: (aux[0].from ? aux[0].from : "pending"),
+            claimable_balance_id: (aux[0].claimable_balance_id ? aux[0].claimable_balance_id : "pending"),
           };
           return respuesta;
         }

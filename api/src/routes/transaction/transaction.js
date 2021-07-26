@@ -7,19 +7,22 @@ const supabase = createClient(
 
 router.get("/", async (req, res) => {
   const { id, stellar_transaction_id, external_transaction_id } = req.query;
-  
+
   if (!id && !stellar_transaction_id && !external_transaction_id)
     return res.json("parameters not provided");
 
   if (id) {
     try {
-      
-      const { data, error } = await supabase
+      const { data } = await supabase
         .from("transactions")
         .select("*")
         .eq("id", id);
-      
-      if (error) return res.json("no existe esta transaccion");
+
+      if (data.length === 0) return res.json("no existe esta transaccion");
+
+      const { data: withdraw } = await supabase.from("withdraw").select("*").eq('id', id);
+
+      const { data: deposit } = await supabase.from("deposit").select("*").eq('id', id);
 
       let response = {
         id: id,
@@ -31,8 +34,32 @@ router.get("/", async (req, res) => {
         amount_in: data[0].amount_in,
         amount_fee: data[0].amount_fee,
       };
-      
-      return res.json(response);
+      if (data[0].kind === "deposit") {
+        const aux = deposit.filter(
+          (deposito) => deposito.id === transaction.id
+        );
+        const respuesta = {
+          ...response,
+          to: aux[0].to ? aux[0].to : "pending",
+          from: aux[0].from ? aux[0].from : "pending",
+          claimable_balance_id: aux[0].claimable_balance_id
+            ? aux[0].claimable_balance_id
+            : "pending",
+        };
+        return res.json(respuesta);
+      }
+      if (data[0].kind === "withdraw") {
+        const aux = withdraw.filter((withdraw) => withdraw.id === data[0].id);
+        const respuesta = {
+          ...response,
+          to: aux[0].to ? aux[0].to : "pending",
+          from: aux[0].from ? aux[0].from : "pending",
+          claimable_balance_id: aux[0].claimable_balance_id
+            ? aux[0].claimable_balance_id
+            : "pending",
+        };
+        return res.json(respuesta);
+      }
     } catch (error) {
       return res.status(404).json(error);
     }

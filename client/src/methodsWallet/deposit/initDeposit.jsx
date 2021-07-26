@@ -1,20 +1,15 @@
-import { useState, useEffect } from "react";
-import { getAssets } from "redux/actions/actions";
-import { useDispatch, useSelector } from "react-redux";
-import StellarSdk from "stellar-sdk";
+import { useState } from "react";
+import { supabase } from "supabase/supabase";
 
 export default function InitDeposit() {
-  const assets = useSelector((store) => store.assets);
+  const [assets, setAssets] = useState();
   const [asset, setAsset] = useState();
-  const dispatch = useDispatch();
 
-  StellarSdk.StellarTomlResolver.resolve("localhost:3001", { allowHttp: true })
-    .then((stellarToml) => {
-      console.log("este es el toml", stellarToml);
-    })
-    .catch((error) => {
-      console.log("toml invalido", error);
-    });
+  async function getAssets() {
+    const { data: assets } = await supabase.from("assets").select("*");
+    return setAssets(assets);
+  }
+  if (!assets) getAssets();
   const aux = window.location.hash;
   const type = aux.slice(1);
 
