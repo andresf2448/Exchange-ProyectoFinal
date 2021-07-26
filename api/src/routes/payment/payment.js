@@ -16,7 +16,7 @@ const server = new StellarSdk.Server('https://horizon-testnet.stellar.org');
 
 router.post('/', async (req, res) => {
     const { sourceId, receiverId, amount, currency} = req.body
-    console.log(currency)
+    
     let sourceSecretKey
     let payFee = false
 
