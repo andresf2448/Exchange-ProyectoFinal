@@ -6,7 +6,6 @@ import balance from './balance.svg';
 import Faq from 'components/faq/faq';
 import useStyles from 'styles';
 import './landing.css';
-import { NavLink } from 'react';
 import { Link } from 'react-scroll';
 
 
@@ -74,7 +73,7 @@ const Landing = () => {
                     </Typography>
                 </Grid>
                 <Grid container xs={3} justifyContent="space-around">
-                    <Button  color="secundary" variant="contained" justifyContent="left" href='/register'>
+                    <Button color="secundary" variant="contained" justifyContent="left" href='/register'>
                         REGISTER
                     </Button> 
                     <Button color="primary" variant="contained" justifyContent="left" href='/login' style={{color:'#000', backgroundColor: '#ffd523'}}>

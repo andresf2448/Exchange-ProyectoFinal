@@ -8,7 +8,6 @@
     color: #ffd523;
 }
 
-
 .presentation{
     align-content: space-around;
     height: 110vh;
@@ -22,7 +21,7 @@
     align-content:center;
     /* align-items: center; */
     background-image: linear-gradient(120deg, #fdfbfb 0%, #c5c5c5 100%);
-    border-radius: 20px;
+    border-radius: 4px;
     color: #272727b3;
 }
 
@@ -30,7 +29,7 @@
     height:110vh;
     width: 100%;
     background-image: linear-gradient(120deg, #172536 0%, #272727b3 100%);
-    border-radius: 20px;
+    border-radius: 4px;
 }
 
 .rocketFeatures{
@@ -38,7 +37,7 @@
     background-image: url('./background.jpg');
     background-repeat: no-repeat;
     background-size: cover;
-    border-radius:20px;
+    border-radius: 4px;
     
 }
 
@@ -49,12 +48,17 @@
     padding: 30px;
 }
 
+.cryptoIcons{
+    width: 20%;
+}
+
 .aboutGrid{
     margin-top: 2%;
 }
 
 .frequencyQuestion{
     height:110vh;
+    margin-top: 2%;
 }
 
 .toTopButton{

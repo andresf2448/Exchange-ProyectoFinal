@@ -15,9 +15,9 @@ import {
   Card
 } from "@material-ui/core";
 
-export const Register = () => {
-  const classes = useStyles();
+export default function Register () {
   const history = useHistory();
+  const classes = useStyles();
 
   const [error, setError] = useState({
     email: "",

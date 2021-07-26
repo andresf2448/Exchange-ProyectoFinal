@@ -1,6 +1,6 @@
 import "./cryptoGraphics.css";
 import { useEffect, useState } from "react";
-import { Container, Typography, Grid } from "@material-ui/core";
+import { Container, Grid } from "@material-ui/core";
 
 import btcIcon from "./cryptoIcons/bitcoin.png";
 import ethIcon from "./cryptoIcons/ethereum2.png";
@@ -82,8 +82,7 @@ export const CryptoGraphics = () => {
 
   const [connection, setConnection] = useState(true);
 
-  let renderData = [eth, ]
-  // btc, chz, fil, ada, bnb, dot, axs];
+  let renderData = [eth, btc, chz, fil, ada, bnb, dot, axs];
 
   function handleConnection() {
     if (connection === true) {

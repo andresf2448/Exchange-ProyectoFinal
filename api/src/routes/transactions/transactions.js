@@ -6,21 +6,24 @@ const supabase = createClient(
 );
 
 router.get("/", async (req, res) => {
-  //añadir account_id como parametro via jwt
   const { asset_code, no_older_than, limit, kind, paging_id, account_id } =
     req.query;
-  let transactions = [];
+
   if (!asset_code) return res.status(404).json("Asset no provisto");
 
-  /* if (asset_code && kind === 'deposit ') */
-  try {
-    const { data } = await supabase
-      .from("transactions")
-      .select("*")
-      .eq("account_id", account_id);
+  const { data } = await supabase
+    .from("transactions")
+    .select("*")
+    .eq("account_id", account_id);
 
-    if (data.length > 0 ) {
-      data.map((transaction) => {
+  if (data.length > 0) {
+    const { data: withdraw } = await supabase.from("withdraw").select("*");
+
+    const { data: deposit } = await supabase.from("deposit").select("*");
+
+    const getTransactions = async () => {
+     
+      const transactions = data.map((transaction) => {
         let response = {
           id: transaction.id,
           kind: transaction.kind,
@@ -38,12 +41,36 @@ router.get("/", async (req, res) => {
           message: transaction.message,
           refunded: transaction.refunded,
         };
-        return transactions.push(response);
+
+        if (transaction.kind === "deposit") {
+          const aux = deposit.filter(
+            (deposito) => deposito.id === transaction.id
+          );
+          const respuesta = {
+            ...response,
+            to: (aux[0].to ?? "pending"),
+            from: (aux[0].from ?? "pending"),
+            claimable_balance_id: (aux[0].claimable_balance_id ?? "pending"),
+          };
+          return respuesta;
+        }
+        if (transaction.kind === "withdraw") {
+          const aux = withdraw.filter(
+            (withdraw) => withdraw.id === transaction.id
+          );
+          const respuesta = {
+            ...response,
+            to: (aux[0].to ?? "pending"),
+            from: (aux[0].from ?? "pending"),
+            claimable_balance_id: (aux[0].claimable_balance_id ?? "pending"),
+          };
+          return respuesta;
+        }
       });
+      if(transactions.length === 0) return res.json('This account not have transactions record')
       return res.json(transactions);
-    }
-  } catch (error) {
-    return res.status(404).json(error);
+    };
+    getTransactions();
   }
 });
 
@@ -65,8 +92,8 @@ router.post("/deposit/interactive", async (req, res) => {
   let { data: asset } = await supabase
     .from("assets")
     .select("asset_code")
-    .eq("asset_code", asset_code);
-
+    .eq("asset_code", asset_code.toUpperCase());
+    
   if (asset.length < 1)
     return res.json(
       "El asset no corresponde con uno valido del endpoint /info"
@@ -80,12 +107,21 @@ router.post("/deposit/interactive", async (req, res) => {
       status: "incompleted",
     },
   ]);
-
-  let { data, error } = await supabase.from("transactions").select("*");
+  
+  let { data } = await supabase.from("transactions").select("*");
+  
 
   if (amount && claimable_balance_supported) {
-    const amount_out = amount - amount * 0.05;
-    const amount_fee = amount * 0.05;
+    let { data: commsion_server } = await supabase
+      .from("commsion_server")
+      .select("*");
+
+    let ultimo = commsion_server.pop();
+
+    let { percentage } = ultimo;
+
+    const amount_out = amount - amount * (percentage / 100);
+    const amount_fee = amount * (percentage / 100);
     async function updateTransaction() {
       await supabase
         .from("transactions")
@@ -101,13 +137,15 @@ router.post("/deposit/interactive", async (req, res) => {
     }
     await updateTransaction();
   }
-
+  let idTransaction = data[data.length - 1].id
+  
   const response = {
     type: "interactive_customer_info_needed",
-    url: `https://localhost:3000/kycflow#${info.data[data.length - 1].id}`,
-    id: info.data[data.length - 1].id,
+    url: `http://localhost:3000/kycflow#${idTransaction}`,
+    id: idTransaction,
   };
-  return res.json({ response });
+  
+  return res.json( response );
 });
 
 router.post("/withdraw/interactive", async (req, res) => {
@@ -128,8 +166,8 @@ router.post("/withdraw/interactive", async (req, res) => {
   let { data: asset } = await supabase
     .from("assets")
     .select("asset_code")
-    .eq("asset_code", asset_code);
-
+    .eq("asset_code", asset_code.toUpperCase());
+  
   if (asset.length < 1)
     return res.json(
       "El asset no corresponde con uno valido del endpoint /info"

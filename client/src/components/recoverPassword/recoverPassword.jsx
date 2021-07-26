@@ -14,7 +14,7 @@ import {
 import { supabase } from "supabase/supabase";
 import { useState } from "react";
 
-export const RecoverPassword = () => {
+export default function RecoverPassword() {
   // const refEmail = useRef();
   const [email, setEmail] = useState("");
   const history = useHistory();
@@ -90,4 +90,4 @@ export const RecoverPassword = () => {
       </Grid>
     </Container>
   );
-};
+}

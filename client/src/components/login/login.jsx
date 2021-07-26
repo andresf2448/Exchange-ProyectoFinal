@@ -16,9 +16,9 @@ import {
 
 import { supabase } from "supabase/supabase";
 
-export const Login = () => {
-  const classes = useStyles();
+export default function Login () {
   const history = useHistory();
+  const classes = useStyles();
 
   const [data, setData] = useState({
     email: "",
