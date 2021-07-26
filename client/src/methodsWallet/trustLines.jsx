@@ -56,6 +56,7 @@ export default function ChangeTrust() {
     transaction.sign(sourceKeypair);
 
     await server.submitTransaction(transaction);
+    
   }
 
   const selectAsset = (event) => {
@@ -71,7 +72,7 @@ export default function ChangeTrust() {
 
   function handleSubmit(e) {
     e.preventDefault();
-    trustLine(publicKey, secretKey, asset, limitAmount);
+    trustLine(publicKey, secretKey, asset, limitAmount.toString());
   }
   return (
     <div>
@@ -94,7 +95,7 @@ export default function ChangeTrust() {
           type="text"
           name="limitAmount"
           placeholder="limit for trust"
-          onChange={(e) => setLimitAmount(e)}
+          onChange={(e) => setLimitAmount(e.target.value)}
         />{" "}
         <input type="submit" />
       </form>

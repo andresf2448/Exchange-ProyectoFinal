@@ -48,9 +48,9 @@ router.get("/", async (req, res) => {
           );
           const respuesta = {
             ...response,
-            to: (aux[0].to ??= "pending"),
-            from: (aux[0].from ??= "pending"),
-            claimable_balance_id: (aux[0].claimable_balance_id ??= "pending"),
+            to: (aux[0].to || "pending"),
+            from: (aux[0].from || "pending"),
+            claimable_balance_id: (aux[0].claimable_balance_id || "pending"),
           };
           return respuesta;
         }
@@ -60,9 +60,9 @@ router.get("/", async (req, res) => {
           );
           const respuesta = {
             ...response,
-            to: (aux[0].to ??= "pending"),
-            from: (aux[0].from ??= "pending"),
-            claimable_balance_id: (aux[0].claimable_balance_id ??= "pending"),
+            to: (aux[0].to || "pending"),
+            from: (aux[0].from || "pending"),
+            claimable_balance_id: (aux[0].claimable_balance_id || "pending"),
           };
           return respuesta;
         }
@@ -112,7 +112,7 @@ router.post("/deposit/interactive", async (req, res) => {
   
 
   if (amount && claimable_balance_supported) {
-    console.log('Acá no entramos, no ?????')
+    
     const amount_out = amount - amount * 0.05;
     const amount_fee = amount * 0.05;
     async function updateTransaction() {
@@ -134,7 +134,7 @@ router.post("/deposit/interactive", async (req, res) => {
   
   const response = {
     type: "interactive_customer_info_needed",
-    url: `http://localhost:3000/kycflow#${idTransaction}`,
+    url: `/kycflow#${idTransaction}`,
     id: idTransaction,
   };
   

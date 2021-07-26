@@ -1,12 +1,14 @@
 import axios from "axios";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getClientSecret } from "redux/actions/actions";
 import { supabase } from "supabase/supabase";
 import CheckoutForm from "../components/stripe/checkoutForm";
+import { Button, TextField, Select, MenuItem, Grid, Typography, Container } from '@material-ui/core';
 
 export default function TransactionsPopup() {
   const dispatch = useDispatch();
+  const currency = useSelector(state => state.asset)
   const [intentionBuy, setIntentionBuy] = useState();
   const [transactionType, setTransactionType] = useState();
   const [input, setInput] = useState({
@@ -29,11 +31,10 @@ export default function TransactionsPopup() {
       .from("transactions")
       .select("*")
       .eq("id", id);
-    console.log("El errorrrrrrr", error);
-    console.log("Dataaaaaa", data);
+   
     if (error) return setError(true);
     if (data[0]) {
-      console.log("La dataaaaaaaa", data[0].kind);
+      
       return setTransactionType(data[0].kind);
     }
   };
@@ -70,7 +71,7 @@ export default function TransactionsPopup() {
     event.preventDefault();
     const amount_out = input.amount - input.amount * 0.05;
     const amount_fee = input.amount * 0.05;
-    const supa = await supabase
+    await supabase
       .from("transactions")
       .update([
         {
@@ -80,13 +81,19 @@ export default function TransactionsPopup() {
         },
       ])
       .eq("id", id);
-    console.log("supaaaaaaaaaaaaaaaaaaaaaaa", supa);
+    
     setIntentionBuy(true);
     dispatch(
-      getClientSecret({ currency: input.currency, amount: input.amount })
+      getClientSecret({ currency: currency, amount: input.amount })
     );
   }
 
+  // const handleChange = (event) => {
+  //   setInput({
+  //     ...input,
+  //     currency: event.target.value
+  //   })
+  // }
   
   const createTransaction = async (event) => {
     event.preventDefault()
@@ -99,7 +106,7 @@ export default function TransactionsPopup() {
   }
   
 
-  console.log("Transaction type", transactionType);
+  
   return (
     <div>
       <button onClick={createTransaction}>Create Transaction</button>
@@ -139,14 +146,19 @@ export default function TransactionsPopup() {
       )}
       {kyc && (
         <form onSubmit={handleSubmitTransaction}>
-          <input
+          {/* <input
             type="text"
             placeholder="currency"
             name="currency"
             onChange={(event) =>
               setInput({ ...input, [event.target.name]: event.target.value })
             }
-          />
+          /> */}
+          {/* <Select value={input.currency} onChange={handleChange} >
+            <MenuItem value='ARS'>ARS</MenuItem>
+            <MenuItem value='EUR'>EUR</MenuItem>
+            <MenuItem value='USD'>USD</MenuItem>
+          </Select> */}
           <input
             type="text"
             placeholder="amount"
@@ -162,7 +174,7 @@ export default function TransactionsPopup() {
       <div>
         {transactionType === "deposit" && kyc && intentionBuy ? (
           <div>
-            <CheckoutForm amount={input.amount} currency={input.currency} />
+            <CheckoutForm amount={input.amount} currency={input.currency + 'R'} />
           </div>
         ) : null}
         {transactionType === "withdraw" && kyc && intentionBuy && (

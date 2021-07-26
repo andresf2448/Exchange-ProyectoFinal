@@ -21,7 +21,7 @@ export default function BuyButton({convertion, result}) {
         variant="contained"
         color='primary'
         // disabled={convertion.amount === 0 || convertion.amount === '' || convertion.firstCoin === '' || convertion.firstCoin === 'BTC' || convertion.firstCoin === 'ETH' }
-        disabled={!result || convertion.amount === 0 || convertion.amount === '' || convertion.firstCoin === 'BTC' || convertion.firstCoin === 'ETH' || (convertion.secondCoin !== 'BTC' && convertion.secondCoin !== 'ETH')}
+        disabled={!result || convertion.amount === 0 || convertion.amount === ''}
         >
             Buy
         </Button>

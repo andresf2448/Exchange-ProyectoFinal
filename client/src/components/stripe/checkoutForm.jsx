@@ -11,12 +11,13 @@ import { deleteClientSecret } from "redux/actions/actions";
 import { useRef } from "react";
 import axios from "axios";
 
-export default function CheckoutForm({amount, currency}) {
+export default function CheckoutForm({amount}) {
   const history = useHistory();
   const dispatch = useDispatch();
   const stripe = useStripe();
   const elements = useElements();
   const clientSecret = useSelector((state) => state.client_secret);
+  const currency = useSelector((state) => state.asset);
 
   const [payment, setPayment] = useState(false);
   const [error, setError] = useState(false);
@@ -56,10 +57,10 @@ export default function CheckoutForm({amount, currency}) {
         setPayment(result.paymentIntent);
         console.log('PaymentIntenttttt', clientSecret)
         axios.post('http://localhost:3001/payment', {
-          sourceId: 1, 
+          sourceId: 'rocket', 
           receiverId: session.user.id, 
           amount: amount,
-          asset: currency
+          currency: currency + 'R'
         })
       }
     }
