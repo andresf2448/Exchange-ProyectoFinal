@@ -55,7 +55,7 @@ export default function CheckoutForm({amount, currency}) {
       } else if (result.paymentIntent.status === "succeeded") {
         setPayment(result.paymentIntent);
         console.log('PaymentIntenttttt', clientSecret)
-        axios.post('http://localhost:3001/payment', {
+        axios.post('/payment', {
           sourceId: 1, 
           receiverId: session.user.id, 
           amount: amount,

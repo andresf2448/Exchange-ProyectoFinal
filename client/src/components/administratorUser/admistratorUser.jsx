@@ -148,7 +148,7 @@ export const AdministratorUser = () => {
       setStateMessage(false);
       setEmails([]);
       await axios({
-        url: "http://localhost:3001/emails",
+        url: "/emails",
         method: "Post",
         data,
       })
