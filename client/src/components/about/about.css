@@ -6,10 +6,15 @@
     width: 200px;
     padding: 20px;
 }
-.card:hover{
+.aboutButton:hover{
     cursor: pointer;
+    background-color: rgb(161, 161, 161);
 }
 
+.githubLink:hover{
+    filter: saturate(200%);
+    transition: 500ms;
+}
 /* --------------------- */
 
 .front,.back{
@@ -23,18 +28,18 @@
   }
 .front {
     /* background: whitesmoke; */
-    background: rgb(185, 174, 174);
-    box-shadow: 4px -2px 170px 79px rgba(15,13,13,0.75) inset;
--webkit-box-shadow: 4px -2px 170px 79px rgba(15,13,13,0.75) inset;
--moz-box-shadow: 4px -2px 170px 79px rgba(15,13,13,0.75) inset;
-    transform: perspective(600px) rotateY(0deg);
-}
-.back{
-    
-background-color: rgb(250, 125, 23);
+    background-color: rgb(250, 125, 23);
     box-shadow: 10px 10px 139px 29px rgba(0,0,0,0.75) inset;
 -webkit-box-shadow: 10px 10px 139px 29px rgba(0,0,0,0.75) inset;
 -moz-box-shadow: 10px 10px 139px 29px rgba(0,0,0,0.75) inset;
+    transform: perspective(600px) rotateY(0deg);
+}
+.back{
+    color:white;
+background: rgb(185, 174, 174);
+    box-shadow: 4px -2px 170px 79px rgba(15,13,13,0.75) inset;
+-webkit-box-shadow: 4px -2px 170px 79px rgba(15,13,13,0.75) inset;
+-moz-box-shadow: 4px -2px 170px 79px rgba(15,13,13,0.75) inset;
      transform: perspective(600px) rotateY(-180deg); 
 }
 
