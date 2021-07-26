@@ -26,7 +26,6 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'space-around',
     backgroundColor: theme.palette.secondary.main
   },
-
   cardContainer: {
     backgroundColor: theme.palette.secondary.background,
     color: theme.palette.primary.contrastText,
@@ -104,14 +103,19 @@ const useStyles = makeStyles(theme => ({
     opacity:'0.7'
   },
   landingContainers: {
-    marginTop: "40px",
-    marginBottom: "40px",
+    display: "flex",
+    alignItems: "center",
   },
   landingCard: {
+    margin: '3%',
     height: 150,
     width: 180,
     paddingTop: 20,
-    textAlign: 'center'
+    textAlign: 'center',
+    letterSpacing: 2
+  },
+  presentationBox: {
+    margin: "3%",
   },
   appLogo: {
     height: "100%",

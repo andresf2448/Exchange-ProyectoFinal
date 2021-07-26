@@ -3,19 +3,51 @@
     margin-bottom: 2%;
 }
 
-.mainTitle{
-    height:100vh;
-    background-color: mediumpurple;
+.navItems:hover{
+    cursor: pointer;
+    color: #ffd523;
+}
+
+
+.registerButton:hover{
+    color: #272727b3;
+    background-color: #ffe261
+}
+
+.presentation{
+    align-content: space-around;
+    height: 110vh;
+    display: inline-grid;
+}
+
+.register{
+    height: 110vh;
+    width: 100%;
+    display: inline-grid;
+    align-content: space-evenly;
+    background-image: linear-gradient(120deg, #fdfbfb 0%, #dadada 100%);
+    color: #272727b3;
 }
 
 .cryptos {
-    height:100vh;
-    background-color: tomato
+    height:110vh;
+    width: 100%;
+    background-image: linear-gradient(120deg, #172536 0%, #272727b3 100%);
+    border-radius: 30px;
+    margin-bottom: 2%;
 }
 
 .rocketFeatures{
-    height:100vh;
-    background-color: rgb(76, 76, 255);
+    height:110vh;
+    background-image: linear-gradient(120deg, #fdfbfb 0%, #f3f3f3 100%);
+}
+
+.rocketFeaturesTypography{
+    color:#272727b3;
+    letter-spacing: 2px;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    justify-content: center;
 }
 
 .frequencyQuestion{
@@ -23,7 +55,15 @@
 }
 
 .toTopButton{
-    right: 0;
+    right: 1%;
     bottom: 0;
     position: fixed;
+    color:#fdfbfb;
+    background-color: #ffd20a;
+    border-radius: 3px;
+}
+
+.toTopButton:hover{
+    background-color: #ffe988;
+    color: #272727b3; 
 }
