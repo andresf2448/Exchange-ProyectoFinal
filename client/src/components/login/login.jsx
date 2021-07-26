@@ -60,7 +60,11 @@ export default function Login () {
     console.log('number', number)
     const random= Math.floor(Math.random()*1000000)
     setData({...data, code: random})
-    sendCode(random, number)
+    try{
+      sendCode(random, number)
+    }catch (err){
+      console.log(err)
+    }
   }
 
   const singUpRoute = () => {

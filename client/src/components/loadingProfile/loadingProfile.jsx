@@ -14,7 +14,8 @@ import {
   Button,
   ButtonGroup,
   Box,
-  Checkbox
+  Checkbox,
+  Tooltip
 } from "@material-ui/core";
 import { validate } from "./validate";
 
@@ -201,10 +202,6 @@ export const LoadingProfile = () => {
     }
   }, [error]);
 
-  useEffect(()=>{
-    console.log('Data', data)
-  },[data])
-
   return (
     <Container>
       <Typography variant="h4" gutterBottom>
@@ -260,15 +257,17 @@ export const LoadingProfile = () => {
                 value={data.additionalName}
                 onChange={handleOnChange}
               />
-              <TextField
-                label="Mobile Number"
-                helperText='i.e. 54911********'
-                name="mobileNumber"
-                type="text"
-                value={data.mobileNumber}
-                onChange={handleOnChange}
-              /> 
-              <Button onClick={handleVerifyClick} disabled={!mobileNumber}> Verify Number</Button>
+              <Tooltip title="Before verifying you should first send 'join stairs-cross' to the whatsapp number +14155238886">
+                <TextField
+                  label="Mobile Number"
+                  helperText='i.e. 54911********'
+                  name="mobileNumber"
+                  type="text"
+                  value={data.mobileNumber}
+                  onChange={handleOnChange}
+                /> 
+              </Tooltip>
+                <Button onClick={handleVerifyClick} disabled={!mobileNumber}> Verify Number</Button>
               {data.code === ""? null: (
               <TextField
                 label={error.codeVerification === "" ? "Check your whatsapp" : error.codeVerification}
