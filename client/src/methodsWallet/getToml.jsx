@@ -1,8 +1,8 @@
 import { StellarTomlResolver } from "stellar-sdk";
-import { getHomeDomainHttp } from "./configHomeDomainUrl";
+import { configHomeDomainHttp } from "./configHomeDomainHttp";
 
 export const getToml = async (homeDomain) => {
-  const tomlURL = getHomeDomainHttp(homeDomain);
+  const tomlURL = configHomeDomainHttp(homeDomain);
   tomlURL.pathname = "/.well-known/stellar.toml";
 
   const tomlResponse =
