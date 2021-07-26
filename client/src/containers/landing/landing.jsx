@@ -7,14 +7,20 @@ import Faq from 'components/faq/faq';
 import useStyles from 'styles';
 import './landing.css';
 import { Link } from 'react-scroll';
-
-
+import { supabase } from "supabase/supabase";
+import { useHistory } from "react-router";
 
 const Landing = () => {
     const classes = useStyles();
+    const history = useHistory();
+
+    let session = supabase.auth.session();
+
 
     return (
         <Container  className='landing'>
+        {session ? history.push("/home") : null}
+
             <Grid container xs={12} className={classes.landingContainers} spacing={2}>
                 <Grid item xs={3}>
                     <Typography variant="h4"> 

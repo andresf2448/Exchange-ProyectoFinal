@@ -9,6 +9,7 @@ import {
   Button,
   TextField,
   Grid,
+  FormControl,
 } from "@material-ui/core";
 
 import { supabase } from "supabase/supabase";
@@ -33,8 +34,9 @@ export default function RecoverPassword() {
       const { error } = response;
       if (error) return alert(error.message);
       alert("Check your email");
-      history.push("/");
     });
+    await supabase.auth.signOut();
+    history.push("/");
   };
 
   const handleOnChange = (event) => {
@@ -53,7 +55,7 @@ export default function RecoverPassword() {
       <Grid container>
         <Grid item xs={12}>
           <form onSubmit={() => recoverPassword()}>
-            <Grid item xs={12}>
+            <FormControl>
               <TextField
                 required
                 label="Email"
@@ -63,8 +65,6 @@ export default function RecoverPassword() {
                 onChange={handleOnChange}
                 style={{ marginBottom: "3px" }}
               />
-            </Grid>
-            <Grid item xs={12}>
               <Button
                 className={classes.button}
                 type="submit"
@@ -74,8 +74,6 @@ export default function RecoverPassword() {
               >
                 Send
               </Button>
-            </Grid>
-            <Grid item xs={12}>
               <Button
                 className={classes.button}
                 variant="contained"
@@ -84,7 +82,8 @@ export default function RecoverPassword() {
               >
                 Back
               </Button>
-            </Grid>
+
+            </FormControl>
           </form>
         </Grid>
       </Grid>
