@@ -1,30 +1,15 @@
 
-.aboutContainer{
-    display: flex;
-    flex-direction: column; 
-    width:90%;
-    margin-left:86px;
-}
-.title{
-    text-align:'center';
-    margin-right:'200px';
-    margin-bottom: '20px'; 
-}
 
-.aboutCardContainer{
-    display:flex;
-    flex-wrap: wrap;
-     /* gap:10px; */
-}
 
 
 .card{
     width: 200px;
     padding: 20px;
 }
-.redCard{
-    background-color: red;
+.card:hover{
+    cursor: pointer;
 }
+
 /* --------------------- */
 
 .front,.back{
@@ -38,14 +23,18 @@
   }
 .front {
     /* background: whitesmoke; */
-    background-color: rgb(250, 125, 23);
-    box-shadow: 10px 10px 139px 29px rgba(0,0,0,0.75) inset;
--webkit-box-shadow: 10px 10px 139px 29px rgba(0,0,0,0.75) inset;
--moz-box-shadow: 10px 10px 139px 29px rgba(0,0,0,0.75) inset;
+    background: rgb(185, 174, 174);
+    box-shadow: 4px -2px 170px 79px rgba(15,13,13,0.75) inset;
+-webkit-box-shadow: 4px -2px 170px 79px rgba(15,13,13,0.75) inset;
+-moz-box-shadow: 4px -2px 170px 79px rgba(15,13,13,0.75) inset;
     transform: perspective(600px) rotateY(0deg);
 }
 .back{
-    background: skyblue;
+    
+background-color: rgb(250, 125, 23);
+    box-shadow: 10px 10px 139px 29px rgba(0,0,0,0.75) inset;
+-webkit-box-shadow: 10px 10px 139px 29px rgba(0,0,0,0.75) inset;
+-moz-box-shadow: 10px 10px 139px 29px rgba(0,0,0,0.75) inset;
      transform: perspective(600px) rotateY(-180deg); 
 }
 
