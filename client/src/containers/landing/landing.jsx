@@ -1,5 +1,4 @@
 import { Container, Grid, Typography, Button, Divider, Box, Card } from "@material-ui/core";
-// import {CryptoGraphics} from 'components/cryptoGraphics/cryptoGraphics';
 import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';
 import SecurityIcon from '@material-ui/icons/Security';
 import stellarIcon from './stellar.svg';
@@ -7,7 +6,9 @@ import balance from './balance.svg';
 import Faq from 'components/faq/faq';
 import useStyles from 'styles';
 import './landing.css';
+import { NavLink } from 'react';
 import { Link } from 'react-scroll';
+
 
 
 const Landing = () => {
@@ -73,8 +74,12 @@ const Landing = () => {
                     </Typography>
                 </Grid>
                 <Grid container xs={3} justifyContent="space-around">
-                    <Button  color="secundary" variant="contained" justifyContent="left">Crear cuenta</Button> 
-                    <Button color="primary" variant="contained" justifyContent="left" style={{color:'#000', backgroundColor: '#ffd523'}}>ingresar</Button>
+                    <Button  color="secundary" variant="contained" justifyContent="left" href='/register'>
+                        REGISTER
+                    </Button> 
+                    <Button color="primary" variant="contained" justifyContent="left" href='/login' style={{color:'#000', backgroundColor: '#ffd523'}}>
+                        LOGIN
+                    </Button>
                 </Grid>
             </Grid>
 
@@ -91,7 +96,7 @@ const Landing = () => {
                     <Box className={classes.presentationBox}  letterSpacing={4} spacing={6} alignItems="center"> 
                     <Typography item xs={4} variant="h5">
                         Trades here are peer-to-peer!
-                        On StellarX <img style={{width:'25px'}} className="cryptoIcons" src={stellarIcon} alt="no img"/> you trade directly with other traders. There’s no one in the middle. You always have sole control of your assets.
+                        On StellarX you trade directly with other traders. There’s no one in the middle. You always have sole control of your assets.
                     </Typography>
                     </Box>
                 </Grid>
@@ -107,7 +112,7 @@ const Landing = () => {
                         Logo RocketXchange
                     </Box>
                     <Grid item xs={4} alignItems='center'>
-                        <Button className='registerButton' style={{ padding:'10px', width:'60%', backgroundColor: '#ffd523', color: '#272727b3', letterSpacing:'3px'}} variant="contained">REGISTER!</Button> 
+                        <Button className='registerButton'  href='/register' style={{ padding:'10px', width:'60%', backgroundColor: '#ffd523', color: '#272727b3', letterSpacing:'3px'}} variant="contained">REGISTER!</Button> 
                     </Grid>
                 </Grid>
             </div>
@@ -151,10 +156,7 @@ const Landing = () => {
 
             <div className="frequencyQuestion">
                 <Grid container xs={12} className={classes.landingContainers} >
-                    <Grid item xs= {6} >
-                        <Typography variant="h4" > Preguntas frecuentes</Typography>
-                    </Grid>
-                    <Grid item xs={6} >
+                    <Grid item xs={12} >
                         <Faq />
                     </Grid>
                 </Grid>

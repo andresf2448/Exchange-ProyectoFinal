@@ -16,9 +16,9 @@ function App() {
   return (
     <Router>
       <div className="App">
-        <Route exact path="/" component={Login} />
+        <Route exact path="/" component={Landing} />
+        <Route path="/login" component={Login} />
         <Route path="/register" component={Register} />
-        <Route path="/landing" component={Landing} />
         <Route path="/home" component={Home} />
         <Route path="/recoverPassword" component={RecoverPassword} />
         <Route path="/payment" component={CheckoutForm} />
