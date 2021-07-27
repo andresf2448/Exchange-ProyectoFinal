@@ -36,6 +36,16 @@ const useStyles = makeStyles(theme => ({
     justifyContent: "center", 
     alignItems: "center" 
   },
+  cardUserContainer: {
+    backgroundColor: theme.palette.secondary.background,
+    color: theme.palette.primary.contrastText,
+    borderRadius: '6px', 
+    // margin: 30, 
+    padding: 15,                   
+    display:"flex",
+    justifyContent: "center", 
+    alignItems: "center" 
+  },
   loginContainer: {
     height: "100vh",
     display: "flex",
