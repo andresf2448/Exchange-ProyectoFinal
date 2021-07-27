@@ -40,8 +40,8 @@ const startChallenge = async ( authEndpoint, serverPublicKey, publicKey ) => {
   
   const params = { account: publicKey };
   
-  const webDomain = 'localhost:3001'
-  const webAuthDomain = 'localhost:3001/authentication'
+  const webDomain = 'rocketexchangeapi.herokuapp.com/:28962'
+  const webAuthDomain = 'rocketexchangeapi.herokuapp.com/:28962/authentication'
 
   const authURL = new URL(authEndpoint);
   

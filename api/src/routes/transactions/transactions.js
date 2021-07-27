@@ -141,7 +141,7 @@ router.post("/deposit/interactive", async (req, res) => {
   
   const response = {
     type: "interactive_customer_info_needed",
-    url: `http://localhost:3000/kycflow#${idTransaction}`,
+    url: `https://rocket-exchange.vercel.app/kycflow#${idTransaction}`,
     id: idTransaction,
   };
   
@@ -205,7 +205,7 @@ router.post("/withdraw/interactive", async (req, res) => {
 
   const response = {
     type: "interactive_customer_info_needed",
-    url: `https://localhost:3000/kycflow#${info.data[data.length - 1].id}`,
+    url: `https://rocket-exchange.vercel.app/kycflow#${info.data[data.length - 1].id}`,
     id: info.data[data.length - 1].id,
   };
   return res.json({ response });
