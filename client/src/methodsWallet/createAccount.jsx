@@ -83,18 +83,18 @@ export default function CreateAccount() {
       {!publicKey && ! secretKey ? null : null}
       {hasWallet ? (
         <Grid item key={12}>
-            {<Typography variant='h6'> PublicKey: {publicKeyUser} </Typography>}
-            {<Typography variant='h6' > SecretKey: {secretKeyUser} </Typography>}
-          <Divider variant="middle"/>
+            {<Typography variant='h6'>PublicKey | {publicKeyUser}</Typography>}
+            {<Typography variant='h6'>SecretKey | {secretKeyUser}</Typography>}
+          <Divider className={classes.divider}/>
           <br/>
             <MuxedAccount pk={publicKeyUser}/>
         </Grid>
 
       ) : (
         <form onSubmit={createdAccounts}>
-          <label> User Name :</label>
+          <label> User Name </label>
           <input ref={userName} required />
-          <Button className={classes.button} color="secondary" type="submit">
+          <Button className={classes.yellowButton}  type="submit">
             Crear Wallet
           </Button>
         </form>

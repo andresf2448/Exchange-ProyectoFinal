@@ -18,7 +18,7 @@ const classes = useStyles();
   return (
     <Grid container>
       <Grid item xs={2} alignItems="flex-start">
-        <AppBar position="static" style={{height:'88vh'}} >
+        <AppBar position="static" style={{height:'87vh'}} >
             <Tabs orientation="vertical" value={value} onChange={handleChange} centered={true}>
                 <Tab label="Profile"/>
                 <Tab label="Identification"/>
