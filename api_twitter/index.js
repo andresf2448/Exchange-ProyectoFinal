@@ -107,7 +107,7 @@ io.on("connection", async () => {
 });
 
 server.listen(process.env.PORT, () => {
-  console.log("%s listening at 3005 twitter"); // eslint-disable-line no-console
+  console.log(`%s listening at ${process.env.PORT} twitter`); // eslint-disable-line no-console
 });
 
 module.exports = router;
