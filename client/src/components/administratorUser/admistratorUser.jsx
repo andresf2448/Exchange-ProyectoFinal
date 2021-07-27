@@ -303,7 +303,7 @@ export const AdministratorUser = () => {
                     <TextField
                       type="text"
                       placeholder="New value"
-                      ref={newComision}
+                      inputRef={newComision}
                       color="secondary"
                       variant="outlined"
                       size="small"
@@ -313,7 +313,7 @@ export const AdministratorUser = () => {
                     <TextField
                       type="text"
                       placeholder="Write CONFIRM"
-                      ref={confirmation}
+                      inputRef={confirmation}
                       color="secondary"
                       variant="outlined"
                       size="small"
