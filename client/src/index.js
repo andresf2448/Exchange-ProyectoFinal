@@ -7,7 +7,7 @@ import { Elements } from '@stripe/react-stripe-js'
 import { loadStripe } from '@stripe/stripe-js'
 import { Provider } from 'react-redux'
 import store from 'redux/store/store';
-
+import 'normalize.css';
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLISHEABLE_KEY)
 
@@ -19,12 +19,13 @@ const theme = createTheme({
   },
   palette: {
     primary: {
-      // choreado: '072453#',
+      // choreado: '#072453',
       background: '#0F3460',
       main: '#272727b3',
       dark: '#2C2E43',
       buttons: '#ffd523',
-      contrastText: '#fff'
+      contrastText: '#fff',
+      marfilWhite: '#fdfbfb',
     },
     secondary: {
       light: '#ff7961',

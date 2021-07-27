@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, List, ListItem, Container, Typography, Paper, Grid, Divider } from "@material-ui/core";
+import { Button, List, ListItem, Container, Typography, Paper, Grid, Divider, Box } from "@material-ui/core";
 import Grow from '@material-ui/core/Grow';
 import useStyles from "styles";
 import { supabase } from "supabase/supabase";
@@ -45,8 +45,7 @@ export default function MuxedAccount ( props ) {
         .eq('id_user', session.user.id)
         setMuxedAccounts(info.data)
     }
-        
-        
+         
     const updateMuxedAccount = async () => {
         let info = await supabase // eslint-disable-line no-unused-vars
         .from('muxedAccounts')
@@ -62,7 +61,7 @@ export default function MuxedAccount ( props ) {
     return(
         <Container>
             <form onSubmit={createMuxedAccount}>
-                <Button className={classes.button} color="secondary" type="submit">
+                <Button className={classes.yellowButton} type="submit">
                     Create a muxed account
                 </Button>
             </form> 
@@ -73,16 +72,21 @@ export default function MuxedAccount ( props ) {
                         <Grid container  spacing={2}>
                             <Grid item xs={12}>
                                 <Paper className={classes.cryptoCurrency} elevation={10}>
-                                    <Typography variant='h5'>
+                                    <Typography variant='subtitle1' align='center'>
                                         {mux.muxedPublicKey}
                                     </Typography>
                                 </Paper>
                             </Grid>
                             <Grid item xs={12}>
                                 <Paper className={classes.cryptoCurrency} elevation={10}>
-                                    <Typography variant='h5'>
-                                        Base account sequence: {mux.muxedSequence}
-                                    </Typography>
+                                    <Box align='center' alignItems="center">
+                                        <Typography variant='subtitle1' align='center'>
+                                            BASE ACCOUNT SEQUENCE 
+                                        </Typography>
+                                        <Typography variant='subtitle1' align='center'>
+                                            - {mux.muxedSequence} -
+                                        </Typography>
+                                    </Box>
                                 </Paper>
                             </Grid>
                         </Grid>
@@ -93,8 +97,8 @@ export default function MuxedAccount ( props ) {
                 container
                 direction="column"
                 justifyContent="center"
-                alignItems="center">
-                <Button className={classes.buttom} color="secondary" type="submit" onClick={getMuxedAccount}>
+                alignItems="left">
+                <Button type="submit" className={classes.yellowButton} onClick={getMuxedAccount}>
                     Get your muxed accounts
                 </Button>
 
@@ -102,13 +106,19 @@ export default function MuxedAccount ( props ) {
                     { 
                         muxedAccounts.length > 0 &&
                         muxedAccounts.map(account => (
-                            <Grow container in='true' timeout='auto'>
+                            <Grow 
+                                container in='true' 
+                                timeout='auto'
+                                direction="column"
+                                justifyContent="center"
+                                alignItems="center"
+                            >
                                 <List >
                                     <Paper elevation={10} className={classes.cryptoCurrency}>
                                         <ListItem id={account.id}>
-                                            <Typography variant='h5'> id {account.idMuxedAccount} </Typography>
+                                            <Typography variant='subtitle2' align='center'>ID {account.idMuxedAccount} </Typography>
                                             <Divider variant="middle" orientation="vertical" flexItem/>
-                                            <Typography variant='h5'> Muxed Public Key {account.muxed} </Typography>
+                                            <Typography variant='subtitle2' align='center'>{account.muxed}</Typography>
                                         </ListItem>
                                     </Paper>
                                 </List>

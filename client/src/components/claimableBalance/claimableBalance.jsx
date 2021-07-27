@@ -62,7 +62,14 @@ export default function ClaimableBalance() {
       .eq("id_user", session.user.id);
 
     if (data.length === 0) {
-      alert('You dont have a wallet');
+      Swal.fire({
+        title: 'Nope!',
+        text: "You still don't have a wallet",
+        icon: 'error',
+        confirmButtonText: 'Ah...',
+        background: '#1f1f1f',
+        confirmButtonColor:'rgb(158, 158, 158)',
+      });
     }
     if (data.length > 0) {
       let secret = await supabase

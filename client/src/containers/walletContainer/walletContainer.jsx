@@ -31,7 +31,7 @@ export default function WalletContainer(){
     return(
             <Grid container >
                 <Grid item xs={2} alignItems="flex-start">
-                    <AppBar position="static" style={{height:'92vh'}} >
+                    <AppBar position="static" style={{height:'87vh'}} >
                         <Tabs orientation="vertical" value={value} onChange={handleChange}>
                         <Tab label='Get Key'/>
                         <Tab label='Balance'/>
@@ -44,7 +44,7 @@ export default function WalletContainer(){
                 </Grid>
                 
                 <Grid item  xs={10}>
-                    <Card elevation={3} className={classes.cardCheck}>
+                    <Card elevation={3} className={classes.cardContainer}>
                         {value === 0 && <CreateAccount assets={assets} />}      
                         {value === 1 && <BalanceAccount assets={assets} />}
                         {value === 2 && <Transaction  />}

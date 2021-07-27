@@ -1,6 +1,7 @@
 import { supabase } from "supabase/supabase";
 import { NavBar } from "components/navBar/navBar";
 import { useHistory } from "react-router";
+import Swal from 'sweetalert2';
 
 import "./home.scss";
 import { useEffect } from "react";
@@ -16,7 +17,14 @@ export default function Home () {
       .eq("id_user", session.user.id);
 
     if (data[0]?.bannedUser) {
-      alert("Your account is blocked");
+      Swal.fire({
+        title: 'Sorry!',
+        text: "Your account is blocked",
+        icon: 'error',
+        confirmButtonText: 'Cool',
+        background: '#1f1f1f',
+        confirmButtonColor:'rgb(158, 158, 158)',
+      });
       await supabase.auth.signOut();
       history.push("/");
     }

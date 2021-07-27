@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Button, TextField, Select, MenuItem, Grid, Typography, Container } from '@material-ui/core';
+import { Button, Select, MenuItem, Grid, Typography, Container } from '@material-ui/core';
 import axios from 'axios';
 import BuyButton from 'components/stripe/buyButton';
-import useStyles from 'styles';
+import Swal from 'sweetalert2'
+
+
 //API de cryptocompare.com
 
 export const CryptoCalculator = () => {
@@ -12,15 +14,37 @@ export const CryptoCalculator = () => {
     const [firstCurrency, setFirstCurrency] = useState(1);
     const [secondCurrency, setSecondCurrency] = useState(1);
 
-    const classes = useStyles();
 
     async function convert() {
         
-        if(convertion.amount === 0 || !convertion.amount){return alert('Amount required')}
-        if(convertion.firstCoin === '' || convertion.firstCoin === 1 || convertion.secondCoin === '' || convertion.secondCoin === 1){return alert('Invalid currency')}
+        if(convertion.amount === 0 || !convertion.amount){
+            return Swal.fire({
+                        title: 'Uops!',
+                        text: 'Amount required',
+                        icon: 'warning',
+                        confirmButtonText: 'Cool',
+                        background: '#1f1f1f',
+                        confirmButtonColor:'rgb(158, 158, 158)',
+                    })}
+        if(convertion.firstCoin === '' || convertion.firstCoin === 1 || convertion.secondCoin === '' || convertion.secondCoin === 1){
+            return Swal.fire({
+                    title: 'Uops!',
+                    text: 'Invalid currency',
+                    icon: 'warning',
+                    confirmButtonText: 'Ups',
+                    background: '#1f1f1f',
+                    confirmButtonColor:'rgb(158, 158, 158)',
+                })}
         let currencies = await axios.get(`https://min-api.cryptocompare.com/data/price?api_key={0aec49a900c2d7469630114260688bb1914813d1f365aa38f494f6c8a6e946d1}&fsym=${convertion.firstCoin}&tsyms=${convertion.secondCoin}`)
         if(currencies.data.Response === 'Error'){
-            return alert('Something went wrong');
+            return Swal.fire({
+                title: 'Hmmmmm!',
+                text: 'Something went wrong',
+                icon: 'error',
+                confirmButtonText: 'Ok',
+                background: '#1f1f1f',
+                confirmButtonColor:'rgb(158, 158, 158)',
+              });
         }
         var total = Object.values(currencies.data)[0] * convertion.amount;
          
