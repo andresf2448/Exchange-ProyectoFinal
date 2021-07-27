@@ -83,7 +83,6 @@ export default function BalanceAccount() {
         </div>
       ) : (
         <div>
-          " Debes crear una wallet para ver tu balance"
           <CreateAccount />
         </div>
       )}
