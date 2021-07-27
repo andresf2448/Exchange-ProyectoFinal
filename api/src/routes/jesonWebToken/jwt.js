@@ -44,10 +44,10 @@ router.get('/', (req, res) => {
     
     if (webAuthDomain && webDomain && clientAccountID) {
 
-        let serverKeyPair = Keypair.fromSecret('SDQOZQGOD7764PLHH3KGSUDVGA2ZUNFBPHHJKXYAHA63R7GEFVDV4T4P')
+        let serverKeyPair = Keypair.fromSecret('SDVT4XBN7ZCIQ6D2ZECOQCWAISXANYFN25FDKG2UDWU52VMHOL3S6HWB')
         
         const transaction = Utils.buildChallengeTx(serverKeyPair, clientAccountID, webDomain, 900, Networks.TESTNET, webAuthDomain )
-        
+        console.log(transaction)
         return res.json(transaction)
     }
     return res.status(400).json({message: 'You should send all the required items'})

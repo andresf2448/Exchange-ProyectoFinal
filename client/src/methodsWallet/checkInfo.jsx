@@ -1,4 +1,4 @@
-/* import { get } from "lodash"; */
+
 import axios from "axios";
 
 export const checkInfo = async ({ type, toml, assetCode }) => {

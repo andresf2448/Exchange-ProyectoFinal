@@ -1,28 +1,32 @@
 import { checkTomlForFields } from "../methodsWallet/checkTomlForFields";
-import auth from "../customHooks/useAuth";
+import auth from "./useAuth";
 import { checkInfo } from "../methodsWallet/checkInfo";
 import { createPopup } from "../methodsWallet/createPopup";
 import { interactiveDepositFlow } from "../methodsWallet/interactiveDepositFlow";
 import { pollDepositUntilComplete } from "../methodsWallet/pollDepositUntilComplete";
 import StellarSdk from "stellar-sdk";
-import { FormatListNumberedTwoTone } from "@material-ui/icons";
+/* import { FormatListNumberedTwoTone } from "@material-ui/icons"; */
+var bandera = true
 
-async function useDeposit({
+ function useDeposit({
   assetCode,
   assetIssuer,
   homeDomain,
   publicKey,
   secretKey,
 }) {
-  console.log(publicKey)
-  StellarSdk.StellarTomlResolver.resolve(homeDomain, {
+   
+  
+  
+  console.log('esta es la publickey',publicKey);
+
+  if(bandera) {
+    bandera = false
+    StellarSdk.StellarTomlResolver.resolve(homeDomain, {
     allowHttp: true,
   })
     .then((tomlResponse) => {
-      console.log("aaaaaaaaaaaaaaaaaaa", tomlResponse);
-      return tomlResponse;
-    })
-    .then((tomlResponse) => {
+
       let requiredKeys = [
         "SIGNING_KEY",
         "TRANSFER_SERVER_SEP0024",
@@ -36,33 +40,58 @@ async function useDeposit({
         return res;
       }, {});
       console.log(result);
-      return {result, tomlResponse};
-    }).then(({result, tomlResponse}) => {
-
+      return { result, tomlResponse };
+    })
+    .then(async ({ result, tomlResponse }) => {
       // Check info
-      const check = checkInfo({
+      const check = await checkInfo({
         type: "deposit",
         toml: result,
         assetCode,
       });
-      console.log('este es el checkinfo', check)
-      if(check) return tomlResponse;
-      return 'Divisa no encontrada en endpoint info'
-    }).then((tomlResponse) => {
+      console.log("este es el checkinfo", check);
+      if (check) return tomlResponse;
+      return "Divisa no encontrada en endpoint info";
+    })
+    .then(async (tomlResponse) => {
       const params = {
         authEndpoint: tomlResponse.AUTH_SERVER,
-        serverPublicKey: tomlResponse.SIGNING_KEY,
+        serverPublicKey: assetIssuer,
         publicKey,
         secretKey,
-      }
-      const token = auth(params);
-      console.log(token)
-      return token
+      };
+      const token = await auth(params);
+      console.log("este es el token", token);
+      return { token, tomlResponse };
     })
+    .then(async({ token, tomlResponse }) => {
+      console.log(
+        "estos son los parametros a interactive deposit",
+        publicKey,
+        assetCode
+      );
+      const interactiveResponse = await interactiveDepositFlow({
+        assetCode,
+        publicKey,
+        sep24TransferServerUrl: tomlResponse.TRANSFER_SERVER_SEP0024,
+        token,
+        claimableBalanceSupported: true,
+      })
+      
+      return{ interactiveResponse, token } ;
+    })
+    .then(({ interactiveResponse, token }) => {
+      console.log('este es el interactive response antes de entrar al popup', interactiveResponse)
+      const popup = createPopup(interactiveResponse);
+    
+      const { currentStatus } = pollDepositUntilComplete({
+        popup,
+        transactionId: interactiveResponse.id,
+        token,
+        sep24TransferServerUrl: homeDomain,
+      });
 
-
-
-
+    });
 
   // Check toml
   /* const tomlResponse = checkTomlForFields({
@@ -99,7 +128,7 @@ async function useDeposit({
   console.log(token); */
 
   // Interactive flow
- /*  const interactiveResponse = await interactiveDepositFlow({
+  /*  const interactiveResponse = await interactiveDepositFlow({
     assetCode,
     publicKey,
     sep24TransferServerUrl: tomlResponse.TRANSFER_SERVER_SEP0024,
@@ -120,6 +149,7 @@ async function useDeposit({
   return {
     /* currentStatus, */
   };
+}
 }
 
 export default useDeposit;

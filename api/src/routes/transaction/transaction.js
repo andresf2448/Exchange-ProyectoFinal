@@ -15,14 +15,20 @@ router.get("/", async (req, res) => {
     try {
       const { data } = await supabase
         .from("transactions")
-        .select("*")
-        .eq("id", id);
+        .select("*")   
+        .eq("id", id);  
 
       if (data.length === 0) return res.json("no existe esta transaccion");
 
-      const { data: withdraw } = await supabase.from("withdraw").select("*").eq('id', id);
+      const { data: withdraw } = await supabase
+        .from("withdraw")
+        .select("*")
+        .eq("id", id);
 
-      const { data: deposit } = await supabase.from("deposit").select("*").eq('id', id);
+      const { data: deposit } = await supabase
+        .from("deposit")   
+        .select("*")
+        .eq("id", id);    
 
       let response = {
         id: id,
@@ -35,33 +41,30 @@ router.get("/", async (req, res) => {
         amount_fee: data[0].amount_fee,
       };
       if (data[0].kind === "deposit") {
-        const aux = deposit.filter(
-          (deposito) => deposito.id === transaction.id
-        );
         const respuesta = {
           ...response,
-          to: aux[0].to ? aux[0].to : "pending",
-          from: aux[0].from ? aux[0].from : "pending",
-          claimable_balance_id: aux[0].claimable_balance_id
-            ? aux[0].claimable_balance_id
+          to: deposit[0].to ? deposit[0].to : "pending",
+          from: deposit[0].from ? deposit[0].from : "pending",
+          claimable_balance_id: deposit[0].claimable_balance_id
+            ? deposit[0].claimable_balance_id
             : "pending",
         };
+        console.log(respuesta);
         return res.json(respuesta);
       }
       if (data[0].kind === "withdraw") {
-        const aux = withdraw.filter((withdraw) => withdraw.id === data[0].id);
         const respuesta = {
           ...response,
-          to: aux[0].to ? aux[0].to : "pending",
-          from: aux[0].from ? aux[0].from : "pending",
-          claimable_balance_id: aux[0].claimable_balance_id
-            ? aux[0].claimable_balance_id
+          to: withdraw[0].to ? withdraw[0].to : "pending",
+          from: withdraw[0].from ? withdraw[0].from : "pending",
+          claimable_balance_id: withdraw[0].claimable_balance_id
+            ? withdraw[0].claimable_balance_id
             : "pending",
         };
         return res.json(respuesta);
       }
     } catch (error) {
-      return res.status(404).json(error);
+      return res.status(400).json(error);
     }
   }
 

@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 export const pollDepositUntilComplete = async ({
   popup,
   transactionId,
@@ -21,29 +23,28 @@ export const pollDepositUntilComplete = async ({
   };
   let currentStatus = TransactionStatus.INCOMPLETE;
 
-  const transactionUrl = new URL(
-    `${sep24TransferServerUrl}/transaction?id=${transactionId}`
-  );
+  const transactionUrl =  `${sep24TransferServerUrl}/transaction?id=${transactionId}`
+  
 
   const endStatuses = [
     TransactionStatus.PENDING_EXTERNAL,
     TransactionStatus.COMPLETED,
     TransactionStatus.ERROR,
   ];
-
-  while (!popup.closed && !endStatuses.includes(currentStatus)) {
+console.log('este es el transactionID',transactionId)
+  while (transactionId && !popup.closed && !endStatuses.includes(currentStatus)) {
     // eslint-disable-next-line no-await-in-loop
-    const response = await fetch(transactionUrl.toString(), {
+    const response = await axios(`http://${transactionUrl}` /* {
       headers: { Authorization: `Bearer ${token}` },
-    });
+    } */);
 
     // eslint-disable-next-line no-await-in-loop
-    const transactionJson = await response.json();
+    
 
-    if (transactionJson.transaction.status !== currentStatus) {
-      currentStatus = transactionJson.transaction.status;
+     if (response.data.status !== currentStatus) {
+      currentStatus = response.data.status;
       // eslint-disable-next-line no-param-reassign
-      popup.location.href = transactionJson.transaction.more_info_url;
+      /* popup.location.href = transactionJson.more_info_url; */
 
       switch (currentStatus) {
         case TransactionStatus.PENDING_USER_TRANSFER_START: {
@@ -81,7 +82,7 @@ export const pollDepositUntilComplete = async ({
         }
         default:
       }
-    }
+    } 
 
     // eslint-disable-next-line no-await-in-loop
     await new Promise((resolve) => setTimeout(resolve, 5000));

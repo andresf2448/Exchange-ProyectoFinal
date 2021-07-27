@@ -14,7 +14,7 @@ export default async function useAuth({
 
     if (transaction && Utils.verifyTxSignedBy(transaction, publicKey)) {
       let token = await sendChallenge({ authEndpoint, transaction });
-
+      console.log('llegamos al final de la autenticacion', token)
       return token;
     }
     return false;
@@ -54,7 +54,7 @@ console.log('pasamos pedido al back de inicio de challenge', result.data)
     webDomain,
     webAuthDomain
   );
-
+   console.log(tx)
   return tx;
 };
 
@@ -62,7 +62,7 @@ const signChallenge = (tx, secretKey) => {
   const envelope = tx.toEnvelope().toXDR("base64");
   const transaction = new Transaction(envelope, tx.networkPassphrase);
   transaction.sign(Keypair.fromSecret(secretKey));
-
+  console.log('paso por singChallenge')
   return transaction;
 };
 
