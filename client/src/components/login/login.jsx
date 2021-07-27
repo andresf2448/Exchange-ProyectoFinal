@@ -134,7 +134,7 @@ export default function Login () {
                 label="Insert Code"
                 name="codeVerification"
                 type="text"
-                color={data.code == data.codeVerification? 'primary': 'secondary'}
+                color={data.code === data.codeVerification? 'primary': 'secondary'}
                 value={data.codeVerification}
                 onChange={handleOnChange}
                 />
