@@ -14,6 +14,8 @@ import {
   Button,
   ButtonGroup,
   Box,
+  Checkbox,
+  Tooltip
 } from "@material-ui/core";
 import { validate } from "./validate";
 
@@ -40,7 +42,8 @@ export const LoadingProfile = () => {
     occupation: "",
     gender: "",
     code:"",
-    codeVerification:""
+    codeVerification:"",
+    hasTwoFA: false
   });
 
   let {
@@ -50,7 +53,8 @@ export const LoadingProfile = () => {
     mobileNumber,
     occupation,
     gender,
-    codeVerification
+    codeVerification,
+    hasTwoFA
   } = data;
 
 
@@ -79,6 +83,7 @@ export const LoadingProfile = () => {
         mobileNumber,
         occupation,
         gender,
+        hasTwoFA
       },
     ]);
 
@@ -101,6 +106,7 @@ export const LoadingProfile = () => {
         mobileNumber,
         occupation,
         gender,
+        hasTwoFA
       },
     ]).match({ id_user });;
 
@@ -136,7 +142,8 @@ export const LoadingProfile = () => {
         additionalName,
         mobileNumber,
         occupation,
-        gender,} = supaData.data[0];
+        gender, 
+        hasTwoFA} = supaData.data[0];
 
       setData({
         firstName,
@@ -145,6 +152,7 @@ export const LoadingProfile = () => {
         mobileNumber,
         occupation,
         gender,
+        hasTwoFA
         });
       }
 
@@ -177,6 +185,9 @@ export const LoadingProfile = () => {
     }
 
   }
+  const handleTwoStepSelect=(e)=>{
+    setData({...data, hasTwoFA: e.target.checked})
+  }
 
   useEffect(() => {
     hasProfileFunction();
@@ -205,6 +216,7 @@ export const LoadingProfile = () => {
             <Typography variant='h6'>Mobile Number: {mobileNumber}</Typography>
             <Typography variant='h6'>Occupation: {occupation}</Typography>
             <Typography variant='h6'>Gender: {gender}</Typography>
+            <Typography variant='h6'>Two Step Verification: {hasTwoFA? 'Yes': 'No'}</Typography>
           </Box>
           <Button onClick={() => handleEdit()} color="primary" variant="contained">Edit</Button>
         </Container>
@@ -245,15 +257,17 @@ export const LoadingProfile = () => {
                 value={data.additionalName}
                 onChange={handleOnChange}
               />
-              <TextField
-                label="Mobile Number"
-                helperText='i.e. 54911********'
-                name="mobileNumber"
-                type="text"
-                value={data.mobileNumber}
-                onChange={handleOnChange}
-              /> 
-              <Button onClick={handleVerifyClick} disabled={!mobileNumber}> Verify Number</Button>
+              <Tooltip title="Before verifying you should first send 'join stairs-cross' to the whatsapp number +14155238886">
+                <TextField
+                  label="Mobile Number"
+                  helperText='i.e. 54911********'
+                  name="mobileNumber"
+                  type="text"
+                  value={data.mobileNumber}
+                  onChange={handleOnChange}
+                /> 
+              </Tooltip>
+                <Button onClick={handleVerifyClick} disabled={!mobileNumber}> Verify Number</Button>
               {data.code === ""? null: (
               <TextField
                 label={error.codeVerification === "" ? "Check your whatsapp" : error.codeVerification}
@@ -280,6 +294,12 @@ export const LoadingProfile = () => {
               direction="column"
               alignContent="space-around"
             >
+              <FormControl>
+                <FormControlLabel
+                  control={<Checkbox checked={hasTwoFA} onChange={handleTwoStepSelect} />}
+                  label="Check this box to activate Two Step validation"
+                />
+              </FormControl>
               <FormControl component="fieldset">
                 <FormLabel component="legend">
                   {error.gender === "" ? "Gender" : error.gender}

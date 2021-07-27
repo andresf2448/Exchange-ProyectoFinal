@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router";
+import sendCode from 'components/loadingProfile/whatsapp';
 import useStyles from 'styles';
 
 import {
@@ -15,17 +16,22 @@ import {
 } from "@material-ui/core";
 
 import { supabase } from "supabase/supabase";
+import { useEffect } from "react";
 
 export default function Login () {
   const history = useHistory();
+  const [login, setLogin] = useState(true)
   const classes = useStyles();
 
   const [data, setData] = useState({
     email: "",
     password: "",
+    code:"",
+    codeVerification:""
   });
 
   function handleOnChange(e) {
+    e.preventDefault()
     setData({
       ...data,
       [e.target.name]: e.target.value,
@@ -41,8 +47,33 @@ export default function Login () {
     });
 
     if (info.error) return alert(info.error.message);
-    return history.push("/home");
+
+    let hasTwoStep  = await supabase
+    .from('UserAnchor')
+    .select('*')
+    .eq("id_user", info.user.id);
+    if(hasTwoStep.data[0]?.hasTwoFA){
+      setLogin(false)
+      verifyTwoStep(hasTwoStep.data[0].mobileNumber)
+    }else{
+      history.push('/home')
+    }
+    
   };
+  
+  let session = supabase.auth.session();
+  
+
+
+  const verifyTwoStep = async (number)=>{
+    const random= Math.floor(Math.random()*1000000)
+    setData({...data, code: random})
+    try{
+      sendCode(random, number)
+    }catch (err){
+      console.log(err)
+    }
+  }
 
   const singUpRoute = () => {
     history.push("/register");
@@ -52,7 +83,6 @@ export default function Login () {
     history.push("/recoverPassword");
   };
 
-  let session = supabase.auth.session();
 
   const handleOAuthLogin = async (provider) => {
     let info = await supabase.auth.signIn({ provider });
@@ -62,9 +92,18 @@ export default function Login () {
     }
   };
 
+  
+  
+  useEffect(()=>{
+    if(data.code === Number(data.codeVerification)){
+      setLogin(true)
+    }
+     // eslint-disable-next-line
+  }, [data.codeVerification])
+
   return (
     <Container maxWidth="sm" className={classes.loginContainer}>
-      {session ? history.push("/home") : null}
+      {session && login ? history.push("/home") : null}
       <Card elevation={3} className={classes.loginCard}>  
         <Grid container alignContent="center" >
           <Grid item xs={12} >
@@ -89,6 +128,17 @@ export default function Login () {
                   onChange={handleOnChange}
                   color="secondary"
                 />
+                {data.code === ""? null :(
+                <TextField
+                required
+                label="Insert Code"
+                name="codeVerification"
+                type="text"
+                color={data.code == data.codeVerification? 'primary': 'secondary'}
+                value={data.codeVerification}
+                onChange={handleOnChange}
+                />
+                )}
 
                 {/* this button goes first for the submit function when pressing enter */}
                 <ButtonGroup className={classes.loginGridItem}>

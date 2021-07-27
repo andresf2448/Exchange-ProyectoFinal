@@ -60,10 +60,28 @@ const useStyles = makeStyles(theme => ({
   },
   adminContainer: {
     backgroundColor: "#1F1F1F",
+    minHeight:"100vh"
   },
   adminCard: {
     backgroundColor: theme.palette.secondary.background,
-    margin: "10px"
+    marginTop: 15,
+    marginLeft: 15,
+    marginRight: 15,
+    marginBottom: 5,
+    padding: 10
+  },
+  adminCardSearch: {
+    display: "flex",
+    justifyContent: "center",
+  },
+  adminTableContainer: {
+    maxHeight: "70vh"
+  },
+  adminTable:{
+    backgroundColor: theme.palette.primary.light
+  },
+  adminTableHeadCell: {
+    backgroundColor: theme.palette.primary.dark
   },
   cryptoCurrency: {
     width: '96%',
