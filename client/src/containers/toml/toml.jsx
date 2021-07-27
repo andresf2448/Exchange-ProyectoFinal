@@ -6,7 +6,7 @@ const Toml = () => {
   const [toml, setToml] = useState();
 
   useEffect(() => {
-    axios.get("http://localhost:3001/stellar.toml").then((res) => {
+    axios.get("/stellar.toml").then((res) => {
       setToml(res.data);
     });
   }, []);

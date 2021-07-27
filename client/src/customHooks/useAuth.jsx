@@ -49,7 +49,7 @@ const startChallenge = async ( authEndpoint, serverPublicKey, publicKey ) => {
     authURL.searchParams.append(key, value);
   });
 
-  const result = await axios.get(`http://localhost:3001/authentication?clientAccountID=${publicKey}&webDomain=${webDomain}&webAuthDomain=${webAuthDomain}`);
+  const result = await axios.get(`/authentication?clientAccountID=${publicKey}&webDomain=${webDomain}&webAuthDomain=${webAuthDomain}`);
   // const result = await axios.get(authEndpoint, {publicKey: publicKey});
   // const result = await axios.get(authURL.toString());
   

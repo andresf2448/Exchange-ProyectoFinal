@@ -74,7 +74,7 @@ export const LoadId = () => {
     data.append("file", file);
     data.append("identificacion", idNumber);
 
-    const response = await axios.post("http://localhost:3001/upload", data);
+    const response = await axios.post("/upload", data);
  
     if (response.data === true) {
       await supabase.from("IdentityDocument").insert([

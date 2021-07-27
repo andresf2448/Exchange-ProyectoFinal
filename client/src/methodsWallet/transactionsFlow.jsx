@@ -86,7 +86,7 @@ export default function TransactionsPopup() {
   
   const createTransaction = async (event) => {
     event.preventDefault()
-    let transactionBack = await axios.post('http://localhost:3001/transactions/deposit/interactive', {
+    let transactionBack = await axios.post('/transactions/deposit/interactive', {
       asset_code: 'usdc',
       account: id,
       

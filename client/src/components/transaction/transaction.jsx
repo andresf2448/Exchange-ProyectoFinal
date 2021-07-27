@@ -65,7 +65,7 @@ export default function Transaction() {
         alert("User is banned");
       } else {
         let sourceSecretKey = await takeSecretKey();
-        let succes = await axios.post("http://localhost:3001/payment", {
+        let succes = await axios.post("/payment", {
           sourceSecretKey: sourceSecretKey,
           receiverPublicKey: receiverPublicKey,
           amount: input.amount,
