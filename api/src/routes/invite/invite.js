@@ -20,7 +20,7 @@ router.post("/", (req, res) => {
     from: "rocketexchange1@gmail.com",
     to: `${inviteEmail}`,
     subject: "subscription invitation",
-    html: `${sendEmail} is inviting you to subscribe to RocketExChange ${name.link(Url)}`,
+    html: `${sendEmail} is inviting you to subscribe to ${name.link(Url)}`,
   };
 
   transporter.sendMail(mailOptions, function (error, info) {
