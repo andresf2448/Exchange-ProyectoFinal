@@ -13,7 +13,7 @@ export default function AboutCard({ name, img, contact }) {
             <Card className='front' style={{ width: '200px', height:'260px',  }} sm={2}>
                 <CardContent >
                     <CardMedia
-                        style={{ borderRadius: '20px' }}
+                        style={{ width:'200px', marginLeft:'-15px',marginBottom:'20px',marginTop:'-16px' }}
                         component="img"
                         alt="Image"
                         height="140"

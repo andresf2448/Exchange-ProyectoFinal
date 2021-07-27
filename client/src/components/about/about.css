@@ -28,7 +28,7 @@
   }
 .front {
     /* background: whitesmoke; */
-    background-color: rgb(250, 125, 23);
+    background-color: #fff8dc;
     box-shadow: 10px 10px 139px 29px rgba(0,0,0,0.75) inset;
 -webkit-box-shadow: 10px 10px 139px 29px rgba(0,0,0,0.75) inset;
 -moz-box-shadow: 10px 10px 139px 29px rgba(0,0,0,0.75) inset;
