@@ -197,23 +197,24 @@ export const LoadId = () => {
 
   return (
     <Container>
-      <Typography variant="h4" gutterBottom>
-        Update Identification Document
-      </Typography>
+      <Grid container>
+        <Grid item sm={12} className={classes.loadingProfileGridItem}>
+        <Typography variant="h4" gutterBottom>
+          Update Identification Document
+        </Typography>
+        </Grid>
       {hasProfile ? (
-        <Container>
-          <Box>
+        <Grid item xs={12}>
+          <FormControl>
             <Typography variant="h6">ID type: {idType}</Typography>
             <Typography variant="h6">ID number: {idNumber}</Typography>
             <Typography variant="h6">Birth date: {birthDate}</Typography>
             <Typography variant="h6">Nationality: {nationality}</Typography>
             <Typography variant="h6">Issue date: {idIssueDate}</Typography>
-            <Typography variant="h6">
-              Expiration date{idExpirationDate}
-            </Typography>
-          </Box>
-          <Button onClick={() => handleEdit()}>Edit</Button>
-        </Container>
+            <Typography variant="h6">Expiration date{idExpirationDate}</Typography>
+            <Button onClick={() => handleEdit()}>Edit</Button>
+          </FormControl>
+        </Grid>
       ) : (
         <form onSubmit={updateProfile}>
           <Grid container>
@@ -291,6 +292,27 @@ export const LoadId = () => {
                   shrink: true,
                 }}
               />
+              {/* <label>Please enter a scanned image in black and white .jpeg or .png format with the highest possible resolution. Verify that the background where the number is located is as white as possible and that in the total image only the content of the card is visible.</label>
+              <TextField
+                name="file"
+                type="file"
+                onChange={(event) => {
+                  const file = event.target.files[0];
+                  setFile(file);
+                }}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              /> */}
+            </Grid>
+
+            <Grid
+              container
+              item
+              sm={6}
+              direction="column"
+              alignContent="space-around"
+            >
               <label>Please enter a scanned image in black and white .jpeg or .png format with the highest possible resolution. Verify that the background where the number is located is as white as possible and that in the total image only the content of the card is visible.</label>
               <TextField
                 name="file"
@@ -303,15 +325,6 @@ export const LoadId = () => {
                   shrink: true,
                 }}
               />
-            </Grid>
-
-            <Grid
-              container
-              item
-              sm={6}
-              direction="column"
-              alignContent="space-around"
-            >
               {isEdit ? (
                 <ButtonGroup>
                   <Button
@@ -347,6 +360,7 @@ export const LoadId = () => {
           </Grid>
         </form>
       )}
+      </Grid>
     </Container>
   );
 };
