@@ -8,9 +8,8 @@ export const ShowUserData = () => {
   let { email } = user;
 
   return (
-      <Grid container style={{display: 'flex'}}>
+      <Grid container style={{display: 'flex', paddingLeft: '1%'}}>
         <Typography>{email}</Typography>
       </Grid>
-
   );
 };
