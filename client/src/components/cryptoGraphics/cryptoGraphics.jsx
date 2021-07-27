@@ -176,7 +176,14 @@ export const CryptoGraphics = () => {
       };
       return;
     } else {
-      return alert("no connection");
+      return Swal.fire({
+        title: 'Sorry!',
+        text: "No connection",
+        icon: 'error',
+        confirmButtonText: 'Cool',
+        background: '#1f1f1f',
+        confirmButtonColor:'rgb(158, 158, 158)',
+      });
     }
   }
 

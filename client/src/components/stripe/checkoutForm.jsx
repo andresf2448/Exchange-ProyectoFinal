@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { supabase } from "supabase/supabase";
 import { Button } from "@material-ui/core";
 import "./stripeCard.css";
+import Swal from 'sweetalert2';
 
 import CardForm from "./stripeCard";
 import { deleteClientSecret } from "redux/actions/actions";
@@ -39,7 +40,14 @@ export default function CheckoutForm({amount, currency}) {
         .select("email")
         .eq("id_user", session.user.id);
 
-      if (error) return alert(error.message);
+      if (error) return Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Cool',
+        background: '#1f1f1f',
+        confirmButtonColor:'rgb(158, 158, 158)',
+      });
 
       const result = await stripe.confirmCardPayment(clientSecret, {
         payment_method: {

@@ -22,7 +22,7 @@ export default function ChangeTrust() {
       .select("secret_key")
       .eq("id_user", session.user.id);
     setSecretKey(secretKey[0]?.secret_key);
-    setPublicKey(publicKey[0].public_key);
+    setPublicKey(publicKey[0]?.public_key);
     const assetFilter = asset.filter((asset) => asset.code !== "XLM");
     return setAssets(assetFilter);
   };

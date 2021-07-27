@@ -2,7 +2,7 @@ import React, { Suspense, lazy } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { CardUser } from "components/cardUser/cardUser";
 import "./App.scss";
-import { Typography, Grid }from "@material-ui/core";
+import { Typography, Grid } from "@material-ui/core";
 
 const Login = lazy(() => import("components/login/login"));
 const Register = lazy(() => import("components/register/register"));
@@ -19,17 +19,19 @@ const RestorePassword = lazy(() =>
 const Toml = lazy(() => import("containers/toml/toml"));
 const TransactionsPopup = lazy(() => import("methodsWallet/transactionsFlow"));
 const InitDeposit = lazy(() => import("./methodsWallet/deposit/initDeposit"));
-const Landing = lazy(() => import('containers/landing/landing'))
+const Landing = lazy(() => import("containers/landing/landing"));
 
 function App() {
   return (
     <Router>
       <div className="App">
-        <Suspense fallback={
-        <Grid>
-          <Typography variant="h4">Loading...</Typography>
-        </Grid>
-        }>
+        <Suspense
+          fallback={
+            <Grid>
+              <Typography variant="h4">Loading...</Typography>
+            </Grid>
+          }
+        >
           <Switch>
             <Route exact path="/" component={Landing} />
             <Route path="/login" component={Login} />
@@ -46,7 +48,6 @@ function App() {
             <Route path="/detailsUsers" component={CardUser} />
           </Switch>
         </Suspense>
-
       </div>
     </Router>
   );

@@ -14,6 +14,8 @@ import {
   MenuItem,
 } from "@material-ui/core";
 import { validate } from "./validate";
+import Swal from 'sweetalert2'
+
 import useStyles from 'styles';
 
 export const LoadId = () => {
@@ -94,14 +96,34 @@ export const LoadId = () => {
         .from("RegisteredUsers")
         .update({ hasProfileDniDocument: "true" })
         .match({ id_user });
-
-      alert("your data has been successfully verified");
+        Swal.fire({
+          title: 'Success!',
+          text: "your data has been successfully verified",
+          icon: 'success',
+          confirmButtonText: 'Cool',
+          background: '#1f1f1f',
+          confirmButtonColor:'rgb(158, 158, 158)',
+        });
       setHasProfile(true);
     }else if(contador < 2){
-      alert("Your identification has not been successfully validated, please enter a new image with the highest possible resolution and verify that the number entered is correct.");
+      Swal.fire({
+        title: 'Something went wrong!',
+        text: "Your identification has not been successfully validated, please enter a new image with the highest possible resolution and verify that the number entered is correct.",
+        icon: 'error',
+        confirmButtonText: 'Booo',
+        background: '#1f1f1f',
+        confirmButtonColor:'rgb(158, 158, 158)',
+      });
       setContador(contador + 1);
     }else{
-      alert("The validation algorithm did not recognize your identity, please contact rocketexchange1@gmail.com for validation with an administrator.")
+      Swal.fire({
+        title: 'Something went wrong!',
+        text: "The validation algorithm did not recognize your identity, please contact rocketexchange1@gmail.com for validation with an administrator.",
+        icon: 'error',
+        confirmButtonText: 'Booo',
+        background: '#1f1f1f',
+        confirmButtonColor:'rgb(158, 158, 158)',
+      });
     }
   }
 

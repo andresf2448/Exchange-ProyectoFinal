@@ -1,6 +1,6 @@
 import React from "react";
 import { useHistory } from "react-router";
-
+import Swal from 'sweetalert2'
 import useStyles from "styles.js";
 
 import {
@@ -32,8 +32,22 @@ export default function RecoverPassword() {
 
     await supabase.auth.api.resetPasswordForEmail(email).then((response) => {
       const { error } = response;
-      if (error) return alert(error.message);
-      alert("Check your email");
+      if (error) return Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Cool',
+        background: '#1f1f1f',
+        confirmButtonColor:'rgb(158, 158, 158)',
+      });
+
+      Swal.fire({
+        text: 'Check your email',
+        icon: 'success',
+        confirmButtonText: 'Cool',
+        background: '#1f1f1f',
+        confirmButtonColor:'rgb(158, 158, 158)',
+      })
     });
     await supabase.auth.signOut();
     history.push("/");
