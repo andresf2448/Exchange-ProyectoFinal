@@ -52,7 +52,7 @@ export default function Login () {
     .from('UserAnchor')
     .select('*')
     .eq("id_user", info.user.id);
-    if(hasTwoStep.data[0].hasTwoFA){
+    if(hasTwoStep.data[0]?.hasTwoFA){
       setLogin(false)
       verifyTwoStep(hasTwoStep.data[0].mobileNumber)
     }else{
