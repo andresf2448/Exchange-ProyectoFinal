@@ -2,8 +2,9 @@ const http = require("http");
 const router = require("express").Router();
 const server = http.createServer(router);
 
-require("dotenv").config();
-const TOKEN = process.env.TWITTER_BEARER_TOKEN;
+/* require("dotenv").config();
+const TOKEN = process.env.TWITTER_BEARER_TOKEN; */
+const TOKEN = require('./Token');
 
 const socketIo = require("socket.io");
 const io = socketIo(server);
