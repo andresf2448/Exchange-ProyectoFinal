@@ -3,6 +3,8 @@ import { useHistory } from "react-router";
 import axios from "axios";
 import { supabase } from "supabase/supabase";
 import useStyles from "styles";
+import Swal from 'sweetalert2'
+
 
 import {
   Button,
@@ -124,7 +126,15 @@ export const AdministratorUser = () => {
 
   let resetPassword = async (email) => {
     let emailUser = email;
-    alert(` Email sent to ${emailUser}`);
+    Swal.fire({
+      title: 'Email sent!',
+      text: `to ${emailUser}`,
+      icon: 'success',
+      confirmButtonText: 'Cool',
+      background: '#1f1f1f',
+      confirmButtonColor:'rgb(158, 158, 158)',
+
+    });
 
     await supabase
       .from("RegisteredUsers")
@@ -155,7 +165,13 @@ export const AdministratorUser = () => {
     let data = { receivers: [...emails], message, title };
 
     if (emails.length > 0 && message !== "" && title !== "") {
-      alert("Success");
+      Swal.fire({
+        title: 'Success!',
+        icon: 'success',
+        confirmButtonText: 'Cool',
+        background: '#1f1f1f',
+        confirmButtonColor:'rgb(158, 158, 158)',
+      });
       setStateMessage(false);
       setEmails([]);
       await axios({
@@ -168,8 +184,14 @@ export const AdministratorUser = () => {
 
       return history.push("/home");
     }
-
-    alert("Please add one email or add one message");
+    Swal.fire({
+      title: 'Ehem!',
+      text: "Please add one email or add one message",
+      icon: 'warning',
+      confirmButtonText: 'Sure',
+      background: '#1f1f1f',
+      confirmButtonColor:'rgb(158, 158, 158)',
+    });
   };
 
   let cancelMessage = () => {
@@ -208,9 +230,22 @@ export const AdministratorUser = () => {
         .from("commsion_server")
         .insert([{ id_user: id, percentage: newComision.current.value }]);
       setCommision(!commision);
-      return alert("Sucess");
+      return Swal.fire({
+        title: 'Success!',
+        icon: 'success',
+        confirmButtonText: 'Cool',
+        background: '#1f1f1f',
+        confirmButtonColor:'rgb(158, 158, 158)',
+      });
     }
-    alert('Complet or Write "CONFIRM" correctly');
+    Swal.fire({
+      title: 'Ehem!',
+      text: 'Complet or Write "CONFIRM" correctly',
+      icon: 'warning',
+      confirmButtonText: 'Sorry',
+      background: '#1f1f1f',
+      confirmButtonColor:'rgb(158, 158, 158)',
+    });
   };
 
   let actualcomision = async () => {
@@ -221,7 +256,14 @@ export const AdministratorUser = () => {
     let ultimo = commsion_server.pop();
     let { percentage, date } = ultimo;
 
-    if (error) alert(error);
+    if (error) Swal.fire({
+      title: 'Error!',
+      text: error,
+      icon: 'error',
+      confirmButtonText: 'Ups',
+      background: '#1f1f1f',
+      confirmButtonColor:'rgb(158, 158, 158)',
+    });
     setStatusComision({
       porcentaje: percentage,
       fecha: date,

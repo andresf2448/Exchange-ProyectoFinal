@@ -2,6 +2,8 @@ import { Container, Grid, TextField, Button, Typography } from "@material-ui/cor
 import { useRef, useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { supabase } from "supabase/supabase";
+import Swal from 'sweetalert2'
+
 
 export default function RestorePassword() {
     const session = supabase.auth.session();
@@ -37,8 +39,22 @@ export default function RestorePassword() {
                 .update({ resetPassword: "false" })
                 .match({ id_user });
             
-            if (error) alert(error.message);
-            else alert("Your password has been updated.");
+            if (error) Swal.fire({
+                title: 'Error!',
+                text: error.message,
+                icon: 'error',
+                confirmButtonText: 'Cool',
+                background: '#1f1f1f',
+                confirmButtonColor:'rgb(158, 158, 158)',
+              });
+            else Swal.fire({
+                title: 'Success!',
+                text: "Your password has been updated.",
+                icon: 'error',
+                confirmButtonText: 'Cool',
+                background: '#1f1f1f',
+                confirmButtonColor:'rgb(158, 158, 158)',
+              });
             history.push("/");
         }
     };
