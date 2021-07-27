@@ -1,4 +1,4 @@
-import { Container, Grid, TextField, Button, Typography } from "@material-ui/core";
+import { Container, Grid, TextField, Button, Typography, FormControl } from "@material-ui/core";
 import { useRef, useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { supabase } from "supabase/supabase";
@@ -47,21 +47,34 @@ export default function RestorePassword() {
         <Container>
             {hasResetPassword ?
                 <Grid container direction="column" justifyContent="center" alignItems="center">
+                    <Typography variant="h4">Write your new password</Typography>
+                    <FormControl margin="normal">
+
                     <TextField
                         type="password"
                         ref={newPassword}
                         placeholder="Your new password"
-                    />
+                        style={{paddingBottom: 10}}
+                        />
                     <TextField
                         type="password"
                         ref={validatePassword}
                         placeholder="Confirm your password"
-                    />
-                    <Button color="primary" variant="contained" onClick={submit}>Send</Button>
+                        style={{paddingBottom: 10}}
+                        />
+                    <Button 
+                        color="secondary"
+                        variant="contained" 
+                        onClick={submit} 
+                        style={{paddingBottom: 10}}
+                        >
+                        Send
+                    </Button>
+                    </FormControl>
                 </Grid>
                 :
                 <Container>
-                    <Typography variant="h4">
+                    <Typography variant="h4" align="center">
                         No pediste cambio
                     </Typography>
                 </Container>
