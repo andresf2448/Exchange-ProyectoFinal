@@ -5,6 +5,7 @@ const { pass } = process.env;
 
 router.post("/", (req, res) => {
   const {sendEmail, inviteEmail} = req.body;
+  const webUrl = "https://rocket-exchange.vercel.app/";
 
   var transporter = nodemailer.createTransport({
     service: "gmail",
@@ -18,7 +19,7 @@ router.post("/", (req, res) => {
     from: "rocketexchange1@gmail.com",
     to: `${inviteEmail}`,
     subject: "subscription invitation",
-    html: `${sendEmail} is inviting you to subscribe to RocketExChange (pagina en deploy)`,
+    html: `${sendEmail} is inviting you to subscribe to RocketExChange ${webUrl}`,
   };
 
   transporter.sendMail(mailOptions, function (error, info) {
