@@ -106,6 +106,7 @@ io.on("connection", async () => {
   streamTweets(io);
 });
 console.log("5 intento");
+console.log(TWITTER_BEARER_TOKEN);
 server.listen(3005, () => {
   console.log("Listening on 3005 (twitter stream route)");
 });
