@@ -33,11 +33,12 @@ export default function AboutCard({ name, img, contact }) {
                     <a href={contact}>
                     <CardMedia
                         className='githubLink'
-                        style={{borderRadius:'20px'}}
+                        style={{borderRadius:'15px'}}
                         component="img"
                         alt="Image"
                         height="140"
-                        image="https://image.flaticon.com/icons/png/512/733/733553.png"
+                        // image="https://image.flaticon.com/icons/png/512/733/733553.png" GITHUB
+                        image='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRSLqqo7eIN4iIQbGU3C1fYISY3fE0aDkmAaA&usqp=CAU'
                         title="Team Member"
                     />
                     </a>
