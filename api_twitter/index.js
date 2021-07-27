@@ -8,7 +8,8 @@ const socketIo = require("socket.io");
 const io = socketIo(server);
 
 const needle = require("needle");
-
+const { SlowBuffer } = require("buffer");
+console.log("1 intento");
 router.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
   res.header("Access-Control-Allow-Credentials", "true");
@@ -43,7 +44,7 @@ async function getRules() {
   });
   return response.body;
 }
-
+console.log("2 intento");
 // Set stream rules (sendind and deleting rules its gonna be a post request)
 async function setRules() {
   const data = {
@@ -57,7 +58,7 @@ async function setRules() {
   });
   return response.body;
 }
-
+console.log("3 intento");
 // Delete stream Rules (Because if i change the rules values i have to delete it)
 async function deleteRules(rules) {
   if (!Array.isArray(rules.data)) {
@@ -91,7 +92,7 @@ function streamTweets(socket) {
     } catch (error) {}
   });
 }
-
+console.log("4 intento");
 io.on("connection", async () => {
   let currentRules;
   try {
@@ -104,7 +105,7 @@ io.on("connection", async () => {
   }
   streamTweets(io);
 });
-
+console.log("5 intento");
 server.listen(3005, () => {
   console.log("Listening on 3005 (twitter stream route)");
 });
