@@ -1,18 +1,16 @@
-import { AppBar, Tabs, Tab, Grid, Typography } from "@material-ui/core";
+import { AppBar, Tabs, Tab } from "@material-ui/core";
 import { useState, useEffect } from "react";
 import { useHistory } from "react-router";
-import {supabase} from 'supabase/supabase';
+import { supabase } from 'supabase/supabase';
 import HomeIcon from '@material-ui/icons/Home';
 import { HomeGrid } from 'containers/homeGrid/homeGrid';
 import WalletContainer from 'containers/walletContainer/walletContainer';
 import { Settings } from 'containers/settings/settings';
 import { ShowUserData } from 'components/showUserData/showUserData';
-import  Faq  from 'components/faq/faq';
 import { AdministratorUser } from "components/administratorUser/admistratorUser";
 import Trade from "containers/trade/trade";
-import useStyles from 'styles';
-import DropdownTab from 'components/dropdownTab/dropdownTab';
 import { InviteUser } from "components/invite/invite";
+import FaqAbout from "containers/faqAbout/faqAbout";
 
 
 
@@ -21,8 +19,6 @@ export const NavBar = () => {
   const [value, setValue] = useState(0);
   const [admin, setAdmin] = useState(false);
   const session = supabase.auth.session();
-  const classes = useStyles();
-
 
   const handleChange = (event, newValue) => {
     event.preventDefault();
@@ -45,41 +41,34 @@ export const NavBar = () => {
     getRole();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-    const signOut = async () => {
-        await supabase.auth.signOut();
-        history.push("/");
-    };
-    return(
-        <Grid container >
-              <Grid item xs={2} >
-                <Typography  className={classes.appLogo}>
-                    RocketExchange
-                </Typography>
-              </Grid>
-            <Grid item xs={10}> 
-              <AppBar position="static" >
-                      <Tabs value={value} variant='scrollable' onChange={handleChange}>
-                          <Tab label={<HomeIcon/>} />
-                          <Tab label="Wallet" />
-                          <Tab label="Trade"/>
-                          <Tab label="Settings" />
-                          <DropdownTab/>
-                          <Tab label="Logout" onClick={signOut}/>
-                          {admin && <Tab label="Admin" />}
-                          <Tab label="Invite"/>
-                          <Tab label={<ShowUserData/>}/>
-                      </Tabs>
-                </AppBar>
-              </Grid>
-          
-            {value === 0 && <HomeGrid/>}
-            {value === 1 && <WalletContainer/>}
-            {value === 2 && <Trade/>}
-            {value === 3 && <Settings/>}  
-            {value === 4 && <Faq/>}   
-            {value === 6 && <AdministratorUser />}
-            {value === 7 && <InviteUser />}
-      </Grid>  
-    )    
+  const signOut = async () => {
+    await supabase.auth.signOut();
+    history.push("/");
+  };
+  return (
+    <>
+      <AppBar position="static" >
+        <Tabs value={value} variant='scrollable' onChange={handleChange}>
+          <Tab label={<HomeIcon />} />
+          <Tab label="Wallet" />
+          <Tab label="Trade" />
+          <Tab label="Settings" />
+          <Tab label='Others' />
+          <Tab label="Invite" />
+          {admin && <Tab label="Admin" />}
+          <Tab label="Logout" onClick={signOut} />
+        </Tabs>
+      </AppBar>
+
+      {session ? <ShowUserData /> : null}
+      {value === 0 && <HomeGrid />}
+      {value === 1 && <WalletContainer />}
+      {value === 2 && <Trade />}
+      {value === 3 && <Settings />}
+      {value === 4 && <FaqAbout />}
+      {value === 5 && <InviteUser />}
+      {admin && value === 6 && <AdministratorUser />}
+
+    </>
+  )
 }
-  

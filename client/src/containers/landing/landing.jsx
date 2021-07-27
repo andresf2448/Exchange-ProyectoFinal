@@ -1,5 +1,4 @@
 import { Container, Grid, Typography, Button, Divider, Box, Card } from "@material-ui/core";
-// import {CryptoGraphics} from 'components/cryptoGraphics/cryptoGraphics';
 import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';
 import SecurityIcon from '@material-ui/icons/Security';
 import stellarIcon from './stellar.svg';
@@ -8,12 +7,20 @@ import Faq from 'components/faq/faq';
 import useStyles from 'styles';
 import './landing.css';
 import { Link } from 'react-scroll';
+import { supabase } from "supabase/supabase";
+import { useHistory } from "react-router";
 
 const Landing = () => {
     const classes = useStyles();
+    const history = useHistory();
+
+    let session = supabase.auth.session();
+
 
     return (
         <Container  className='landing'>
+        {session ? history.push("/home") : null}
+
             <Grid container xs={12} className={classes.landingContainers} spacing={2}>
                 <Grid item xs={3}>
                     <Typography variant="h4"> 
@@ -72,8 +79,12 @@ const Landing = () => {
                     </Typography>
                 </Grid>
                 <Grid container xs={3} justifyContent="space-around">
-                    <Button  color="secundary" variant="contained" justifyContent="left">Crear cuenta</Button> 
-                    <Button color="primary" variant="contained" justifyContent="left" style={{color:'#272727b3', backgroundColor: '#ffd523'}}>ingresar</Button>
+                    <Button color="secundary" variant="contained" justifyContent="left" href='/register'>
+                        REGISTER
+                    </Button> 
+                    <Button color="primary" variant="contained" justifyContent="left" href='/login' style={{color:'#000', backgroundColor: '#ffd523'}}>
+                        LOGIN
+                    </Button>
                 </Grid>
             </Grid>
 
@@ -90,7 +101,7 @@ const Landing = () => {
                     <Box className={classes.presentationBox}  letterSpacing={4} spacing={6} alignItems="center"> 
                     <Typography item xs={4} variant="h5">
                         Trades here are peer-to-peer!
-                        On StellarX <img style={{width:'25px'}} className="cryptoIcons" src={stellarIcon} alt="no img"/> you trade directly with other traders. There’s no one in the middle. You always have sole control of your assets.
+                        On StellarX you trade directly with other traders. There’s no one in the middle. You always have sole control of your assets.
                     </Typography>
                     </Box>
                 </Grid>
@@ -98,12 +109,15 @@ const Landing = () => {
 
 
             <div className="register">
-                <Grid container xs={12} className={classes.landingContainers} spacing={6} style={{padding:'8%'}}>
-                    <Typography item xs={12} variant="h4">
-                        don't let time go by, start trading now!
+                <Grid container={true} xs={12} className={classes.landingRegister} spacing={6} style={{padding:'8%'}}>
+                    <Typography item xs={8} variant="h4">
+                        Don't let time go by, start trading now!
                     </Typography>
-                    <Grid item xs={12}>
-                        <Button className='registerButton' style={{backgroundColor: '#ffd523', color: '#272727b3'}} variant="contained">Register!</Button> 
+                    <Box item xs={4}>
+                        Logo RocketXchange
+                    </Box>
+                    <Grid item xs={4} alignItems='center'>
+                        <Button className='registerButton'  href='/register' style={{ padding:'10px', width:'60%', backgroundColor: '#ffd523', color: '#272727b3', letterSpacing:'3px'}} variant="contained">REGISTER!</Button> 
                     </Grid>
                 </Grid>
             </div>
@@ -121,37 +135,33 @@ const Landing = () => {
                 </Grid>
             </div>
 
-
             <div className="rocketFeatures">
                 <Grid>
-                    <Typography variant="h4" className='rocketFeaturesTypography'> ¿Qué podés hacer con RocketExChange? </Typography>
+                    <Typography variant="h4" className='rocketFeaturesTypography'> What can you do with RocketExChange? </Typography>
                 </Grid>
-                <Grid container xs={12} justifyContent="space-around" >
-                        <Card item xs={6} className={classes.landingCard}>
+                <Grid container xs={12} justifyContent="space-evenly" className='aboutGrid'>
+                        <Card item xs={3} className={classes.landingCards}>
                             <MonetizationOnIcon fontSize="large"/>
-                            <Typography>Envía y recibí dinero de forma rápida y segura</Typography>
+                            <Typography>The better way to trade directly with other traders. There’s no one in the middle!</Typography>
                         </Card>
-                        <Card item xs={6} className={classes.landingCard}>
+                        <Card item xs={3} className={classes.landingCards}>
                             <SecurityIcon fontSize="large"/>
-                            <Typography>Adquirí tus cryptomonedas con seguridad</Typography>
+                            <Typography> Acquire your cryptocurrencies safely</Typography>
                         </Card>
-                        <Card item xs={6} className={classes.landingCard}>
+                        <Card item xs={3} className={classes.landingCards}>
                             <img className="cryptoIcons" src={stellarIcon} alt="no img"/>
-                            <Typography>Operá dentro de la red Stellar</Typography>
+                            <Typography>Deposit and withdraw, fiat and crypto</Typography>
                         </Card>
-                        <Card item xs={6} className={classes.landingCard}>
+                        <Card item xs={3} className={classes.landingCards}>
                             <img className="cryptoIcons" src={balance} alt="no img"/>
-                            <Typography >Utiliza nuestra plataforma para ver tus balances</Typography>
+                            <Typography >Use our platform to see your balances</Typography>
                         </Card>
                 </Grid>
             </div>
 
             <div className="frequencyQuestion">
                 <Grid container xs={12} className={classes.landingContainers} >
-                    <Grid item xs= {6} >
-                        <Typography variant="h4" > Preguntas frecuentes</Typography>
-                    </Grid>
-                    <Grid item xs={6} >
+                    <Grid item xs={12} >
                         <Faq />
                     </Grid>
                 </Grid>

@@ -1,10 +1,6 @@
 import { Container, Grid, Typography } from "@material-ui/core";
-import { CryptoGraphics } from "components/cryptoGraphics/cryptoGraphics";
-import { Twitter } from 'components/twitter/twitter';
-
 
 export const HomeGrid = () => {
-
   return (
     <Container maxWidth="lg">
       <Grid
@@ -29,9 +25,11 @@ export const HomeGrid = () => {
             className="home-container_boxLeft--bottom"
             spacing={2}
           >
-            <Typography variant='h5'>cryptocurrencies and blockchain tweets</Typography>
+            <Typography variant="h5">
+              cryptocurrencies and blockchain tweets
+            </Typography>
             <Grid item xs={12}>
-              <Twitter />
+              {/* <Twitter /> */}
             </Grid>
           </Grid>
         </Grid>

@@ -60,10 +60,28 @@ const useStyles = makeStyles(theme => ({
   },
   adminContainer: {
     backgroundColor: "#1F1F1F",
+    minHeight:"100vh"
   },
   adminCard: {
     backgroundColor: theme.palette.secondary.background,
-    margin: "10px"
+    marginTop: 15,
+    marginLeft: 15,
+    marginRight: 15,
+    marginBottom: 5,
+    padding: 10
+  },
+  adminCardSearch: {
+    display: "flex",
+    justifyContent: "center",
+  },
+  adminTableContainer: {
+    maxHeight: "70vh"
+  },
+  adminTable:{
+    backgroundColor: theme.palette.primary.light
+  },
+  adminTableHeadCell: {
+    backgroundColor: theme.palette.primary.dark
   },
   cryptoCurrency: {
     display: 'flex',
@@ -106,14 +124,37 @@ const useStyles = makeStyles(theme => ({
     display: "flex",
     alignItems: "center",
   },
+  landingRegister: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-evenly"
+  },
+
   landingCard: {
     margin: '3%',
-    height: 150,
-    width: 180,
-    paddingTop: 20,
+    height: 145,
+    width: 200,
+    padding: 20,
     textAlign: 'center',
-    letterSpacing: 2
+    letterSpacing: 3,
   },
+  landingCards: {
+    margin: '3%',
+    height: 145,
+    width: 200,
+    padding: 20,
+    textAlign: 'center',
+    letterSpacing: 3,
+    color: theme.palette.primary.contrastText,
+    backgroundColor: theme.palette.primary.main,
+    transition: 'all .2s linear',
+    
+    '&:hover': {
+      background: "#ffd523",
+      color: '#000',
+  }},
+
+
   presentationBox: {
     margin: "3%",
   },
