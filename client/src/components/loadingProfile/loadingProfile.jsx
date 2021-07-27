@@ -206,33 +206,39 @@ export const LoadingProfile = () => {
 
   return (
     <Container >
-      <Grid container > 
+      <Grid container> 
         <Grid item xs={12} className={classes.loadingProfileGridItem}>
           <Typography variant="h4" gutterBottom>
             Update Information
           </Typography>
         </Grid>
         {hasProfile ? (
-          <Grid item xs={12} >
-              <Typography variant='h6' gutterBottom align="center">First name: {firstName}</Typography>
-              <Typography variant='h6' gutterBottom align="center">Last name: {lastName}</Typography>
-              <Typography variant='h6' gutterBottom align="center">Additional name: {additionalName}</Typography>
-              <Typography variant='h6' gutterBottom align="center">Mobile Number: {mobileNumber}</Typography>
-              <Typography variant='h6' gutterBottom align="center">Occupation: {occupation}</Typography>
-              <Typography variant='h6' gutterBottom align="center">Gender: {gender}</Typography>
-              <Typography variant='h6' gutterBottom align="center">Two Step Verification: {hasTwoFA? 'Yes': 'No'}</Typography>
-            <Button onClick={() => handleEdit()} color="primary" variant="contained" className={classes.loadingProfileGridItem}>Edit</Button>
+          <Grid item xs={12} className={classes.loadingProfileGridItem} >
+            <FormControl>
+              <Typography variant='h6' gutterBottom >First name: {firstName}</Typography>
+              <Typography variant='h6' gutterBottom >Last name: {lastName}</Typography>
+              <Typography variant='h6' gutterBottom >Additional name: {additionalName}</Typography>
+              <Typography variant='h6' gutterBottom >Mobile Number: {mobileNumber}</Typography>
+              <Typography variant='h6' gutterBottom >Occupation: {occupation}</Typography>
+              <Typography variant='h6' gutterBottom >Gender: {gender}</Typography>
+              <Typography variant='h6' gutterBottom >Two Step Verification: {hasTwoFA? 'Yes': 'No'}</Typography>
+              <Button onClick={() => handleEdit()} color="primary" variant="contained" >Edit</Button>
+            </FormControl>
           </Grid>
         ) : (
           <form onSubmit={updateProfile}>
             <Grid container>
+              <Grid item sm={2} xs={0}>
+
+              </Grid>
               <Grid
                 item
-                sm={6}
-                xs={6}
+                sm={4}
+                xs={12}
                 direction="column"
                 className={classes.loadingProfileGridItem}
                 >
+                <FormControl>
                 <TextField
                   label={error.firstName === "" ? "First Name" : error.firstName}
                   required
@@ -270,7 +276,7 @@ export const LoadingProfile = () => {
                     onChange={handleOnChange}
                     /> 
                 </Tooltip>
-                  <Button onClick={handleVerifyClick} disabled={!mobileNumber}> Verify Number</Button>
+                  <Button onClick={handleVerifyClick} disabled={!mobileNumber} variant="contained"> Verify Number</Button>
                 {data.code === ""? null: (
                   <TextField
                   label={error.codeVerification === "" ? "Check your whatsapp" : error.codeVerification}
@@ -288,14 +294,17 @@ export const LoadingProfile = () => {
                   value={data.occupation}
                   onChange={handleOnChange}
                   />
+                  </FormControl>
               </Grid>
+              <Grid item sm={2} xs={0}>
 
+              </Grid>
               <Grid
                 item
-                sm={6}
-                xs={6}
+                sm={4}
+                xs={12}
                 direction="column"
-                className={classes.loadingProfileGridItem}
+                alignItems="space-between"
                 >
                 <FormControl>
                   <FormControlLabel

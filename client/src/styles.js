@@ -90,6 +90,8 @@ const useStyles = makeStyles(theme => ({
   loadingProfileGridItem: {
     display: 'flex',
     justifyContent: 'center',
+    // flexDirection: 'column',
+    // alignContent: 'center'
   },
   cryptoCurrency: {
     display: 'flex',
