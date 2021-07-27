@@ -153,6 +153,29 @@ const useStyles = makeStyles(theme => ({
       background: "#ffd523",
       color: '#000',
   }},
+  inviteCard: {
+    margin: '3%',
+    height: '90%',
+    width: '90%',
+    display: 'flex',
+    justifyContent: 'center',
+    padding: 10,
+    textAlign: 'center',
+    letterSpacing: 3,
+    color: theme.palette.primary.contrastText,
+    backgroundColor: theme.palette.primary.main,
+    transition: 'all .2s linear',
+    borderRadius: '4px',
+  },
+  invitedYellowButton: {
+    width: '30%', 
+    color: '#ffd523',
+    borderRadius: '3px',
+    transition: 'all .2s linear',
+    '&:hover': {
+      background: "#ffd52324",
+    }  
+  },
   presentationBox: {
     margin: "3%",
   },
