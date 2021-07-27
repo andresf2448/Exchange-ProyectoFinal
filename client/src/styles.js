@@ -66,9 +66,10 @@ const useStyles = makeStyles(theme => ({
     margin: "10px"
   },
   cryptoCurrency: {
+    width: '96%',
     display: 'flex',
     flexDirection: 'column',
-    backgroundColor: theme.palette.primary.contrastText,
+    backgroundColor: '#fdfbfb',
     justifyContent: 'center',
   },
   offerTableHead: {
@@ -111,7 +112,6 @@ const useStyles = makeStyles(theme => ({
     alignItems: "center",
     justifyContent: "space-evenly"
   },
-
   landingCard: {
     margin: '3%',
     height: 145,
@@ -135,10 +135,34 @@ const useStyles = makeStyles(theme => ({
       background: "#ffd523",
       color: '#000',
   }},
-
-
   presentationBox: {
     margin: "3%",
+  },
+  cardCheck:{
+    margin: '3%',
+    padding: '2%',
+    backgroundColor: '#272727b3',
+    color: '#fdfbfb'
+  },
+  divider:{
+    background: '#ffd523'
+  },
+  yellowButton: {
+    width: '18%', 
+    color: '#ffd523',
+    borderRadius: '3px',
+    transition: 'all .2s linear',
+    '&:hover': {
+      background: "#ffd52324",
+    }  
+  },
+  balanceAccount: {
+    letterSpacing: '3px',
+    margin: '3%',
+    display: 'flex',   
+    alignContent: 'center',
+    flexDirection: 'column',
+    fontSize: 'larger'
   },
   appLogo: {
     height: "100%",
@@ -147,7 +171,11 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  spinner:{
+    color: '#ffd523'
   }
+
 }));
 
 export default useStyles;
