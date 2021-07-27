@@ -83,6 +83,14 @@ const useStyles = makeStyles(theme => ({
   adminTableHeadCell: {
     backgroundColor: theme.palette.primary.dark
   },
+  // loadingProfileContainer:{
+  //   display: 'flex',
+  //   justifyContent: "center",
+  // },
+  loadingProfileGridItem: {
+    display: 'flex',
+    justifyContent: 'center',
+  },
   cryptoCurrency: {
     display: 'flex',
     flexDirection: 'column',

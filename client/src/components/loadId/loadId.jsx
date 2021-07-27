@@ -15,8 +15,10 @@ import {
   Box,
 } from "@material-ui/core";
 import { validate } from "./validate";
+import useStyles from 'styles';
 
 export const LoadId = () => {
+  const classes = useStyles();
   const session = supabase.auth.session();
   const { user } = session;
   let id_user = user.id;
