@@ -1,3 +1,4 @@
+import { Container, Typography, FormControl, TextField, Select, InputLabel, MenuItem, Button, Grid } from "@material-ui/core";
 import { useState } from "react";
 import StellarSdk from "stellar-sdk";
 import { supabase } from "../supabase/supabase";
@@ -74,30 +75,51 @@ export default function ChangeTrust() {
     trustLine(publicKey, secretKey, asset, limitAmount);
   }
   return (
-    <div>
-      <div>Change Trust Assets</div>
-      <form onSubmit={(e) => handleSubmit(e)}>
-        <select
-          defaultValue=""
-          name="asset"
-          onChange={(event) => selectAsset(event)}
-        >
-          <option>Select an Asset</option>
-          {assets &&
-            assets.map((element) => {
-              return (
-                <option key={element.asset_code}>{element.asset_code}</option>
-              );
-            })}
-        </select>{" "}
-        <input
-          type="text"
-          name="limitAmount"
-          placeholder="limit for trust"
-          onChange={(e) => setLimitAmount(e)}
-        />{" "}
-        <input type="submit" />
-      </form>
-    </div>
+    <Container  >
+      <Grid container justifyContent="center" alignItems="center" direction="column">
+          <Typography variant="h4">Change Trust Assets</Typography>
+        <Grid item xs={12} >
+            <form onSubmit={(e) => handleSubmit(e)} >
+              <FormControl>
+                <InputLabel  InputLabel id="demo-simple-select-label">Select an Asset</InputLabel>
+                <Select
+                  defaultValue=""
+                  name="asset"
+                  onChange={(event) => selectAsset(event)}
+                  style={{paddingBottom: 10}}
+                  >
+                  {/* <option>Select an Asset</option> */}
+                  {assets &&
+                    assets.map((element) => {
+                      return (
+                        <MenuItem 
+                          key={element.asset_code} 
+                          value={element.asset_code}
+                          >
+                            {element.asset_code}
+                          </MenuItem>
+                        );
+                      })}
+                </Select>
+                <TextField
+                  type="text"
+                  name="limitAmount"
+                  placeholder="Limit for trust"
+                  onChange={(e) => setLimitAmount(e)}
+                  style={{paddingBottom: 10}}
+                  />
+                <Button 
+                  type="submit" 
+                  variant="contained" 
+                  color="secondary" 
+                  style={{paddingBottom: 10}}
+                  >
+                    Finish
+                  </Button>
+              </FormControl>
+            </form>
+        </Grid>
+      </Grid>
+    </Container>
   );
 }

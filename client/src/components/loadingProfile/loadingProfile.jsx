@@ -13,13 +13,14 @@ import {
   Radio,
   Button,
   ButtonGroup,
-  Box,
   Checkbox,
   Tooltip
 } from "@material-ui/core";
 import { validate } from "./validate";
+import useStyles from 'styles';
 
 export const LoadingProfile = () => {
+  const classes = useStyles();
   const session = supabase.auth.session();
   const { user } = session;
   let id_user = user.id;
@@ -204,12 +205,12 @@ export const LoadingProfile = () => {
 
   return (
     <Container>
-      <Typography variant="h4" gutterBottom>
+      <Typography variant="h4" gutterBottom align="center">
         Update Information
       </Typography>
       {hasProfile ? (
-        <Container>
-           <Box>
+        <Container className={classes.loadingProfileGridItem}>
+          <FormControl>
             <Typography variant='h6'>First name: {firstName}</Typography>
             <Typography variant='h6'>Last name: {lastName}</Typography>
             <Typography variant='h6'>Additional name: {additionalName}</Typography>
@@ -217,8 +218,8 @@ export const LoadingProfile = () => {
             <Typography variant='h6'>Occupation: {occupation}</Typography>
             <Typography variant='h6'>Gender: {gender}</Typography>
             <Typography variant='h6'>Two Step Verification: {hasTwoFA? 'Yes': 'No'}</Typography>
-          </Box>
-          <Button onClick={() => handleEdit()} color="primary" variant="contained">Edit</Button>
+            <Button onClick={() => handleEdit()} color="secondary" variant="contained">Edit</Button>
+          </FormControl>
         </Container>
       ) : (
         <form onSubmit={updateProfile}>
@@ -267,7 +268,7 @@ export const LoadingProfile = () => {
                   onChange={handleOnChange}
                 /> 
               </Tooltip>
-                <Button onClick={handleVerifyClick} disabled={!mobileNumber}> Verify Number</Button>
+                <Button onClick={handleVerifyClick} color="secondary" variant="contained" disabled={!mobileNumber}> Verify Number</Button>
               {data.code === ""? null: (
               <TextField
                 label={error.codeVerification === "" ? "Check your whatsapp" : error.codeVerification}
@@ -331,7 +332,7 @@ export const LoadingProfile = () => {
                   type="submit"
                   disabled={!submit}
                   variant="contained"
-                  color="primary"
+                  color="secondary"
                   onClick={finishEdit}
                   > 
                   {"Finish edit"}
@@ -339,7 +340,7 @@ export const LoadingProfile = () => {
                   <Button
                     type="submit"
                     variant="outlined"
-                    color="primary"
+                    color="secondary"
                     onClick={() => setHasProfile(true)}
                   >
                     {"Cancel"}

@@ -4,9 +4,12 @@ import { supabase } from "supabase/supabase";
 import axios from 'axios';
 import Swal from 'sweetalert2'
 
+import {Grid, Typography, Button } from "@material-ui/core";
+import useStyles from 'styles';
 
 export const InviteUser = () => {
   let Email = useRef("");
+  const classes = useStyles();
 
   let handleSumit = async (e) => {
     e.preventDefault();
@@ -23,12 +26,16 @@ export const InviteUser = () => {
       confirmButtonColor:'rgb(158, 158, 158)',
     });
   };
+
   return (
-    <div>
-      <form onSubmit={handleSumit}>
-        <input type="text" ref={Email} placeholder="Email friend" />
-        <button type="submit">Invite Friend</button>
-      </form>
-    </div>
+    <Grid container xs={12} className={classes.inviteCard}>
+      <Typography itemxs={12} variant='h6'>You can invite a friend to exchange currency with you!</Typography>
+      <Grid item xs={12}>
+        <form onSubmit={handleSumit} style={{margin:'1%'}}>
+          <input type="text" ref={Email} placeholder="Email friend" style={{margin:'1%', borderRadius:'4px', width:'45%', height: '5vh'}}/>
+          <Button className={classes.invitedYellowButton} item xs={12} type="submit">Invite Friend</Button>
+        </form>
+      </Grid>
+    </Grid>
   );
 };

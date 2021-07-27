@@ -12,13 +12,14 @@ import {
   InputLabel,
   Select,
   MenuItem,
-  Box,
 } from "@material-ui/core";
 import { validate } from "./validate";
 import Swal from 'sweetalert2'
 
+import useStyles from 'styles';
 
 export const LoadId = () => {
+  const classes = useStyles();
   const session = supabase.auth.session();
   const { user } = session;
   let id_user = user.id;
@@ -217,23 +218,24 @@ export const LoadId = () => {
 
   return (
     <Container>
-      <Typography variant="h4" gutterBottom>
-        Update Identification Document
-      </Typography>
+      <Grid container>
+        <Grid item sm={12} >
+        <Typography variant="h4" gutterBottom align="center">
+          Update Identification Document
+        </Typography>
+        </Grid>
       {hasProfile ? (
-        <Container>
-          <Box>
+        <Grid item xs={12} className={classes.loadingProfileGridItem}>
+          <FormControl>
             <Typography variant="h6">ID type: {idType}</Typography>
             <Typography variant="h6">ID number: {idNumber}</Typography>
             <Typography variant="h6">Birth date: {birthDate}</Typography>
             <Typography variant="h6">Nationality: {nationality}</Typography>
             <Typography variant="h6">Issue date: {idIssueDate}</Typography>
-            <Typography variant="h6">
-              Expiration date{idExpirationDate}
-            </Typography>
-          </Box>
-          <Button onClick={() => handleEdit()}>Edit</Button>
-        </Container>
+            <Typography variant="h6">Expiration date: {idExpirationDate}</Typography>
+            <Button onClick={() => handleEdit()} variant="contained" color="secondary">Edit</Button>
+          </FormControl>
+        </Grid>
       ) : (
         <form onSubmit={updateProfile}>
           <Grid container>
@@ -244,7 +246,7 @@ export const LoadId = () => {
               direction="column"
               alignContent="space-around"
             >
-              <FormControl>
+              <FormControl style={{paddingBottom: 10}}>
                 <InputLabel>ID Type</InputLabel>
                 <Select
                   name="idType"
@@ -254,7 +256,7 @@ export const LoadId = () => {
                   <MenuItem value={"DNI"}>DNI</MenuItem>
                 </Select>
               </FormControl>
-              <FormControl>
+              <FormControl style={{paddingBottom: 10}}>
                 <InputLabel>Nationality</InputLabel>
                 <Select
                   name="nationality"
@@ -276,6 +278,7 @@ export const LoadId = () => {
                 InputLabelProps={{
                   shrink: true,
                 }}
+                style={{paddingBottom: 10}}
               />
               <TextField
                 name="idExpirationDate"
@@ -291,6 +294,7 @@ export const LoadId = () => {
                 InputLabelProps={{
                   shrink: true,
                 }}
+                style={{paddingBottom: 10}}
               />
               <TextField
                 label={error.idNumber === "" ? "ID Number" : error.idNumber}
@@ -299,6 +303,7 @@ export const LoadId = () => {
                 type="text"
                 value={data.idNumber}
                 onChange={handleOnChange}
+                style={{paddingBottom: 10}}
               />
               <TextField
                 label={error.birthDate === "" ? "Birth date" : error.birthDate}
@@ -310,18 +315,7 @@ export const LoadId = () => {
                 InputLabelProps={{
                   shrink: true,
                 }}
-              />
-              <label>Please enter a scanned image in black and white .jpeg or .png format with the highest possible resolution. Verify that the background where the number is located is as white as possible and that in the total image only the content of the card is visible.</label>
-              <TextField
-                name="file"
-                type="file"
-                onChange={(event) => {
-                  const file = event.target.files[0];
-                  setFile(file);
-                }}
-                InputLabelProps={{
-                  shrink: true,
-                }}
+                style={{paddingBottom: 10}}
               />
             </Grid>
 
@@ -332,13 +326,26 @@ export const LoadId = () => {
               direction="column"
               alignContent="space-around"
             >
+              <label style={{paddingBottom: 10}}>Please enter a scanned image in black and white .jpeg or .png format with the highest possible resolution. Verify that the background where the number is located is as white as possible and that in the total image only the content of the card is visible.</label>
+              <TextField
+                name="file"
+                type="file"
+                onChange={(event) => {
+                  const file = event.target.files[0];
+                  setFile(file);
+                }}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                style={{paddingBottom: 20}}
+              />
               {isEdit ? (
                 <ButtonGroup>
                   <Button
                     type="submit"
                     disabled={!submit}
                     variant="contained"
-                    color="primary"
+                    color="secondary"
                     onClick={finishEdit}
                   >
                     {"Finish edit"}
@@ -346,7 +353,7 @@ export const LoadId = () => {
                   <Button
                     type="submit"
                     variant="outlined"
-                    color="primary"
+                    color="secondary"
                     onClick={() => setHasProfile(true)}
                   >
                     {"Cancel"}
@@ -367,6 +374,7 @@ export const LoadId = () => {
           </Grid>
         </form>
       )}
+      </Grid>
     </Container>
   );
 };

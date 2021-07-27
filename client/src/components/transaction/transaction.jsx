@@ -10,6 +10,7 @@ import {
   TextField,
   FormControl,
   ButtonGroup,
+  Divider,
 } from "@material-ui/core";
 import useStyles from 'styles';
 import Swal from 'sweetalert2';
@@ -116,6 +117,7 @@ export default function Transaction() {
             Search by email the person you want to transfer
           </Typography>
           <br />
+          <Divider className={classes.divider}/>
           <form onSubmit={handleTransaction}>
             <FormControl className={classes.formCheck}>
               <TextField
@@ -143,7 +145,8 @@ export default function Transaction() {
               <Button
                 type="submit"
                 variant="outlined"
-                color="primary"
+                className={classes.yellowButton}
+                style={{width: '60%', color: '#ffd523'}}
                 disabled={error.isError || transfer ? !submit : submit}
                 >
                 Transfer

@@ -14,9 +14,8 @@ export default function FaqAbout() {
         setValue(newValue);
     };
 
-
-    return (<Grid container >
-
+    return (
+    <Grid container style={{backgroundColor: '#1F1F1F'}} >
         <Grid item xs={2}>
 
             <AppBar position="static" style={{marginLeft:'20px'}}>
