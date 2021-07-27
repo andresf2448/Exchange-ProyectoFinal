@@ -328,7 +328,7 @@ export const AdministratorUser = () => {
                 </FormControl>
               </form>
             </Grid>
-            {/* <Grid container xs={4} justifyContent="center" alignContent="center">
+            <Grid container xs={4} justifyContent="center" alignContent="center">
             <Grid item xs={12} justifyContent="center">
               {emails.length > 0 ? (
                 <Button
@@ -363,7 +363,7 @@ export const AdministratorUser = () => {
                 </ButtonGroup>
               </Grid>
             ) : null}
-          </Grid> */}
+          </Grid>
             <Grid item xs={12}>
               <TableContainer className={classes.adminTableContainer}>
                 <Table
