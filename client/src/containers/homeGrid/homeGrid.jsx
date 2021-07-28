@@ -1,6 +1,6 @@
 import { Container, Grid, Typography, Card } from "@material-ui/core";
 import Twitter from 'components/twitter/twitter';
-import { CryptoGraphics } from 'components/cryptoGraphics/cryptoGraphics';
+// import { CryptoGraphics } from 'components/cryptoGraphics/cryptoGraphics';
 import useStyles from 'styles';
 
 export const HomeGrid = () => {
@@ -23,7 +23,7 @@ export const HomeGrid = () => {
         >
           <Grid item className="crypto-graphics" xs={12}>
             <Card elevation={3} className={classes.adminCard}>
-              <CryptoGraphics />
+              {/* <CryptoGraphics /> */}
             </Card>
           </Grid>
           <Grid

@@ -22,9 +22,9 @@ const CustomTooltip = ({active, payload, label}) => {
                         {formatter.format(payload[0].value)}
                     </Typography>
                     }
-                    <Typography variant="p" >{label}</Typography>
+                    <Typography variant="p" >{payload[0].payload.date}</Typography>
                 </Grid>
-            }
+            } 
         </Container>
     
     )
