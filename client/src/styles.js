@@ -118,7 +118,7 @@ const useStyles = makeStyles(theme => ({
     width: '96%',
     display: 'flex',
     flexDirection: 'column',
-    backgroundColor: '#fdfbfb',
+    backgroundColor: theme.palette.primary.light,
     justifyContent: 'center',
   },
   offerTableHead: {
@@ -209,7 +209,7 @@ const useStyles = makeStyles(theme => ({
     borderRadius: '4px',
   },
   invitedYellowButton: {
-    width: '30%', 
+    width: '29%', 
     color: '#ffd523',
     borderRadius: '3px',
     transition: 'all .2s linear',
