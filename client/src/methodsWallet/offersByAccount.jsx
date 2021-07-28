@@ -32,6 +32,7 @@ export default function OffersByAccount() {
     server
       .offers()
       .forAccount(publicKey)
+      .order("desc")
       .call()
       .then(function (offers) {
 

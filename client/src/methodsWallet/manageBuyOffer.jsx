@@ -21,7 +21,8 @@ export default function ManageBuyOffer() {
   const [secretKey, setSecretKey] = useState();
 
   const server = new StellarSdk.Server("https://horizon-testnet.stellar.org");
-
+  console.log("publickey es esta",publicKey)
+  console.log("esta es la secret key",secretKey)
   const getAssets = async () => {
     const session = supabase.auth.session();
     let assets = await supabase.from("assets").select("*");
@@ -88,8 +89,9 @@ export default function ManageBuyOffer() {
         .build();
 
       transaction.sign(sourceKeypair);
-
+          console.log(transaction)
       const tx = await server.submitTransaction(transaction);
+      console.log(tx);
     } catch (e) {
       console.error("Oh no! Something went wrong.");
       console.error(e);
@@ -171,6 +173,7 @@ export default function ManageBuyOffer() {
                   backgroundColor: "white",
                   color: "rgb(183, 189, 198)",
                 }}
+                value={amount}
                 type="text"
                 name="amount"
                 onChange={(event) => setAmount(event.target.value)}
@@ -216,6 +219,7 @@ export default function ManageBuyOffer() {
                   backgroundColor: "white",
                   color: "rgb(183, 189, 198)",
                 }}
+                valur={price}
                 type="text"
                 name="price"
                 onChange={(event) => setPrice(event.target.value)}
