@@ -5,7 +5,7 @@ import StellarSdk from "stellar-sdk";
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { DataGrid } from "@material-ui/data-grid";
-import { Container, Card, Grid, Typography, Button, Box } from "@material-ui/core";
+import { Container, Card, Grid, Typography, Button, Divider } from "@material-ui/core";
 import useStyles from "styles";
 import HashLoader from "react-spinners/HashLoader";
 
@@ -136,7 +136,7 @@ export const CardUser = () => {
   }, []);
 
   return (
-    <Container disableGutters style={{minHeigth: '100vh', paddingTop: 20, paddingBottom: 20}}>
+    <Container disableGutters style={{minHeigth: '130vh', paddingTop: 20, paddingBottom: 20}}>
         {
           spinner ?
           <Card elevation={3} className={classes.cardUserSpinner}>
@@ -151,13 +151,14 @@ export const CardUser = () => {
             account && validatePublicKey ? (
               <Grid container>
                 <Grid item xs={10} align="center" style={{marginBottom: 20}}>
-                  <Typography variant="h3">User: {email}</Typography>
+                  <Typography variant="h3">User - {email}</Typography>
                 </Grid>
                 <Grid item xs={2}  align="center" style={{marginBottom: 20}}>
-                  <Button variant="contained" color="primary" onClick={() => history.push("/home")}>Back</Button>
+                  <Button className={classes.yellowButton} onClick={() => history.push("/home")}>Back</Button>
                 </Grid>
                 <Grid item xs={12}  align="center" style={{marginBottom: 20}}>
-                  <Typography variant="h4" >BALANCE</Typography>
+                  <Divider variant='middle' className={classes.divider}/>
+                  <Typography variant="h4">BALANCE</Typography>
                   <Typography variant="body1" >
                     Asset: {!account.asset_code ? "XLM" : account.asset_code}
                   </Typography>
