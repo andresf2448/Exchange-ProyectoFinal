@@ -78,7 +78,7 @@ export default function BalanceAccount() {
               )}
             </div>
           ) : (
-            <HashLoader color={'#ffd523'} size={30}/>
+            <HashLoader color={'#ffd523'} size={20}/>
           )}  
         </div>
       ) : (

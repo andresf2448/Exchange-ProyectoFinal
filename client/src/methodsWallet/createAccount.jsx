@@ -86,7 +86,7 @@ export default function CreateAccount() {
 
   return (
     <div>
-      {spinner ? <HashLoader color={'#ffd523'} size={30}/> :
+      {spinner ? <HashLoader color={'#ffd523'} size={20}/> :
         hasWallet ? (
           <Grid item key={12}>
           {<Typography variant='h6'>PublicKey | {publicKeyUser}</Typography>}

@@ -1,47 +1,6 @@
-import { Button, Grid, Paper, Typography } from "@material-ui/core";
-import { makeStyles } from '@material-ui/core/styles';
+import { Button, Grid, Card, Typography } from "@material-ui/core";
+import useStyles from 'styles';
 import Grow from '@material-ui/core/Grow';
-
-const  useStyles = makeStyles({
-    base: {
-      width: '100%',
-      margin: 'auto',
-      padding: 40,
-      justifyContent: 'justify',
-      alignItems: "center",
-      justify:"center",
-    },
-    paper: {
-      height: 260,
-      paddingTop: 20,
-      justifyContent:"justify",
-    },
-    content: {
-        padding: 10,
-        fontSize: 16,
-        textAlign: "justify",
-    },  
-    link: {
-        color: '#1DA1F2',
-        margin: 2,
-        letterSpacing: 3
-    },
-    userMetrics: {
-        display: "contents",
-        fontSize: 16,
-    },
-    user: {
-        fontWeight: 'bold', 
-    }, 
-    publicMetrics: {
-        margin: 5,
-        justifyContent: 'center',
-        display: 'flex',
-        direction: 'row',
-        textAlign: 'center',
-        fontWeight: 'bold'
-    }    
-});
 
 export default function TwittCard(props) {
     const { text, username, likes, retweet, id } = props.data;
@@ -49,28 +8,25 @@ export default function TwittCard(props) {
 
     return(
         <Grow container in='true' timeout='auto'>
-            <Grid item sm={3} className={classes.base} spacing={2}>
-                <Paper container sm={12} elevation={4} variant="outlined" className={classes.paper}>
-                    <Typography item sm={4} className={classes.content}>
+            <Grid container xs={12} className={classes.twitterGrid}>
+                <Card item xs={12} className={classes.twitterCard}>
+                    <Typography item xs={12} variant='body2' align='center'>
                             {text}...
                     </Typography>
-                    <Button item sm={4} className={classes.link} href={`https://twitter.com/${username}/status/${id}`}>
-                        now
-                    </Button>
-                    <Grid item sm={4} className={classes.userMetrics}>
-                        <Typography  className={classes.user}>
-                            {username}
-                        </Typography >
-                        <Grid className={classes.publicMetrics}>
-                            <Grid item>
-                                ❤️{likes}
-                            </Grid>
-                            <Grid item>
-                                🔁{retweet}
+                    <Grid item xs={12} style={{ display: 'flex', justifyContent: 'spaceBetween', alignItems: 'center' }}>
+                        <Button xs={6} className={classes.twitterLink} target='_blank' href={`https://twitter.com/${username}/status/${id}`}>
+                            now
+                        </Button>
+                        <Grid xs={6} className={classes.twitterMetrics}>
+                            <Typography item xs={6} variant='body2' className={classes.twitterUser}>
+                                {username}
+                            </Typography >
+                            <Grid item xs={6}>
+                                ❤️{likes}  🔁{retweet}
                             </Grid>
                         </Grid>
                     </Grid>
-                </Paper>
+                </Card>
             </Grid>
         </Grow>
     )

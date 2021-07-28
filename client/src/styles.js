@@ -225,7 +225,44 @@ const useStyles = makeStyles(theme => ({
   },
   spinner:{
     color: '#ffd523'
+  },
+  twitterGrid: {
+    margin: '1%',
+    alignContent: 'center',
+    justifyContent: 'center'
+  },
+  twitterCard: {
+    minWidth: '50vh',
+    minHeight: '18vh',
+    flexDirection: 'column',
+    padding: '10px',
+    display: 'flex',
+    alignContent: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
+    margin: '8px',
+    color: '#04042b',
+    backgroundColor: '#afafaf'
+  },
+  twitterLink: {
+    marginTop: '5%',
+    marginRight: '10%',
+    backgroundColor: '#1679B6',
+    color:'#04042b',
+    fontSize: '12px',
+    '&:hover': {
+      background: "#1DA1F2",
+      color: '#000'
+    }  
+  },
+  twitterUser:{
+    fontStyle: 'italic'
+  },
+  twitterMetrics:{
+    marginTop: '5%',
+    marginLeft: '10%',
   }
+
 
 }));
 
