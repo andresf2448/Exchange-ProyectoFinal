@@ -11,6 +11,7 @@ import {
   FormControl,
   ButtonGroup,
   Divider,
+  Input,
 } from "@material-ui/core";
 import useStyles from 'styles';
 import Swal from 'sweetalert2';
@@ -128,6 +129,7 @@ export default function Transaction() {
                 onChange={handleChange}
                 color={error.email === "" ? "primary" : "secondary"}
                 fullWidth={true}
+
               />
               <TextField
                 label={error.amount === "" ? "Amount" : error.amount}

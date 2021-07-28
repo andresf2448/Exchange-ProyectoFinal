@@ -47,9 +47,9 @@ export const NavBar = () => {
   };
   return (
     <>
-      <AppBar position="static" >
+      <AppBar position="static" variant='fullWidth'>
         <Tabs value={value} variant='scrollable' onChange={handleChange}>
-          <Tab label={<HomeIcon />} />
+          <Tab label='RocketExChange' />
           <Tab label="Wallet" />
           <Tab label="Trade" />
           <Tab label="Settings" />

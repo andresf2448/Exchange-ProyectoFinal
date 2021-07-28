@@ -7,34 +7,14 @@ export const HomeGrid = () => {
   const classes = useStyles();
   return (
     <Container maxWidth="lg">
-      <Grid
-        container
-        className="home-container"
-        spacing={2}
-        justifyContent="center"
-      >
-        <Grid
-          item
-          xs={12}
-          container
-          spacing={2}
-          justifyContent="center"
-          alignContent="space-around"
-        >
-          <Grid item className="crypto-graphics" xs={12}>
+      <Grid container spacing={12} alignItems="center">
+        <Grid item xs={8} alignItems="center">
             <Card elevation={3} className={classes.adminCard}>
               {/* <CryptoGraphics /> */}
             </Card>
-          </Grid>
-          <Grid
-            container
-            className="home-container_boxLeft--bottom"
-            spacing={2}
-          >
-            <Grid item xs={12}>
-              <Twitter />
-            </Grid>
-          </Grid>
+        </Grid>
+        <Grid item xs={4} >
+            <Twitter />
         </Grid>
       </Grid>
     </Container>
