@@ -57,6 +57,7 @@ export default function ChangeTrust() {
     transaction.sign(sourceKeypair);
 
     await server.submitTransaction(transaction);
+    
   }
 
   const selectAsset = (event) => {
@@ -72,7 +73,7 @@ export default function ChangeTrust() {
 
   function handleSubmit(e) {
     e.preventDefault();
-    trustLine(publicKey, secretKey, asset, limitAmount);
+    trustLine(publicKey, secretKey, asset, limitAmount.toString());
   }
   return (
     <Container  >

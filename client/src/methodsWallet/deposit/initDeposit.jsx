@@ -1,20 +1,23 @@
-import { useState, useEffect } from "react";
-import { getAssets } from "redux/actions/actions";
-import { useDispatch, useSelector } from "react-redux";
+import { useState } from "react";
+import { supabase } from "supabase/supabase";
 
 export default function InitDeposit() {
-  const assets = useSelector((store) => store.assets);
+  const [assets, setAssets] = useState();
   const [asset, setAsset] = useState();
-  const dispatch = useDispatch();
 
+  async function getAssets() {
+    const { data: assets } = await supabase.from("assets").select("*");
+    return setAssets(assets);
+  }
+  if (!assets) getAssets();
   const aux = window.location.hash;
   const type = aux.slice(1);
 
-  useEffect(() => {
-    if (assets.length === 0) dispatch(getAssets());
+  /* if (assets.length === 0) dispatch(getAssets()); */
+  /* useEffect(() => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  if (!assets) getAssets();
+  if (!assets) getAssets(); */
 
   const selectAsset = (event) => {
     const asset = assets.filter(
@@ -35,7 +38,7 @@ export default function InitDeposit() {
           >
             <option>Select a bid Asset</option>
             {assets &&
-              assets.data.map((element) => {
+              assets.map((element) => {
                 return (
                   <option
                     onChange={(event) => selectAsset(event)}
@@ -52,8 +55,8 @@ export default function InitDeposit() {
       {
         <div>
           <div>DEPOSIT</div>
-          <div>{asset.asset_code}</div>
-          <div>{asset.home_domain}</div>
+          <div>{asset?.asset_code}</div>
+          <div>{asset?.home_domain}</div>
           <div>START THE TRANSFER </div>
           <div>
             Additional information required to start the transfer process. Click
@@ -62,7 +65,7 @@ export default function InitDeposit() {
           </div>
           <div>
             Having issues with your transaction? Contact anchor support at{" "}
-            {asset.home_domain}
+            {asset?.home_domain}
           </div>
         </div>
       }
