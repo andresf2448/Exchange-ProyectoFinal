@@ -1,4 +1,4 @@
-import { Container, Grid, Typography, Button, Divider, Box, Card } from "@material-ui/core";
+import { Container, Grid, Typography, Button, Divider, Box, Card, Modal } from "@material-ui/core";
 import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';
 import SecurityIcon from '@material-ui/icons/Security';
 import stellarIcon from './stellar.svg';
@@ -9,12 +9,23 @@ import './landing.css';
 import { Link } from 'react-scroll';
 import { supabase } from "supabase/supabase";
 import { useHistory } from "react-router";
+import { useState } from "react";
+import Register from "components/register/register";
+import Login from "components/login/login";
 
 const Landing = () => {
     const classes = useStyles();
     const history = useHistory();
-
+    const [registerModal, setRegisterModal]= useState(false)
+    const [loginModal, setLoginModal]= useState()
     let session = supabase.auth.session();
+
+    const handleRegister = ()=>{
+        setRegisterModal(!registerModal)
+    }
+    const handleLogin = ()=>{
+        setLoginModal(!loginModal)
+    }
 
 
     return (
@@ -79,12 +90,18 @@ const Landing = () => {
                     </Typography>
                 </Grid>
                 <Grid container xs={3} justifyContent="space-around">
-                    <Button color="secundary" variant="contained" justifyContent="left" href='/register'>
-                        REGISTER
-                    </Button> 
-                    <Button color="primary" variant="contained" justifyContent="left" href='/login' style={{color:'#000', backgroundColor: '#ffd523'}}>
+                        <Button color="secundary" variant="contained" justifyContent="left" onClick={handleRegister}>
+                            REGISTER
+                         </Button> 
+                    <Modal open={registerModal} onClose={handleRegister} style={{ zIndex:'1000'}}> 
+                        <Register/>
+                    </Modal>
+                    <Button color="primary" variant="contained" justifyContent="left" onClick={handleLogin} style={{color:'#000', backgroundColor: '#ffd523'}}>
                         LOGIN
                     </Button>
+                    <Modal open={loginModal} onClose={handleLogin} style={{ zIndex:'1000'}}> 
+                        <Login />
+                    </Modal>
                 </Grid>
             </Grid>
 
