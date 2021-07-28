@@ -36,6 +36,16 @@ const useStyles = makeStyles(theme => ({
     justifyContent: "center", 
     alignItems: "center" 
   },
+  cardUserContainer: {
+    backgroundColor: theme.palette.secondary.background,
+    color: theme.palette.primary.contrastText,
+    borderRadius: '6px', 
+    // margin: 30, 
+    padding: 15,                   
+    display:"flex",
+    justifyContent: "center", 
+    alignItems: "center" 
+  },
   loginContainer: {
     height: "100vh",
     display: "flex",
@@ -102,6 +112,16 @@ const useStyles = makeStyles(theme => ({
   },
   offerTableHead: {
     backgroundColor: theme.palette.primary.light
+  },
+  modal: {
+    position: 'absolute',
+    width: 400,
+    backgroundColor: theme.palette.secondary.background,
+    border: '2px solid #000',
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(2, 4, 3),
+    top: '25%',
+    left: '35%',
   },
   tooltip: {
     borderRadius: "5px",

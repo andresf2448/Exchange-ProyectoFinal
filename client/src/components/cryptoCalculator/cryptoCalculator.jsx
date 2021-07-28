@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button, TextField, Select, MenuItem, Grid, Typography, Container } from '@material-ui/core';
+import { Button, Select, MenuItem, Grid, Typography, Container } from '@material-ui/core';
 import axios from 'axios';
 import BuyButton from 'components/stripe/buyButton';
 import Swal from 'sweetalert2'
@@ -13,6 +13,7 @@ export const CryptoCalculator = () => {
     const [result, setResult] = useState('');
     const [firstCurrency, setFirstCurrency] = useState(1);
     const [secondCurrency, setSecondCurrency] = useState(1);
+
 
     async function convert() {
         
@@ -74,14 +75,14 @@ export const CryptoCalculator = () => {
   
     return (
     <Container>
-        <Grid container className='calculatorContainer'>   
+        <Grid container style={{marginTop:'100px'}}>   
 
             <Grid item sm={12}>
-                <Typography variant='h4'>Converter</Typography>
+                <Typography style={{textAlign:'center', marginRight:'30px', marginBottom:'10px'}}>Converter</Typography>
             </Grid>
 
-            <Grid item sm={6}>
-            <Select displayEmpty value={firstCurrency} onChange={(e) => handleChange('first', e)}>
+            <Grid item sm={6} >
+            <Select style={{padding:'5px', borderRadius: '3px', backgroundColor: 'white'}} displayEmpty value={firstCurrency} onChange={(e) => handleChange('first', e)}>
                     <MenuItem disabled value={1}>Currency</MenuItem>
                     <MenuItem value='USD'>USD</MenuItem>
                     <MenuItem value='EUR'>EUR</MenuItem>
@@ -90,12 +91,13 @@ export const CryptoCalculator = () => {
                     <MenuItem value='ETH'>Ethereum</MenuItem>
                 </Select>
     
-                <TextField required margin='normal' placeholder='Amount' onChange={(e) => setConvertion({ ...convertion, amount: e.target.value })} />
+                {/* <TextField required margin='normal' placeholder='Amount' variant='outlined' color='secondary' onChange={(e) => setConvertion({ ...convertion, amount: e.target.value })} /> */}
+                <input type="text" required placeholder='Amount' style={{padding:'10px', width:'73px', marginTop:'8px', borderRadius:'4px'}} onChange={(e) => setConvertion({ ...convertion, amount: e.target.value })}/>
             </Grid>
 
-            <Grid item sm={6}>
+            <Grid item sm={6} style={{marginBottom:'5px'}}>
        
-                <Select displayEmpty value={secondCurrency}onChange={(e) => handleChange('second', e) }>
+                <Select  style={{padding:'5px', borderRadius: '3px', backgroundColor: 'white'}} displayEmpty value={secondCurrency}onChange={(e) => handleChange('second', e) }>
                     <MenuItem disabled value={1}>Currency</MenuItem>
                     <MenuItem value='USD'>USD</MenuItem>
                     <MenuItem value='EUR'>EUR</MenuItem>
@@ -104,7 +106,8 @@ export const CryptoCalculator = () => {
                     <MenuItem value='ETH'>Ethereum</MenuItem>
                 </Select>
                
-                <TextField disabled={true} value={result} margin='normal' />
+                {/* <TextField disabled={true} value={result}  margin='normal' /> */}
+                <input type="text" disabled value={result} style={{padding:'9px', marginTop:'10px', width:'78px'}} />
               
             </Grid>
             <Button 
@@ -115,7 +118,8 @@ export const CryptoCalculator = () => {
             >
             Convert
             </Button>
-            <BuyButton 
+            <BuyButton
+            color='secondary' 
             convertion={convertion}
             result={result} 
             />
