@@ -21,8 +21,8 @@ export default function ManageBuyOffer() {
   const [secretKey, setSecretKey] = useState();
 
   const server = new StellarSdk.Server("https://horizon-testnet.stellar.org");
-  console.log("publickey es esta",publicKey)
-  console.log("esta es la secret key",secretKey)
+  /* console.log("publickey es esta",publicKey)
+  console.log("esta es la secret key",secretKey) */
   const getAssets = async () => {
     const session = supabase.auth.session();
     let assets = await supabase.from("assets").select("*");
