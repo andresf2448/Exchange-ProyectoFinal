@@ -136,7 +136,7 @@ export const CardUser = () => {
   }, []);
 
   return (
-    <Container disableGutters style={{minHeigth: '130vh', paddingTop: 20, paddingBottom: 20}}>
+    <Container disableGutters maxWidth='md' style={{minHeigth: '130vh', paddingTop: 20, paddingBottom: 20}}>
         {
           spinner ?
           <Card elevation={3} className={classes.cardUserSpinner}>
@@ -154,7 +154,7 @@ export const CardUser = () => {
                   <Typography variant="h3">User - {email}</Typography>
                 </Grid>
                 <Grid item xs={2}  align="center" style={{marginBottom: 20}}>
-                  <Button className={classes.yellowButton} onClick={() => history.push("/home")}>Back</Button>
+                  {/* <Button className={classes.yellowButton} onClick={() => history.push("/home")}>Back</Button> */}
                 </Grid>
                 <Grid item xs={12}  align="center" style={{marginBottom: 20}}>
                   <Divider variant='middle' className={classes.divider}/>
@@ -186,7 +186,7 @@ export const CardUser = () => {
             {validateOffers ? (
               <Grid item xs={12}  align="center" style={{marginBottom: 20}}>
                 <Typography variant="h4">OFFERS</Typography>
-                <div style={{ height: 380, width: "53%" }}>
+                <div style={{ height: 380, width: "70%" }}>
                   <DataGrid style={{color: 'whitesmoke'}} rows={offers} columns={columnsOffer} pageSize={5} />
                 </div>
                 {/* <br />
