@@ -1,11 +1,26 @@
-import React from 'react'
+import React, { useState, useEffect} from 'react'
 import { Container, Typography, Accordion, AccordionSummary, AccordionDetails } from '@material-ui/core'
 import { ExpandMore } from '@material-ui/icons'
 import useStyles from 'styles.js'
+import { supabase } from 'supabase/supabase'
 
 export default function Faq() {
+    const [fee, setFee] = useState('loading')
+    useEffect(()=>{
+        feeCommision();
+    }, [])
+    
+
+    async function feeCommision(){
+
+        const {data} = await supabase
+        .from('commsion_server')
+        .select('*')        
+        setFee(data[data.length - 1].percentage);
+    }
 
 
+    // let amount_fee = parseFloat(amount) * (data[data.length - 1].percentage / 100)
     const classes = useStyles();
     return (
         <Container style={{ width: '90%' }}>
@@ -18,8 +33,7 @@ export default function Faq() {
                     <Typography variant='h4' className={classes.text} >FAQ</Typography>
                 </Grid>
             </Grid> */}
-
-
+            
             <Typography variant='h5' className={classes.text}>About us</Typography>
             <Accordion>
                 <AccordionSummary
@@ -114,7 +128,7 @@ export default function Faq() {
                     <Typography variant='h6'>What fees are there for purchasing crypto with USD/EUR on RocketXChange?</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
-                    <Typography>All operations within the platform will have a 5% of fee</Typography>
+                    <Typography>{`All operations within the platform will have a ${fee}% of fee`}</Typography>
                 </AccordionDetails>
 
             </Accordion>
