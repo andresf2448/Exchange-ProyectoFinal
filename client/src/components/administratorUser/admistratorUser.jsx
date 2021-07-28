@@ -468,16 +468,17 @@ export const AdministratorUser = () => {
                   size="small"
                   component={Paper}
                   className={classes.adminTable}
+                  stickyHeader={true}
                 >
-                  <TableHead>
-                    <TableRow>
-                      <TableCell variant="head">Number</TableCell>
-                      <TableCell variant="head">Email</TableCell>
-                      <TableCell variant="head">Id user</TableCell>
-                      <TableCell variant="head">Block user</TableCell>
-                      <TableCell variant="head">Upgrade to admin</TableCell>
-                      <TableCell variant="head">Reset password</TableCell>
-                      <TableCell variant="head">
+                  <TableHead style={{height:'11vh'}}>
+                    <TableRow> 
+                      <TableCell  style={{  color:'#fdfbfb', backgroundColor:'#0c0c0c'}}>Number</TableCell>
+                      <TableCell  style={{  color:'#fdfbfb', backgroundColor:'#0c0c0c'}}>Email</TableCell>
+                      <TableCell  style={{  color:'#fdfbfb', backgroundColor:'#0c0c0c'}}>Id user</TableCell>
+                      <TableCell  style={{  color:'#fdfbfb', backgroundColor:'#0c0c0c'}}>Block user</TableCell>
+                      <TableCell  style={{  color:'#fdfbfb', backgroundColor:'#0c0c0c'}}>Upgrade to admin</TableCell>
+                      <TableCell  style={{  color:'#fdfbfb', backgroundColor:'#0c0c0c'}}>Reset password</TableCell>
+                      <TableCell  style={{  color:'#fdfbfb', backgroundColor:'#0c0c0c'}}>
                         Send Email <br />
                         {selectAll ? (
                           <Button
@@ -499,7 +500,7 @@ export const AdministratorUser = () => {
                           </Button>
                         )}
                       </TableCell>
-                      <TableCell variant="head">Details Users</TableCell>
+                      <TableCell style={{color:'#fdfbfb', backgroundColor:'#0c0c0c'}}>Details Users</TableCell>
                     </TableRow>
                   </TableHead>
                   {render.map((user, i) => {
