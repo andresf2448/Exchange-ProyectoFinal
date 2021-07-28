@@ -20,11 +20,14 @@ const CryptoChart = ({crypto}) => {
       .then((res) => {
         const data = []
         res.data.prices.forEach(e => {
+          let fecha = `${new Date(e[0]).getFullYear()}/${new Date(e[0]).getMonth() + 1}/${new Date(e[0]).getDate()}`;
+          console.log(fecha);
           data.push({
             precio: e[1],
-            date: new Date(e[0]).toLocaleDateString()
+            date: fecha,
           })
         });
+        // console.log(data[0].date);
         setPrice(data);
       })
   },[crypto]);

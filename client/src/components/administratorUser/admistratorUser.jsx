@@ -23,6 +23,7 @@ import {
   FormControl,
   Paper,
   TextareaAutosize,
+  Modal
 } from "@material-ui/core";
 import { useDispatch } from "react-redux";
 import { GET_USER_DETAILS_ID } from "redux/actions/actions";
@@ -155,13 +156,14 @@ export const AdministratorUser = () => {
     setEmails([]);
   };
 
-  let addMessage = () => {
-    setStateMessage(!statemessage);
-  };
+  // let addMessage = () => {
+  //   setStateMessage(!statemessage);
+  // };
 
   let sendEmail = async () => {
     message = message.current.value;
     title = title.current.value;
+    
     let data = { receivers: [...emails], message, title };
 
     if (emails.length > 0 && message !== "" && title !== "") {
@@ -174,6 +176,7 @@ export const AdministratorUser = () => {
       });
       setStateMessage(false);
       setEmails([]);
+      handleClose();
       await axios({
         url: "http://localhost:3001/emails",
         method: "Post",
@@ -197,6 +200,7 @@ export const AdministratorUser = () => {
   let cancelMessage = () => {
     setEmails([]);
     setStateMessage(false);
+    handleClose()
   };
 
   let search = (event) => {
@@ -278,6 +282,46 @@ export const AdministratorUser = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reload]);
 
+  //modal
+  const [open, setOpen] = useState(false);
+
+  const handleOpen = () => {
+    setOpen(true);
+    // setStateMessage(!statemessage);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+    // setStateMessage(!statemessage);
+  };
+
+  const body = (
+    <Grid container>
+      <Grid item xs={10} direction="column" align="center" className={classes.modal}>
+        <Typography variant="h5" className={classes.text} style={{marginBottom: 20}} > Message </Typography>
+        <TextField type="text" inputRef={title} placeholder="Add Title" style={{marginBottom: 20}} />
+        <TextareaAutosize
+          ref={message}
+          placeholder="Write message..."
+          minRows={5}
+          fullWidth={true}
+          style={{marginBottom: 20}}
+          required
+        ></TextareaAutosize>
+        <ButtonGroup style={{marginBottom: 20}}>
+          <Button type="button" variant="contained" color="secondary" onClick={() => sendEmail()}>
+            Send Mails
+          </Button>
+          <Button type="button" variant="outlined" color="secondary" onClick={() => cancelMessage()}>
+            {"Cancel Message "}
+          </Button>
+        </ButtonGroup>
+      </Grid>
+    </Grid>
+  )
+
+  //fechas
+
   return (
     <Container
       disableGutters
@@ -287,7 +331,7 @@ export const AdministratorUser = () => {
       <Card elevation={3} className={classes.adminCard}>
         {admin ? (
           <Grid container>
-            <Grid container xs={6} direction="column" alignContent="center">
+            <Grid container xs={5} direction="column" alignContent="center">
               {/* <Grid item xs={12}> */}
               {/* </Grid> */}
 
@@ -326,7 +370,7 @@ export const AdministratorUser = () => {
                   </form>
                 </Grid>
               ) : (
-                <Grid item xs={6}>
+                <Grid item xs={5}>
                   <Typography
                     variant="body1"
                     color="secondary"
@@ -341,12 +385,12 @@ export const AdministratorUser = () => {
                     gutterBottom
                     align="left"
                   >
-                    Fecha: {statusComision.fecha}
+                    Fecha: {new Date(statusComision.fecha).getDate()}/{new Date(statusComision.fecha).getMonth() + 1}/{new Date(statusComision.fecha).getUTCFullYear()} {new Date(statusComision.fecha).getUTCHours()}:{new Date(statusComision.fecha).getUTCMinutes()}
                   </Typography>
                 </Grid>
               )}
             </Grid>
-            <Grid item xs={6} direction="column">
+            <Grid item xs={5} direction="column">
               <form onSubmit={search} className={classes.adminCardSearch}>
                 <FormControl margin="normal">
                   <TextField
@@ -370,21 +414,32 @@ export const AdministratorUser = () => {
                 </FormControl>
               </form>
             </Grid>
-            {/* <Grid container xs={4} justifyContent="center" alignContent="center">
+            <Grid container xs={2} justifyContent="center" alignContent="center">
             <Grid item xs={12} justifyContent="center">
               {emails.length > 0 ? (
-                <Button
-                  type="button"
-                  onClick={addMessage}
-                  color="primary"
-                  variant="contained"
-                  className={classes.buttonBack}
-                >
-                  {" Add Message "}
-                </Button>
+                <div>
+                  <Button
+                    type="button"
+                    // onClick={addMessage}
+                    onClick={() => handleOpen()}
+                    color="primary"
+                    variant="contained"
+                    className={classes.buttonBack}
+                    >
+                    {" Add Message "}
+                  </Button>
+                  <Modal
+                    open={open}
+                    // onClose={() => handleClose()}
+                    aria-labelledby="simple-modal-title"
+                    aria-describedby="simple-modal-description"
+                    >
+                    {body}
+                  </Modal>
+                </div>
               ) : null}
             </Grid>
-            {statemessage && emails.length !== 0 ? (
+            {/* {statemessage && emails.length !== 0 ? (
               <Grid item xs={10} direction="column">
                 <Typography variant="h5"> Message </Typography>
                 <TextField type="text" ref={title} placeholder="Add Title" />
@@ -404,8 +459,8 @@ export const AdministratorUser = () => {
                   </Button>
                 </ButtonGroup>
               </Grid>
-            ) : null}
-          </Grid> */}
+            ) : null} */}
+          </Grid>
             <Grid item xs={12}>
               <TableContainer className={classes.adminTableContainer}>
                 <Table
@@ -413,23 +468,24 @@ export const AdministratorUser = () => {
                   size="small"
                   component={Paper}
                   className={classes.adminTable}
+                  stickyHeader={true}
                 >
-                  <TableHead>
-                    <TableRow>
-                      <TableCell variant="head">Number</TableCell>
-                      <TableCell variant="head">Email</TableCell>
-                      <TableCell variant="head">Id user</TableCell>
-                      <TableCell variant="head">Block user</TableCell>
-                      <TableCell variant="head">Upgrade to admin</TableCell>
-                      <TableCell variant="head">Reset password</TableCell>
-                      <TableCell variant="head">
+                  <TableHead style={{height:'11vh'}}>
+                    <TableRow> 
+                      <TableCell  style={{  color:'#fdfbfb', backgroundColor:'#0c0c0c'}}>Number</TableCell>
+                      <TableCell  style={{  color:'#fdfbfb', backgroundColor:'#0c0c0c'}}>Email</TableCell>
+                      <TableCell  style={{  color:'#fdfbfb', backgroundColor:'#0c0c0c'}}>Id user</TableCell>
+                      <TableCell  style={{  color:'#fdfbfb', backgroundColor:'#0c0c0c'}}>Block user</TableCell>
+                      <TableCell  style={{  color:'#fdfbfb', backgroundColor:'#0c0c0c'}}>Upgrade to admin</TableCell>
+                      <TableCell  style={{  color:'#fdfbfb', backgroundColor:'#0c0c0c'}}>Reset password</TableCell>
+                      <TableCell  style={{  color:'#fdfbfb', backgroundColor:'#0c0c0c'}}>
                         Send Email <br />
                         {selectAll ? (
                           <Button
                             size="small"
                             variant="contained"
                             color="secondary"
-                            onClick={selectionAll}
+                            onClick={() => selectionAll()}
                           >
                             Select All
                           </Button>
@@ -444,7 +500,7 @@ export const AdministratorUser = () => {
                           </Button>
                         )}
                       </TableCell>
-                      <TableCell variant="head">Details Users</TableCell>
+                      <TableCell style={{color:'#fdfbfb', backgroundColor:'#0c0c0c'}}>Details Users</TableCell>
                     </TableRow>
                   </TableHead>
                   {render.map((user, i) => {

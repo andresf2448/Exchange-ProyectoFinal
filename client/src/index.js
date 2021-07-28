@@ -35,6 +35,11 @@ const theme = createTheme({
       background: '#393939'
     }
   },
+  root: {
+    '& ul > li:not(:first-child):not(:last-child) > button:not(.Mui-selected)': {
+      color:'white',
+    },
+  }
 });
 
 ReactDOM.render(
