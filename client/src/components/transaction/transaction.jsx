@@ -2,7 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { supabase } from "supabase/supabase";
-import { takeSecretKey, takePublicKey, validate } from "./transactioTools";
+import { takereceiverId, takeSourceId, validate } from "./transactioTools";
 import {
   Container,
   Typography,
@@ -10,6 +10,8 @@ import {
   TextField,
   FormControl,
   ButtonGroup,
+  Select,
+  MenuItem,
   Divider,
 } from "@material-ui/core";
 import useStyles from 'styles';
@@ -22,10 +24,12 @@ export default function Transaction() {
     amount: "",
   });
   const [transaction, setTransaction] = useState("");
+  
   const [succesTransaction, setSuccesTransaction] = useState(false);
   const [input, setInput] = useState({
     email: "",
     amount: "",
+    currency: ""
   });
   const session = supabase.auth.session();
   const history = useHistory();
@@ -48,16 +52,28 @@ export default function Transaction() {
   };
 
   const handleMail = async () => {
-    let PublicKey = await takePublicKey(input.email);
-    if (PublicKey) return PublicKey;
+    let receiverId = await takereceiverId(input.email);
+    if (receiverId) return receiverId;
     return undefined;
   };
 
   const handleTransaction = async (event) => {
     event.preventDefault();
-    let receiverPublicKey = await handleMail();
 
-    if (receiverPublicKey) {
+
+    let {data} = await supabase
+    .from('UserAnchor')
+    .select('firstName, lastName')
+    .eq('id_user', session.user.id)
+
+    if (data.length < 1) {
+      return alert('You need to complete your profile to do a transaction')
+    }
+    let receiverId = await handleMail();
+
+
+
+    if (receiverId) {
       let info = await supabase
         .from("RegisteredUsers")
         .select("bannedUser")
@@ -73,11 +89,12 @@ export default function Transaction() {
           confirmButtonColor:'rgb(158, 158, 158)',
         });
       } else {
-        let sourceSecretKey = await takeSecretKey();
+        let sourceId = await takeSourceId();
         let succes = await axios.post("http://localhost:3001/payment", {
-          sourceSecretKey: sourceSecretKey,
-          receiverPublicKey: receiverPublicKey,
+          sourceId: sourceId,
+          receiverId: receiverId,
           amount: input.amount,
+          currency: input.currency
         });
         Swal.fire({
           title: 'Success!',
@@ -91,6 +108,7 @@ export default function Transaction() {
         setInput({
           email: "",
           amount: "",
+          currency: ""
         });
         setTransfer(true);
       }
@@ -105,11 +123,15 @@ export default function Transaction() {
       });
     }
   };
+  
+  
 
   const handleNewTransaction = () => window.location.reload();
-
+  
   return (
+    <>
     <Container className={classes.cardCheck}>
+      
       {session ? (
         <div>
           <Typography variant="h4">Transaction</Typography>
@@ -128,7 +150,17 @@ export default function Transaction() {
                 onChange={handleChange}
                 color={error.email === "" ? "primary" : "secondary"}
                 fullWidth={true}
-              />
+              /> <br/>
+              <Select fullWidth={true} name='currency' value={input.currency} onChange={handleChange} >
+                <MenuItem value='ARSR'>ARSR</MenuItem>
+                <MenuItem value='EURR'>EURR</MenuItem>
+                <MenuItem value='HenryCoin'>HenryCoin</MenuItem>
+                <MenuItem value='SRT'>SRT</MenuItem>
+                <MenuItem value='USDR'>USDR</MenuItem>
+                <MenuItem value='XLM'>XLM</MenuItem>
+                
+              </Select>
+
               <TextField
                 label={error.amount === "" ? "Amount" : error.amount}
                 name="amount"
@@ -162,21 +194,31 @@ export default function Transaction() {
               </Button>
             </ButtonGroup>
           </form>
-        </div>
-      ) : (
+          
+        </div> 
+      ) :  (
         history.push("/")
       )}
-      {succesTransaction ? (
+      
+      </Container>
+      
+      <Container>
+      {succesTransaction && transaction ? (
         <div>
-          <Typography variant="h6">
-            To see the detail of your transaction go to the follow link:
+          <br/>
+          <Typography variant="h2">
+            Detail of your transaction 
           </Typography>
-          <a href={transaction} rel="noreferrer" target="_blank">
-            Transaction Info
-          </a>
+          <h3>Your payment</h3>
+          <h4>{transaction.amount} {transaction.currency.toUpperCase()}</h4>
+          <h3>Fee percentage</h3>
+          <h4>{transaction.feePercentage}%</h4>
+          <h3>Fee Amount</h3>
+          <h4>{transaction.fee} {transaction.currency.toUpperCase()}</h4>
           <br />
         </div>
       ) : null}
-    </Container>
+      </Container>
+    </>
   );
 }

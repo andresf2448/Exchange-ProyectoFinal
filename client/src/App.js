@@ -18,7 +18,8 @@ const RestorePassword = lazy(() =>
 );
 const Toml = lazy(() => import("containers/toml/toml"));
 const TransactionsPopup = lazy(() => import("methodsWallet/transactionsFlow"));
-const InitDeposit = lazy(() => import("./methodsWallet/deposit/initDeposit"));
+const DepositWallet = lazy(() => import("./methodsWallet/deposit/depositWallet"));
+// const InitDeposit = lazy(() => import("./methodsWallet/deposit/initDeposit"));
 const Landing = lazy(() => import("containers/landing/landing"));
 
 function App() {
@@ -43,7 +44,7 @@ function App() {
             <Route path="/about" component={About} />
             <Route path="/restorePassword" component={RestorePassword} />
             <Route path="/.well-known/stellar.toml" component={Toml} />
-            <Route path="/deposit" component={InitDeposit} />
+            <Route path="/deposit" component={DepositWallet} />
             <Route path="/kycflow" component={TransactionsPopup} />
             <Route path="/detailsUsers" component={CardUser} />
           </Switch>
