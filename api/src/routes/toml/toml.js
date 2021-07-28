@@ -13,6 +13,7 @@ router.get("/", (req, res, next) => {
   res.set("Content-Type", "text/plain");
   res.sendFile("stellar.toml", options, function (err) {
     if (err) {
+      console.log(err)
       next(err);
     } 
   });

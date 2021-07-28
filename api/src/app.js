@@ -35,7 +35,7 @@ server.use("/transaction", routes.transaction);
 server.use("/payment", routes.payment);
 server.use("/createWallet", routes.acount);
 server.use("/create-payment-intent", routes.stripe);
-server.use("/stellar.toml", routes.toml);
+server.use("/.well-known/stellar.toml", routes.toml);
 server.use("/emails", routes.emails);
 server.use("/whatsapp", routes.whatsapp);
 server.use("/invite", routes.invite);

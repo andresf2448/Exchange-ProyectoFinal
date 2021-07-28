@@ -12,7 +12,7 @@ import { deleteClientSecret } from "redux/actions/actions";
 import { useRef } from "react";
 import axios from "axios";
 
-export default function CheckoutForm({amount, currency}) {
+export default function CheckoutForm({amount, currency, crypto}) {
   const history = useHistory();
   const dispatch = useDispatch();
   const stripe = useStripe();
@@ -22,22 +22,25 @@ export default function CheckoutForm({amount, currency}) {
   const [payment, setPayment] = useState(false);
   const [error, setError] = useState(false);
   const [waiting, setWaiting] = useState(false);
+  const [paymentCrypto, setPaymentCrypto] = useState();
 
   const session = supabase.auth.session();
 
   const inputEl = useRef(null);
 
+
   const handleSubmit = async (event) => {
     event.preventDefault();
+    
     setWaiting(() => true);
     setError(() => false);
-
+    
     if (!stripe || !elements) return;
 
     if (clientSecret) {
       const { data, error } = await supabase
-        .from("datauser")
-        .select("email")
+        .from("UserAnchor")
+        .select("firstName, lastName")
         .eq("id_user", session.user.id);
 
       if (error) return Swal.fire({
@@ -49,29 +52,35 @@ export default function CheckoutForm({amount, currency}) {
         confirmButtonColor:'rgb(158, 158, 158)',
       });
 
-      const result = await stripe.confirmCardPayment(clientSecret, {
-        payment_method: {
-          card: elements.getElement(CardElement),
-          billing_details: {
-            name: data[0]?.email || "Juan Perez",
-          },
-        },
-      });
-      setWaiting(false);
-      if (result.error) {
-        setError(result.error.message);
-      } else if (result.paymentIntent.status === "succeeded") {
-        setPayment(result.paymentIntent);
-        console.log('PaymentIntenttttt', clientSecret)
-        axios.post('http://localhost:3001/payment', {
-          sourceId: 1, 
-          receiverId: session.user.id, 
-          amount: amount,
-          asset: currency
-        })
+      if (data.length > 0) {
+        const result = await stripe.confirmCardPayment(clientSecret, {
+          payment_method: {
+            card: elements.getElement(CardElement),
+            billing_details: {
+              name: data[0]?.firstName + ' ' + data[0]?.lastName || "No data",
+            },
+        }});
+        setWaiting(false);
+        if (result.error) {
+          setError(result.error.message);
+        } else if (result.paymentIntent.status === "succeeded") {
+          setPayment(result.paymentIntent);
+          
+          let paymentRocket = await axios.post('http://localhost:3001/payment', {
+            sourceId: 'rocket', 
+            receiverId: session.user.id, 
+            amount: amount,
+            currency: currency,
+            crypto: crypto
+          })
+          
+          setPaymentCrypto(paymentRocket.data)
+        }
+
       }
-    }
-  };
+      }
+  }
+  
 
   const backHome = () => {
     dispatch(deleteClientSecret());
@@ -82,17 +91,10 @@ export default function CheckoutForm({amount, currency}) {
     return () => dispatch(deleteClientSecret());
   }, [dispatch]);
 
-  // if(clientSecret === null) {
-  //   history.push("/")
-  // }
-  // else if(clientSecret === undefined) {
-  //   return <h1>Loading...</h1>
-  // }
-
   const handleConfirm = () => {
     inputEl.current.click();
   };
-
+  console.log('Que onda stripe???')
   return (
     <>
       <form onSubmit={handleSubmit}>
@@ -114,13 +116,18 @@ export default function CheckoutForm({amount, currency}) {
         />
       </form>
       {waiting ? <h3>Loading...</h3> : null}
-      {payment ? (
+      {payment && paymentCrypto ? (
         <div>
-          <h1>Succes !!</h1>
-          <h3>
-            Your payment of {payment.amount / 100}{" "}
-            {payment.currency.toUpperCase()} was successful!
-          </h3>
+          <h1>Succes Payment</h1>
+          <h3>Your payment</h3>
+          <h4>{payment.amount / 100} {payment.currency.toUpperCase()}</h4>
+          <h3>You received</h3>
+          <h4>{paymentCrypto.amount} {crypto ? crypto : payment.currency.toUpperCase() + 'R'}</h4>
+          <h3>Percentage of the fee was</h3>
+          <h4>{paymentCrypto.feePercentage}%</h4>
+          <h3>The total fee was</h3>
+          <h4>{paymentCrypto.fee} {payment.currency.toUpperCase()}</h4>
+          
           <Button color="primary" variant="contained" onClick={backHome}>
             Back Home
           </Button>
