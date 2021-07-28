@@ -15,11 +15,11 @@ var connectionOptions = {
 
 const useStyles = makeStyles({
   scroll: {
-    height: 140,
-    width: '90%',
+    height: 400,
+    width: '40%',
     overflow: "auto",
     marginTop: 2,
-    marginLeft: 20
+    marginLeft: 2
   },
 });
 
@@ -47,7 +47,7 @@ export default function Twitter() {
         setArr(TweetData);
       } else {
         setArr((prevState) => {
-          return [...prevState, TweetData];
+          return [TweetData, ...prevState];
         });
       }
     });
@@ -57,8 +57,9 @@ export default function Twitter() {
     <Grid container spacing={12} className={classes.scroll}>
       {arr &&
         arr.map((twitt) => {
-          return <TwittCard data={twitt} />;
-        })}
+          return <TwittCard data={twitt} />;  
+        })
+      }
     </Grid>
   );
 };

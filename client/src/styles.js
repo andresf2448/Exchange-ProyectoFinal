@@ -40,11 +40,22 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: theme.palette.secondary.background,
     color: theme.palette.primary.contrastText,
     borderRadius: '6px', 
-    // margin: 30, 
+    margin: '2%',
     padding: 15,                   
     display:"flex",
     justifyContent: "center", 
     alignItems: "center" 
+  },
+  cardUserSpinner: {
+    height:'60vh',
+    backgroundColor: theme.palette.secondary.background,
+    color: theme.palette.primary.contrastText,
+    borderRadius: '6px', 
+    padding: 15,  
+    display:"flex",
+    justifyContent: "center", 
+    alignItems: "center",
+    margin: '2%'
   },
   loginContainer: {
     height: "100vh",
@@ -252,8 +263,8 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'center'
   },
   twitterCard: {
-    minWidth: '50vh',
-    minHeight: '18vh',
+    minHeight: '22vh',
+    minWidth: '45vh',
     flexDirection: 'column',
     padding: '10px',
     display: 'flex',
@@ -261,8 +272,8 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'center',
     alignItems: 'center',
     margin: '8px',
-    color: '#04042b',
-    backgroundColor: '#afafaf'
+    color: '#afafaf',
+    backgroundColor: '#15202B'
   },
   twitterLink: {
     marginTop: '5%',

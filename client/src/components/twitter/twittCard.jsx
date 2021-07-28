@@ -7,8 +7,8 @@ export default function TwittCard(props) {
     const classes = useStyles();
 
     return(
-        <Grow container in='true' timeout='auto'>
-            <Grid container xs={12} className={classes.twitterGrid}>
+            <Grow container in='true' timeout='auto'>
+                <Grid container xs={12} className={classes.twitterGrid}>
                 <Card item xs={12} className={classes.twitterCard}>
                     <Typography item xs={12} variant='body2' align='center'>
                             {text}...
@@ -27,7 +27,7 @@ export default function TwittCard(props) {
                         </Grid>
                     </Grid>
                 </Card>
-            </Grid>
-        </Grow>
+                </Grid>
+            </Grow>
     )
 }

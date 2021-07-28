@@ -26,9 +26,6 @@ export const HomeGrid = () => {
             className="home-container_boxLeft--bottom"
             spacing={2}
           >
-            <Typography variant="h5">
-              cryptocurrencies and blockchain tweets
-            </Typography>
             <Grid item xs={12}>
               <Twitter />
             </Grid>
