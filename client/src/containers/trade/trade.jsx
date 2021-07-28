@@ -11,7 +11,8 @@ import { supabase } from "../../supabase/supabase";
 
 function Trade() {
   const [assets, setAssets] = useState();
-  const [user, setUser] = useState();
+  const [publicKey, setPublicKey] = useState();
+  const [secretKey, setSecretKey] = useState();
   const session = supabase.auth.session();
 
   async function getAssets() {
@@ -27,17 +28,19 @@ function Trade() {
       .from("datauser")
       .select("public_key")
       .eq("id_user", session.user.id);
-    if (public_key[0])
-      return setUser({ ...user, publicKey: public_key[0].public_key });
+   
+      setPublicKey(public_key[0].public_key);
 
     const { data: secret_key } = await supabase
-      .from("datauser")
-      .select("public_key")
+      .from("wallet")
+      .select("secret_key")
       .eq("id_user", session.user.id);
-    if (secret_key[0])
-      return setUser({ ...user, secretKey: secret_key[0].secret_key });
+    
+      return setSecretKey(secret_key[0].secret_key);
   }
-  keys()
+  if(!publicKey && !secretKey){
+    keys()
+  }
   return (
     <Container maxWidth="lg">
       <Grid container>
@@ -59,8 +62,8 @@ function Trade() {
             </Grid>
             <Grid item xs={12} sm={6}>
               <ManageBuyOffer
-                publicKey={user?.publicKey}
-                secretKey={user?.secretKey}
+                publicKey={publicKey}
+                secretKey={secretKey}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -70,7 +73,7 @@ function Trade() {
           <Grid container item sm={3}>
             <Grid item xs={12} style={{ height: "300px", paddingTop: "40px" }}>
               {/* <Card style={{height:'300px'}}>Listado de ventas activas</Card> */}
-              <OffersByAccount publicKey={user?.publicKey} />
+              <OffersByAccount publicKey={publicKey} />
             </Grid>
             <Grid item xs={12}>
               <CryptoCalculator />

@@ -1,23 +1,34 @@
 import { useState } from "react";
 import StellarSdk from "stellar-sdk";
 import Offer from "./offer.jsx";
+import { supabase } from "../supabase/supabase";
 
-export default function Orderbook({ assets }) {
-  const [assetBuy, setAssetBuy] = useState();
-  const [assetSell, setAssetSell] = useState();
+
+export default function Orderbook() {
+  const [assetBuy, setAssetBuy] = useState(new StellarSdk.Asset("COUPON", "GBMMZMK2DC4FFP4CAI6KCVNCQ7WLO5A7DQU7EC7WGHRDQBZB763X4OQI"));
+  const [assetSell, setAssetSell] = useState(new StellarSdk.Asset.native());
   const [response, setResponse] = useState();
+  const [assets, setAssets] = useState();
 
-  var server = new StellarSdk.Server("https://horizon.stellar.org");
+  var server = new StellarSdk.Server("https://horizon-testnet.stellar.org");
 
+  const getAssets = async () => {
+    let assets = await supabase.from("assets").select("*");
+
+    
+    return setAssets(assets.data);
+  };
+  if (!assets) {
+    getAssets();
+  }
   const selectAssetBuy = (event) => {
     const aux = assets.filter(
       (element) =>
         element.asset_code === event.target.value &&
         element.asset_code !== assetSell
     );
-    if (aux[0].asset_code === "XLM") return setAssetSell(false);
     const asset = new StellarSdk.Asset(aux[0].asset_code, aux[0].asset_issuer);
-    return setAssetBuy(asset[0]);
+    return setAssetBuy(asset);
   };
   const selectAssetSell = (event) => {
     const aux = assets.filter(
@@ -25,23 +36,24 @@ export default function Orderbook({ assets }) {
         element.asset_code === event.target.value &&
         element.asset_code !== assetBuy
     );
-    if (aux[0].asset_code === "XLM")
-      return setAssetSell(false);
+    
+      
     const asset = new StellarSdk.Asset(aux[0].asset_code, aux[0].asset_issuer);
-    return setAssetSell(asset[0]);
+    return setAssetSell(asset);
   };
 
   var callback = function (resp) {
     return setResponse(resp);
   };
-
-  server
+  
+  var es = server
     .orderbook(
-      !assetBuy ? new StellarSdk.Asset.native() : assetBuy,
-      !assetSell ? new StellarSdk.Asset.native() : assetSell
+      assetBuy,
+      assetSell
     )
     .cursor("now")
     .stream({ onmessage: callback });
+    
   return (
     <>
       <select
@@ -54,7 +66,6 @@ export default function Orderbook({ assets }) {
           assets.map((element) => {
             return (
               <option
-                onChange={(event) => selectAssetBuy(event)}
                 key={element.asset_code}
               >
                 {element.asset_code}
@@ -72,7 +83,6 @@ export default function Orderbook({ assets }) {
           assets.map((element) => {
             return (
               <option
-                onChange={(event) => selectAssetSell(event)}
                 key={element.asset_code}
               >
                 {element.asset_code}

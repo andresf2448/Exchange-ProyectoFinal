@@ -27,7 +27,7 @@ export const HomeGrid = () => {
             spacing={2}
           >
             <Grid item xs={12}>
-              <Twitter />
+              {/* <Twitter /> */}
             </Grid>
           </Grid>
         </Grid>
