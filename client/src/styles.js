@@ -118,7 +118,7 @@ const useStyles = makeStyles(theme => ({
     width: '96%',
     display: 'flex',
     flexDirection: 'column',
-    backgroundColor: '#fdfbfb',
+    backgroundColor: theme.palette.primary.light,
     justifyContent: 'center',
   },
   offerTableHead: {
