@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Button, TextField, Select, MenuItem, Grid, Typography, Container } from '@material-ui/core';
+import { Button, Select, MenuItem, Grid, Typography, Container } from '@material-ui/core';
 import axios from 'axios';
 import BuyButton from 'components/stripe/buyButton';
+import Swal from 'sweetalert2'
+
 
 //API de cryptocompare.com
 
@@ -12,13 +14,37 @@ export const CryptoCalculator = () => {
     const [firstCurrency, setFirstCurrency] = useState(1);
     const [secondCurrency, setSecondCurrency] = useState(1);
 
+
     async function convert() {
         
-        if(convertion.amount === 0 || !convertion.amount){return alert('Amount required')}
-        if(convertion.firstCoin === '' || convertion.firstCoin === 1 || convertion.secondCoin === '' || convertion.secondCoin === 1){return alert('Invalid currency')}
+        if(convertion.amount === 0 || !convertion.amount){
+            return Swal.fire({
+                        title: 'Uops!',
+                        text: 'Amount required',
+                        icon: 'warning',
+                        confirmButtonText: 'Cool',
+                        background: '#1f1f1f',
+                        confirmButtonColor:'rgb(158, 158, 158)',
+                    })}
+        if(convertion.firstCoin === '' || convertion.firstCoin === 1 || convertion.secondCoin === '' || convertion.secondCoin === 1){
+            return Swal.fire({
+                    title: 'Uops!',
+                    text: 'Invalid currency',
+                    icon: 'warning',
+                    confirmButtonText: 'Ups',
+                    background: '#1f1f1f',
+                    confirmButtonColor:'rgb(158, 158, 158)',
+                })}
         let currencies = await axios.get(`https://min-api.cryptocompare.com/data/price?api_key={0aec49a900c2d7469630114260688bb1914813d1f365aa38f494f6c8a6e946d1}&fsym=${convertion.firstCoin}&tsyms=${convertion.secondCoin}`)
         if(currencies.data.Response === 'Error'){
-            return alert('Something went wrong');
+            return Swal.fire({
+                title: 'Hmmmmm!',
+                text: 'Something went wrong',
+                icon: 'error',
+                confirmButtonText: 'Ok',
+                background: '#1f1f1f',
+                confirmButtonColor:'rgb(158, 158, 158)',
+              });
         }
         var total = Object.values(currencies.data)[0] * convertion.amount;
          
@@ -49,14 +75,14 @@ export const CryptoCalculator = () => {
   
     return (
     <Container>
-        <Grid container className='calculatorContainer'>   
+        <Grid container style={{marginTop:'100px'}}>   
 
             <Grid item sm={12}>
-                <Typography variant='h4'>Converter</Typography>
+                <Typography style={{textAlign:'center', marginRight:'30px', marginBottom:'10px'}}>Converter</Typography>
             </Grid>
 
-            <Grid item sm={6}>
-            <Select displayEmpty value={firstCurrency} onChange={(e) => handleChange('first', e)}>
+            <Grid item sm={6} >
+            <Select style={{padding:'5px', borderRadius: '3px', backgroundColor: 'white'}} displayEmpty value={firstCurrency} onChange={(e) => handleChange('first', e)}>
                     <MenuItem disabled value={1}>Currency</MenuItem>
                     <MenuItem value='USD'>USD</MenuItem>
                     <MenuItem value='EUR'>EUR</MenuItem>
@@ -65,12 +91,13 @@ export const CryptoCalculator = () => {
                     <MenuItem value='ETH'>Ethereum</MenuItem>
                 </Select>
     
-                <TextField required margin='normal' placeholder='Amount' onChange={(e) => setConvertion({ ...convertion, amount: e.target.value })} />
+                {/* <TextField required margin='normal' placeholder='Amount' variant='outlined' color='secondary' onChange={(e) => setConvertion({ ...convertion, amount: e.target.value })} /> */}
+                <input type="text" required placeholder='Amount' style={{padding:'10px', width:'73px', marginTop:'8px', borderRadius:'4px'}} onChange={(e) => setConvertion({ ...convertion, amount: e.target.value })}/>
             </Grid>
 
-            <Grid item sm={6}>
+            <Grid item sm={6} style={{marginBottom:'5px'}}>
        
-                <Select displayEmpty value={secondCurrency}onChange={(e) => handleChange('second', e) }>
+                <Select  style={{padding:'5px', borderRadius: '3px', backgroundColor: 'white'}} displayEmpty value={secondCurrency}onChange={(e) => handleChange('second', e) }>
                     <MenuItem disabled value={1}>Currency</MenuItem>
                     <MenuItem value='USD'>USD</MenuItem>
                     <MenuItem value='EUR'>EUR</MenuItem>
@@ -79,7 +106,8 @@ export const CryptoCalculator = () => {
                     <MenuItem value='ETH'>Ethereum</MenuItem>
                 </Select>
                
-                <TextField disabled={true} value={result} margin='normal' />
+                {/* <TextField disabled={true} value={result}  margin='normal' /> */}
+                <input type="text" disabled value={result} style={{padding:'9px', marginTop:'10px', width:'78px'}} />
               
             </Grid>
             <Button 
@@ -90,7 +118,8 @@ export const CryptoCalculator = () => {
             >
             Convert
             </Button>
-            <BuyButton 
+            <BuyButton
+            color='secondary' 
             convertion={convertion}
             result={result} 
             />

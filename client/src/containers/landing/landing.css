@@ -3,27 +3,75 @@
     margin-bottom: 2%;
 }
 
-.mainTitle{
-    height:100vh;
-    background-color: mediumpurple;
+.navItems:hover{
+    cursor: pointer;
+    color: #ffd523;
+}
+
+.presentation{
+    align-content: space-around;
+    height: 110vh;
+    display: inline-grid;
+}
+
+.register{
+    height: 110vh;
+    width: 100%;
+    display: inline-grid;
+    align-content:center;
+    /* align-items: center; */
+    background-image: linear-gradient(120deg, #fdfbfb 0%, #c5c5c5 100%);
+    border-radius: 4px;
+    color: #272727b3;
 }
 
 .cryptos {
-    height:100vh;
-    background-color: tomato
+    height:110vh;
+    width: 100%;
+    background-image: linear-gradient(120deg, #172536 0%, #272727b3 100%);
+    border-radius: 4px;
 }
 
 .rocketFeatures{
-    height:100vh;
-    background-color: rgb(76, 76, 255);
+    height:110vh;
+    background-image: url('./background.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-radius: 4px;
+    
+}
+
+.rocketFeaturesTypography{
+    color:#fdfbfb;
+    letter-spacing: 3px;
+    color: #ffd20a;
+    padding: 30px;
+}
+
+.cryptoIcons{
+    width: 20%;
+    color: #fdfbfb;
+}
+
+.aboutGrid{
+    margin-top: 2%;
 }
 
 .frequencyQuestion{
-    height:100vh;
+    height:110vh;
+    margin-top: 2%;
 }
 
 .toTopButton{
-    right: 0;
+    right: 1%;
     bottom: 0;
     position: fixed;
+    color:#fdfbfb;
+    background-color: #ffd20a;
+    border-radius: 3px;
+}
+
+.toTopButton:hover{
+    background-color: #ffe988;
+    color: #272727b3; 
 }

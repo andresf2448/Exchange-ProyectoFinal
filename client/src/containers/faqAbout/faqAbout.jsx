@@ -14,12 +14,11 @@ export default function FaqAbout() {
         setValue(newValue);
     };
 
-
-    return (<Grid container >
-
+    return (
+    <Grid container style={{backgroundColor: '#1F1F1F'}} >
         <Grid item xs={2}>
 
-            <AppBar position="static" style={{marginLeft:'20px'}}>
+            <AppBar position="static" style={{height: '87vh'}}>
                 <Tabs value={value} orientation='vertical' variant='scrollable' onChange={handleChange}>
                     <Tab label='FAQ' />
                     <Tab label="About" />

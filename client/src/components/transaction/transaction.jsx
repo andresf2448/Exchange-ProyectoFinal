@@ -11,9 +11,11 @@ import {
   FormControl,
   ButtonGroup,
   Select,
-  MenuItem
+  MenuItem,
+  Divider,
 } from "@material-ui/core";
 import useStyles from 'styles';
+import Swal from 'sweetalert2';
 
 export default function Transaction() {
   const [error, setError] = useState({
@@ -78,7 +80,14 @@ export default function Transaction() {
         .eq("email", input.email);
 
       if (info.data[0].bannedUser) {
-        alert("User is banned");
+        Swal.fire({
+          title: 'Hold it!',
+          text: "User is banned",
+          icon: 'warning',
+          confirmButtonText: 'Cool',
+          background: '#1f1f1f',
+          confirmButtonColor:'rgb(158, 158, 158)',
+        });
       } else {
         let sourceId = await takeSourceId();
         let succes = await axios.post("http://localhost:3001/payment", {
@@ -87,7 +96,13 @@ export default function Transaction() {
           amount: input.amount,
           currency: input.currency
         });
-        alert("Succes !");
+        Swal.fire({
+          title: 'Success!',
+          icon: 'success',
+          confirmButtonText: 'Cool',
+          background: '#1f1f1f',
+          confirmButtonColor:'rgb(158, 158, 158)',
+        });
         setSuccesTransaction(true);
         setTransaction(succes.data);
         setInput({
@@ -98,7 +113,14 @@ export default function Transaction() {
         setTransfer(true);
       }
     } else {
-      alert("Mail is not registered");
+      Swal.fire({
+        title: 'Uops!',
+        text: "Mail is not registered",
+        icon: 'error',
+        confirmButtonText: 'Ok',
+        background: '#1f1f1f',
+        confirmButtonColor:'rgb(158, 158, 158)',
+      });
     }
   };
   
@@ -117,6 +139,7 @@ export default function Transaction() {
             Search by email the person you want to transfer
           </Typography>
           <br />
+          <Divider className={classes.divider}/>
           <form onSubmit={handleTransaction}>
             <FormControl className={classes.formCheck}>
               <TextField
@@ -154,7 +177,8 @@ export default function Transaction() {
               <Button
                 type="submit"
                 variant="outlined"
-                color="primary"
+                className={classes.yellowButton}
+                style={{width: '60%', color: '#ffd523'}}
                 disabled={error.isError || transfer ? !submit : submit}
                 >
                 Transfer

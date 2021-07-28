@@ -1,10 +1,10 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { Button, Grid, Typography, Divider } from "@material-ui/core";
 import useStyles from "styles";
 import { supabase } from "supabase/supabase";
-import { useEffect } from "react";
 import MuxedAccount from 'methodsWallet/muxedAccount.jsx';
+import HashLoader from "react-spinners/HashLoader";
 
 
 export default function CreateAccount() {
@@ -16,6 +16,7 @@ export default function CreateAccount() {
   const [hasWallet, setHasWallet] = useState(false);
   const [publicKeyUser, setPublicKeyUser] = useState(null);
   const [secretKeyUser, setSecretKeyUser] = useState(null);
+  const [spinner, setSpinner] = useState(true);
 
   const userExist = async () => {
     let { data } = await supabase
@@ -49,7 +50,6 @@ export default function CreateAccount() {
     const { publicKey, secretKey } = response.data;
     const { user } = session;
 
-   
     let id_user = user.id;
     let username = userName.current.value;
     let email = user.email;
@@ -78,27 +78,34 @@ export default function CreateAccount() {
     ]);
   };
 
+  useEffect(() => {
+    setTimeout(() => {
+      setSpinner(false);
+    }, 2000);
+  },[])
+
   return (
     <div>
-      {!publicKey && ! secretKey ? null : null}
-      {hasWallet ? (
-        <Grid item key={12}>
-            {<Typography variant='h6'> PublicKey: {publicKeyUser} </Typography>}
-            {<Typography variant='h6' > SecretKey: {secretKeyUser} </Typography>}
-          <Divider variant="middle"/>
+      {spinner ? <HashLoader color={'#ffd523'} size={20}/> :
+        hasWallet ? (
+          <Grid item key={12}>
+          {<Typography variant='h6'>PublicKey | {publicKeyUser}</Typography>}
+          {<Typography variant='h6'>SecretKey | {secretKeyUser}</Typography>}
+          <Divider className={classes.divider}/>
           <br/>
-            <MuxedAccount pk={publicKeyUser}/>
-        </Grid>
-
-      ) : (
-        <form onSubmit={createdAccounts}>
-          <label> User Name :</label>
-          <input ref={userName} required />
-          <Button className={classes.button} color="secondary" type="submit">
+          <MuxedAccount pk={publicKeyUser}/>
+          </Grid>
+          
+          ) : (
+            <form onSubmit={createdAccounts}>
+            <label> User Name </label>
+            <input ref={userName} required />
+            <Button className={classes.yellowButton}  type="submit">
             Crear Wallet
-          </Button>
-        </form>
-      )}
+            </Button>
+            </form>
+          )
+      }
     </div>
   );
 }

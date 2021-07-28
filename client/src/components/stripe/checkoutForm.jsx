@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { supabase } from "supabase/supabase";
 import { Button } from "@material-ui/core";
 import "./stripeCard.css";
+import Swal from 'sweetalert2';
 
 import CardForm from "./stripeCard";
 import { deleteClientSecret } from "redux/actions/actions";
@@ -42,8 +43,15 @@ export default function CheckoutForm({amount, currency, crypto}) {
         .select("firstName, lastName")
         .eq("id_user", session.user.id);
 
-      if (error) return alert(error.message);
-      
+      if (error) return Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Cool',
+        background: '#1f1f1f',
+        confirmButtonColor:'rgb(158, 158, 158)',
+      });
+
       if (data.length > 0) {
         const result = await stripe.confirmCardPayment(clientSecret, {
           payment_method: {
@@ -51,8 +59,7 @@ export default function CheckoutForm({amount, currency, crypto}) {
             billing_details: {
               name: data[0]?.firstName + ' ' + data[0]?.lastName || "No data",
             },
-          },
-        });
+        }});
         setWaiting(false);
         if (result.error) {
           setError(result.error.message);
@@ -66,14 +73,14 @@ export default function CheckoutForm({amount, currency, crypto}) {
             currency: currency,
             crypto: crypto
           })
-          console.log(paymentRocket.data)
+          
           setPaymentCrypto(paymentRocket.data)
         }
 
-
       }
-    }
-  };
+      }
+  }
+  
 
   const backHome = () => {
     dispatch(deleteClientSecret());
