@@ -69,15 +69,15 @@ export default function Register () {
             confirmButtonColor:'rgb(158, 158, 158)',
           });
 
-          Swal.fire({
+          return Swal.fire({
             title: 'Success!',
-            text: "congratulations your account has been created",
+            text: "congratulations your account has been created, go check your email to activate it!",
             icon: 'success',
             confirmButtonText: 'Cool',
             background: '#1f1f1f',
             confirmButtonColor:'rgb(158, 158, 158)',
-          });
-          return history.push("/");
+          }).then(()=> history.go(0));
+          
         })
         .catch((err) => err);
     } else {
@@ -92,9 +92,9 @@ export default function Register () {
     }
   };
 
-  const back = () => {
-    history.push("/");
-  };
+  // const back = () => {
+  //   history.push("/");
+  // };
   useEffect(() => {
     if (error.isError) {
       setSubmit(false);
@@ -149,9 +149,9 @@ export default function Register () {
                     >
                       Sing up
                     </Button>
-                    <Button onClick={back} variant="outlined" color="secondary">
+                    {/* <Button onClick={back} variant="outlined" color="secondary">
                       Back
-                    </Button>
+                    </Button> */}
                   </ButtonGroup>
               </FormControl>
             </form>

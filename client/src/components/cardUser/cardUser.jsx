@@ -30,7 +30,7 @@ export const CardUser = () => {
       .select("public_key, email")
       .eq("id_user", state);
     
-    setEmail(data[0].email)
+    setEmail(data[0]?.email)
 
     return data;
   };
@@ -136,7 +136,7 @@ export const CardUser = () => {
   }, []);
 
   return (
-    <Container disableGutters maxWidth='md' style={{minHeigth: '130vh', paddingTop: 20, paddingBottom: 20}}>
+    <Container maxWidth='md' style={{minHeigth: '130vh', paddingTop: 20, paddingBottom: 20}}>
         {
           spinner ?
           <Card elevation={3} className={classes.cardUserSpinner}>
