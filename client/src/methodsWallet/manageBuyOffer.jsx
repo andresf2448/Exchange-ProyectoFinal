@@ -1,7 +1,8 @@
-import { Grid, Typography } from "@material-ui/core";
+import { Grid, Typography, Select, MenuItem, TextField, Button } from "@material-ui/core";
 import { useState } from "react";
 import StellarSdk from "stellar-sdk";
 import { supabase } from "../supabase/supabase";
+import useStyles from "styles";
 
 export default function ManageBuyOffer({ publicKey, secretKey }) {
   const [assetAsk, setAssetAsk] = useState();
@@ -9,7 +10,10 @@ export default function ManageBuyOffer({ publicKey, secretKey }) {
   const [assets, setAssets] = useState();
   const [amount, setAmount] = useState();
   const [price, setPrice] = useState();
+  const [firstSelect, setFirstSelect] = useState(1)
+  const [secondSelect, setSecondSelect] = useState(1)
 
+  const classes = useStyles();
   const server = new StellarSdk.Server("https://horizon-testnet.stellar.org");
 
   const getAssets = async () => {
@@ -100,15 +104,34 @@ export default function ManageBuyOffer({ publicKey, secretKey }) {
     makeBuyOffer();
   }
 
+  function handleChange(event) {
+    selectAssetAsk(event);
+    setFirstSelect(event.target.value)
+  }
+  function handleChange2(event) {
+    selectAssetBid(event);
+    setSecondSelect(event.target.value);
+  }
+
   return (
-    <Grid container>
+    <Grid container style={{ backgroundColor: '#1F1F1F', marginLeft:'-19px', paddingLeft: '20px', marginTop:'-22px' }}>
       <form onSubmit={(event) => handleSubmit(event)}>
         <Grid container item alignContent="space-around">
           <Grid item xs={12}>
             <Typography>Create your sale offer:</Typography>
           </Grid>
-          <Grid item xs={12}>
-            <select
+          <Grid item style={{ display: 'flex' }}>
+            <Grid item xs={12}  >
+              <Select value={firstSelect} className={classes.adminTableContainer} style={{ marginTop:'2px', padding:'5px', borderRadius: '3px', backgroundColor: 'white', color: 'rgb(183, 189, 198)' }} onChange={(event) => handleChange(event)}>
+                <MenuItem disabled value={1}>Ask asset</MenuItem>
+                {assets && assets.data.map((element) => {
+                  return (<MenuItem value={element.asset_code} key={element.asset_code}>
+                    {element.asset_code}
+                  </MenuItem>)
+                })}
+
+              </Select>
+              {/* <select
               defaultValue=""
               name="assetAsk"
               onChange={(event) => selectAssetAsk(event)}
@@ -122,18 +145,30 @@ export default function ManageBuyOffer({ publicKey, secretKey }) {
                     </option>
                   );
                 })}
-            </select>
+            </select> */}
+            </Grid>
+            <Grid item xs={12}>
+              {/* <TextField onChange={(event) => setAmount(event.target.value)} value='Amount to sell'></TextField> */}
+              <input
+                style={{ padding: '12px', borderRadius: '6px', backgroundColor: 'white', color: 'rgb(183, 189, 198)' }}
+                type="text"
+                name="amount"
+                onChange={(event) => setAmount(event.target.value)}
+                placeholder="Amount to sell"
+              />
+            </Grid>
           </Grid>
-          <Grid item xs={12}>
-            <input
-              type="text"
-              name="amount"
-              onChange={(event) => setAmount(event.target.value)}
-              placeholder="Amount to sell"
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <select
+          <Grid item style={{display:'flex', marginTop:'5px'}}>
+            <Grid item xs={12}>
+              <Select value={secondSelect}  style={{ marginTop:'1.5px', paddingRight:'7.5px',padding:'5px', borderRadius: '3px', backgroundColor: 'white', color: 'rgb(183, 189, 198)' }} onChange={(event) => handleChange2(event)}>
+                <MenuItem disabled value={1}>Bid asset</MenuItem>
+                {assets && assets.data.map((element) => {
+                  return (<MenuItem value={element.asset_code} key={element.asset_code}>
+                    {element.asset_code}
+                  </MenuItem>)
+                })}
+              </Select>
+              {/* <select
               defaultValue=""
               name="assetBid"
               onChange={(event) => selectAssetBid(event)}
@@ -150,18 +185,22 @@ export default function ManageBuyOffer({ publicKey, secretKey }) {
                     </option>
                   );
                 })}
-            </select>
+            </select> */}
+            </Grid>
+            <Grid item xs={12}>
+              {/* <TextField onChange={(event) => setPrice(event.target.value)} value='Price per token'></TextField> */}
+              <input
+                style={{ padding: '12px',borderRadius: '6px', backgroundColor: 'white', color: 'rgb(183, 189, 198)' }}
+                type="text"
+                name="price"
+                onChange={(event) => setPrice(event.target.value)}
+                placeholder="Price per token"
+              />
+            </Grid>
           </Grid>
-          <Grid item xs={12}>
-            <input
-              type="text"
-              name="price"
-              onChange={(event) => setPrice(event.target.value)}
-              placeholder="Price per token"
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <input type="submit"></input>
+          <Grid item style={{display:'flex', justifyContent:'flex-end'}} xs={12}>
+            <Button type='submit' style={{ marginRight:'5px',marginTop:'4px', backgroundColor: 'white' }}>Submit</Button>
+            {/* <input type="submit"></input> */}
           </Grid>
         </Grid>
       </form>

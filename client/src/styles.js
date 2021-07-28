@@ -36,6 +36,27 @@ const useStyles = makeStyles(theme => ({
     justifyContent: "center", 
     alignItems: "center" 
   },
+  cardUserContainer: {
+    backgroundColor: theme.palette.secondary.background,
+    color: theme.palette.primary.contrastText,
+    borderRadius: '6px', 
+    margin: '2%',
+    padding: 15,                   
+    display:"flex",
+    justifyContent: "center", 
+    alignItems: "center" 
+  },
+  cardUserSpinner: {
+    height:'60vh',
+    backgroundColor: theme.palette.secondary.background,
+    color: theme.palette.primary.contrastText,
+    borderRadius: '6px', 
+    padding: 15,  
+    display:"flex",
+    justifyContent: "center", 
+    alignItems: "center",
+    margin: '2%'
+  },
   loginContainer: {
     height: "100vh",
     display: "flex",
@@ -102,6 +123,16 @@ const useStyles = makeStyles(theme => ({
   },
   offerTableHead: {
     backgroundColor: theme.palette.primary.light
+  },
+  modal: {
+    position: 'absolute',
+    width: 400,
+    backgroundColor: theme.palette.secondary.background,
+    border: '2px solid #000',
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(2, 4, 3),
+    top: '25%',
+    left: '35%',
   },
   tooltip: {
     borderRadius: "5px",
@@ -225,7 +256,44 @@ const useStyles = makeStyles(theme => ({
   },
   spinner:{
     color: '#ffd523'
+  },
+  twitterGrid: {
+    margin: '1%',
+    alignContent: 'center',
+    justifyContent: 'center'
+  },
+  twitterCard: {
+    minHeight: '22vh',
+    minWidth: '45vh',
+    flexDirection: 'column',
+    padding: '10px',
+    display: 'flex',
+    alignContent: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
+    margin: '8px',
+    color: '#afafaf',
+    backgroundColor: '#15202B'
+  },
+  twitterLink: {
+    marginTop: '5%',
+    marginRight: '10%',
+    backgroundColor: '#1679B6',
+    color:'#04042b',
+    fontSize: '12px',
+    '&:hover': {
+      background: "#1DA1F2",
+      color: '#000'
+    }  
+  },
+  twitterUser:{
+    fontStyle: 'italic'
+  },
+  twitterMetrics:{
+    marginTop: '5%',
+    marginLeft: '10%',
   }
+
 
 }));
 
