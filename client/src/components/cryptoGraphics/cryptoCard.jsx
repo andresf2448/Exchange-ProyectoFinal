@@ -11,8 +11,8 @@ const CryptoCard = (props) => {
   return (
     <>
         <Card className={classes.cryptoCurrency}>
-                <Grid container>
-                  <Grid item sm={4} >
+                <Grid container align="center">
+                  <Grid item sm={6} >
                     <img className="cryptoIcons" src={img} alt="no img" />
                   </Grid>
                   <Grid item sm={6}>
