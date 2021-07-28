@@ -1,7 +1,10 @@
-import { Container, Grid, Typography } from "@material-ui/core";
+import { Container, Grid, Typography, Card } from "@material-ui/core";
 import Twitter from 'components/twitter/twitter';
+import { CryptoGraphics } from 'components/cryptoGraphics/cryptoGraphics';
+import useStyles from 'styles';
 
 export const HomeGrid = () => {
+  const classes = useStyles();
   return (
     <Container maxWidth="lg">
       <Grid
@@ -19,7 +22,9 @@ export const HomeGrid = () => {
           alignContent="space-around"
         >
           <Grid item className="crypto-graphics" xs={12}>
-            {/* <CryptoGraphics /> */}
+            <Card elevation={3} className={classes.adminCard}>
+              <CryptoGraphics />
+            </Card>
           </Grid>
           <Grid
             container

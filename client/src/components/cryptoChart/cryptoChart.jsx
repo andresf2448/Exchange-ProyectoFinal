@@ -20,14 +20,16 @@ const CryptoChart = ({crypto}) => {
       .then((res) => {
         const data = []
         res.data.prices.forEach(e => {
+          let fecha = `${new Date(e[0]).getFullYear()}/${new Date(e[0]).getMonth() + 1}/${new Date(e[0]).getDay()}`;
           data.push({
             precio: e[1],
-            date: new Date(e[0]).toLocaleDateString()
+            date: fecha,
           })
         });
         setPrice(data);
       })
   },[crypto]);
+  console.log(price)
   return (
     <ResponsiveContainer width="100%" height={75}>
       <AreaChart data={price}> 
