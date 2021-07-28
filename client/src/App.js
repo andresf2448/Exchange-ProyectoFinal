@@ -1,7 +1,8 @@
-
 import React, { Suspense, lazy } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { CardUser } from "components/cardUser/cardUser";
 import "./App.scss";
+
 
 const Login = lazy(() => import("components/login/login"));
 const Register = lazy(() => import("components/register/register"));
@@ -17,7 +18,7 @@ const RestorePassword = lazy(() =>
 );
 const Toml = lazy(() => import("containers/toml/toml"));
 const TransactionsPopup = lazy(() => import("methodsWallet/transactionsFlow"));
-const InitDeposit = lazy(() => import("./methodsWallet/deposit/initDeposit"));
+const DepositWallet = lazy(() => import("./methodsWallet/deposit/depositWallet"));
 
 function App() {
   return (
@@ -34,8 +35,9 @@ function App() {
             <Route path="/about" component={About} />
             <Route path="/restorePassword" component={RestorePassword} />
             <Route path="/.well-known/stellar.toml" component={Toml} />
-            <Route path="/deposit" component={InitDeposit} />
+            <Route path="/deposit" component={DepositWallet} />
             <Route path="/kycflow" component={TransactionsPopup} />
+            <Route path="/detailsUsers" component={CardUser} />
           </Switch>
         </Suspense>
 

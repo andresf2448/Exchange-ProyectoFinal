@@ -8,6 +8,7 @@ import {
 
 const initialState = {
   client_secret: null,
+  detailsId: null,
   assets:[],
   asset: ''
 };
@@ -32,13 +33,18 @@ export default function reducer(state = initialState, action) {
         client_secret: undefined,
       };
 
-      case GET_ASSETS:
+    case "GET_USER_DETAILS_ID":
       return {
         ...state,
-        assets: action.payload,
+        detailsId: action.payload,
       };
-
-      case SET_ASSET:
+      case GET_ASSETS:
+        return {
+          ...state,
+          assets: action.payload,
+        };
+        
+        case SET_ASSET:
         return {
           ...state,
           asset: action.payload

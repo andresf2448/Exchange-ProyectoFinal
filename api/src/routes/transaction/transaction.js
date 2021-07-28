@@ -7,19 +7,28 @@ const supabase = createClient(
 
 router.get("/", async (req, res) => {
   const { id, stellar_transaction_id, external_transaction_id } = req.query;
-  
+
   if (!id && !stellar_transaction_id && !external_transaction_id)
     return res.json("parameters not provided");
 
   if (id) {
     try {
-      
-      const { data, error } = await supabase
+      const { data } = await supabase
         .from("transactions")
+        .select("*")   
+        .eq("id", id);  
+
+      if (data.length === 0) return res.json("no existe esta transaccion");
+
+      const { data: withdraw } = await supabase
+        .from("withdraw")
         .select("*")
         .eq("id", id);
-      
-      if (error) return res.json("no existe esta transaccion");
+
+      const { data: deposit } = await supabase
+        .from("deposit")   
+        .select("*")
+        .eq("id", id);    
 
       let response = {
         id: id,
@@ -31,10 +40,31 @@ router.get("/", async (req, res) => {
         amount_in: data[0].amount_in,
         amount_fee: data[0].amount_fee,
       };
-      
-      return res.json(response);
+      if (data[0].kind === "deposit") {
+        const respuesta = {
+          ...response,
+          to: deposit[0].to ? deposit[0].to : "pending",
+          from: deposit[0].from ? deposit[0].from : "pending",
+          claimable_balance_id: deposit[0].claimable_balance_id
+            ? deposit[0].claimable_balance_id
+            : "pending",
+        };
+        console.log(respuesta);
+        return res.json(respuesta);
+      }
+      if (data[0].kind === "withdraw") {
+        const respuesta = {
+          ...response,
+          to: withdraw[0].to ? withdraw[0].to : "pending",
+          from: withdraw[0].from ? withdraw[0].from : "pending",
+          claimable_balance_id: withdraw[0].claimable_balance_id
+            ? withdraw[0].claimable_balance_id
+            : "pending",
+        };
+        return res.json(respuesta);
+      }
     } catch (error) {
-      return res.status(404).json(error);
+      return res.status(400).json(error);
     }
   }
 

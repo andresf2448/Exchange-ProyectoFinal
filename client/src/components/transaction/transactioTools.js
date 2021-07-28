@@ -1,26 +1,20 @@
 // /\S+@\S+\.\S+/
 import {supabase} from 'supabase/supabase';
 
-export const takePublicKey = async (mail) => {
+export const takereceiverId = async (mail) => {
         
     let {data, error} = await supabase
     .from('datauser')
-    .select('public_key')
+    .select('id_user')
     .eq('email', mail )
     if (error) return alert(error.message)
-    if (data.length > 0) return data[0].public_key
+    if (data.length > 0) return data[0].id_user
     else return undefined
 }
 
-export const takeSecretKey = async () => {
+export const takeSourceId = async () => {
     let session = supabase.auth.session()
-    let {data, error} = await supabase
-    .from('wallet')
-    .select('secret_key')
-    .eq('id_user', session.user.id )
-    
-    if (error) return alert(error.message)
-   return data[0].secret_key
+    return session.user.id 
 
 }
 

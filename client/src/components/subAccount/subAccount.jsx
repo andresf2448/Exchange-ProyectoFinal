@@ -6,8 +6,6 @@ export default function SubAccount(id) {
     const publicKey = server.loadAccount("GAJ22WDPA3IOIJPOXBWPWAXU3MVVTHNXZJZ3DSGXZSK4LYKLKTJGJY33")
     const account = new StellarSdk.Account.subAccount(publicKey)
 
-    console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!",account);
-
     return(
         <div>
             <p>

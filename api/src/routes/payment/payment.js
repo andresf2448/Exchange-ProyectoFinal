@@ -9,14 +9,14 @@ const supabase = createClient(
   REACT_APP_SUPABASE_PUBLIC_KEY
 );
 
-const {main, feeCalculator} = require('./utilityTransaction')
+const {main, feeCalculator, calculatePrice} = require('./utilityTransaction')
 const StellarSdk = require('stellar-sdk');
-const server = new StellarSdk.Server('https://horizon-testnet.stellar.org');
+// const server = new StellarSdk.Server('https://horizon-testnet.stellar.org');
 
 
 router.post('/', async (req, res) => {
-    const { sourceId, receiverId, amount, currency} = req.body
-    
+    const { sourceId, receiverId, amount, currency, crypto} = req.body
+
     let sourceSecretKey
     let payFee = false
 
@@ -61,7 +61,12 @@ router.post('/', async (req, res) => {
 
     let {amount_out, fee, percentage} = await feeCalculator(amount)
     
-
+    if( crypto ) {
+        amount_out = await calculatePrice(amount_out, currency, crypto)
+    } 
+    
+    
+    
     let transaction = await main(sourcePublicKey, sourceKeypair, receiverPublicKey, amount_out, currency)
 
     if(payFee) {
@@ -71,16 +76,16 @@ router.post('/', async (req, res) => {
         let feeReceiverPublicKey = data[0].stellarPublicKey
 
         let transactionFee = await main(sourcePublicKey, sourceKeypair, feeReceiverPublicKey, fee, currency)
-
+        
         if (transactionFee.isError && transactionFee.message === 'Invalid account') return res.status(400).json({ message: transaction.message, error: transaction.error  })
         if (transactionFee.isError) return res.status(500).json({ message: transaction.message, error: transaction.error  })
     }
 
-
+    
     if (transaction.isError && transaction.message === 'Invalid account') return res.status(400).json({ message: transaction.message, error: transaction.error  })
     if (transaction.isError) return res.status(500).json({ message: transaction.message, error: transaction.error  })
     
-    return res.json({message: 'succeeded', amount: amount_out, fee: fee, feePercentage: percentage })
+    return res.json({message: 'succeeded', amount: amount_out, fee: fee, feePercentage: percentage, currency: currency })
 
 })
 

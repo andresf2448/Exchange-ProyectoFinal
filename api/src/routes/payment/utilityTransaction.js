@@ -6,6 +6,7 @@ const { REACT_APP_SUPABASE_PUBLIC_KEY, REACT_APP_SUPABASE_URL } = process.env;
 
 const { createClient } = require("@supabase/supabase-js");
 const { Asset } = require('stellar-sdk');
+const { default: axios } = require('axios');
 const supabase = createClient(
   REACT_APP_SUPABASE_URL,
   REACT_APP_SUPABASE_PUBLIC_KEY
@@ -45,7 +46,7 @@ const main = async function (sourcePublicKey, sourceKeypair, receiverPublicKey, 
         asset = new Asset('EURR', 'GC3EFAUIEISOQ55SBNYHRRAI2DKUOLABSSMAXETE2BVLD3LLYEU5KGKH')
 
     }
-    
+     console.log('El aset EURR',asset)
     
     
     const account = await server.loadAccount(sourcePublicKey);
@@ -65,9 +66,7 @@ const main = async function (sourcePublicKey, sourceKeypair, receiverPublicKey, 
         // networkPassphrase: StellarSdk.Networks.PUBLIC,
         networkPassphrase: StellarSdk.Networks.TESTNET
     })
-        // let newAsset = new Asset ('USDR', 'GC6ODYBY4FY2VRF3NC3ASXLQ5Y3WKALMEQ4S4Y2OJBVREG3TO2VPZZC6')
-        // console.log('La nueva Asset', newAsset)
-        // console.log('La asset nativa', StellarSdk.Asset.native())
+  
         // Add a payment operation to the transaction
         .addOperation(StellarSdk.Operation.payment({
             destination: receiverPublicKey,
@@ -89,7 +88,6 @@ const main = async function (sourcePublicKey, sourceKeypair, receiverPublicKey, 
     transaction.toEnvelope().toXDR('base64')
 
     } catch (e) {
-        console.log('Estamos en el catch', e)
         return {
             isError: true,
             error: e,
@@ -97,10 +95,6 @@ const main = async function (sourcePublicKey, sourceKeypair, receiverPublicKey, 
         }
     }
 
-   
-
-    // Submit the transaction to the Horizon server. The Horizon server will then
-    // submit the transaction into the network for us.
     try {
         const transactionResult = await server.submitTransaction(transaction);
         return {
@@ -108,9 +102,7 @@ const main = async function (sourcePublicKey, sourceKeypair, receiverPublicKey, 
             transactionLink: transactionResult._links.transaction.href,
             isError: false
         }
-        // console.log(JSON.stringify(transactionResult, null, 2));
-        // console.log('\nSuccess! View the transaction at: ');
-        // console.log(transactionResult._links.transaction.href);
+        
     } catch (e) {
         return {
             isError: true,
@@ -118,8 +110,6 @@ const main = async function (sourcePublicKey, sourceKeypair, receiverPublicKey, 
             message: 'An error has occured'
 
         }
-        // console.log('An error has occured:');
-        // console.log(e);
     }
 }
 
@@ -135,4 +125,14 @@ const feeCalculator = async (amount) => {
 
 }
 
-module.exports = {main, feeCalculator};
+const calculatePrice = async (amount_out, currency, crypto) => {
+
+    let priceData = await axios(`https://min-api.cryptocompare.com/data/price?api_key={0aec49a900c2d7469630114260688bb1914813d1f365aa38f494f6c8a6e946d1}&fsym=XLM&tsyms=${currency.slice(0,3)}`)
+
+    let price = amount_out / priceData.data[currency.slice(0,3)]
+
+    return price.toFixed(2).toString()
+
+}
+
+module.exports = {main, feeCalculator, calculatePrice};
