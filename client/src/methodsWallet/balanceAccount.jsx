@@ -78,12 +78,11 @@ export default function BalanceAccount() {
               )}
             </div>
           ) : (
-            <HashLoader color={'#ffd523'} size={30}/>
+            <HashLoader color={'#ffd523'} size={20}/>
           )}  
         </div>
       ) : (
         <div>
-          " Debes crear una wallet para ver tu balance"
           <CreateAccount />
         </div>
       )}

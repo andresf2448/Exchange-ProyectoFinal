@@ -5,8 +5,9 @@ import StellarSdk from "stellar-sdk";
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { DataGrid } from "@material-ui/data-grid";
-import { Container, Card, Grid, Typography, Button } from "@material-ui/core";
+import { Container, Card, Grid, Typography, Button, Box } from "@material-ui/core";
 import useStyles from "styles";
+import HashLoader from "react-spinners/HashLoader";
 
 export const CardUser = () => {
   const classes = useStyles();
@@ -17,6 +18,7 @@ export const CardUser = () => {
   const [validateOffers, setValidateOffers] = useState(false);
   const [validateTransactions, setValidateTransactions] = useState(false);
   const [email, setEmail] = useState('');
+  const [spinner, setSpinner] = useState(true);
   const history = useHistory();
   const state = useSelector((state) => state.detailsId);
 
@@ -127,73 +129,86 @@ export const CardUser = () => {
     getBalance();
     getTransaction();
     getOffers();
+    setTimeout(() => {
+      setSpinner(false);
+    }, 2000);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <Container disableGutters style={{minHeigth: '100vh', paddingTop: 20, paddingBottom: 20}}>
-      <Card elevation={3} className={classes.cardUserContainer}>
-        <Grid container justifyContent="center" alignItems="center">
-          {account && validatePublicKey ? (
-            <Grid container>
-              <Grid item xs={10} align="center" style={{marginBottom: 20}}>
-                <Typography variant="h3">User: {email}</Typography>
+        {
+          spinner ?
+          <Card elevation={3} className={classes.cardUserSpinner}>
+            <Grid style={{ height: '8vh' }}>
+              <HashLoader color={'#ffd523'} size={70}/> 
+            </Grid>
+          </Card>
+          :
+          <Card elevation={3} className={classes.cardUserContainer}>
+          <Grid container justifyContent="center" alignItems="center">
+          {
+            account && validatePublicKey ? (
+              <Grid container>
+                <Grid item xs={10} align="center" style={{marginBottom: 20}}>
+                  <Typography variant="h3">User: {email}</Typography>
+                </Grid>
+                <Grid item xs={2}  align="center" style={{marginBottom: 20}}>
+                  <Button variant="contained" color="primary" onClick={() => history.push("/home")}>Back</Button>
+                </Grid>
+                <Grid item xs={12}  align="center" style={{marginBottom: 20}}>
+                  <Typography variant="h4" >BALANCE</Typography>
+                  <Typography variant="body1" >
+                    Asset: {!account.asset_code ? "XLM" : account.asset_code}
+                  </Typography>
+                  <Typography variant="body1">
+                    Balance: {account.balance} 
+                  </Typography>
+                  <Typography variant="body1">
+                    Monto en ofertas de venta: {account.selling_liabilities}
+                  </Typography>
+                  <Typography variant="body1">
+                    Monto en ofertas de compra: {account.buying_liabilities}
+                  </Typography>{" "}
+                </Grid>
               </Grid>
-              <Grid item xs={2}  align="center" style={{marginBottom: 20}}>
-                <Button variant="contained" color="primary" onClick={() => history.push("/home")}>Back</Button>
+            ) : (
+              <Grid container>
+                <Grid item xs={10} align="center">
+                  <Typography variant="h3">User: {email} no tiene Wallet</Typography>
+                </Grid>
+                <Grid item xs={2}  align="center" style={{marginBottom: 20}}>
+                  <Button variant="contained" color="primary" onClick={() => history.push("/home")}>Back</Button>
+                </Grid>
               </Grid>
+            )}
+            {validateOffers ? (
               <Grid item xs={12}  align="center" style={{marginBottom: 20}}>
-                <Typography variant="h4" >BALANCE</Typography>
-                <Typography variant="body1" >
-                  Asset: {!account.asset_code ? "XLM" : account.asset_code}
-                </Typography>
-                <Typography variant="body1">
-                  Balance: {account.balance} 
-                </Typography>
-                <Typography variant="body1">
-                  Monto en ofertas de venta: {account.selling_liabilities}
-                </Typography>
-                <Typography variant="body1">
-                  Monto en ofertas de compra: {account.buying_liabilities}
-                </Typography>{" "}
+                <Typography variant="h4">OFFERS</Typography>
+                <div style={{ height: 380, width: "53%" }}>
+                  <DataGrid style={{color: 'whitesmoke'}} rows={offers} columns={columnsOffer} pageSize={5} />
+                </div>
+                {/* <br />
+                <br />
+                <br /> */}
               </Grid>
-            </Grid>
-          ) : (
-            <Grid container>
-              <Grid item xs={10} align="center">
-                <Typography variant="h3">User: {email} no tiene Wallet</Typography>
+            ) : null}
+            {validateTransactions ? (
+              <Grid item xs={12}  align="center" style={{marginBottom: 20}}>
+                <Typography variant="h4">TRANSACTIONS</Typography>
+                <div style={{ height: 330, width: "100%" }}>
+                  <DataGrid
+                    style={{color: 'whitesmoke'}}
+                    rows={transactions}
+                    columns={columnsTransactions}
+                    pageSize={5}
+                  />
+                </div>
               </Grid>
-              <Grid item xs={2}  align="center" style={{marginBottom: 20}}>
-                <Button variant="contained" color="primary" onClick={() => history.push("/home")}>Back</Button>
-              </Grid>
-            </Grid>
-          )}
-          {validateOffers ? (
-            <Grid item xs={12}  align="center" style={{marginBottom: 20}}>
-              <Typography variant="h4">OFFERS</Typography>
-              <div style={{ height: 380, width: "53%" }}>
-                <DataGrid style={{color: 'whitesmoke'}} rows={offers} columns={columnsOffer} pageSize={5} />
-              </div>
-              {/* <br />
-              <br />
-              <br /> */}
-            </Grid>
-          ) : null}
-          {validateTransactions ? (
-            <Grid item xs={12}  align="center" style={{marginBottom: 20}}>
-              <Typography variant="h4">TRANSACTIONS</Typography>
-              <div style={{ height: 330, width: "100%" }}>
-                <DataGrid
-                  style={{color: 'whitesmoke'}}
-                  rows={transactions}
-                  columns={columnsTransactions}
-                  pageSize={5}
-                />
-              </div>
-            </Grid>
-          ) : null}
-        </Grid>
-      </Card>
+            ) : null }
+          </Grid>
+          </Card>
+        }
     </Container>
   );
 };
