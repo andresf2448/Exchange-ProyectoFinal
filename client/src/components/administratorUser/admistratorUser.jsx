@@ -27,30 +27,34 @@ import {
 } from "@material-ui/core";
 import { useDispatch } from "react-redux";
 import { GET_USER_DETAILS_ID } from "redux/actions/actions";
+import { CardUser } from "components/cardUser/cardUser";
 
 export const AdministratorUser = () => {
   const classes = useStyles();
   const history = useHistory();
+  const dispatch = useDispatch();
+
   const session = supabase.auth.session();
   const { user } = session;
   let id = user.id;
+
   const [admin, setAdmin] = useState(false);
   const [users, setUsers] = useState([]);
   const [reload, setReload] = useState(0);
   const [emails, setEmails] = useState([]);
   const [statemessage, setStateMessage] = useState(false);
-  const emailSearching = useRef("");
-  const dispatch = useDispatch();
   const [commision, setCommision] = useState(false);
-  const confirmation = useRef("");
   const [statusComision, setStatusComision] = useState({
     porcentaje: "",
     fecha: "",
   });
-  const newComision = useRef("");
   const [selectAll, setSelectAll] = useState(true);
-
   const [render, setRender] = useState([]);
+  const[detailModal, setDetailModal] = useState(false);
+  
+  const confirmation = useRef("");
+  const emailSearching = useRef("");
+  const newComision = useRef("");
   let title = useRef("");
   let message = useRef("");
 
@@ -223,8 +227,9 @@ export const AdministratorUser = () => {
   };
 
   let detailsUser = (id) => {
+    setDetailModal(true);
     dispatch(GET_USER_DETAILS_ID(id));
-    history.push("/detailsUsers");
+    // history.push("/detailsUsers");
   };
 
   let comisionChange = async (event) => {
@@ -321,6 +326,9 @@ export const AdministratorUser = () => {
   )
 
   //fechas
+  const handleModalClose = ()=>{
+    setDetailModal(!detailModal)
+  }
 
   return (
     <Container
@@ -552,6 +560,9 @@ export const AdministratorUser = () => {
                             <Button onClick={() => detailsUser(id_user)}>
                               Details
                             </Button>
+                            <Modal open={detailModal} onClose={handleModalClose} style={{overflow:'scroll', height: '100%', zIndex:'1'}}>
+                              <CardUser />
+                            </Modal>
                           </TableCell>
                         </TableRow>
                       </TableBody>
