@@ -1,4 +1,4 @@
-import { Container, Grid, Typography, Card } from "@material-ui/core";
+import { Container, Grid, Card } from "@material-ui/core";
 import Twitter from 'components/twitter/twitter';
 // import { CryptoGraphics } from 'components/cryptoGraphics/cryptoGraphics';
 import useStyles from 'styles';
