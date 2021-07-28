@@ -17,7 +17,7 @@ const Landing = () => {
     const classes = useStyles();
     const history = useHistory();
     const [registerModal, setRegisterModal]= useState(false)
-    const [loginModal, setLoginModal]= useState()
+    const [loginModal, setLoginModal]= useState(false)
     let session = supabase.auth.session();
 
     const handleRegister = ()=>{
@@ -93,13 +93,13 @@ const Landing = () => {
                         <Button color="secundary" variant="contained" justifyContent="left" onClick={handleRegister}>
                             REGISTER
                          </Button> 
-                    <Modal open={registerModal} onClose={handleRegister} style={{ zIndex:'1000'}}> 
+                    <Modal open={registerModal}  onClose={handleRegister} style={{ zIndex:'1000', position: 'fixed'}}> 
                         <Register/>
                     </Modal>
                     <Button color="primary" variant="contained" justifyContent="left" onClick={handleLogin} style={{color:'#000', backgroundColor: '#ffd523'}}>
                         LOGIN
                     </Button>
-                    <Modal open={loginModal} onClose={handleLogin} style={{ zIndex:'1000'}}> 
+                    <Modal open={loginModal}  onClose={handleLogin} style={{ zIndex:'1000'}}> 
                         <Login />
                     </Modal>
                 </Grid>
@@ -134,7 +134,7 @@ const Landing = () => {
                         Logo RocketXchange
                     </Box>
                     <Grid item xs={4} alignItems='center'>
-                        <Button className='registerButton'  href='/register' style={{ padding:'10px', width:'60%', backgroundColor: '#ffd523', color: '#272727b3', letterSpacing:'3px'}} variant="contained">REGISTER!</Button> 
+                        <Button className='registerButton'  onClick={handleRegister} style={{ padding:'10px', width:'60%', backgroundColor: '#ffd523', color: '#272727b3', letterSpacing:'3px'}} variant="contained">REGISTER!</Button> 
                     </Grid>
                 </Grid>
             </div>

@@ -24,7 +24,6 @@ import {
   Paper,
   TextareaAutosize,
   Modal,
-  Box
 } from "@material-ui/core";
 import { useDispatch } from "react-redux";
 import { GET_USER_DETAILS_ID } from "redux/actions/actions";
