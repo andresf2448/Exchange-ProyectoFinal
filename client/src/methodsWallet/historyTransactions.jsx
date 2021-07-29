@@ -1,9 +1,12 @@
 import StellarSdk from "stellar-sdk";
 import { useState } from "react";
+import { Container, Grid, Typography, Divider } from "@material-ui/core";
+import useStyles from "styles";
 
 export default function HistoryTransactions({ publicKey }) {
   const [transactions, setTransactions] = useState();
   const server = new StellarSdk.Server("https://horizon-testnet.stellar.org");
+  const classes = useStyles();
 
   if(!transactions){
     server
@@ -20,15 +23,22 @@ export default function HistoryTransactions({ publicKey }) {
     });
   }
 
+
   return (
-    <>
-      {transactions &&
-        transactions.map((transaction) => (
-          <div key={transaction.id}>
-            {" "}
-            id de transaction: {transaction.id} <br />
-          </div> 
-        ))}
-    </>
+    <Container style={{ height: '50vh'}}>
+      <Typography variant='h4' align='center'> Your Transactions </Typography>
+      <Divider variant="middle" className={classes.divider}/>
+      <Grid xs={12} align='center' style={{overflowY: 'scroll', height: '40vh'}}>
+      <ul style={{listStyle: 'none', textAlign: 'left'}}>
+        {transactions &&
+          transactions.map((transaction, i) => (
+            <li key={transaction.id}>
+              {i} -
+              id de transaction: {transaction.id}
+            </li> 
+          ))}
+      </ul>
+      </Grid>
+    </Container>
   );
 }

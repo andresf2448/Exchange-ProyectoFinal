@@ -5,6 +5,7 @@ import { supabase } from "supabase/supabase";
 import { takereceiverId, takeSourceId, validate } from "./transactioTools";
 import {
   Container,
+  Grid,
   Typography,
   Button,
   TextField,
@@ -148,8 +149,8 @@ export default function Transaction() {
   
   return (
     <>
-    <Container className={classes.cardCheck}>
-      
+
+      <Grid align="center">
       {session ? (
         <div>
           <Typography variant="h4">Transaction</Typography>
@@ -217,11 +218,10 @@ export default function Transaction() {
       ) :  (
         history.push("/")
       )}
+      </Grid>
       
-      </Container>
-      
-      <Container>
-        {waiting ? <div align='center'><HashLoader color={'#ffd523'} size={50}/></div> : null}
+      <Grid align="center">
+        {waiting ? <div align='center'><p>Loading</p></div> : null}
       {succesTransaction && transaction ? (
         <div align='center'>
           <br/>
@@ -237,7 +237,7 @@ export default function Transaction() {
           <br />
         </div>
       ) : null}
-      </Container>
+      </Grid>
     </>
   );
 }

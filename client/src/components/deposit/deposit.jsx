@@ -197,7 +197,7 @@ export const Deposit = ()=>{
         </Grid>
 
         {selector.fiat ? (
-          <div>
+          <Grid align='center' xs={12}>
             <Typography variant="h6">
               What FIAT do you want to deposit?
             </Typography>
@@ -228,10 +228,10 @@ export const Deposit = ()=>{
                 Click here to continue
               </Link>
             )}
-          </div>
+          </Grid>
         ) : null}
         {selector.crypto ? (
-          <div>
+          <Grid align='center' xs={12}>
             <Typography variant="h6">
               What crypto do you want to deposit?
             </Typography>
@@ -259,10 +259,10 @@ export const Deposit = ()=>{
                 Click here to continue
               </Link>
             )}
-          </div>
+          </Grid>
         ) : null}
         {selector.xlm ? (
-          <div>
+          <Grid align='center' xs={12}>
             <Typography variant="h6">What crypto do you want to buy?</Typography>
             <Select name="xlm" value={input.xlm} onChange={handleChange}>
               <MenuItem value="XLM">XLM</MenuItem>
@@ -299,7 +299,7 @@ export const Deposit = ()=>{
                 Click here to continue
               </Link>
             )}
-          </div>
+          </Grid>
         ) : null}
       </Grid>
     </Container>
