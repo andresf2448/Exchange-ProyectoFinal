@@ -6,11 +6,9 @@ import BalanceAccount from "methodsWallet/balanceAccount";
 import { Withdraw } from "components/withdraw/withdraw";
 import { supabase } from "../../supabase/supabase";
 import StellarSdk from "stellar-sdk";
-
 import { Card, Tabs, Tab, Grid, AppBar } from "@material-ui/core";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import useStyles from "styles";
-import { getAssets } from "redux/actions/actions";
 import ChangeTrust from "methodsWallet/trustLines";
 
 export default function WalletContainer() {
@@ -22,7 +20,6 @@ export default function WalletContainer() {
   const server = new StellarSdk.Server("https://horizon-testnet.stellar.org");
 
   const keys = async () => {
-
     const { data: assets } = await supabase.from("assets").select("*");
     setAssets(assets);
 
@@ -39,7 +36,7 @@ export default function WalletContainer() {
   };
 
   if (publicKey && !account) {
-    const account = server.loadAccount(publicKey).then(account => setAccount(account))
+    server.loadAccount(publicKey).then((account) => setAccount(account));
   }
 
   if (!publicKey) {
