@@ -108,7 +108,7 @@ export default function Transaction() {
             background: '#1f1f1f',
             confirmButtonColor:'rgb(158, 158, 158)',
           });
-          console.log(succes)
+          
           setSuccesTransaction(true);
           setTransaction(succes.data);
           setInput({
@@ -120,7 +120,7 @@ export default function Transaction() {
           setWaiting(false)
           
         } catch (error) {
-          console.log('El catch', error)
+          console.log('Error', error)
         }
       }
     } else {
