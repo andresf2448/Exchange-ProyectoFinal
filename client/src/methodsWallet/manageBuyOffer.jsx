@@ -117,6 +117,7 @@ export default function ManageBuyOffer({
         // marginLeft: "-19px",
         paddingLeft: "20px",
         marginTop: "-22px",
+        borderRadius:'6px'
       }}
     >
       <form onSubmit={(event) => handleSubmit(event)}>

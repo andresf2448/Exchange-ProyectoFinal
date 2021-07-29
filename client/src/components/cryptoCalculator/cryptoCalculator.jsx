@@ -121,11 +121,11 @@ export const CryptoCalculator = () => {
                 >
                     Convert
                 </Button>
-                <BuyButton
+                {/* <BuyButton
                     color='secondary'
                     convertion={convertion}
                     result={result}
-                />
+                /> */}
             </Grid>
 
         </Container>)

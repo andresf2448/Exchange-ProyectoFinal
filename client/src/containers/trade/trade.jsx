@@ -73,7 +73,7 @@ function Trade() {
     // <Container  disableGutters style={{height:'70vh', backgroundColor:'red',}}>
     <Grid container style={{ backgroundColor: '#1f1f1f', }}>
       <Grid container item display="column" justifyContent={true}>
-        <Grid item xs={12} sm={3} style={{ height: "700px" }}>
+        {/* <Grid item xs={12} sm={3} style={{ height: "700px" }}>
           <Orderbook assets={assets} />
         </Grid>
         <Grid container item xs={12} sm={6}>
@@ -89,21 +89,21 @@ function Trade() {
             <TradingView />
           </Grid>
 
-            <Grid item xs={12} sm={6} >
+            <Grid item xs={12} sm={6} > */}
               {/* <Card elevation={3} className={classes.cardContainer} > */}
 
-              <ManageBuyOffer
+              {/* <ManageBuyOffer
                 publicKey={publicKey}
                 secretKey={secretKey}
-              />
+              /> */}
               {/* </Card> */}
-            </Grid>
-            <Grid item xs={12} sm={6}>
+            {/* </Grid> */}
+            {/* <Grid item xs={12} sm={6}>
               <ManageBuyOffer />
-            </Grid>
+            </Grid> */}
           
-        </Grid>
-        <Grid container item sm={3}>
+        {/* </Grid> */}
+        {/* <Grid container item sm={3}>
           <Grid item xs={12} style={{ height: "300px", paddingTop: "40px" }}>
             <Card style={{ height: '300px', textAlign:'center' }}>Listado de ventas activas</Card>
 
@@ -112,38 +112,43 @@ function Trade() {
           <Grid item xs={12}>
             <CryptoCalculator />
           </Grid>
+        </Grid> */}
+        {/* ////////*/ }
+        <Grid item xs={12} sm={3} style={{ height: "700px" }}>
+          <Orderbook assets={assets} />
         </Grid>
-        {/* <Grid container item xs={12} sm={6}> */}
-        {/* <Grid
+        <Grid container item xs={12} sm={6}>
+          
+        <Grid
               item
               xs={12}
               style={{
                 height: "400px",
                 paddingRight: "25px",
-                paddingTop: "40px",
+                paddingTop: "55px",
               }}
             >
               <TradingView />
-            </Grid> */}
-        {/* <Grid item xs={12} sm={6}>
+            </Grid>
+        <Grid item xs={12} sm={6} style={{marginLeft:'180px'}}>
               <ManageBuyOffer
                 publicKey={publicKey}
                 secretKey={secretKey}
                 setUpdateOffers={setUpdateOffers}
                 assets={assets}
               />
-            </Grid> */}
-        {/* <Grid item xs={12} sm={6}></Grid> */}
-        {/* </Grid> */}
-        {/* <Grid container item sm={3}>
-            <Grid item xs={12} style={{ height: "300px", paddingTop: "40px" }}> */}
-        {/* <Card style={{height:'300px'}}>Listado de ventas activas</Card> */}
-        {/* <OffersByAccount offers={offers} /> */}
-        {/* </Grid> */}
-        {/* <Grid item xs={12}>
+            </Grid>
+        <Grid item xs={12} sm={6}></Grid>
+        </Grid>
+        <Grid container item sm={3}>
+            <Grid item xs={12} style={{ height: "300px", paddingTop: "40px" }}>
+        <Card style={{height:'300px', textAlign:'center', marginLeft:'20px', marginRight:'26px', marginTop:'15px', height:'358px', zIndex: '0'}}>Listado de ventas activas</Card>
+        <OffersByAccount offers={offers} />
+        </Grid>
+        <Grid item xs={12} style={{marginBottom:'70px'}}>
               <CryptoCalculator />
-            </Grid> */}
-        {/* </Grid> */}
+            </Grid>
+        </Grid>
       </Grid>
     </Grid>
     // </Container>
