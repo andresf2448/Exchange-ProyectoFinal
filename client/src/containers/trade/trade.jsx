@@ -87,8 +87,8 @@ function Trade() {
           </Grid>
           <Grid item xs={12} sm={6}>
             <ManageBuyOffer
-              publicKey={user?.publicKey}
-              secretKey={user?.secretKey}
+              publicKey={publicKey}
+              secretKey={secretKey}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -98,7 +98,7 @@ function Trade() {
         <Grid container item sm={3}>
           <Grid item xs={12} style={{ height: "300px", paddingTop: "40px" }}>
             {/* <Card style={{height:'300px'}}>Listado de ventas activas</Card> */}
-            <OffersByAccount publicKey={user?.publicKey} />
+            <OffersByAccount publicKey={publicKey} />
           </Grid>
           <Grid item xs={12}>
             <CryptoCalculator />
