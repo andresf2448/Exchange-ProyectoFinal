@@ -3,7 +3,6 @@ import {useState} from 'react';
 import { LoadingProfile } from "components/loadingProfile/loadingProfile";
 import RestorePassword from "components/restorePassword/restorePassword";
 import { LoadId } from "components/loadId/loadId";
-import ChangeTrust from 'methodsWallet/trustLines'
 import useStyles from 'styles';
 
 export function Settings() {
@@ -32,7 +31,6 @@ const classes = useStyles();
           {value === 0 && <LoadingProfile />}
           {value === 1 && <LoadId/>}
           {value === 2 && <RestorePassword />}
-          {value === 3 && <ChangeTrust />}
         </Card>
       </Grid>
     </Grid>
