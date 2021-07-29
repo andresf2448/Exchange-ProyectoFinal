@@ -140,7 +140,7 @@ export default function Register () {
                     onChange={handleOnChange}
                     color={error.passwordValidate === "" ? "primary" : "secondary"}
                   />
-                  <ButtonGroup className={classes.loginGridItem}>
+                  <ButtonGroup className={classes.loginGridItem} fullWidth={true}>
                     <Button
                       type="submit"
                       variant="contained"
@@ -149,9 +149,6 @@ export default function Register () {
                     >
                       Sing up
                     </Button>
-                    {/* <Button onClick={back} variant="outlined" color="secondary">
-                      Back
-                    </Button> */}
                   </ButtonGroup>
               </FormControl>
             </form>

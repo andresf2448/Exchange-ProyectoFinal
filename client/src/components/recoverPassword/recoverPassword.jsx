@@ -7,6 +7,7 @@ import {
   Container,
   Typography,
   Button,
+  ButtonGroup,
   TextField,
   Grid,
   FormControl,
@@ -79,23 +80,23 @@ export default function RecoverPassword() {
                   onChange={handleOnChange}
                   style={{ marginBottom: "3px" }}
                   />
-                <Button
-                className={classes.loginGridItem}
+                <ButtonGroup fullWidth={true}>
+                  <Button
                   type="submit"
                   variant="contained"
                   color="secondary"
                   onClick={recoverPassword}
                   >
-                  Send
-                </Button>
-                <Button
-                  className={classes.loginGridItem}
-                  variant="contained"
-                  color="secondary"
-                  onClick={back}
-                  >
-                  Back
-                </Button>
+                    Send
+                  </Button>
+                  <Button
+                    variant="outlined"
+                    color="secondary"
+                    onClick={back}
+                    >
+                    Back
+                  </Button>
+                </ButtonGroup>
               </FormControl>
             </form>
           </Grid>
