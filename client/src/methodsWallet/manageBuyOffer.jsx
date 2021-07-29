@@ -101,14 +101,14 @@ export default function ManageBuyOffer({
     <Grid
       container
       style={{
-        backgroundColor: "#1F1F1F",
-        marginLeft: "-19px",
+        backgroundColor: "#393939",
+        // marginLeft: "-19px",
         paddingLeft: "20px",
         marginTop: "-22px",
       }}
     >
       <form onSubmit={(event) => handleSubmit(event)}>
-        <Grid container item alignContent="space-around">
+        <Grid container item >
           <Grid item xs={12}>
             <Typography>Create your sale offer:</Typography>
           </Grid>
@@ -211,7 +211,7 @@ export default function ManageBuyOffer({
             <Button
               type="submit"
               style={{
-                marginRight: "5px",
+                marginRight: "105px",
                 marginTop: "4px",
                 backgroundColor: "white",
               }}

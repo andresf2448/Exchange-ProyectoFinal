@@ -61,13 +61,16 @@ router.post('/', async (req, res) => {
 
     let {amount_out, fee, percentage} = await feeCalculator(amount)
     
+    let transaction
+
     if( crypto ) {
         amount_out = await calculatePrice(amount_out, currency, crypto)
-    } 
-    
-    
-    
-    let transaction = await main(sourcePublicKey, sourceKeypair, receiverPublicKey, amount_out, currency)
+        transaction = await main(sourcePublicKey, sourceKeypair, receiverPublicKey, amount_out, crypto)
+    } else {
+        transaction = await main(sourcePublicKey, sourceKeypair, receiverPublicKey, amount_out, currency)
+
+    }
+      
 
     if(payFee) {
         let {data} = await supabase
