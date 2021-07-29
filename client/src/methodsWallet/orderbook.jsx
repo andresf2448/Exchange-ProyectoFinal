@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo } from "react";
 import StellarSdk from "stellar-sdk";
 import Offer from "./offer.jsx";
+import { Grid } from "@material-ui/core";
 
 export default function Orderbook({assets}) {
   const [assetBuy, setAssetBuy] = useState(new StellarSdk.Asset("USDC", "GC5W3BH2MQRQK2H4A6LP3SXDSAAY2W2W64OWKKVNQIAOVWSAHFDEUSDC"));
@@ -50,7 +51,9 @@ export default function Orderbook({assets}) {
   }, [assetSell, assetBuy, server]);
 
   return (
-    <>
+    <Grid container style={{width:'350px'}}>
+      <Grid container style={{justifyContent:'center', marginRight:'30px'}}>
+      <Grid item>
       <select
         defaultValue=""
         name="asset"
@@ -64,6 +67,8 @@ export default function Orderbook({assets}) {
             );
           })}
       </select>{" "}
+      </Grid>
+      <Grid item>
       <select
         defaultValue=""
         name="asset"
@@ -77,7 +82,9 @@ export default function Orderbook({assets}) {
             );
           })}
       </select>{" "}
+      </Grid>
+      </Grid>
       {response && <Offer asks={response.asks} bids={response.bids} />}
-    </>
+    </Grid>
   );
 }
