@@ -83,8 +83,7 @@ export const CryptoGraphics = () => {
 
   const [connection, setConnection] = useState(true);
 
-  let renderData = [eth]
-    // ,btc, chz, fil, ada, bnb, dot, axs];
+  let renderData = [eth, btc, chz, fil, ada, bnb, dot, axs];
 
   function handleConnection() {
     if (connection === true) {
