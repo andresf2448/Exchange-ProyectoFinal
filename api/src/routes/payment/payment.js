@@ -11,7 +11,7 @@ const supabase = createClient(
 
 const {main, feeCalculator, calculatePrice} = require('./utilityTransaction')
 const StellarSdk = require('stellar-sdk');
-// const server = new StellarSdk.Server('https://horizon-testnet.stellar.org');
+
 
 
 router.post('/', async (req, res) => {
@@ -19,7 +19,7 @@ router.post('/', async (req, res) => {
 
     let sourceSecretKey
     let payFee = false
-
+    
     if (sourceId === 'rocket') {
         
         const {data} = await supabase
@@ -35,16 +35,29 @@ router.post('/', async (req, res) => {
         .select('secret_key')
         .eq('id_user', sourceId)
         sourceSecretKey = data[0].secret_key
-
+        
         payFee = true
     }
 
-    const {data} = await supabase
-    .from('datauser')
-    .select('public_key')
-    .eq('id_user', receiverId)
+    let receiverPublicKey
+    if(receiverId === 'rocket') {
+        const {data} = await supabase
+        .from('rocketWallet')
+        .select('stellarPublicKey')
+        
+        receiverPublicKey = data[0].stellarPublicKey   
 
-    let receiverPublicKey = data[0].public_key
+    } else {
+        const {data} = await supabase
+        .from('datauser')
+        .select('public_key')
+        .eq('id_user', receiverId)
+    
+        receiverPublicKey = data[0].public_key
+
+
+    }
+
     
     if(amount < 1 || amount === '') return res.status(400).json({message: 'Invalid amount'})
 
@@ -83,7 +96,6 @@ router.post('/', async (req, res) => {
         if (transactionFee.isError && transactionFee.message === 'Invalid account') return res.status(400).json({ message: transaction.message, error: transaction.error  })
         if (transactionFee.isError) return res.status(500).json({ message: transaction.message, error: transaction.error  })
     }
-    
     
     
     if (transaction.isError && transaction.message === 'Invalid account') return res.status(400).json({ message: transaction.message, error: transaction.error  })
