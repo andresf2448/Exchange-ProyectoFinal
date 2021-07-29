@@ -1,30 +1,8 @@
-import { useState, useEffect } from "react";
-import StellarSdk from "stellar-sdk";
-
-export default function OffersByAccount({ publicKey }) {
-  const [offers, setOffers] = useState();
-
-  const server = new StellarSdk.Server("https://horizon-testnet.stellar.org");
-
-  useEffect(() => {
-    if (!offers && publicKey) getOffers();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [offers]);
-
-  async function getOffers() {
-    const ofertas = await server
-      .offers()
-      .forAccount(publicKey)
-      .order("desc")
-      .limit(10)
-      .call();
-    setOffers(ofertas);
-  }
-
+export default function OffersByAccount({ offers }) {
   
   return (
     <>
-      {offers &&
+      {offers?.records?.length > 1 &&
         offers.records.map((offer) => (
           <div key={offer.id}>
             {" "}

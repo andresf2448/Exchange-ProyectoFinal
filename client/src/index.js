@@ -18,10 +18,12 @@ const theme = createTheme({
     ].join(','),
   },
   palette: {
+    type: 'dark',
     primary: {
       // choreado: '#072453',
       background: '#0F3460',
       main: '#272727b3',
+      //#272727b3 #ffd523
       dark: '#2C2E43',
       buttons: '#ffd523',
       contrastText: '#fff',
@@ -33,11 +35,6 @@ const theme = createTheme({
       dark: '#ba000d',
       contrastText: '#000',
       background: '#393939'
-    }
-  },
-  root: {
-    '& ul > li:not(:first-child):not(:last-child) > button:not(.Mui-selected)': {
-      color:'white',
     },
   }
 });

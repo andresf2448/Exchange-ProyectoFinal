@@ -15,11 +15,10 @@ var connectionOptions = {
 
 const useStyles = makeStyles({
   scroll: {
-    height: 400,
-    width: '40%',
+    height: 420,
+    width: '100%',
     overflow: "auto",
     marginTop: 2,
-    marginLeft: 2
   },
 });
 
