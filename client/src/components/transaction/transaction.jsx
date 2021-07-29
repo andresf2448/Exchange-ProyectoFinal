@@ -16,6 +16,7 @@ import {
 } from "@material-ui/core";
 import useStyles from 'styles';
 import Swal from 'sweetalert2';
+import HashLoader from "react-spinners/HashLoader";
 
 export default function Transaction() {
   const [error, setError] = useState({
@@ -24,6 +25,7 @@ export default function Transaction() {
     amount: "",
   });
   const [transaction, setTransaction] = useState("");
+  const [waiting, setWaiting] = useState(false);
   
   const [succesTransaction, setSuccesTransaction] = useState(false);
   const [input, setInput] = useState({
@@ -38,17 +40,20 @@ export default function Transaction() {
 
   const classes = useStyles();
 
-  const handleChange = (event) => {
+  const handleChange = async (event) => {
     setInput({
       ...input,
       [event.target.name]: event.target.value,
     });
-    setError(
-      validate({
+     setError(
+      await validate({
         ...input,
         [event.target.name]: event.target.value,
       })
     );
+    if (event.target.name === 'amount') {
+      setTransfer(false)
+    }
   };
 
   const handleMail = async () => {
@@ -60,6 +65,7 @@ export default function Transaction() {
   const handleTransaction = async (event) => {
     event.preventDefault();
 
+    setWaiting(true)
 
     let {data} = await supabase
     .from('UserAnchor')
@@ -70,8 +76,6 @@ export default function Transaction() {
       return alert('You need to complete your profile to do a transaction')
     }
     let receiverId = await handleMail();
-
-
 
     if (receiverId) {
       let info = await supabase
@@ -90,27 +94,34 @@ export default function Transaction() {
         });
       } else {
         let sourceId = await takeSourceId();
-        let succes = await axios.post("http://localhost:3001/payment", {
-          sourceId: sourceId,
-          receiverId: receiverId,
-          amount: input.amount,
-          currency: input.currency
-        });
-        Swal.fire({
-          title: 'Success!',
-          icon: 'success',
-          confirmButtonText: 'Cool',
-          background: '#1f1f1f',
-          confirmButtonColor:'rgb(158, 158, 158)',
-        });
-        setSuccesTransaction(true);
-        setTransaction(succes.data);
-        setInput({
-          email: "",
-          amount: "",
-          currency: ""
-        });
-        setTransfer(true);
+        try {
+          let succes = await axios.post("http://localhost:3001/payment", {
+            sourceId: sourceId,
+            receiverId: receiverId,
+            amount: input.amount,
+            currency: input.currency
+          });
+          Swal.fire({
+            title: 'Success!',
+            icon: 'success',
+            confirmButtonText: 'Cool',
+            background: '#1f1f1f',
+            confirmButtonColor:'rgb(158, 158, 158)',
+          });
+          console.log(succes)
+          setSuccesTransaction(true);
+          setTransaction(succes.data);
+          setInput({
+            email: "",
+            amount: "",
+            currency: ""
+          });
+          setTransfer(true);
+          setWaiting(false)
+          
+        } catch (error) {
+          console.log('El catch', error)
+        }
       }
     } else {
       Swal.fire({
@@ -124,8 +135,6 @@ export default function Transaction() {
     }
   };
   
-  
-
   const handleNewTransaction = () => {
     setSuccesTransaction(false)
     setTransaction('');
@@ -134,7 +143,7 @@ export default function Transaction() {
       amount: "",
       currency: ""
     });
-    setTransfer(false);
+    setTransfer(true);
   }
   
   return (
@@ -160,7 +169,7 @@ export default function Transaction() {
                 color={error.email === "" ? "primary" : "secondary"}
                 fullWidth={true}
               /> <br/>
-              <Select fullWidth={true} name='currency' value={input.currency} onChange={handleChange} >
+              <Select disabled={!input.email || error.email} fullWidth={true} name='currency' value={input.currency} onChange={handleChange} >
                 <MenuItem value='ARSR'>ARSR</MenuItem>
                 <MenuItem value='EURR'>EURR</MenuItem>
                 <MenuItem value='HenryCoin'>HenryCoin</MenuItem>
@@ -176,7 +185,7 @@ export default function Transaction() {
                 type="text"
                 value={input.amount}
                 onChange={handleChange}
-                disabled={error.email === "" ? submit : !submit}
+                disabled={input.currency ? submit : !submit}
                 color={error.email === "" ? "primary" : "secondary"}
                 fullWidth={true}
               />
@@ -212,6 +221,7 @@ export default function Transaction() {
       </Container>
       
       <Container>
+        {waiting ? <div align='center'><HashLoader color={'#ffd523'} size={50}/></div> : null}
       {succesTransaction && transaction ? (
         <div align='center'>
           <br/>
