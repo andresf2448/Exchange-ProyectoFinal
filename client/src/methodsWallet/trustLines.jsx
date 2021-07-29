@@ -2,8 +2,10 @@ import { Container, Typography, FormControl, TextField, Select, InputLabel, Menu
 import { useState } from "react";
 import StellarSdk from "stellar-sdk";
 import { supabase } from "../supabase/supabase";
+import useStyles from 'styles';
 
 export default function ChangeTrust() {
+  const classes = useStyles();
   const [assets, setAssets] = useState();
   const [limitAmount, setLimitAmount] = useState();
   const [asset, setAsset] = useState();
@@ -111,8 +113,7 @@ export default function ChangeTrust() {
                   />
                 <Button 
                   type="submit" 
-                  variant="contained" 
-                  color="secondary" 
+                  className={classes.yellowButton}
                   style={{paddingBottom: 10}}
                   >
                     Finish

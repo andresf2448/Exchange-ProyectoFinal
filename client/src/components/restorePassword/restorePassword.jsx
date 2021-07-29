@@ -81,6 +81,7 @@ export default function RestorePassword() {
           justifyContent="center"
           alignItems="center"
         >
+          <Typography variant="h4">Write your new password</Typography>
           <TextField
             type="password"
             inputRef={newPassword}
@@ -91,7 +92,7 @@ export default function RestorePassword() {
             inputRef={validatePassword}
             placeholder="Confirm your password"
           />
-          <Button color="primary" variant="contained" onClick={submit}>
+          <Button className={classes.yellowButton} onClick={submit}>
             Send
           </Button>
         </Grid>
