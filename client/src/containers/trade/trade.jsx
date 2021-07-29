@@ -67,8 +67,8 @@ function Trade() {
 
   return (
     
-    <Container maxWidth="lg">
-    <Grid container>
+    // <Container  disableGutters style={{height:'70vh', backgroundColor:'red',}}>
+    <Grid container  style={{backgroundColor:'#1f1f1f',}}>
       <Grid container item display="column" justifyContent={true}>
         <Grid item xs={12} sm={3} style={{ height: "700px" }}>
           <Orderbook assets={assets} />
@@ -91,9 +91,9 @@ function Trade() {
               secretKey={secretKey}
             />
           </Grid>
-          <Grid item xs={12} sm={6}>
+          {/* <Grid item xs={12} sm={6}>
             <ManageBuyOffer />
-          </Grid>
+          </Grid> */}
         </Grid>
         <Grid container item sm={3}>
           <Grid item xs={12} style={{ height: "300px", paddingTop: "40px" }}>
@@ -104,8 +104,8 @@ function Trade() {
             <CryptoCalculator />
           </Grid>
           </Grid>
-          <Grid container item xs={12} sm={6}>
-            <Grid
+          {/* <Grid container item xs={12} sm={6}> */}
+            {/* <Grid
               item
               xs={12}
               style={{
@@ -115,29 +115,29 @@ function Trade() {
               }}
             >
               <TradingView />
-            </Grid>
-            <Grid item xs={12} sm={6}>
+            </Grid> */}
+            {/* <Grid item xs={12} sm={6}>
               <ManageBuyOffer
                 publicKey={publicKey}
                 secretKey={secretKey}
                 setUpdateOffers={setUpdateOffers}
                 assets={assets}
               />
-            </Grid>
-            <Grid item xs={12} sm={6}></Grid>
-          </Grid>
-          <Grid container item sm={3}>
-            <Grid item xs={12} style={{ height: "300px", paddingTop: "40px" }}>
+            </Grid> */}
+            {/* <Grid item xs={12} sm={6}></Grid> */}
+          {/* </Grid> */}
+          {/* <Grid container item sm={3}>
+            <Grid item xs={12} style={{ height: "300px", paddingTop: "40px" }}> */}
               {/* <Card style={{height:'300px'}}>Listado de ventas activas</Card> */}
-              <OffersByAccount offers={offers} />
-            </Grid>
-            <Grid item xs={12}>
+              {/* <OffersByAccount offers={offers} /> */}
+            {/* </Grid> */}
+            {/* <Grid item xs={12}>
               <CryptoCalculator />
-            </Grid>
-          </Grid>
+            </Grid> */}
+          {/* </Grid> */}
         </Grid>
       </Grid>
-    </Container>
+    // </Container>
   );
 }
 export default Trade;
