@@ -47,7 +47,6 @@ import useStyles from "styles";
 export const Deposit = ()=>{
     const dispatch = useDispatch()
     const [input, setInput] = useState(false)
-    // const [transaction, setTransaction] = useState(true)
     const [selector, setSelector] = useState({
         fiat: '',
         crypto: '',
