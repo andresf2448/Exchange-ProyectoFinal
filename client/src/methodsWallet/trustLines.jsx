@@ -20,15 +20,13 @@ export default function ChangeTrust({ publicKey, secretKey, assets, account }) {
   const classes = useStyles();
 
   async function trustLine() {
-    const sourceKeypair = StellarSdk.Keypair.fromSecret(
-      secretKey
-    );
+    const sourceKeypair = StellarSdk.Keypair.fromSecret(secretKey);
     const [
       {
         max_fee: { mode: fee },
       },
     ] = await Promise.all([server.feeStats()]);
-    try{
+    try {
       const transaction = new StellarSdk.TransactionBuilder(account, {
         fee,
         networkPassphrase: StellarSdk.Networks.TESTNET,
@@ -36,17 +34,17 @@ export default function ChangeTrust({ publicKey, secretKey, assets, account }) {
         .addOperation(
           StellarSdk.Operation.changeTrust({
             asset: asset,
-            limit: limitAmount
+            limit: limitAmount,
           })
         )
-  
+
         .setTimeout(0)
         .build();
       transaction.sign(sourceKeypair);
-  
+
       await server.submitTransaction(transaction);
-    }catch(err){
-      console.log(err)
+    } catch (err) {
+      console.log(err);
     }
   }
 
@@ -112,10 +110,10 @@ export default function ChangeTrust({ publicKey, secretKey, assets, account }) {
                     onChange={(e) => setLimitAmount(e.target.value)}
                     style={{ paddingBottom: 10 }}
                   />
-                <Button 
-                  type="submit" 
-                  className={classes.yellowButton}
-                  style={{paddingBottom: 10}}
+                  <Button
+                    type="submit"
+                    /* className={classes.yellowButton} */
+                    style={{ paddingBottom: 10 }}
                   >
                     Finish
                   </Button>
