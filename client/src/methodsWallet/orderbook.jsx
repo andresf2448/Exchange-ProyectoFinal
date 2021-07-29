@@ -3,22 +3,13 @@ import StellarSdk from "stellar-sdk";
 import Offer from "./offer.jsx";
 import { supabase } from "../supabase/supabase";
 
-export default function Orderbook() {
+export default function Orderbook({assets}) {
   const [assetBuy, setAssetBuy] = useState(StellarSdk.Asset.native());
   const [assetSell, setAssetSell] = useState(StellarSdk.Asset.native());
   const [response, setResponse] = useState();
-  const [assets, setAssets] = useState();
-  console.log("este es el asset", response);
+
   var server = new StellarSdk.Server("https://horizon-testnet.stellar.org");
 
-  const getAssets = async () => {
-    let assets = await supabase.from("assets").select("*");
-
-    return setAssets(assets.data);
-  };
-  if (!assets) {
-    getAssets();
-  }
   const selectAssetBuy = (event) => {
     const aux = assets.filter(
       (element) =>
@@ -46,6 +37,7 @@ export default function Orderbook() {
   };
 
   var callback = function (resp) {
+    console.log("respaklsjdflasdkjf",resp)
     return setResponse(resp);
   };
 

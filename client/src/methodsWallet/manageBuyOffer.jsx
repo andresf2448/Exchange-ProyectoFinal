@@ -11,37 +11,23 @@ import StellarSdk from "stellar-sdk";
 import { supabase } from "../supabase/supabase";
 import useStyles from "styles";
 
-export default function ManageBuyOffer() {
+export default function ManageBuyOffer({
+  secretKey,
+  assets,
+  setUpdateOffers,
+  publicKey,
+}) {
   const [assetAsk, setAssetAsk] = useState();
   const [assetBid, setAssetBid] = useState();
-  const [assets, setAssets] = useState();
   const [amount, setAmount] = useState();
   const [price, setPrice] = useState();
-  const [publicKey, setPublicKey] = useState();
-  const [secretKey, setSecretKey] = useState();
-
   const server = new StellarSdk.Server("https://horizon-testnet.stellar.org");
-  /* console.log("publickey es esta",publicKey)
-  console.log("esta es la secret key",secretKey) */
-  const getAssets = async () => {
-    const session = supabase.auth.session();
-    let assets = await supabase.from("assets").select("*");
 
-    const { data: public_key } = await supabase
-      .from("datauser")
-      .select("public_key")
-      .eq("id_user", session.user.id);
-    setPublicKey(public_key[0].public_key)
-    const { data: secret_key } = await supabase
-      .from("wallet")
-      .select("secret_key")
-      .eq("id_user", session.user.id);
-    setSecretKey(secret_key[0].secret_key)
-    return setAssets(assets.data);
+  const updateTransactions = async () => {
+    await makeBuyOffer();
+    return setUpdateOffers(true);
   };
-  if (!assets) {
-    getAssets();
-  }
+
   let ask = undefined;
   if (assetAsk && ask === undefined && assetAsk.asset_code !== "XLM") {
     const { asset_code, asset_issuer } = assetAsk;
@@ -89,9 +75,7 @@ export default function ManageBuyOffer() {
         .build();
 
       transaction.sign(sourceKeypair);
-          console.log(transaction)
       const tx = await server.submitTransaction(transaction);
-      console.log(tx);
     } catch (e) {
       console.error("Oh no! Something went wrong.");
       console.error(e);
@@ -118,7 +102,7 @@ export default function ManageBuyOffer() {
 
   function handleSubmit(event) {
     event.preventDefault();
-    makeBuyOffer();
+    updateTransactions();
   }
 
   return (
