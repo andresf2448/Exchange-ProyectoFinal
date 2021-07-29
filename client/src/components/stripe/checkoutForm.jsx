@@ -68,7 +68,7 @@ export default function CheckoutForm({amount, currency, crypto, id}) {
         } else if (result.paymentIntent.status === "succeeded") {
           setPayment(result.paymentIntent);
           
-          let paymentRocket = await axios.post('http://localhost:3001/payment', {
+          let paymentRocket = await axios.post('/payment', {
             sourceId: 'rocket', 
             receiverId: session.user.id, 
             amount: amount,

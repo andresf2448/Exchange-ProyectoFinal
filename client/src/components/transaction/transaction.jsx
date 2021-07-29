@@ -96,7 +96,7 @@ export default function Transaction() {
       } else {
         let sourceId = await takeSourceId();
         try {
-          let succes = await axios.post("http://localhost:3001/payment", {
+          let succes = await axios.post("/payment", {
             sourceId: sourceId,
             receiverId: receiverId,
             amount: input.amount,

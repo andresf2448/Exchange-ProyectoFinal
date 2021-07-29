@@ -39,7 +39,7 @@ export const Withdraw = ()=>{
 
     const handleSubmit = async () => {
                 
-          let succes = await axios.post("http://localhost:3001/payment", {
+          let succes = await axios.post("/payment", {
             sourceId: session.user.id,
             receiverId: 'rocket',
             amount: input.amount,

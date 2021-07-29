@@ -4,7 +4,7 @@ import React, { useEffect } from "react";
 import io from "socket.io-client";
 import TwittCard from "components/twitter/twittCard";
 import { useState } from "react";
-const SERVER = "//localhost:3005";
+const SERVER = "https://rocket-twitter.herokuapp.com/";
 
 var connectionOptions = {
   "force new connection": true,

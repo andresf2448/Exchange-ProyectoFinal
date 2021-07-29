@@ -7,7 +7,12 @@ import { Elements } from '@stripe/react-stripe-js'
 import { loadStripe } from '@stripe/stripe-js'
 import { Provider } from 'react-redux'
 import store from 'redux/store/store';
+import axios from 'axios';
 import 'normalize.css';
+import dotenv from "dotenv";
+dotenv.config();
+
+axios.defaults.baseURL = process.env.REACT_APP_API || "http://localhost:3000";
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLISHEABLE_KEY)
 
