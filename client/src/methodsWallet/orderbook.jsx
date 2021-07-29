@@ -1,14 +1,13 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import StellarSdk from "stellar-sdk";
 import Offer from "./offer.jsx";
-import { supabase } from "../supabase/supabase";
 
 export default function Orderbook({assets}) {
-  const [assetBuy, setAssetBuy] = useState(StellarSdk.Asset.native());
+  const [assetBuy, setAssetBuy] = useState(new StellarSdk.Asset("USDC", "GC5W3BH2MQRQK2H4A6LP3SXDSAAY2W2W64OWKKVNQIAOVWSAHFDEUSDC"));
   const [assetSell, setAssetSell] = useState(StellarSdk.Asset.native());
   const [response, setResponse] = useState();
 
-  var server = new StellarSdk.Server("https://horizon-testnet.stellar.org");
+  const server = new StellarSdk.Server("https://horizon-testnet.stellar.org");
 
   const selectAssetBuy = (event) => {
     const aux = assets.filter(
@@ -36,20 +35,19 @@ export default function Orderbook({assets}) {
     return setAssetSell(asset);
   };
 
-  var callback = function (resp) {
-    console.log("respaklsjdflasdkjf",resp)
+  const callback = function (resp) {
     return setResponse(resp);
   };
 
   useEffect(() => {
-    var es = server
+    server
       .orderbook(
         assetSell.issuer === undefined ? StellarSdk.Asset.native() : assetSell,
         assetBuy.issuer === undefined ? StellarSdk.Asset.native() : assetBuy
       )
       .cursor("now")
       .stream({ onmessage: callback });
-  }, [assetSell, assetBuy]);
+  }, [assetSell, assetBuy, server]);
 
   return (
     <>

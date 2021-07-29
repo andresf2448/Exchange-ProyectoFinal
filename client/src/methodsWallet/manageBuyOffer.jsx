@@ -8,7 +8,6 @@ import {
 } from "@material-ui/core";
 import { useState } from "react";
 import StellarSdk from "stellar-sdk";
-import { supabase } from "../supabase/supabase";
 import useStyles from "styles";
 
 export default function ManageBuyOffer({
@@ -75,7 +74,7 @@ export default function ManageBuyOffer({
         .build();
 
       transaction.sign(sourceKeypair);
-      const tx = await server.submitTransaction(transaction);
+      await server.submitTransaction(transaction);
     } catch (e) {
       console.error("Oh no! Something went wrong.");
       console.error(e);

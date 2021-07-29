@@ -1,7 +1,3 @@
-import { useState, useEffect } from "react";
-import StellarSdk from "stellar-sdk";
-import { supabase } from "../supabase/supabase";
-
 export default function OffersByAccount({ offers }) {
   
   return (

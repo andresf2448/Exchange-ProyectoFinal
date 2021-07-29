@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Container, Grid /*  Card */ } from "@material-ui/core";
 import { CryptoCalculator } from "components/cryptoCalculator/cryptoCalculator";
 import ManageBuyOffer from "methodsWallet/manageBuyOffer";
@@ -8,12 +8,10 @@ import OffersByAccount from "methodsWallet/offersByAccount";
 import { supabase } from "../../supabase/supabase";
 import StellarSdk from "stellar-sdk";
 
-
 function Trade() {
   const [assets, setAssets] = useState();
   const [publicKey, setPublicKey] = useState();
   const [secretKey, setSecretKey] = useState();
-
   const session = supabase.auth.session();
 
   async function getAssets() {
@@ -27,15 +25,14 @@ function Trade() {
       .from("datauser")
       .select("public_key")
       .eq("id_user", session.user.id);
-
-    setPublicKey(public_key[0].public_key);
+    setPublicKey(public_key[0]?.public_key);
 
     const { data: secret_key } = await supabase
       .from("wallet")
       .select("secret_key")
       .eq("id_user", session.user.id);
 
-    return setSecretKey(secret_key[0].secret_key);
+    return setSecretKey(secret_key[0]?.secret_key);
   };
   if (!publicKey && !secretKey) {
     keys();
@@ -45,17 +42,7 @@ function Trade() {
   const [offers, setOffers] = useState();
   const server = new StellarSdk.Server("https://horizon-testnet.stellar.org");
 
-  useEffect(() => {
-    if(updateOffers){
-      if (publicKey) {
-        getOffers();
-        setUpdateOffers(false);
-        
-      }
-    }
-    
-  }, [publicKey, updateOffers]);
-  async function getOffers() {
+  const getOffers = useCallback(() => {
     server
       .offers()
       .forAccount(publicKey)
@@ -64,7 +51,17 @@ function Trade() {
       .then(function (offers) {
         setOffers(offers);
       });
-  }
+  });
+
+  useEffect(() => {
+    if (updateOffers) {
+      if (publicKey) {
+        getOffers();
+        setUpdateOffers(false);
+      }
+    }
+  }, [publicKey, updateOffers, getOffers]);
+  
 
   //--------------------------------------------------------
 
@@ -88,10 +85,14 @@ function Trade() {
               <TradingView />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <ManageBuyOffer publicKey={publicKey} secretKey={secretKey} setUpdateOffers={setUpdateOffers} assets={assets}/>
+              <ManageBuyOffer
+                publicKey={publicKey}
+                secretKey={secretKey}
+                setUpdateOffers={setUpdateOffers}
+                assets={assets}
+              />
             </Grid>
-            <Grid item xs={12} sm={6}>
-            </Grid>
+            <Grid item xs={12} sm={6}></Grid>
           </Grid>
           <Grid container item sm={3}>
             <Grid item xs={12} style={{ height: "300px", paddingTop: "40px" }}>
