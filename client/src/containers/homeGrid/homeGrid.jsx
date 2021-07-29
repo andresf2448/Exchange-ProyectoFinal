@@ -9,7 +9,7 @@ export const HomeGrid = () => {
     <Container maxWidth="lg">
       <Grid container spacing={12} alignItems="center">
         <Grid item xs={8} alignItems="center">
-          <Card elevation={3} className={classes.adminCard}>
+          <Card elevation={3} className={classes.backCryptoCard}>
             <CryptoGraphics />
           </Card>
         </Grid>

@@ -4,7 +4,6 @@ import { useHistory } from "react-router-dom";
 import { supabase } from "supabase/supabase";
 import { takereceiverId, takeSourceId, validate } from "./transactioTools";
 import {
-  Container,
   Grid,
   Typography,
   Button,
@@ -17,7 +16,7 @@ import {
 } from "@material-ui/core";
 import useStyles from 'styles';
 import Swal from 'sweetalert2';
-import HashLoader from "react-spinners/HashLoader";
+// import HashLoader from "react-spinners/HashLoader";
 
 export default function Transaction() {
   const [error, setError] = useState({

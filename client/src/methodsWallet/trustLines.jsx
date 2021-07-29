@@ -11,13 +11,13 @@ import {
 } from "@material-ui/core";
 import { useState } from "react";
 import StellarSdk from "stellar-sdk";
-//import useStyles from "styles";
+import useStyles from "styles";
 
 export default function ChangeTrust({ publicKey, secretKey, assets, account }) {
   const [limitAmount, setLimitAmount] = useState();
   const [asset, setAsset] = useState();
   const server = new StellarSdk.Server("https://horizon-testnet.stellar.org");
-  //const classes = useStyles();
+  const classes = useStyles();
 
   async function trustLine() {
     const sourceKeypair = StellarSdk.Keypair.fromSecret(secretKey);
