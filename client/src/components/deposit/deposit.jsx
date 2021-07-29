@@ -10,15 +10,13 @@ import { supabase } from "../../supabase/supabase";
 export const Deposit = ()=>{
     const dispatch = useDispatch()
     const [input, setInput] = useState(false)
-    const [transaction, setTransaction] = useState(true)
+    // const [transaction, setTransaction] = useState(true)
     const [selector, setSelector] = useState({
         fiat: '',
         crypto: '',
         xlm: ''
     })
     
-    const [publicKey, setPublicKey] = useState();
-    const [secretKey, setSecretKey] = useState();
     const [assetIssuer, setAssetIssuer] = useState();
     const [responseHook, setResponseHook] = useState()
     
@@ -54,35 +52,37 @@ export const Deposit = ()=>{
             .select('asset_issuer')
             .eq('asset_code', input.xlm)
         }
-
-          console.log('El isuer',response.data)
           
-          setAssetIssuer(response.data[0].asset_issuer)
-          setPublicKey(publicKey[0].public_key);
-          return setSecretKey(secretKey[0].secret_key);
+          setAssetIssuer(() => response.data[0].asset_issuer)
+          
+        createTransactionId(publicKey[0].public_key, secretKey[0].secret_key)
       }
 
-      if (transaction && input && publicKey && secretKey) {
-                
-        setTransaction(false);
+      function createTransactionId(publicKey, secretKey) {
+          
+          if (input && publicKey && secretKey) {
+          
+            let assetCode
+            if (input.fiat && input.xlm === '') {
+                assetCode = input.fiat
+    
+            } else if(input.crypto) {
+                assetCode = input.crypto
+    
+            } else if(input.xlm) {
+                assetCode = input.xlm
+            }
+            
+            const homeDomain = "localhost:3001";
+            
+            depositHook({ publicKey, secretKey, assetIssuer, assetCode, homeDomain, setResponseHook })
+            
+          } else {
+              alert('Problems with your keys')
+          }
 
-        let assetCode
-        if (input.fiat && input.xlm === '') {
-            assetCode = input.fiat
-
-        } else if(input.crypto) {
-            assetCode = input.crypto
-
-        } else if(input.xlm) {
-            assetCode = input.xlm
-        }
-        console.log('El asset code',assetCode)
-        const homeDomain = "localhost:3001";
-        
-        depositHook({ publicKey, secretKey, assetIssuer, assetCode, homeDomain, setResponseHook })
-        
-        console.log('El linkToken', responseHook)
       }
+
 
     const handleFiat = async () => {   
     await getKeys()
@@ -108,7 +108,7 @@ export const Deposit = ()=>{
         if (data.length < 1) {
             return alert('You need to complete your profile to do a deposit')
         }
-        console.log('la data tendría que estar vacía', data)
+        
         setResponseHook()
         setInput({
             fiat: '',
@@ -138,6 +138,20 @@ export const Deposit = ()=>{
 
     }
     }
+
+    const handleLink = () => {
+        setResponseHook()
+        setInput({
+            fiat: '',
+            crypto: '',
+            xlm: ''
+        })
+        setSelector({
+            fiat: '',
+            crypto: '',
+            xlm: ''
+        })
+    }
     
     return (
         <Container>
@@ -154,7 +168,7 @@ export const Deposit = ()=>{
                 <MenuItem value='USDR'>USD</MenuItem>
           </Select> <br/>
             <Button disabled={!input.fiat} color='primary' variant='contained' onClick={handleFiat}>Deposit FIAT</Button> <br/>
-            {responseHook && <Link to={responseHook.interactiveResponse.url + `${input.fiat.slice(0,3)}`} target='_blank' style={{textDecoration:'none', color:'primary'}} >Click here to continue</Link>}
+            {responseHook && <Link onClick={handleLink} to={responseHook.interactiveResponse.url + `${input.fiat.slice(0,3)}`} target='_blank' style={{textDecoration:'none', color:'primary'}} >Click here to continue</Link>}
             
             </div>
            : null }
