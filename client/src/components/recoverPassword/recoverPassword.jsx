@@ -10,6 +10,7 @@ import {
   TextField,
   Grid,
   FormControl,
+  Card
 } from "@material-ui/core";
 
 import { supabase } from "supabase/supabase";
@@ -62,45 +63,44 @@ export default function RecoverPassword() {
   };
 
   return (
-    <Container maxWidth="sm">
-      <Typography variant="h4" gutterBottom>
-        Recover Password
-      </Typography>
-      <Grid container>
-        <Grid item xs={12}>
-          <form onSubmit={() => recoverPassword()}>
-            <FormControl>
-              <TextField
-                required
-                label="Email"
-                name="Email"
-                type="text"
-                value={email}
-                onChange={handleOnChange}
-                style={{ marginBottom: "3px" }}
-              />
-              <Button
-                className={classes.button}
-                type="submit"
-                variant="contained"
-                color="primary"
-                onClick={recoverPassword}
-              >
-                Send
-              </Button>
-              <Button
-                className={classes.button}
-                variant="contained"
-                color="primary"
-                onClick={back}
-              >
-                Back
-              </Button>
-
-            </FormControl>
-          </form>
+    <Container maxWidth="sm" className={classes.loginContainer}>
+      <Card elevation={3} className={classes.loginCard}> 
+        <Grid container alignContent="center" >
+          <Grid item xs={12} >
+            <Typography  variant="h3" gutterBottom className={classes.loginGridItem}>Recover Password</Typography>
+            <form onSubmit={() => recoverPassword()} className={classes.loginForm}>
+              <FormControl style={{marginBottom:'20px'}}>
+                <TextField
+                  required
+                  label="Email"
+                  name="Email"
+                  type="text"
+                  value={email}
+                  onChange={handleOnChange}
+                  style={{ marginBottom: "3px" }}
+                  />
+                <Button
+                className={classes.loginGridItem}
+                  type="submit"
+                  variant="contained"
+                  color="secondary"
+                  onClick={recoverPassword}
+                  >
+                  Send
+                </Button>
+                <Button
+                  className={classes.loginGridItem}
+                  variant="contained"
+                  color="secondary"
+                  onClick={back}
+                  >
+                  Back
+                </Button>
+              </FormControl>
+            </form>
+          </Grid>
         </Grid>
-      </Grid>
+      </Card>
     </Container>
   );
 }
