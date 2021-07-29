@@ -15,6 +15,7 @@
     "arg.js": "^1.1.6",
     "axios": "^0.21.1",
     "bootstrap": "^4.6.0",
+    "lodash": "^4.17.21",
     "normalize.css": "^8.0.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",

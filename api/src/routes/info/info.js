@@ -1,10 +1,17 @@
 const router = require("express").Router();
 
-router.get("/", async (req, res) => {
+router.get("/info", async (req, res) => {
   
   const result = {
     deposit: {
       USD: {
+        enabled: true,
+        fee_fixed: 5,
+        fee_percent: 1,
+        min_amount: 0.1,
+        max_amount: 1000,
+      },
+      ARSR: {
         enabled: true,
         fee_fixed: 5,
         fee_percent: 1,

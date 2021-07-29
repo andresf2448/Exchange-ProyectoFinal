@@ -218,7 +218,7 @@ export const LoadingProfile = () => {
             <Typography variant='h6'>Occupation: {occupation}</Typography>
             <Typography variant='h6'>Gender: {gender}</Typography>
             <Typography variant='h6'>Two Step Verification: {hasTwoFA? 'Yes': 'No'}</Typography>
-            <Button onClick={() => handleEdit()} color="secondary" variant="contained">Edit</Button>
+            <Button onClick={() => handleEdit()} className={classes.yellowButton}>Edit</Button>
           </FormControl>
         </Container>
       ) : (

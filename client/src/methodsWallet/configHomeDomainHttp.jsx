@@ -1,7 +1,7 @@
 
 
 
-export const configHomeDomainUrl = (homeDomain)  => {
+export const configHomeDomainHttp = (homeDomain)  => {
   
   if (homeDomain.includes("localhost")) {
     homeDomain = homeDomain.startsWith("http")

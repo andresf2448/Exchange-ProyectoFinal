@@ -9,7 +9,6 @@ import {
   Container,
   Typography,
   Button,
-  ButtonGroup,
   TextField,
   FormControl,
   Link,
@@ -84,9 +83,9 @@ export default function Login () {
     }
   }
   
-  const singUpRoute = () => {
-    history.push("/register");
-  };
+  // const singUpRoute = () => {
+  //   history.push("/register");
+  // };
 
   const recoverPassword = () => {
     history.push("/recoverPassword");
@@ -157,14 +156,14 @@ export default function Login () {
                 )}
 
                 {/* this button goes first for the submit function when pressing enter */}
-                <ButtonGroup className={classes.loginGridItem}>
-                  <Button type="submit" variant="contained" color="secondary">
+                {/* <ButtonGroup className={classes.loginGridItem}> */}
+                  <Button type="submit" variant="contained" color="secondary" className={classes.loginGridItem}>
                     Login
                   </Button>
-                  <Button variant="outlined" color="secondary" onClick={singUpRoute}>
+                  {/* <Button variant="outlined" color="secondary" onClick={singUpRoute}>
                     Sing up
-                  </Button>
-                </ButtonGroup>
+                  </Button> */}
+                {/* </ButtonGroup> */}
               </FormControl>
             </form>
           </Grid>

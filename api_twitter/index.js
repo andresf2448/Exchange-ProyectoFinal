@@ -5,7 +5,6 @@ const server = http.createServer(router);
 require("dotenv").config();
 const TOKEN = process.env.TWITTER_BEARER_TOKEN;
 
-
 const socketIo = require("socket.io");
 const io = socketIo(server);
 

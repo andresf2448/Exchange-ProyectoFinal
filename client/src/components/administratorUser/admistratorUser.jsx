@@ -3,8 +3,7 @@ import { useHistory } from "react-router";
 import axios from "axios";
 import { supabase } from "supabase/supabase";
 import useStyles from "styles";
-import Swal from 'sweetalert2'
-
+import Swal from "sweetalert2";
 
 import {
   Button,
@@ -23,34 +22,46 @@ import {
   FormControl,
   Paper,
   TextareaAutosize,
-  Modal
+  Modal,
 } from "@material-ui/core";
 import { useDispatch } from "react-redux";
 import { GET_USER_DETAILS_ID } from "redux/actions/actions";
+import { CardUser } from "components/cardUser/cardUser";
 
 export const AdministratorUser = () => {
   const classes = useStyles();
   const history = useHistory();
+  const dispatch = useDispatch();
+
   const session = supabase.auth.session();
   const { user } = session;
   let id = user.id;
+
   const [admin, setAdmin] = useState(false);
   const [users, setUsers] = useState([]);
   const [reload, setReload] = useState(0);
   const [emails, setEmails] = useState([]);
-  const [statemessage, setStateMessage] = useState(false);
-  const emailSearching = useRef("");
-  const dispatch = useDispatch();
   const [commision, setCommision] = useState(false);
-  const confirmation = useRef("");
   const [statusComision, setStatusComision] = useState({
     porcentaje: "",
     fecha: "",
   });
-  const newComision = useRef("");
   const [selectAll, setSelectAll] = useState(true);
-
   const [render, setRender] = useState([]);
+  const [detailModal, setDetailModal] = useState(false);
+  const [detailModalId, setDetailModalId] = useState(null);
+  const handleModal = (id) => {
+    setDetailModal(true);
+    setDetailModalId(id);
+    dispatch(GET_USER_DETAILS_ID(id));
+  };
+  const handleModalClose = () => {
+    setDetailModal(false);
+  };
+
+  const confirmation = useRef("");
+  const emailSearching = useRef("");
+  const newComision = useRef("");
   let title = useRef("");
   let message = useRef("");
 
@@ -60,9 +71,6 @@ export const AdministratorUser = () => {
 
   let deleteEmail = (email) => {
     setEmails(emails.filter((x) => x !== email));
-    if (emails.length === 0) {
-      setStateMessage(false);
-    }
   };
 
   let validateRole = async () => {
@@ -128,13 +136,12 @@ export const AdministratorUser = () => {
   let resetPassword = async (email) => {
     let emailUser = email;
     Swal.fire({
-      title: 'Email sent!',
+      title: "Email sent!",
       text: `to ${emailUser}`,
-      icon: 'success',
-      confirmButtonText: 'Cool',
-      background: '#1f1f1f',
-      confirmButtonColor:'rgb(158, 158, 158)',
-
+      icon: "success",
+      confirmButtonText: "Cool",
+      background: "#1f1f1f",
+      confirmButtonColor: "rgb(158, 158, 158)",
     });
 
     await supabase
@@ -156,25 +163,20 @@ export const AdministratorUser = () => {
     setEmails([]);
   };
 
-  // let addMessage = () => {
-  //   setStateMessage(!statemessage);
-  // };
-
   let sendEmail = async () => {
     message = message.current.value;
     title = title.current.value;
-    
+
     let data = { receivers: [...emails], message, title };
 
     if (emails.length > 0 && message !== "" && title !== "") {
       Swal.fire({
-        title: 'Success!',
-        icon: 'success',
-        confirmButtonText: 'Cool',
-        background: '#1f1f1f',
-        confirmButtonColor:'rgb(158, 158, 158)',
+        title: "Success!",
+        icon: "success",
+        confirmButtonText: "Cool",
+        background: "#1f1f1f",
+        confirmButtonColor: "rgb(158, 158, 158)",
       });
-      setStateMessage(false);
       setEmails([]);
       handleClose();
       await axios({
@@ -188,19 +190,18 @@ export const AdministratorUser = () => {
       return history.push("/home");
     }
     Swal.fire({
-      title: 'Ehem!',
+      title: "Ehem!",
       text: "Please add one email or add one message",
-      icon: 'warning',
-      confirmButtonText: 'Sure',
-      background: '#1f1f1f',
-      confirmButtonColor:'rgb(158, 158, 158)',
+      icon: "warning",
+      confirmButtonText: "Sure",
+      background: "#1f1f1f",
+      confirmButtonColor: "rgb(158, 158, 158)",
     });
   };
 
   let cancelMessage = () => {
     setEmails([]);
-    setStateMessage(false);
-    handleClose()
+    handleClose();
   };
 
   let search = (event) => {
@@ -222,11 +223,6 @@ export const AdministratorUser = () => {
     return history.push("/home");
   };
 
-  let detailsUser = (id) => {
-    dispatch(GET_USER_DETAILS_ID(id));
-    history.push("/detailsUsers");
-  };
-
   let comisionChange = async (event) => {
     event.preventDefault();
     if (confirmation.current.value === "CONFIRM") {
@@ -234,21 +230,24 @@ export const AdministratorUser = () => {
         .from("commsion_server")
         .insert([{ id_user: id, percentage: newComision.current.value }]);
       setCommision(!commision);
+
+      actualcomision();
+
       return Swal.fire({
-        title: 'Success!',
-        icon: 'success',
-        confirmButtonText: 'Cool',
-        background: '#1f1f1f',
-        confirmButtonColor:'rgb(158, 158, 158)',
+        title: "Success!",
+        icon: "success",
+        confirmButtonText: "Cool",
+        background: "#1f1f1f",
+        confirmButtonColor: "rgb(158, 158, 158)",
       });
     }
     Swal.fire({
-      title: 'Ehem!',
+      title: "Ehem!",
       text: 'Complet or Write "CONFIRM" correctly',
-      icon: 'warning',
-      confirmButtonText: 'Sorry',
-      background: '#1f1f1f',
-      confirmButtonColor:'rgb(158, 158, 158)',
+      icon: "warning",
+      confirmButtonText: "Sorry",
+      background: "#1f1f1f",
+      confirmButtonColor: "rgb(158, 158, 158)",
     });
   };
 
@@ -260,14 +259,15 @@ export const AdministratorUser = () => {
     let ultimo = commsion_server.pop();
     let { percentage, date } = ultimo;
 
-    if (error) Swal.fire({
-      title: 'Error!',
-      text: error,
-      icon: 'error',
-      confirmButtonText: 'Ups',
-      background: '#1f1f1f',
-      confirmButtonColor:'rgb(158, 158, 158)',
-    });
+    if (error)
+      Swal.fire({
+        title: "Error!",
+        text: error,
+        icon: "error",
+        confirmButtonText: "Ups",
+        background: "#1f1f1f",
+        confirmButtonColor: "rgb(158, 158, 158)",
+      });
     setStatusComision({
       porcentaje: percentage,
       fecha: date,
@@ -287,40 +287,63 @@ export const AdministratorUser = () => {
 
   const handleOpen = () => {
     setOpen(true);
-    // setStateMessage(!statemessage);
   };
 
   const handleClose = () => {
     setOpen(false);
-    // setStateMessage(!statemessage);
   };
 
   const body = (
     <Grid container>
-      <Grid item xs={10} direction="column" align="center" className={classes.modal}>
-        <Typography variant="h5" className={classes.text} style={{marginBottom: 20}} > Message </Typography>
-        <TextField type="text" inputRef={title} placeholder="Add Title" style={{marginBottom: 20}} />
+      <Grid
+        item
+        xs={10}
+        direction="column"
+        align="center"
+        className={classes.modal}
+      >
+        <Typography
+          variant="h5"
+          className={classes.text}
+          style={{ marginBottom: 20 }}
+        >
+          {"Message "}
+        </Typography>
+        <TextField
+          type="text"
+          inputRef={title}
+          placeholder="Add Title"
+          style={{ marginBottom: 20 }}
+        />
         <TextareaAutosize
           ref={message}
           placeholder="Write message..."
           minRows={5}
           fullWidth={true}
-          style={{marginBottom: 20}}
+          style={{ marginBottom: 20 }}
           required
         ></TextareaAutosize>
-        <ButtonGroup style={{marginBottom: 20}}>
-          <Button type="button" variant="contained" color="secondary" onClick={() => sendEmail()}>
+        <ButtonGroup style={{ marginBottom: 20 }}>
+          <Button
+            type="button"
+            variant="contained"
+            color="secondary"
+            onClick={() => sendEmail()}
+          >
             Send Mails
           </Button>
-          <Button type="button" variant="outlined" color="secondary" onClick={() => cancelMessage()}>
+          <Button
+            type="button"
+            variant="outlined"
+            color="secondary"
+            onClick={() => cancelMessage()}
+          >
             {"Cancel Message "}
           </Button>
         </ButtonGroup>
       </Grid>
     </Grid>
-  )
-
-  //fechas
+  );
 
   return (
     <Container
@@ -332,9 +355,6 @@ export const AdministratorUser = () => {
         {admin ? (
           <Grid container>
             <Grid container xs={5} direction="column" alignContent="center">
-              {/* <Grid item xs={12}> */}
-              {/* </Grid> */}
-
               <Button
                 onClick={() => setCommision(!commision)}
                 variant="contained"
@@ -342,7 +362,7 @@ export const AdministratorUser = () => {
                 {"Change the commision server"}
               </Button>
               {commision ? (
-                <Grid item xs={5} direction="column">
+                <Grid item xs={4} direction="column">
                   <form onSubmit={comisionChange}>
                     <TextField
                       type="text"
@@ -364,8 +384,7 @@ export const AdministratorUser = () => {
                       required
                     />
                     <Button variant="contained" color="secondary" type="submit">
-                      {" "}
-                      Send
+                      {"Send "}
                     </Button>
                   </form>
                 </Grid>
@@ -377,7 +396,7 @@ export const AdministratorUser = () => {
                     gutterBottom
                     align="left"
                   >
-                    Comision actual: {statusComision.porcentaje} %
+                    Current Commission: {statusComision.porcentaje} %
                   </Typography>
                   <Typography
                     variant="body1"
@@ -385,19 +404,26 @@ export const AdministratorUser = () => {
                     gutterBottom
                     align="left"
                   >
-                    Fecha: {new Date(statusComision.fecha).getDate()}/{new Date(statusComision.fecha).getMonth() + 1}/{new Date(statusComision.fecha).getUTCFullYear()} {new Date(statusComision.fecha).getUTCHours()}:{new Date(statusComision.fecha).getUTCMinutes()}
+                    Date: {new Date(statusComision.fecha).getDate()}/
+                    {new Date(statusComision.fecha).getMonth() + 1}/
+                    {new Date(statusComision.fecha).getUTCFullYear()}{" "}
+                    {new Date(statusComision.fecha).getUTCHours()}:
+                    {new Date(statusComision.fecha).getUTCMinutes()}
                   </Typography>
                 </Grid>
               )}
             </Grid>
-            <Grid item xs={5} direction="column">
+            <Grid item xs={2}></Grid>
+            <Grid item xs={4} direction="column">
               <form onSubmit={search} className={classes.adminCardSearch}>
-                <FormControl margin="normal">
+                <FormControl margin="normal" style={{ paddingRight: "10px" }}>
                   <TextField
                     type="text"
                     placeholder="Search User by email"
                     inputRef={emailSearching}
                   />
+                </FormControl>
+                <FormControl margin="normal">
                   <ButtonGroup>
                     <Button type="submit" variant="contained" color="secondary">
                       Search
@@ -414,8 +440,13 @@ export const AdministratorUser = () => {
                 </FormControl>
               </form>
             </Grid>
-            <Grid container xs={2} justifyContent="center" alignContent="center">
-            <Grid item xs={12} justifyContent="center">
+
+            <Grid
+              item
+              xs={1}
+              justifyContent="center"
+              style={{ marginTop: "15px" }}
+            >
               {emails.length > 0 ? (
                 <div>
                   <Button
@@ -425,42 +456,19 @@ export const AdministratorUser = () => {
                     color="primary"
                     variant="contained"
                     className={classes.buttonBack}
-                    >
+                  >
                     {" Add Message "}
                   </Button>
                   <Modal
                     open={open}
                     // onClose={() => handleClose()}
-                    aria-labelledby="simple-modal-title"
-                    aria-describedby="simple-modal-description"
-                    >
+                  >
                     {body}
                   </Modal>
                 </div>
               ) : null}
             </Grid>
-            {/* {statemessage && emails.length !== 0 ? (
-              <Grid item xs={10} direction="column">
-                <Typography variant="h5"> Message </Typography>
-                <TextField type="text" ref={title} placeholder="Add Title" />
-                <TextareaAutosize
-                  ref={message}
-                  placeholder="Write message..."
-                  minRows={5}
-                  fullWidth={true}
-                  required
-                ></TextareaAutosize>{" "}
-                <ButtonGroup>
-                  <Button type="button" variant="contained" color="secondary" onClick={sendEmail}>
-                    Send Mails
-                  </Button>
-                  <Button type="button" variant="outlined" color="secondary" onClick={cancelMessage}>
-                    {"Cancel Message "}
-                  </Button>
-                </ButtonGroup>
-              </Grid>
-            ) : null} */}
-          </Grid>
+
             <Grid item xs={12}>
               <TableContainer className={classes.adminTableContainer}>
                 <Table
@@ -468,17 +476,44 @@ export const AdministratorUser = () => {
                   size="small"
                   component={Paper}
                   className={classes.adminTable}
+                  stickyHeader={true}
                 >
-                  <TableHead>
+                  <TableHead style={{ height: "11vh" }}>
                     <TableRow>
-                      <TableCell variant="head">Number</TableCell>
-                      <TableCell variant="head">Email</TableCell>
-                      <TableCell variant="head">Id user</TableCell>
-                      <TableCell variant="head">Block user</TableCell>
-                      <TableCell variant="head">Upgrade to admin</TableCell>
-                      <TableCell variant="head">Reset password</TableCell>
-                      <TableCell variant="head">
-                        Send Email <br />
+                      <TableCell
+                        style={{ color: "#fdfbfb", backgroundColor: "#0c0c0c" }}
+                      >
+                        #
+                      </TableCell>
+                      <TableCell
+                        style={{ color: "#fdfbfb", backgroundColor: "#0c0c0c" }}
+                      >
+                        EMAIL
+                      </TableCell>
+                      <TableCell
+                        style={{ color: "#fdfbfb", backgroundColor: "#0c0c0c" }}
+                      >
+                        ID USER
+                      </TableCell>
+                      <TableCell
+                        style={{ color: "#fdfbfb", backgroundColor: "#0c0c0c" }}
+                      >
+                        BLOCK USER
+                      </TableCell>
+                      <TableCell
+                        style={{ color: "#fdfbfb", backgroundColor: "#0c0c0c" }}
+                      >
+                        ROLE
+                      </TableCell>
+                      <TableCell
+                        style={{ color: "#fdfbfb", backgroundColor: "#0c0c0c" }}
+                      >
+                        RESET PASSWORD
+                      </TableCell>
+                      <TableCell
+                        style={{ color: "#fdfbfb", backgroundColor: "#0c0c0c" }}
+                      >
+                        SEND EMAIL <br />
                         {selectAll ? (
                           <Button
                             size="small"
@@ -486,7 +521,7 @@ export const AdministratorUser = () => {
                             color="secondary"
                             onClick={() => selectionAll()}
                           >
-                            Select All
+                            SELECT ALL
                           </Button>
                         ) : (
                           <Button
@@ -495,11 +530,15 @@ export const AdministratorUser = () => {
                             color="secondary"
                             onClick={unSelectionAll}
                           >
-                            Unselect All
+                            UNSELECT ALL
                           </Button>
                         )}
                       </TableCell>
-                      <TableCell variant="head">Details Users</TableCell>
+                      <TableCell
+                        style={{ color: "#fdfbfb", backgroundColor: "#0c0c0c" }}
+                      >
+                        DETAILS USER
+                      </TableCell>
                     </TableRow>
                   </TableHead>
                   {render.map((user, i) => {
@@ -513,45 +552,50 @@ export const AdministratorUser = () => {
                           <TableCell>
                             {bannedUser ? (
                               <Button onClick={() => desBanear(id_user)}>
-                                Unblock
+                                🚫
                               </Button>
                             ) : (
                               <Button onClick={() => bannear(id_user)}>
-                                Blocked
+                                ✅
                               </Button>
                             )}
                           </TableCell>
                           <TableCell>
                             {isAdmin ? (
                               <Button onClick={() => noBeAdmin(id_user)}>
-                                to user
+                                👤
                               </Button>
                             ) : (
                               <Button onClick={() => toBeAdmin(id_user)}>
-                                Up to Admin
+                                🚀
                               </Button>
                             )}
                           </TableCell>
                           <TableCell>
                             <Button onClick={() => resetPassword(email)}>
-                              Reset
+                              🔑
                             </Button>
                           </TableCell>
                           <TableCell>
                             {!emails.includes(email) ? (
-                              <Button onClick={() => addEmail(email)}>
-                                Selected
-                              </Button>
+                              <Button onClick={() => addEmail(email)}>✉</Button>
                             ) : (
                               <Button onClick={() => deleteEmail(email)}>
-                                UnSelected
+                                📧
                               </Button>
                             )}
                           </TableCell>
                           <TableCell>
-                            <Button onClick={() => detailsUser(id_user)}>
-                              Details
+                            <Button onClick={() => handleModal(id_user)}>
+                              🔎
                             </Button>
+                            <Modal
+                              open={detailModal && detailModalId === id_user}
+                              onClose={handleModalClose}
+                              style={{ overflow: "scroll", zIndex: "10000" }}
+                            >
+                              <CardUser />
+                            </Modal>
                           </TableCell>
                         </TableRow>
                       </TableBody>

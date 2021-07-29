@@ -61,7 +61,7 @@ export default function ChangeTrust({ publicKey, secretKey, assets, account }) {
 
   function handleSubmit(e) {
     e.preventDefault();
-    trustLine(publicKey, secretKey, asset, limitAmount);
+    trustLine(publicKey, secretKey, asset, limitAmount.toString());
   }
   return (
     <div>
@@ -110,11 +110,10 @@ export default function ChangeTrust({ publicKey, secretKey, assets, account }) {
                     onChange={(e) => setLimitAmount(e.target.value)}
                     style={{ paddingBottom: 10 }}
                   />
-                  <Button
-                    type="submit"
-                    variant="contained"
-                    color="secondary"
-                    style={{ paddingBottom: 10 }}
+                <Button 
+                  type="submit" 
+                  className={classes.yellowButton}
+                  style={{paddingBottom: 10}}
                   >
                     Finish
                   </Button>
