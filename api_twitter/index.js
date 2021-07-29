@@ -1,7 +1,6 @@
 const http = require('http');
 const router = require('express').Router()
 const server = http.createServer(router);
-
 require("dotenv").config();
 const TOKEN = process.env.TWITTER_BEARER_TOKEN;
 
@@ -36,6 +35,7 @@ const rules = [{
                 Authorization: `Bearer ${TOKEN}`
             }
         });
+        // console.log(response.body)
         return response.body
     };
 

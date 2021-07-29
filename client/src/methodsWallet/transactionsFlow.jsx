@@ -3,6 +3,8 @@ import { useDispatch } from "react-redux";
 import { getClientSecret } from "redux/actions/actions";
 import { supabase } from "supabase/supabase";
 import CheckoutForm from "../components/stripe/checkoutForm";
+import { Card, Container, FormControl, Button, TextField } from "@material-ui/core";
+import useStyles from 'styles';
 
 
 export default function TransactionsPopup() {
@@ -16,6 +18,8 @@ export default function TransactionsPopup() {
     email: "",
     amount: "",
   });
+
+  const classes = useStyles();
   
   const [kyc, setKyc] = useState(false);
 
@@ -87,35 +91,43 @@ export default function TransactionsPopup() {
   }
   
   return (
-    <div>
+    <Container style={{ height:'100vh'}}>
+      <Card elevation={3} className={classes.transactionCardContainer}> 
       {!kyc && (
         <form onSubmit={handleSubmit}>
-          <input
-            type="text"
-            placeholder="firts name"
-            name="firtsName"
-            onChange={(event) =>
-              setInput({ ...input, [event.target.name]: event.target.value })
-            }
-          />
-          <input
-            type="text"
-            placeholder="last name"
-            name="lastName"
-            onChange={(event) =>
-              setInput({ ...input, [event.target.name]: event.target.value })
-            }
-          />
-          <input
-            type="email"
-            placeholder="email"
-            name="email"
-            onChange={(event) =>
-              setInput({ ...input, [event.target.name]: event.target.value })
-            }
-          />
+          <FormControl>
+            <TextField 
+            margin='dense'
+              type="text"
+              placeholder="firts name"
+              name="firtsName"
+              onChange={(event) =>
+                setInput({ ...input, [event.target.name]: event.target.value })
+              }
+            />
+            <TextField
+            margin='dense'
+              type="text"
+              placeholder="last name"
+              name="lastName"
+              onChange={(event) =>
+                setInput({ ...input, [event.target.name]: event.target.value })
+              }
+            />
+            <TextField
+              margin='dense'
+              type="email"
+              placeholder="email"
+              name="email"
+              onChange={(event) =>
+                setInput({ ...input, [event.target.name]: event.target.value })
+              }
+            />
 
-          <input type="submit" value="Send" />
+            <Button className={classes.yellowButton} value="Send">
+              Send
+            </Button>
+          </FormControl>
         </form>
       )}
       {kyc && (
@@ -146,6 +158,7 @@ export default function TransactionsPopup() {
           </div>
         )}
       </div>
-    </div>
+      </Card>
+    </Container>
   );
 }
