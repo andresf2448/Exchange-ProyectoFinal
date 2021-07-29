@@ -61,8 +61,9 @@ export default function WalletContainer() {
             <Tab label="Transaction" />
             <Tab label="Transaction history" />
             <Tab label="Change trust" />
-            <Tab label="Deposit" />
-            <Tab label="Withdraw" />
+            <Tab label="Deposit" className={classes.tabs1}/>
+            <Tab label="Withdraw" className={classes.tabs2}/>
+
           </Tabs>
         </AppBar>
       </Grid>

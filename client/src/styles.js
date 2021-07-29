@@ -108,6 +108,15 @@ const useStyles = makeStyles(theme => ({
     paddingTop: 15,
     paddingBottom: 15,
   },
+  backCryptoCard: {
+    backgroundColor: '#272727b3',
+    marginTop: 15,
+    marginLeft: 0,
+    marginRight: 50,
+    marginBottom: 5,
+    paddingTop: 15,
+    paddingBottom: 15,
+  },
   adminCardSearch: {
     display: "flex",
     // justifyContent: "center",
@@ -136,7 +145,7 @@ const useStyles = makeStyles(theme => ({
     width: '96%',
     display: 'flex',
     flexDirection: 'column',
-    backgroundColor: theme.palette.primary.light,
+    backgroundColor: '#000',
     justifyContent: 'center',
   },
   offerTableHead: {
@@ -319,6 +328,13 @@ const useStyles = makeStyles(theme => ({
   twitterMetrics:{
     marginTop: '5%',
     marginLeft: '10%',
+  },
+  tabs1: {
+    backgroundColor: 'rgb(255, 217, 112)',
+    color: '#272727b3',
+  },
+  tabs2: {
+    backgroundColor: 'rgb(10, 147, 168)'
   }
 }));
 
