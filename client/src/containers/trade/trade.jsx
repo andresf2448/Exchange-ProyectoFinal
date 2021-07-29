@@ -71,70 +71,9 @@ function Trade() {
     <Grid container>
       <Grid container item display="column" justifyContent={true}>
         <Grid item xs={12} sm={3} style={{ height: "700px" }}>
-          <Orderbook assets={assets} />
+        
         </Grid>
-        <Grid container item xs={12} sm={6}>
-          <Grid
-            item
-            xs={12}
-            style={{
-              height: "400px",
-              paddingRight: "25px",
-              paddingTop: "40px",
-            }}
-          >
-            <TradingView />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <ManageBuyOffer
-              publicKey={user?.publicKey}
-              secretKey={user?.secretKey}
-            />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <ManageBuyOffer />
-          </Grid>
-        </Grid>
-        <Grid container item sm={3}>
-          <Grid item xs={12} style={{ height: "300px", paddingTop: "40px" }}>
-            {/* <Card style={{height:'300px'}}>Listado de ventas activas</Card> */}
-            <OffersByAccount publicKey={user?.publicKey} />
-          </Grid>
-          <Grid item xs={12}>
-            <CryptoCalculator />
-          </Grid>
-          </Grid>
-          <Grid container item xs={12} sm={6}>
-            <Grid
-              item
-              xs={12}
-              style={{
-                height: "400px",
-                paddingRight: "25px",
-                paddingTop: "40px",
-              }}
-            >
-              <TradingView />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <ManageBuyOffer
-                publicKey={publicKey}
-                secretKey={secretKey}
-                setUpdateOffers={setUpdateOffers}
-                assets={assets}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}></Grid>
-          </Grid>
-          <Grid container item sm={3}>
-            <Grid item xs={12} style={{ height: "300px", paddingTop: "40px" }}>
-              {/* <Card style={{height:'300px'}}>Listado de ventas activas</Card> */}
-              <OffersByAccount offers={offers} />
-            </Grid>
-            <Grid item xs={12}>
-              <CryptoCalculator />
-            </Grid>
-          </Grid>
+        
         </Grid>
       </Grid>
     </Container>

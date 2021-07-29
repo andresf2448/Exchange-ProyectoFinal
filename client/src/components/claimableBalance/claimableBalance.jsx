@@ -3,6 +3,7 @@ import axios from 'axios'
 import { Paper, Container, Typography, Grid, TableContainer, Table, TableHead, TableBody, TableRow, TableCell, Button, TextField } from '@material-ui/core';
 import useStyles from 'styles';
 import { supabase } from "supabase/supabase";
+import StellarSdk from 'stellar-sdk';
 
 
 export default function ClaimableBalance() {
@@ -10,6 +11,8 @@ export default function ClaimableBalance() {
   // const [claimant, setClaimant] = useState('GDUHC3DP3YI2TU2HX7E575L5NTAOZJEBG7I7VPCJ2KLTLVJWHBLB4BSR')  //CUENTA DE LAPI
   // const [claimant, setClaimant] = useState('GD6X2H6UW6QFCXTDVDFH7HA6NESJRBTVXBPC4ECABIIU4VSBFQI7N4EM')  //CUENTA DE JULI
   const session = supabase.auth.session();
+  const server = new StellarSdk.Server("https://horizon-testnet.stellar.org");
+
 
   // const [claimBalance, setClaimBalance] = useState('initialState');
   // const [paymentOrder, setPaymentOrder] = useState('initialState');
@@ -23,6 +26,7 @@ export default function ClaimableBalance() {
     // var server = new StellarSdk.Server("https://horizon.stellar.org");
 
     let data = await axios.get(' https://horizon-testnet.stellar.org/accounts/GDUHC3DP3YI2TU2HX7E575L5NTAOZJEBG7I7VPCJ2KLTLVJWHBLB4BSR/operations')
+    console.log(data.data)
     let inter = data.data._embedded.records.filter(element => { return element.type === "create_claimable_balance" })
     let claimant = inter.filter(element => { return element.sponsor !== keys.publicKey })
     let sponsor = inter.filter(element => { return element.sponsor === keys.publicKey })
@@ -61,7 +65,7 @@ export default function ClaimableBalance() {
       .select("public_key")
       .eq("id_user", session.user.id);
 
-    if (data.length === 0) {
+    /* if (data.length === 0) {
       Swal.fire({
         title: 'Nope!',
         text: "You still don't have a wallet",
@@ -70,7 +74,7 @@ export default function ClaimableBalance() {
         background: '#1f1f1f',
         confirmButtonColor:'rgb(158, 158, 158)',
       });
-    }
+    } */
     if (data.length > 0) {
       let secret = await supabase
         .from("wallet")
@@ -86,46 +90,38 @@ export default function ClaimableBalance() {
       // setHasWallet(true);
     }
   };
-  var StellarSdk = require("stellar-sdk");
-
-
-
-  const sdk = require("stellar-sdk");
 
   async function main() {
-    let server = new StellarSdk.Server("https://horizon-testnet.stellar.org");
 
     let A = StellarSdk.Keypair.fromSecret(keys.secretKey);
-    let B = StellarSdk.Keypair.fromPublicKey("GD6X2H6UW6QFCXTDVDFH7HA6NESJRBTVXBPC4ECABIIU4VSBFQI7N4EM"); //public julian
-
+    let B = StellarSdk.Keypair.fromPublicKey("GAFA7JYABQHREQOHOLMEICZW23VJU6G264A3KESTT6V4Z7FHGAAZYUYS"); //public julian
+    
     // NOTE: Proper error checks are omitted for brevity; always validate things!
-
-    let aAccount = await server.loadAccount(A.publicKey()).catch(function (err) {
-      console.error(`Failed to load ${A.publicKey()}: ${err}`)
+    
+    let aAccount = await server.loadAccount(keys.publicKey).catch(function (err) {
+      console.error(`Failed to load ${keys.publicKey}: ${err}`)
     })
     if (!aAccount) { return }
 
     // Create a claimable balance with our two above-described conditions.
-    let soon = Math.ceil((Date.now() / 1000) + 60); // .now() is in ms
-    let bCanClaim = StellarSdk.Claimant.predicateBeforeRelativeTime("60");
-    let aCanReclaim = StellarSdk.Claimant.predicateNot(
-      StellarSdk.Claimant.predicateBeforeAbsoluteTime(soon.toString())
-    );
+    
+    let bCanClaim = StellarSdk.Claimant.predicateUnconditional()
+    let aCanReclaim = StellarSdk.Claimant.predicateUnconditional()
 
     // Create the operation and submit it in a transaction.
     let claimableBalanceEntry = StellarSdk.Operation.createClaimableBalance({
       claimants: [
         new StellarSdk.Claimant(B.publicKey(), bCanClaim),
-        new StellarSdk.Claimant(A.publicKey(), aCanReclaim)
+        new StellarSdk.Claimant(keys.publicKey, aCanReclaim)
       ],
       asset: StellarSdk.Asset.native(),
-      amount: "1",
+      amount: "100",
     });
 
     let tx = new StellarSdk.TransactionBuilder(aAccount, { fee: StellarSdk.BASE_FEE })
       .addOperation(claimableBalanceEntry)
       .setNetworkPassphrase(StellarSdk.Networks.TESTNET)
-      .setTimeout(180)
+      .setTimeout(0)
       .build();
 
     tx.sign(A);
@@ -135,50 +131,8 @@ export default function ClaimableBalance() {
       console.error(`Tx submission failed: ${err}`)
     });
   }
-
-
-  const claimBalance = async (event) => {
-    event.preventDefault()
-    let server = new StellarSdk.Server("https://horizon-testnet.stellar.org");
-
-    
-    let balances = await server
-      .claimableBalances()
-      .claimant(keys.publicKey)
-      .limit(1)       // there may be many in general
-      .order("desc")  // so always get the latest one
-      .call()
-      .catch(function (err) {
-        console.error(`Claimable balance retrieval failed: ${err}`)
-      });
-    if (!balances) { return; }
-
-    let balanceId = balances.records[0].id
-    setIdd([...idd, balanceId]);
-    console.log("Balance ID (3):", balanceId);
-    
-    let codigo = idd.pop();
-    
-
-    let claimBalance = StellarSdk.Operation.claimClaimableBalance({ balanceId: codigo }); 
-    console.log(keys.publicKey, "claiming", codigo); 
-
-    let aAccount = await server.loadAccount(keys.publicKey).catch(function (err) {
-      console.error(`Failed to load ${keys.publicKey}: ${err}`)
-    })
-
-    let tx = new StellarSdk.TransactionBuilder(aAccount, { fee: StellarSdk.BASE_FEE })
-      .addOperation(claimBalance)
-      .setNetworkPassphrase(StellarSdk.Networks.TESTNET)
-      .setTimeout(180)
-      .build();
-
-    tx.sign(StellarSdk.Keypair.fromSecret(keys.secretKey));
-    await server.submitTransaction(tx).catch(function (err) {
-      console.error(`Tx submission failed: ${err}`)
-    });
-
-  }
+  
+  
 
 
 
@@ -205,6 +159,7 @@ export default function ClaimableBalance() {
                     <TableCell >${element.amount}</TableCell>
                     <TableCell>{element.sponsor}</TableCell>
                     <TableCell><Button onClick={(event) => claimBalance(event)}>Claim</Button></TableCell>
+                    <TableCell><Button onClick={(event) => main(event)}>Create</Button></TableCell>
                   </TableRow>
                 )) :
                   <TableRow><TableCell>There is no claimable balances yet</TableCell></TableRow>

@@ -12,6 +12,8 @@ import { useState, useEffect } from "react";
 import useStyles from "styles";
 import { getAssets } from "redux/actions/actions";
 import ChangeTrust from "methodsWallet/trustLines";
+import CreateClaimableBalance from "methodsWallet/createClaimableBalance.jsx";
+import ClaimBalance from "methodsWallet/claimBalance";
 
 export default function WalletContainer() {
   const [publicKey, setPublicKey] = useState();
@@ -66,6 +68,8 @@ export default function WalletContainer() {
             <Tab label="Change trust" />
             <Tab label="Deposit" />
             <Tab label="Withdraw" />
+            <Tab label="Create" />
+            <Tab label="Claim" />
           </Tabs>
         </AppBar>
       </Grid>
@@ -86,6 +90,8 @@ export default function WalletContainer() {
           )}
           {value === 5 && <Deposit />}
           {value === 6 && <Withdraw />}
+          {value === 7 && <CreateClaimableBalance publicKey={publicKey} secretKey={secretKey} assets={assets}/>}
+          {value === 8 && <ClaimBalance publicKey={publicKey} secretKey={secretKey}/>}
         </Card>
       </Grid>
     </Grid>

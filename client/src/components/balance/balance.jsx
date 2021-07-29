@@ -12,7 +12,7 @@ export const Balance = () => {
             <ManageBuyOffer />
             <Grid container sm={12} justifyContent='space-between'>
                 <Grid item sm={3}>
-                    <Orderbook />
+                  {/*   <Orderbook /> */}
                 </Grid>
                 <Grid item sm={9}>
                     <TradingView />
