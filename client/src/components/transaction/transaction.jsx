@@ -126,7 +126,16 @@ export default function Transaction() {
   
   
 
-  const handleNewTransaction = () => window.location.reload();
+  const handleNewTransaction = () => {
+    setSuccesTransaction(false)
+    setTransaction('');
+    setInput({
+      email: "",
+      amount: "",
+      currency: ""
+    });
+    setTransfer(false);
+  }
   
   return (
     <>
@@ -204,17 +213,17 @@ export default function Transaction() {
       
       <Container>
       {succesTransaction && transaction ? (
-        <div>
+        <div align='center'>
           <br/>
-          <Typography variant="h2">
+          <Typography variant="h3">
             Detail of your transaction 
           </Typography>
-          <h3>Your payment</h3>
-          <h4>{transaction.amount} {transaction.currency.toUpperCase()}</h4>
-          <h3>Fee percentage</h3>
-          <h4>{transaction.feePercentage}%</h4>
-          <h3>Fee Amount</h3>
-          <h4>{transaction.fee} {transaction.currency.toUpperCase()}</h4>
+          <Typography variant="h5">Your transfer</Typography>
+          <Typography variant="h6">{transaction.amount} {transaction.currency.toUpperCase()}</Typography>
+          <Typography variant="h5">Fee percentage</Typography>
+          <Typography variant="h6">{transaction.feePercentage}%</Typography>
+          <Typography variant="h5">Fee Amount</Typography>
+          <Typography variant="h6">{transaction.fee} {transaction.currency.toUpperCase()}</Typography>
           <br />
         </div>
       ) : null}

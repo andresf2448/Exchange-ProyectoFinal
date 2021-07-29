@@ -1,155 +1,182 @@
-import {
-  Container,
-  Grid,
-  Typography,
-  Button,
-  Select,
-  MenuItem,
-} from "@material-ui/core";
-import { useState } from "react";
+import {Container, Typography, Button, Select, MenuItem, Grid} from '@material-ui/core';
+import { useState } from 'react';
 import depositHook from "../../customHooks/depositHook";
-import { Link } from "react-router-dom";
-import { setAset } from "redux/actions/actions";
-import { useDispatch } from "react-redux";
+import { Link } from 'react-router-dom';
+import { setAset } from 'redux/actions/actions';
+import { useDispatch } from 'react-redux';
 import { supabase } from "../../supabase/supabase";
-import Swal from "sweetalert2";
-import useStyles from 'styles';
+import useStyles from "styles";
 
-export const Deposit = () => {
-  const dispatch = useDispatch();
-  const [input, setInput] = useState(false);
-  const [transaction, setTransaction] = useState(true);
-  const [selector, setSelector] = useState({
-    fiat: "",
-    crypto: "",
-    xlm: "",
-  });
 
-  const [publicKey, setPublicKey] = useState();
-  const [secretKey, setSecretKey] = useState();
-  const [assetIssuer, setAssetIssuer] = useState();
-  const [responseHook, setResponseHook] = useState();
+  // const [publicKey, setPublicKey] = useState();
+  // const [secretKey, setSecretKey] = useState();
+  // const [assetIssuer, setAssetIssuer] = useState();
+  // const [responseHook, setResponseHook] = useState();
 
-  const session = supabase.auth.session();
+  // const session = supabase.auth.session();
 
-  const classes = useStyles();
+  // const classes = useStyles();
 
-  async function getKeys() {
-    let { data: publicKey } = await supabase
-      .from("datauser")
-      .select("public_key")
-      .eq("id_user", session.user.id);
+  // async function getKeys() {
+  //   let { data: publicKey } = await supabase
+  //     .from("datauser")
+  //     .select("public_key")
+  //     .eq("id_user", session.user.id);
 
-    let { data: secretKey } = await supabase
-      .from("wallet")
-      .select("secret_key")
-      .eq("id_user", session.user.id);
+  //   let { data: secretKey } = await supabase
+  //     .from("wallet")
+  //     .select("secret_key")
+  //     .eq("id_user", session.user.id);
 
-    let response;
-    if (input.fiat && input.xlm === "") {
-      response = await supabase
-        .from("assets")
-        .select("asset_issuer")
-        .eq("asset_code", input.fiat);
-    } else if (input.crypto) {
-      response = await supabase
-        .from("assets")
-        .select("asset_issuer")
-        .eq("asset_code", input.crypto);
-    } else if (input.xlm) {
-      response = await supabase
-        .from("assets")
-        .select("asset_issuer")
-        .eq("asset_code", input.xlm);
+  //   let response;
+  //   if (input.fiat && input.xlm === "") {
+  //     response = await supabase
+  //       .from("assets")
+  //       .select("asset_issuer")
+  //       .eq("asset_code", input.fiat);
+  //   } else if (input.crypto) {
+  //     response = await supabase
+  //       .from("assets")
+  //       .select("asset_issuer")
+  //       .eq("asset_code", input.crypto);
+  //   } else if (input.xlm) {
+  //     response = await supabase
+  //       .from("assets")
+  //       .select("asset_issuer")
+  //       .eq("asset_code", input.xlm);
+export const Deposit = ()=>{
+    const dispatch = useDispatch()
+    const [input, setInput] = useState(false)
+    // const [transaction, setTransaction] = useState(true)
+    const [selector, setSelector] = useState({
+        fiat: '',
+        crypto: '',
+        xlm: ''
+    })
+    
+    const [assetIssuer, setAssetIssuer] = useState();
+    const [responseHook, setResponseHook] = useState()
+    
+    const session = supabase.auth.session();
+
+    const classes = useStyles();
+
+    async function getKeys() {
+        let { data: publicKey } = await supabase
+          .from("datauser")
+          .select("public_key")
+          .eq("id_user", session.user.id);
+    
+        let { data: secretKey } = await supabase
+          .from("wallet")
+          .select("secret_key")
+          .eq("id_user", session.user.id);
+        
+        let response
+        if (input.fiat && input.xlm === '') {
+            response = await supabase
+            .from('assets')
+            .select('asset_issuer')
+            .eq('asset_code', input.fiat)
+
+        } else if(input.crypto) {
+            response = await supabase
+            .from('assets')
+            .select('asset_issuer')
+            .eq('asset_code', input.crypto)
+
+        } else if(input.xlm) {
+            response = await supabase
+            .from('assets')
+            .select('asset_issuer')
+            .eq('asset_code', input.xlm)
+        }
+          
+          setAssetIssuer(() => response.data[0].asset_issuer)
+          
+        createTransactionId(publicKey[0].public_key, secretKey[0].secret_key)
+      }
+
+      function createTransactionId(publicKey, secretKey) {
+          
+          if (input && publicKey && secretKey) {
+          
+            let assetCode
+            if (input.fiat && input.xlm === '') {
+                assetCode = input.fiat
+    
+            } else if(input.crypto) {
+                assetCode = input.crypto
+    
+            } else if(input.xlm) {
+                assetCode = input.xlm
+            }
+            
+            const homeDomain = "localhost:3001";
+            
+            depositHook({ publicKey, secretKey, assetIssuer, assetCode, homeDomain, setResponseHook })
+            
+          } else {
+              alert('Problems with your keys')
+          }
+
+      }
+
+
+    const handleFiat = async () => {   
+    await getKeys()
+        
     }
 
-    console.log("El isuer", response.data);
+    const handleChange = (event) => {
+        
+        setInput({
+            ...input,
+            [event.target.name]: event.target.value
+        })
+        dispatch(setAset(event.target.value))
 
-    setAssetIssuer(response.data[0].asset_issuer);
-    setPublicKey(publicKey[0].public_key);
-    return setSecretKey(secretKey[0].secret_key);
-  }
-
-  if (transaction && input && publicKey && secretKey) {
-    setTransaction(false);
-
-    let assetCode;
-    if (input.fiat && input.xlm === "") {
-      assetCode = input.fiat;
-    } else if (input.crypto) {
-      assetCode = input.crypto;
-    } else if (input.xlm) {
-      assetCode = input.xlm;
     }
-    console.log("El asset code", assetCode);
-    const homeDomain = "localhost:3001";
 
-    depositHook({
-      publicKey,
-      secretKey,
-      assetIssuer,
-      assetCode,
-      homeDomain,
-      setResponseHook,
-    });
+    const handleClick = async (value, currency) => {
+        let {data} = await supabase
+        .from('UserAnchor')
+        .select('firstName, lastName')
+        .eq('id_user', session.user.id)
 
-    console.log("El linkToken", responseHook);
-  }
+        if (data.length < 1) {
+            return alert('You need to complete your profile to do a deposit')
+        }
+        
+        setResponseHook()
+        setInput({
+            fiat: '',
+            crypto: '',
+            xlm: ''
+        })
+        if (currency === 'fiat') {
+        setSelector({
+            [currency]: value,
+            cypto: false,
+            xlm: false
+        })
 
-  const handleFiat = async () => {
-    await getKeys();
-  };
+    } else if(currency === 'crypto' ) {
+        setSelector({
+            [currency]: value,
+            fiat: false,
+            xlm: false
+        })
 
-  const handleChange = (event) => {
-    setInput({
-      ...input,
-      [event.target.name]: event.target.value,
-    });
-    dispatch(setAset(event.target.value));
-  };
+    } else if(currency === 'xlm' ) {
+        setSelector({
+            [currency]: value,
+            fiat: false,
+            crypto: false
+        })
 
-  const handleClick = async (value, currency) => {
-    let { data } = await supabase
-      .from("UserAnchor")
-      .select("firstName, lastName")
-      .eq("id_user", session.user.id);
-
-    if (data.length < 1) {
-      return Swal.fire({
-        text: `You need to complete your profile to do a deposit `,
-        icon: "warning",
-        confirmButtonText: "Cool",
-        background: "#1f1f1f",
-        confirmButtonColor: "rgb(158, 158, 158)",
-      });
     }
-    console.log("la data tendría que estar vacía", data);
-    setResponseHook();
-    setInput({
-      fiat: "",
-      crypto: "",
-      xlm: "",
-    });
-    if (currency === "fiat") {
-      setSelector({
-        [currency]: value,
-        cypto: false,
-        xlm: false,
-      });
-    } else if (currency === "crypto") {
-      setSelector({
-        [currency]: value,
-        fiat: false,
-        xlm: false,
-      });
-    } else if (currency === "xlm") {
-      setSelector({
-        [currency]: value,
-        fiat: false,
-        crypto: false,
-      });
     }
-  };
 
   return (
     <Container>
