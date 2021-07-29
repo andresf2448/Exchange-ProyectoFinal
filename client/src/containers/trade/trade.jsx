@@ -88,6 +88,7 @@ function Trade() {
           >
             <TradingView />
           </Grid>
+
             <Grid item xs={12} sm={6} >
               {/* <Card elevation={3} className={classes.cardContainer} > */}
 
@@ -105,6 +106,7 @@ function Trade() {
         <Grid container item sm={3}>
           <Grid item xs={12} style={{ height: "300px", paddingTop: "40px" }}>
             <Card style={{ height: '300px', textAlign:'center' }}>Listado de ventas activas</Card>
+
             <OffersByAccount publicKey={publicKey} />
           </Grid>
           <Grid item xs={12}>
