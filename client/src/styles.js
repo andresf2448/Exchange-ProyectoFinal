@@ -42,6 +42,16 @@ const useStyles = makeStyles(theme => ({
     justifyContent: "center", 
     alignItems: "center" 
   },
+
+  transactionCardContainer: {
+    backgroundColor: theme.palette.secondary.background,
+    color: theme.palette.primary.contrastText,
+    borderRadius: '6px',
+    padding: 20,                   
+    display:"flex",
+    justifyContent: "center", 
+    alignItems: "center"
+  },
   cardUserContainer: {
     backgroundColor: theme.palette.secondary.background,
     color: theme.palette.primary.contrastText,
@@ -245,6 +255,16 @@ const useStyles = makeStyles(theme => ({
       background: "#ffd52324",
     }  
   },
+  depositYellowButton: {
+    width: '60%', 
+    color: '#ffd523',
+    borderRadius: '3px',
+    transition: 'all .2s linear',
+    '&:hover': {
+      background: "#ffd52324",
+    }  
+  },
+
   balanceAccount: {
     letterSpacing: '3px',
     margin: '3%',
@@ -300,8 +320,6 @@ const useStyles = makeStyles(theme => ({
     marginTop: '5%',
     marginLeft: '10%',
   }
-
-
 }));
 
 export default useStyles;

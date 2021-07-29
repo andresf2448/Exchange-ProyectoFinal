@@ -4,6 +4,7 @@ import { getClientSecret } from "redux/actions/actions";
 import { supabase } from "supabase/supabase";
 import CheckoutForm from "../components/stripe/checkoutForm";
 import { FormControl, TextField, Button, Typography } from "@material-ui/core";
+import useStyles from 'styles';
 
 
 export default function TransactionsPopup() {
@@ -21,6 +22,8 @@ export default function TransactionsPopup() {
   const aux = window.location.hash;
 
   const id = aux.slice(1,37);
+
+  const classes = useStyles();
   
   let currency 
   let crypto
@@ -113,7 +116,7 @@ export default function TransactionsPopup() {
              setInput(event.target.value)
            }
            />
-          <Button variant="contained" color='primary' onClick={(event) => handleSubmitTransaction(event)} disabled={!input} >Next</Button>
+          <Button className={classes.yellowButton} onClick={(event) => handleSubmitTransaction(event)} disabled={!input} >Next</Button>
           </FormControl>
         </form>
         </div>
@@ -148,7 +151,6 @@ export default function TransactionsPopup() {
           </div>
         )}
       </div>
-      
     </div>
   );
 }

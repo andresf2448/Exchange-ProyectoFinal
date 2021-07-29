@@ -30,11 +30,20 @@ const rulesURL = "https://api.twitter.com/2/tweets/search/stream/rules";
 const streamURL =
   "https://api.twitter.com/2/tweets/search/stream?tweet.fields=public_metrics&expansions=author_id";
 
-const rules = [
-  {
-    value: "Bitcoin",
-  },
-];
+const rules = [{
+    value: 'Bitcoin lang:en sample:2'
+}];
+    //is:verified 
+    // Get Stream rules
+    async function getRules(){
+        const response = await needle('get', rulesURL, {
+            headers:{
+                Authorization: `Bearer ${TOKEN}`
+            }
+        });
+        // console.log(response.body)
+        return response.body
+    };
 
 // Get Stream rules
 async function getRules() {

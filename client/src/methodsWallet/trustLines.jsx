@@ -110,28 +110,30 @@ export default function ChangeTrust({ publicKey, secretKey, assets, account }) {
                     onChange={(e) => setLimitAmount(e.target.value)}
                     style={{ paddingBottom: 10 }}
                   />
-                  <Button
-                    type="submit"
-                    /* className={classes.yellowButton} */
-                    style={{ paddingBottom: 10 }}
+                  <Button 
+                  type="submit" 
+                  className={classes.yellowButton}
+                  style={{paddingBottom: 10}}
                   >
                     Finish
                   </Button>
                 </FormControl>
               </form>
             </Grid>
+            <Grid item xs={12}>
+              {account &&
+                account.balances.map((asset) => (
+                  <div key={asset.asset_code}>
+                    {" "}
+                    Asset: {asset.asset_code}, Limit: {asset.limit}  
+                    <br/>
+                    Asset issuer:{" "}
+                    {asset.asset_issuer}{" "}
+                  </div>
+                ))}
+            </Grid>
           </Grid>
         </Container>
-      </div>
-      <div>
-        {account &&
-          account.balances.map((asset) => (
-            <div key={asset.asset_code}>
-              {" "}
-              Asset: {asset.asset_code}, Limit: {asset.limit} Asset issuer:{" "}
-              {asset.asset_issuer}{" "}
-            </div>
-          ))}
       </div>
     </div>
   );
