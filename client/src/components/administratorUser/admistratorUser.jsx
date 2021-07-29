@@ -563,11 +563,11 @@ export const AdministratorUser = () => {
                           <TableCell>
                             {isAdmin ? (
                               <Button onClick={() => noBeAdmin(id_user)}>
-                                👤
+                                🚀
                               </Button>
                             ) : (
                               <Button onClick={() => toBeAdmin(id_user)}>
-                                🚀
+                                👤
                               </Button>
                             )}
                           </TableCell>

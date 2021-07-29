@@ -17,6 +17,7 @@ export default function ManageBuyOffer({
   // const [secondSelect, setSecondSelect] = useState(1)
 
   const server = new StellarSdk.Server("https://horizon-testnet.stellar.org");
+
   const classes = useStyles();
 
   const updateTransactions = async () => {
@@ -120,7 +121,7 @@ export default function ManageBuyOffer({
       }}
     >
       <form onSubmit={(event) => handleSubmit(event)}>
-        <Grid container item >
+        <Grid container item>
           <Grid item xs={12}>
             <Typography>Create your sale offer:</Typography>
           </Grid>
@@ -206,9 +207,10 @@ export default function ManageBuyOffer({
                   borderRadius: "6px",
                   backgroundColor: "white",
                   color: "rgb(183, 189, 198)",
+                  paddingBottom: "22px",
+                  marginTop: "0px",
                 }}
                 value={price}
-                style={{paddingRight:'22px', paddingBottom:'22px', marginTop:'0px', borderRadius:'6px', }}
                 type="text"
                 name="price"
                 onChange={(event) => setPrice(event.target.value)}

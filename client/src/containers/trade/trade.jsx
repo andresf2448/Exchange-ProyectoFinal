@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import { Container, Grid, Card } from "@material-ui/core";
+import { Grid, Card } from "@material-ui/core";
 import { CryptoCalculator } from "components/cryptoCalculator/cryptoCalculator";
 import ManageBuyOffer from "methodsWallet/manageBuyOffer";
 import Orderbook from "methodsWallet/orderbook";
@@ -7,7 +7,7 @@ import TradingView from "components/tradingView/tradingView";
 import OffersByAccount from "methodsWallet/offersByAccount";
 import { supabase } from "../../supabase/supabase";
 import StellarSdk from "stellar-sdk";
-import useStyles from "styles";
+//import useStyles from "styles";
 
 function Trade() {
   const [assets, setAssets] = useState();
@@ -15,7 +15,7 @@ function Trade() {
   const [secretKey, setSecretKey] = useState();
   const session = supabase.auth.session();
 
-  const classes = useStyles();
+  //const classes = useStyles();
 
   async function getAssets() {
     const { data: assets } = await supabase.from("assets").select("*");
@@ -40,11 +40,12 @@ function Trade() {
   if (!publicKey && !secretKey) {
     keys();
   }
-  //--------------------------------------Logic offersByAccount
+  //---Logic offersByAccount
   const [updateOffers, setUpdateOffers] = useState(true);
   const [offers, setOffers] = useState();
   const server = new StellarSdk.Server("https://horizon-testnet.stellar.org");
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const getOffers = useCallback(() => {
     server
       .offers()
@@ -70,6 +71,8 @@ function Trade() {
   return (
     // <Container  disableGutters style={{height:'70vh', backgroundColor:'red',}}>
     <Grid container style={{ backgroundColor: "#1f1f1f" }}>
+      {/* solo para quitar el warning */}
+      {offers && null}
       <Grid container item display="column" justifyContent={true}>
         <Grid item xs={12} sm={3} style={{ height: "700px" }}>
           <Orderbook assets={assets} />
