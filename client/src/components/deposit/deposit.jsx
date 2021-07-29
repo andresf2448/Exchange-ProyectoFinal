@@ -294,7 +294,7 @@ export const Deposit = ()=>{
                   `${input.fiat.slice(0, 3)}${input.xlm}`
                 }
                 target="_blank"
-                style={{ textDecoration: "none", color: "primary" }}
+                style={{ textDecoration: "none", backgroundColor:'white', borderRadius: '2px'}}
               >
                 Click here to continue
               </Link>

@@ -65,13 +65,11 @@ function Trade() {
     }
   }, [publicKey, updateOffers, getOffers]);
 
-
   //--------------------------------------------------------
 
   return (
-
     // <Container  disableGutters style={{height:'70vh', backgroundColor:'red',}}>
-    <Grid container style={{ backgroundColor: '#1f1f1f', }}>
+    <Grid container style={{ backgroundColor: "#1f1f1f" }}>
       <Grid container item display="column" justifyContent={true}>
         <Grid item xs={12} sm={3} style={{ height: "700px" }}>
           <Orderbook assets={assets} />
@@ -89,23 +87,21 @@ function Trade() {
             <TradingView />
           </Grid>
 
-            <Grid item xs={12} sm={6} >
-              {/* <Card elevation={3} className={classes.cardContainer} > */}
+          <Grid item xs={12} sm={6}>
+            {/* <Card elevation={3} className={classes.cardContainer} > */}
 
-              <ManageBuyOffer
-                publicKey={publicKey}
-                secretKey={secretKey}
-              />
-              {/* </Card> */}
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <ManageBuyOffer />
-            </Grid>
-          
+            <ManageBuyOffer publicKey={publicKey} secretKey={secretKey} />
+            {/* </Card> */}
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <ManageBuyOffer />
+          </Grid>
         </Grid>
         <Grid container item sm={3}>
           <Grid item xs={12} style={{ height: "300px", paddingTop: "40px" }}>
-            <Card style={{ height: '300px', textAlign:'center' }}>Listado de ventas activas</Card>
+            <Card style={{ height: "300px", textAlign: "center" }}>
+              Listado de ventas activas
+            </Card>
 
             <OffersByAccount publicKey={publicKey} />
           </Grid>
