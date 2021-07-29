@@ -233,7 +233,7 @@ export const LoadId = () => {
             <Typography variant="h6">Nationality: {nationality}</Typography>
             <Typography variant="h6">Issue date: {idIssueDate}</Typography>
             <Typography variant="h6">Expiration date: {idExpirationDate}</Typography>
-            <Button onClick={() => handleEdit()} variant="contained" color="secondary">Edit</Button>
+            <Button onClick={() => handleEdit()} className={classes.yellowButton}>Edit</Button>
           </FormControl>
         </Grid>
       ) : (
