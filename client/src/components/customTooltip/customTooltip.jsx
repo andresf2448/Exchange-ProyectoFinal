@@ -13,12 +13,12 @@ const CustomTooltip = ({active, payload, label}) => {
         <Container>
             { active === true &&
                 <Grid sm={12} className={classes.tooltip}>
-                    {payload[0] &&
+                    {payload[0].value &&
                     <Typography variant="h6" >
                         {formatter.format(payload[0].value)}
                     </Typography>
                     }
-                    {payload[0].payload && 
+                    {payload[0].payload.date && 
                     <Typography variant="p" >{payload[0].payload.date}</Typography>
                     }
                 </Grid>

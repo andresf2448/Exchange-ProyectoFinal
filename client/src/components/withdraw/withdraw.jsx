@@ -1,4 +1,5 @@
 import {Container, Typography, FormControl, TextField, Select, MenuItem, Button} from '@material-ui/core';
+import useStyles from 'styles'
 import { useState } from 'react';
 import validateCbu from 'arg.js'
 import axios from 'axios'
@@ -19,6 +20,8 @@ export const Withdraw = ()=>{
         email: "",
         amount: "",
       })
+
+    const classes = useStyles();
 
     const handleChange = (event) => {
         setInput((input) => {return {
@@ -51,7 +54,7 @@ export const Withdraw = ()=>{
 
 
     return (
-        <Container>
+        <Container align='center' style={{height:'38vh'}}>
             <FormControl >
             <Typography variant='h4'>Select options to withdraw</Typography>
             
@@ -65,6 +68,7 @@ export const Withdraw = ()=>{
             
                 <TextField
                 name='amount'
+                margin='dense'
                 type='text'
                 label={error.amount === "" ? "Amount" : error.amount}
                 color={error.amount === "" ? "primary" : "secondary"}
@@ -74,13 +78,14 @@ export const Withdraw = ()=>{
                 placeholder='Amount'
                 />
                 <TextField
+                margin='dense'
                 name='cbu'
                 type='text'
                 onChange={handleChange}
                 value={input.cbu}
                 placeholder='CBU account'
                 />
-                <Button type='submit' disabled={!cbu || !input.currency || error.amount} onClick={handleSubmit}>Withdraw</Button>
+                <Button type='submit' className={classes.depositYellowButton} disabled={!cbu || !input.currency || error.amount} onClick={handleSubmit}>Withdraw</Button>
             </FormControl>
             {transaction ? <div>
                 <Typography variant="h5">Your transfer</Typography>
