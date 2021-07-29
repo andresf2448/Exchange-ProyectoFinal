@@ -100,7 +100,8 @@ const useStyles = makeStyles(theme => ({
   },
   adminCardSearch: {
     display: "flex",
-    justifyContent: "center",
+    // justifyContent: "center",
+    flexDirection: 'row'
   },
   adminTableContainer: {
     maxHeight: "70vh"

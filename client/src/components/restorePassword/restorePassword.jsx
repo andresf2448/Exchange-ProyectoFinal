@@ -3,8 +3,10 @@ import { useRef, useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { supabase } from "supabase/supabase";
 import Swal from "sweetalert2";
+import useStyles from 'styles';
 
 export default function RestorePassword() {
+  const classes = useStyles();
   const session = supabase.auth.session();
   const { user } = session;
   let id_user = user.id;
@@ -79,6 +81,7 @@ export default function RestorePassword() {
           justifyContent="center"
           alignItems="center"
         >
+          <Typography variant="h4">Write your new password</Typography>
           <TextField
             type="password"
             inputRef={newPassword}
@@ -89,7 +92,7 @@ export default function RestorePassword() {
             inputRef={validatePassword}
             placeholder="Confirm your password"
           />
-          <Button color="primary" variant="contained" onClick={submit}>
+          <Button className={classes.yellowButton} onClick={submit}>
             Send
           </Button>
         </Grid>
@@ -113,8 +116,7 @@ export default function RestorePassword() {
                         style={{paddingBottom: 10}}
                         />
                     <Button 
-                        color="secondary"
-                        variant="contained" 
+                        className={classes.yellowButton}
                         onClick={submit} 
                         style={{paddingBottom: 10}}
                         >
@@ -125,7 +127,7 @@ export default function RestorePassword() {
                 :
                 <Container>
                     <Typography variant="h4" align="center">
-                        No pediste cambio
+                        You didn´t request a password change
                     </Typography>
                 </Container>
             }

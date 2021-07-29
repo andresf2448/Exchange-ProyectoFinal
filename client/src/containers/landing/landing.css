@@ -74,9 +74,9 @@
 }
 
 .landingPic:hover{
-	transform: scale(1.2);
-    -webkit-transform: scale(1.2);
-    box-shadow:2px 2px 5px 3px #272727b3;
+	transform: scale(1.1);
+    -webkit-transform: scale(1.1);
+    box-shadow:2px 2px 5px 4px #272727b3;
 }
 
 .toTopButton{

@@ -23,34 +23,47 @@ import {
   FormControl,
   Paper,
   TextareaAutosize,
-  Modal
+  Modal,
 } from "@material-ui/core";
 import { useDispatch } from "react-redux";
 import { GET_USER_DETAILS_ID } from "redux/actions/actions";
+import { CardUser } from "components/cardUser/cardUser";
 
 export const AdministratorUser = () => {
   const classes = useStyles();
   const history = useHistory();
+  const dispatch = useDispatch();
+
   const session = supabase.auth.session();
   const { user } = session;
   let id = user.id;
+
   const [admin, setAdmin] = useState(false);
   const [users, setUsers] = useState([]);
   const [reload, setReload] = useState(0);
   const [emails, setEmails] = useState([]);
   const [statemessage, setStateMessage] = useState(false);
-  const emailSearching = useRef("");
-  const dispatch = useDispatch();
   const [commision, setCommision] = useState(false);
-  const confirmation = useRef("");
   const [statusComision, setStatusComision] = useState({
     porcentaje: "",
     fecha: "",
   });
-  const newComision = useRef("");
   const [selectAll, setSelectAll] = useState(true);
-
   const [render, setRender] = useState([]);
+  const [detailModal, setDetailModal] = useState(false)
+  const [detailModalId, setDetailModalId]=useState(null)
+  const handleModal=(id)=>{
+    setDetailModal(true);
+    setDetailModalId(id);
+    dispatch(GET_USER_DETAILS_ID(id));
+  }
+  const handleModalClose=()=>{
+    setDetailModal(false)
+  }
+  
+  const confirmation = useRef("");
+  const emailSearching = useRef("");
+  const newComision = useRef("");
   let title = useRef("");
   let message = useRef("");
 
@@ -222,10 +235,7 @@ export const AdministratorUser = () => {
     return history.push("/home");
   };
 
-  let detailsUser = (id) => {
-    dispatch(GET_USER_DETAILS_ID(id));
-    history.push("/detailsUsers");
-  };
+
 
   let comisionChange = async (event) => {
     event.preventDefault();
@@ -319,8 +329,8 @@ export const AdministratorUser = () => {
       </Grid>
     </Grid>
   )
-
-  //fechas
+  
+ 
 
   return (
     <Container
@@ -431,35 +441,12 @@ export const AdministratorUser = () => {
                   <Modal
                     open={open}
                     // onClose={() => handleClose()}
-                    aria-labelledby="simple-modal-title"
-                    aria-describedby="simple-modal-description"
                     >
                     {body}
                   </Modal>
                 </div>
               ) : null}
             </Grid>
-            {/* {statemessage && emails.length !== 0 ? (
-              <Grid item xs={10} direction="column">
-                <Typography variant="h5"> Message </Typography>
-                <TextField type="text" ref={title} placeholder="Add Title" />
-                <TextareaAutosize
-                  ref={message}
-                  placeholder="Write message..."
-                  minRows={5}
-                  fullWidth={true}
-                  required
-                ></TextareaAutosize>{" "}
-                <ButtonGroup>
-                  <Button type="button" variant="contained" color="secondary" onClick={sendEmail}>
-                    Send Mails
-                  </Button>
-                  <Button type="button" variant="outlined" color="secondary" onClick={cancelMessage}>
-                    {"Cancel Message "}
-                  </Button>
-                </ButtonGroup>
-              </Grid>
-            ) : null} */}
           </Grid>
             <Grid item xs={12}>
               <TableContainer className={classes.adminTableContainer}>
@@ -550,9 +537,12 @@ export const AdministratorUser = () => {
                             )}
                           </TableCell>
                           <TableCell>
-                            <Button onClick={() => detailsUser(id_user)}>
+                            <Button onClick={() => handleModal(id_user)}>
                               Details
                             </Button>
+                            <Modal open={detailModal && detailModalId === id_user} onClose={handleModalClose} style={{overflow:'scroll', zIndex:'10000'}}> 
+                                <CardUser/>
+                            </Modal>
                           </TableCell>
                         </TableRow>
                       </TableBody>
