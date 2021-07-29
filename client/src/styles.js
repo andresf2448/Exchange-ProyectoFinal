@@ -7,6 +7,12 @@ const useStyles = makeStyles(theme => ({
     elevation: '3',
     height: '10rem'
   },
+  input:{
+    backgroundColor: theme.palette.secondary.background,
+    color: theme.palette.primary.marfilWhite,
+    margin: 1,
+    borderRadius: 2
+  },
   text: {
     color: theme.palette.primary.contrastText,
   },
@@ -86,10 +92,11 @@ const useStyles = makeStyles(theme => ({
   adminCard: {
     backgroundColor: theme.palette.secondary.background,
     marginTop: 15,
-    marginLeft: 15,
-    marginRight: 15,
+    marginLeft: 0,
+    marginRight: 50,
     marginBottom: 5,
-    padding: 10
+    paddingTop: 15,
+    paddingBottom: 15,
   },
   adminCardSearch: {
     display: "flex",
@@ -173,11 +180,10 @@ const useStyles = makeStyles(theme => ({
     justifyContent: "space-evenly"
   },
   landingCard: {
-    margin: '3%',
     height: 145,
-    width: 200,
-    padding: 20,
+    padding: 0,
     textAlign: 'center',
+    justifyContent: "center",
     letterSpacing: 3,
   },
   landingCards: {
@@ -265,7 +271,7 @@ const useStyles = makeStyles(theme => ({
   },
   twitterCard: {
     minHeight: '22vh',
-    minWidth: '45vh',
+    minWidth: '35vh',
     flexDirection: 'column',
     padding: '10px',
     display: 'flex',
