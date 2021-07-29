@@ -1,11 +1,10 @@
 import React from "react";
-import { useHistory } from "react-router";
 import { supabase } from "../../supabase/supabase";
 import StellarSdk from "stellar-sdk";
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { DataGrid } from "@material-ui/data-grid";
-import { Container, Card, Grid, Typography, Button, Divider } from "@material-ui/core";
+import { Container, Card, Grid, Typography, Divider } from "@material-ui/core";
 import useStyles from "styles";
 import HashLoader from "react-spinners/HashLoader";
 
@@ -17,9 +16,8 @@ export const CardUser = () => {
   const [validatePublicKey, setValidatePublicKey] = useState(false);
   const [validateOffers, setValidateOffers] = useState(false);
   const [validateTransactions, setValidateTransactions] = useState(false);
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState("");
   const [spinner, setSpinner] = useState(true);
-  const history = useHistory();
   const state = useSelector((state) => state.detailsId);
 
   const server = new StellarSdk.Server("https://horizon-testnet.stellar.org");
@@ -29,8 +27,8 @@ export const CardUser = () => {
       .from("datauser")
       .select("public_key, email")
       .eq("id_user", state);
-    
-    setEmail(data[0]?.email)
+
+    setEmail(data[0]?.email);
 
     return data;
   };
@@ -136,34 +134,38 @@ export const CardUser = () => {
   }, []);
 
   return (
-    <Container maxWidth='md' style={{minHeigth: '130vh', paddingTop: 20, paddingBottom: 20}}>
-        {
-          spinner ?
-          <Card elevation={3} className={classes.cardUserSpinner}>
-            <Grid style={{ height: '8vh' }}>
-              <HashLoader color={'#ffd523'} size={70}/> 
-            </Grid>
-          </Card>
-          :
-          <Card elevation={3} className={classes.cardUserContainer}>
+    <Container
+      maxWidth="md"
+      style={{ minHeigth: "130vh", paddingTop: 20, paddingBottom: 20 }}
+    >
+      {spinner ? (
+        <Card elevation={3} className={classes.cardUserSpinner}>
+          <Grid style={{ height: "8vh" }}>
+            <HashLoader color={"#ffd523"} size={70} />
+          </Grid>
+        </Card>
+      ) : (
+        <Card elevation={3} className={classes.cardUserContainer}>
           <Grid container justifyContent="center" alignItems="center">
-          {
-            account && validatePublicKey ? (
+            {account && validatePublicKey ? (
               <Grid container>
-                <Grid item xs={10} align="center" style={{marginBottom: 20}}>
-                  <Typography variant="h3">User - {email}</Typography>
+                <Grid item xs={10} align="center" style={{ marginBottom: 20 }}>
+                  <Typography variant="h3"> {email}</Typography>
                 </Grid>
-                <Grid item xs={2}  align="center" style={{marginBottom: 20}}>
-                  {/* <Button className={classes.yellowButton} onClick={() => history.push("/home")}>Back</Button> */}
-                </Grid>
-                <Grid item xs={12}  align="center" style={{marginBottom: 20}}>
-                  <Divider variant='middle' className={classes.divider}/>
+                <Grid
+                  item
+                  xs={2}
+                  align="center"
+                  style={{ marginBottom: 20 }}
+                ></Grid>
+                <Grid item xs={12} align="center" style={{ marginBottom: 20 }}>
+                  <Divider variant="middle" className={classes.divider} />
                   <Typography variant="h4">BALANCE</Typography>
-                  <Typography variant="body1" >
+                  <Typography variant="body1">
                     Asset: {!account.asset_code ? "XLM" : account.asset_code}
                   </Typography>
                   <Typography variant="body1">
-                    Balance: {account.balance} 
+                    Balance: {account.balance}
                   </Typography>
                   <Typography variant="body1">
                     Monto en ofertas de venta: {account.selling_liabilities}
@@ -176,40 +178,45 @@ export const CardUser = () => {
             ) : (
               <Grid container>
                 <Grid item xs={10} align="center">
-                  <Typography variant="h3">User: {email} no tiene Wallet</Typography>
+                  <Typography variant="h3">USER HAS NO WALLET</Typography>
                 </Grid>
-                <Grid item xs={2}  align="center" style={{marginBottom: 20}}>
-                  <Button variant="contained" color="primary" onClick={() => history.push("/home")}>Back</Button>
-                </Grid>
+                <Grid
+                  item
+                  xs={2}
+                  align="center"
+                  style={{ marginBottom: 20 }}
+                ></Grid>
               </Grid>
             )}
             {validateOffers ? (
-              <Grid item xs={12}  align="center" style={{marginBottom: 20}}>
+              <Grid item xs={12} align="center" style={{ marginBottom: 20 }}>
                 <Typography variant="h4">OFFERS</Typography>
                 <div style={{ height: 380, width: "70%" }}>
-                  <DataGrid style={{color: 'whitesmoke'}} rows={offers} columns={columnsOffer} pageSize={5} />
+                  <DataGrid
+                    style={{ color: "whitesmoke" }}
+                    rows={offers}
+                    columns={columnsOffer}
+                    pageSize={5}
+                  />
                 </div>
-                {/* <br />
-                <br />
-                <br /> */}
               </Grid>
             ) : null}
             {validateTransactions ? (
-              <Grid item xs={12}  align="center" style={{marginBottom: 20}}>
+              <Grid item xs={12} align="center" style={{ marginBottom: 20 }}>
                 <Typography variant="h4">TRANSACTIONS</Typography>
                 <div style={{ height: 330, width: "100%" }}>
                   <DataGrid
-                    style={{color: 'whitesmoke'}}
+                    style={{ color: "whitesmoke" }}
                     rows={transactions}
                     columns={columnsTransactions}
                     pageSize={5}
                   />
                 </div>
               </Grid>
-            ) : null }
+            ) : null}
           </Grid>
-          </Card>
-        }
+        </Card>
+      )}
     </Container>
   );
 };

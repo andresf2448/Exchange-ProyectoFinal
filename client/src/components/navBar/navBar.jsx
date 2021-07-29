@@ -1,18 +1,15 @@
 import { AppBar, Tabs, Tab } from "@material-ui/core";
 import { useState, useEffect } from "react";
 import { useHistory } from "react-router";
-import { supabase } from 'supabase/supabase';
-import HomeIcon from '@material-ui/icons/Home';
-import { HomeGrid } from 'containers/homeGrid/homeGrid';
-import WalletContainer from 'containers/walletContainer/walletContainer';
-import { Settings } from 'containers/settings/settings';
-import { ShowUserData } from 'components/showUserData/showUserData';
+import { supabase } from "supabase/supabase";
+import { HomeGrid } from "containers/homeGrid/homeGrid";
+import WalletContainer from "containers/walletContainer/walletContainer";
+import { Settings } from "containers/settings/settings";
+import { ShowUserData } from "components/showUserData/showUserData";
 import { AdministratorUser } from "components/administratorUser/admistratorUser";
 import Trade from "containers/trade/trade";
 import { InviteUser } from "components/invite/invite";
 import FaqAbout from "containers/faqAbout/faqAbout";
-
-
 
 export const NavBar = () => {
   const history = useHistory();
@@ -47,13 +44,13 @@ export const NavBar = () => {
   };
   return (
     <>
-      <AppBar position="static" variant='fullWidth'>
-        <Tabs value={value} variant='scrollable' onChange={handleChange}>
-          <Tab label='RocketExChange' />
+      <AppBar position="static" variant="fullWidth">
+        <Tabs value={value} variant="scrollable" onChange={handleChange}>
+          <Tab label="RocketExChange" />
           <Tab label="Wallet" />
           <Tab label="Trade" />
           <Tab label="Settings" />
-          <Tab label='Others' />
+          <Tab label="Others" />
           <Tab label="Invite" />
           {admin && <Tab label="Admin" />}
           <Tab label="Logout" onClick={signOut} />
@@ -68,7 +65,6 @@ export const NavBar = () => {
       {value === 4 && <FaqAbout />}
       {value === 5 && <InviteUser />}
       {admin && value === 6 && <AdministratorUser />}
-
     </>
-  )
-}
+  );
+};
