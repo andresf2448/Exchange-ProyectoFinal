@@ -80,15 +80,15 @@
 }
 
 .toTopButton{
+    color:#1F1F1F;
+    background-color: #ffd20a;
     right: 1%;
     bottom: 1%;
     position: fixed;
-    color:#fdfbfb;
-    background-color: #ffd20a;
     border-radius: 3px;
 }
 
 .toTopButton:hover{
-    background-color: #ffe988;
     color: #272727b3; 
+    background-color: #ffe988;
 }

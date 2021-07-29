@@ -14,7 +14,11 @@ const useStyles = makeStyles(theme => ({
     borderRadius: 2
   },
   text: {
-    color: theme.palette.primary.contrastText,
+    color: "#fff",
+  },
+  textAbout:{
+    color:'#ffd523',
+    padding: 10
   },
   button: {
     width: '200px'
@@ -236,6 +240,7 @@ const useStyles = makeStyles(theme => ({
   },
   invitedYellowButton: {
     width: '29%', 
+    height: '6vh',
     color: '#ffd523',
     borderRadius: '3px',
     transition: 'all .2s linear',
@@ -273,7 +278,15 @@ const useStyles = makeStyles(theme => ({
       background: "#ffd52324",
     }  
   },
-
+  muxedYellowButton:{
+    width: '100%', 
+    color: '#ffd523',
+    borderRadius: '3px',
+    transition: 'all .2s linear',
+    '&:hover': {
+      background: "#ffd52324",
+    }  
+  },
   balanceAccount: {
     letterSpacing: '3px',
     margin: '3%',
@@ -335,6 +348,10 @@ const useStyles = makeStyles(theme => ({
   },
   tabs2: {
     backgroundColor: 'rgb(10, 147, 168)'
+  },
+  muxedAccountsList:{
+    overflowY: 'scroll', 
+    height: 200
   }
 }));
 

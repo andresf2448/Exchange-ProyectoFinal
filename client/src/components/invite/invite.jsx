@@ -32,7 +32,7 @@ export const InviteUser = () => {
       <Typography itemxs={12} variant='h6'>You can invite a friend to exchange currency with you!</Typography>
       <Grid item xs={12}>
         <form onSubmit={handleSumit} style={{margin:'1%'}}>
-          <input type="text" ref={Email} placeholder="Email friend" style={{margin:'1%', borderRadius:'4px', width:'45%', height: '5vh'}}/>
+          <input type="text" ref={Email} placeholder="Email friend" style={{margin:'1%', borderRadius:'4px', width:'45%', height: '6vh'}}/>
           <Button className={classes.invitedYellowButton} item xs={12} type="submit">Invite Friend</Button>
         </form>
       </Grid>
