@@ -1,8 +1,9 @@
-import { Container, Grid, Typography, Button, Divider, Box, Card } from "@material-ui/core";
+import { Container, Grid, Typography, Button, Divider, Box, Card, CardMedia } from "@material-ui/core";
 import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';
 import SecurityIcon from '@material-ui/icons/Security';
 import stellarIcon from './stellar.svg';
 import balance from './balance.svg';
+import pic from './cryptographicsPic.png';
 import Faq from 'components/faq/faq';
 import useStyles from 'styles';
 import './landing.css';
@@ -125,12 +126,12 @@ const Landing = () => {
 
 
             <div className="cryptos">
-                <Grid container xs={12} className={classes.landingContainers} spacing={6} style={{padding:'8%'}}>
-                    <Typography item xs={3} variant="h4" className={classes.landingCard}>
+                <Grid container xs={12} className={classes.landingContainers} style={{padding:'5%', justifyContent: 'center'}}>
+                    <Typography item xs={5} variant="h4" className={classes.landingCard}>
                         Get in real time the waves of the cryptos with the highest volume to make better investments!
                     </Typography>
-                    <Grid item xs={9} className="crypto-graphics">
-                        {/* <CryptoGraphics /> */}
+                    <Grid item xs={7} justifyContent="center">
+                        <img src={pic} alt="cryptographicsRealtimePic" className='landingPic'/>
                     </Grid>
                 </Grid>
             </div>

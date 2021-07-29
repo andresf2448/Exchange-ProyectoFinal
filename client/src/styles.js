@@ -179,11 +179,10 @@ const useStyles = makeStyles(theme => ({
     justifyContent: "space-evenly"
   },
   landingCard: {
-    margin: '3%',
     height: 145,
-    width: 200,
-    padding: 20,
+    padding: 0,
     textAlign: 'center',
+    justifyContent: "center",
     letterSpacing: 3,
   },
   landingCards: {
