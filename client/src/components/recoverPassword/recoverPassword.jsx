@@ -82,7 +82,6 @@ export default function RecoverPassword() {
                   />
                 <ButtonGroup fullWidth={true}>
                   <Button
-                  //className={classes.loginGridItem}
                   type="submit"
                   variant="contained"
                   color="secondary"
@@ -91,7 +90,6 @@ export default function RecoverPassword() {
                     Send
                   </Button>
                   <Button
-                    // className={classes.loginGridItem}
                     variant="outlined"
                     color="secondary"
                     onClick={back}
