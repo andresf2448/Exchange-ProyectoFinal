@@ -2,12 +2,13 @@ import React, { useState } from "react";
 import { useHistory } from "react-router";
 import sendCode from 'components/loadingProfile/whatsapp';
 import useStyles from 'styles';
+import Swal from 'sweetalert2'
+
 
 import {
   Container,
   Typography,
   Button,
-  ButtonGroup,
   TextField,
   FormControl,
   Link,
@@ -20,9 +21,9 @@ import { useEffect } from "react";
 
 export default function Login () {
   const history = useHistory();
-  const [login, setLogin] = useState(true)
+  const [login, setLogin] = useState(false)
   const classes = useStyles();
-
+  let session = {};
   const [data, setData] = useState({
     email: "",
     password: "",
@@ -46,25 +47,32 @@ export default function Login () {
       password: data.password,
     });
 
-    if (info.error) return alert(info.error.message);
+    if (info.error) return Swal.fire({
+                              title: 'Error!',
+                              text: info.error.message,
+                              icon: 'error',
+                              confirmButtonText: 'Cool',
+                              background: '#1f1f1f',
+                              confirmButtonColor:'rgb(158, 158, 158)',
+                            });
 
     let hasTwoStep  = await supabase
     .from('UserAnchor')
     .select('*')
     .eq("id_user", info.user.id);
     if(hasTwoStep.data[0]?.hasTwoFA){
-      setLogin(false)
       verifyTwoStep(hasTwoStep.data[0].mobileNumber)
+      session = supabase.auth.session();
     }else{
+      session = supabase.auth.session();
       history.push('/home')
     }
     
   };
   
-  let session = supabase.auth.session();
   
-
-
+  
+  
   const verifyTwoStep = async (number)=>{
     const random= Math.floor(Math.random()*1000000)
     setData({...data, code: random})
@@ -74,24 +82,31 @@ export default function Login () {
       console.log(err)
     }
   }
-
-  const singUpRoute = () => {
-    history.push("/register");
-  };
+  
+  // const singUpRoute = () => {
+  //   history.push("/register");
+  // };
 
   const recoverPassword = () => {
     history.push("/recoverPassword");
   };
-
-
+  
+  
   const handleOAuthLogin = async (provider) => {
     let info = await supabase.auth.signIn({ provider });
-
+    
     if (info.error) {
-      alert(info.error.message);
+      Swal.fire({
+        title: 'Error!',
+        text: info.error.message,
+        icon: 'error',
+        confirmButtonText: 'Cool',
+        background: '#1f1f1f',
+        confirmButtonColor:'rgb(158, 158, 158)',
+      });
     }
   };
-
+  
   
   
   useEffect(()=>{
@@ -134,21 +149,21 @@ export default function Login () {
                 label="Insert Code"
                 name="codeVerification"
                 type="text"
-                color={data.code === data.codeVerification? 'primary': 'secondary'}
+                color={data.code === Number(data.codeVerification)? 'primary': 'secondary'}
                 value={data.codeVerification}
                 onChange={handleOnChange}
                 />
                 )}
 
                 {/* this button goes first for the submit function when pressing enter */}
-                <ButtonGroup className={classes.loginGridItem}>
-                  <Button type="submit" variant="contained" color="secondary">
+                {/* <ButtonGroup className={classes.loginGridItem}> */}
+                  <Button type="submit" variant="contained" color="secondary" className={classes.loginGridItem}>
                     Login
                   </Button>
-                  <Button variant="outlined" color="secondary" onClick={singUpRoute}>
+                  {/* <Button variant="outlined" color="secondary" onClick={singUpRoute}>
                     Sing up
-                  </Button>
-                </ButtonGroup>
+                  </Button> */}
+                {/* </ButtonGroup> */}
               </FormControl>
             </form>
           </Grid>

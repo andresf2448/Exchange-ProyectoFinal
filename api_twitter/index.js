@@ -1,16 +1,19 @@
-const http = require("http");
-const router = require("express").Router();
-const server = http.createServer(router);
 require("dotenv").config();
-const { TWITTER_BEARER_TOKEN } = process.env;
+const http = require("http");
+const express = require("express");
+const app = express();
+const server = http.createServer(app);
+
+const { TWITTER_BEARER_TOKEN, PORT } = process.env;
 
 const socketIo = require("socket.io");
+
 const io = socketIo(server);
 
 const needle = require("needle");
-const { SlowBuffer } = require("buffer");
-console.log("1 intento");
-router.use((req, res, next) => {
+const index = require("./route/index");
+
+app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
   res.header("Access-Control-Allow-Credentials", "true");
   res.header(
@@ -21,20 +24,27 @@ router.use((req, res, next) => {
   next();
 });
 
-router.get("/", async (req, res) => {
-  res.send({ response: "Server is up and running" }).status(200);
-});
+app.use(index);
 
 const rulesURL = "https://api.twitter.com/2/tweets/search/stream/rules";
 const streamURL =
   "https://api.twitter.com/2/tweets/search/stream?tweet.fields=public_metrics&expansions=author_id";
 
-const rules = [
-  {
-    value: "Bitcoin lang:en sample:15",
-  },
-];
-//is:verified
+const rules = [{
+    value: 'Bitcoin lang:en sample:2'
+}];
+    //is:verified 
+    // Get Stream rules
+    async function getRules(){
+        const response = await needle('get', rulesURL, {
+            headers:{
+                Authorization: `Bearer ${TOKEN}`
+            }
+        });
+        // console.log(response.body)
+        return response.body
+    };
+
 // Get Stream rules
 async function getRules() {
   const response = await needle("get", rulesURL, {
@@ -42,9 +52,10 @@ async function getRules() {
       Authorization: `Bearer ${TWITTER_BEARER_TOKEN}`,
     },
   });
+  //console.log(response.body);
   return response.body;
 }
-console.log("2 intento");
+
 // Set stream rules (sendind and deleting rules its gonna be a post request)
 async function setRules() {
   const data = {
@@ -58,7 +69,7 @@ async function setRules() {
   });
   return response.body;
 }
-console.log("3 intento");
+
 // Delete stream Rules (Because if i change the rules values i have to delete it)
 async function deleteRules(rules) {
   if (!Array.isArray(rules.data)) {
@@ -88,16 +99,25 @@ function streamTweets(socket) {
   stream.on("data", (data) => {
     try {
       const json = JSON.parse(data);
+      // console.log(json);
       socket.emit("tweet", json);
-    } catch (error) {}
+    } catch (error) {
+      // This is empty because this allow the conection open even is there no tweets
+    }
   });
 }
-console.log("4 intento");
+
+// Run when the client connects..
+// The first arg is the event, and the callback which will be executed after every connection event.
 io.on("connection", async () => {
+  console.log("Client connected..");
   let currentRules;
   try {
+    // Get all stream rules
     currentRules = await getRules();
+    // Delete all stream rules
     await deleteRules(currentRules);
+    // Set rules based on array above
     await setRules();
   } catch (error) {
     console.log(error);
@@ -105,9 +125,7 @@ io.on("connection", async () => {
   }
   streamTweets(io);
 });
-console.log("5 intento");
-console.log(TWITTER_BEARER_TOKEN);
+
 server.listen(process.env.PORT, () => {
-  console.log("Listening on 3005 (twitter stream route)");
+  console.log(`LOG ${PORT}`); // eslint-disable-line no-console
 });
-module.exports = router;

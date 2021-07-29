@@ -3,6 +3,8 @@ import { useHistory } from "react-router";
 import { supabase } from "supabase/supabase";
 import { validate } from "./validate";
 import useStyles from 'styles';
+import Swal from 'sweetalert2'
+
 
 import {
   Container,
@@ -58,20 +60,41 @@ export default function Register () {
         .then((response) => {
           const { error } = response;
 
-          if (error) return alert(error.message);
+          if (error) return Swal.fire({
+            title: 'Error!',
+            text: error.message,
+            icon: 'error',
+            confirmButtonText: 'Cool',
+            background: '#1f1f1f',
+            confirmButtonColor:'rgb(158, 158, 158)',
+          });
 
-          alert("congratulations your account has been created");
-          return history.push("/");
+          return Swal.fire({
+            title: 'Success!',
+            text: "congratulations your account has been created, go check your email to activate it!",
+            icon: 'success',
+            confirmButtonText: 'Cool',
+            background: '#1f1f1f',
+            confirmButtonColor:'rgb(158, 158, 158)',
+          }).then(()=> history.go(0));
+          
         })
         .catch((err) => err);
     } else {
-      alert("Error in Password");
+      Swal.fire({
+        title: 'Error!',
+        text: "Error in Password",
+        icon: 'error',
+        confirmButtonText: 'Cool',
+        background: '#1f1f1f',
+        confirmButtonColor:'rgb(158, 158, 158)',
+      });
     }
   };
 
-  const back = () => {
-    history.push("/");
-  };
+  // const back = () => {
+  //   history.push("/");
+  // };
   useEffect(() => {
     if (error.isError) {
       setSubmit(false);
@@ -117,7 +140,7 @@ export default function Register () {
                     onChange={handleOnChange}
                     color={error.passwordValidate === "" ? "primary" : "secondary"}
                   />
-                  <ButtonGroup className={classes.loginGridItem}>
+                  <ButtonGroup className={classes.loginGridItem} fullWidth={true}>
                     <Button
                       type="submit"
                       variant="contained"
@@ -125,9 +148,6 @@ export default function Register () {
                       disabled={!submit}
                     >
                       Sing up
-                    </Button>
-                    <Button onClick={back} variant="outlined" color="secondary">
-                      Back
                     </Button>
                   </ButtonGroup>
               </FormControl>

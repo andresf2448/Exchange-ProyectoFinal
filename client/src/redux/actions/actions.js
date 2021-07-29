@@ -4,7 +4,7 @@ import {
   CLIENT_SECRET_PAYMENT_INTENT,
   DELETE_CLIENT_SECRET_PAYMENT_INTENT,
   WAITING_CLIENT_SECRET_PAYMENT_INTENT,
-  GET_ASSETS
+  GET_ASSETS, SET_ASSET
 } from "./actionsNames";
 
 export function getClientSecret(payload) {
@@ -42,6 +42,13 @@ export async function getAssets() {
     type: GET_ASSETS,
     payload: assets,
   };
+}
+
+export function setAset(payload) {
+  return {
+    type: SET_ASSET,
+    payload
+  }
 }
 
 export const GET_USER_DETAILS_ID = (id) => {

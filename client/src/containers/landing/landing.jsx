@@ -1,20 +1,32 @@
-import { Container, Grid, Typography, Button, Divider, Box, Card } from "@material-ui/core";
+import { Container, Grid, Typography, Button, Divider, Box, Card, Modal } from "@material-ui/core";
 import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';
 import SecurityIcon from '@material-ui/icons/Security';
 import stellarIcon from './stellar.svg';
 import balance from './balance.svg';
+import pic from './cryptographicsPic.png';
 import Faq from 'components/faq/faq';
 import useStyles from 'styles';
 import './landing.css';
 import { Link } from 'react-scroll';
 import { supabase } from "supabase/supabase";
 import { useHistory } from "react-router";
+import { useState } from "react";
+import Register from "components/register/register";
+import Login from "components/login/login";
 
 const Landing = () => {
     const classes = useStyles();
     const history = useHistory();
-
+    const [registerModal, setRegisterModal]= useState(false)
+    const [loginModal, setLoginModal]= useState(false)
     let session = supabase.auth.session();
+
+    const handleRegister = ()=>{
+        setRegisterModal(!registerModal)
+    }
+    const handleLogin = ()=>{
+        setLoginModal(!loginModal)
+    }
 
 
     return (
@@ -79,12 +91,18 @@ const Landing = () => {
                     </Typography>
                 </Grid>
                 <Grid container xs={3} justifyContent="space-around">
-                    <Button color="secundary" variant="contained" justifyContent="left" href='/register'>
-                        REGISTER
-                    </Button> 
-                    <Button color="primary" variant="contained" justifyContent="left" href='/login' style={{color:'#000', backgroundColor: '#ffd523'}}>
+                        <Button color="secundary" variant="contained" justifyContent="left" onClick={handleRegister}>
+                            REGISTER
+                         </Button> 
+                    <Modal open={registerModal}  onClose={handleRegister} style={{ zIndex:'1000', position: 'fixed'}}> 
+                        <Register/>
+                    </Modal>
+                    <Button color="primary" variant="contained" justifyContent="left" onClick={handleLogin} style={{color:'#000', backgroundColor: '#ffd523'}}>
                         LOGIN
                     </Button>
+                    <Modal open={loginModal}  onClose={handleLogin} style={{ zIndex:'1000'}}> 
+                        <Login />
+                    </Modal>
                 </Grid>
             </Grid>
 
@@ -117,7 +135,7 @@ const Landing = () => {
                         Logo RocketXchange
                     </Box>
                     <Grid item xs={4} alignItems='center'>
-                        <Button className='registerButton'  href='/register' style={{ padding:'10px', width:'60%', backgroundColor: '#ffd523', color: '#272727b3', letterSpacing:'3px'}} variant="contained">REGISTER!</Button> 
+                        <Button className='registerButton'  onClick={handleRegister} style={{ padding:'10px', width:'60%', backgroundColor: '#ffd523', color: '#272727b3', letterSpacing:'3px'}} variant="contained">REGISTER!</Button> 
                     </Grid>
                 </Grid>
             </div>
@@ -125,12 +143,12 @@ const Landing = () => {
 
 
             <div className="cryptos">
-                <Grid container xs={12} className={classes.landingContainers} spacing={6} style={{padding:'8%'}}>
-                    <Typography item xs={3} variant="h4" className={classes.landingCard}>
+                <Grid container xs={12} className={classes.landingContainers} style={{padding:'5%', justifyContent: 'center'}}>
+                    <Typography item xs={5} variant="h4" className={classes.landingCard}>
                         Get in real time the waves of the cryptos with the highest volume to make better investments!
                     </Typography>
-                    <Grid item xs={9} className="crypto-graphics">
-                        {/* <CryptoGraphics /> */}
+                    <Grid item xs={7} justifyContent="center">
+                        <img src={pic} alt="cryptographicsRealtimePic" className='landingPic'/>
                     </Grid>
                 </Grid>
             </div>

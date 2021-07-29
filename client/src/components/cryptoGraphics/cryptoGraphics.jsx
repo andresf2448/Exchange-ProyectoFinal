@@ -1,6 +1,7 @@
 import "./cryptoGraphics.css";
 import { useEffect, useState } from "react";
 import { Container, Grid } from "@material-ui/core";
+import Swal from 'sweetalert2'
 
 import btcIcon from "./cryptoIcons/bitcoin.png";
 import ethIcon from "./cryptoIcons/ethereum2.png";
@@ -82,7 +83,7 @@ export const CryptoGraphics = () => {
 
   const [connection, setConnection] = useState(true);
 
-  let renderData = [eth, btc, chz, fil, ada, bnb, dot, axs];
+  let renderData = [eth,btc, chz, fil, ada, bnb, dot, axs];
 
   function handleConnection() {
     if (connection === true) {
@@ -176,7 +177,14 @@ export const CryptoGraphics = () => {
       };
       return;
     } else {
-      return alert("no connection");
+      return Swal.fire({
+        title: 'Sorry!',
+        text: "No connection",
+        icon: 'error',
+        confirmButtonText: 'Cool',
+        background: '#1f1f1f',
+        confirmButtonColor:'rgb(158, 158, 158)',
+      });
     }
   }
 

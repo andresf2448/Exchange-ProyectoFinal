@@ -15,12 +15,14 @@ var connectionOptions = {
 
 const useStyles = makeStyles({
   scroll: {
-    maxHeight: 290,
+    height: 420,
+    width: '100%',
     overflow: "auto",
+    marginTop: 2,
   },
 });
 
-export const Twitter = () => {
+export default function Twitter() {
   let [arr, setArr] = useState([]);
   const classes = useStyles();
 
@@ -44,18 +46,19 @@ export const Twitter = () => {
         setArr(TweetData);
       } else {
         setArr((prevState) => {
-          return [...prevState, TweetData];
+          return [TweetData, ...prevState];
         });
       }
     });
   };
 
   return (
-    <Grid container spacing={3} className={classes.scroll}>
+    <Grid container spacing={12} className={classes.scroll}>
       {arr &&
         arr.map((twitt) => {
-          return <TwittCard data={twitt} />;
-        })}
+          return <TwittCard data={twitt} />;  
+        })
+      }
     </Grid>
   );
 };

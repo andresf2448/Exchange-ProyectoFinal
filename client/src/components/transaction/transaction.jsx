@@ -2,16 +2,22 @@ import axios from "axios";
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { supabase } from "supabase/supabase";
-import { takeSecretKey, takePublicKey, validate } from "./transactioTools";
+import { takereceiverId, takeSourceId, validate } from "./transactioTools";
 import {
   Container,
+  Grid,
   Typography,
   Button,
   TextField,
   FormControl,
   ButtonGroup,
+  Select,
+  MenuItem,
+  Divider,
 } from "@material-ui/core";
 import useStyles from 'styles';
+import Swal from 'sweetalert2';
+import HashLoader from "react-spinners/HashLoader";
 
 export default function Transaction() {
   const [error, setError] = useState({
@@ -20,10 +26,13 @@ export default function Transaction() {
     amount: "",
   });
   const [transaction, setTransaction] = useState("");
+  const [waiting, setWaiting] = useState(false);
+  
   const [succesTransaction, setSuccesTransaction] = useState(false);
   const [input, setInput] = useState({
     email: "",
     amount: "",
+    currency: ""
   });
   const session = supabase.auth.session();
   const history = useHistory();
@@ -32,62 +41,116 @@ export default function Transaction() {
 
   const classes = useStyles();
 
-  const handleChange = (event) => {
+  const handleChange = async (event) => {
     setInput({
       ...input,
       [event.target.name]: event.target.value,
     });
-    setError(
-      validate({
+     setError(
+      await validate({
         ...input,
         [event.target.name]: event.target.value,
       })
     );
+    if (event.target.name === 'amount') {
+      setTransfer(false)
+    }
   };
 
   const handleMail = async () => {
-    let PublicKey = await takePublicKey(input.email);
-    if (PublicKey) return PublicKey;
+    let receiverId = await takereceiverId(input.email);
+    if (receiverId) return receiverId;
     return undefined;
   };
 
   const handleTransaction = async (event) => {
     event.preventDefault();
-    let receiverPublicKey = await handleMail();
 
-    if (receiverPublicKey) {
+    setWaiting(true)
+
+    let {data} = await supabase
+    .from('UserAnchor')
+    .select('firstName, lastName')
+    .eq('id_user', session.user.id)
+
+    if (data.length < 1) {
+      return alert('You need to complete your profile to do a transaction')
+    }
+    let receiverId = await handleMail();
+
+    if (receiverId) {
       let info = await supabase
         .from("RegisteredUsers")
         .select("bannedUser")
         .eq("email", input.email);
 
       if (info.data[0].bannedUser) {
-        alert("User is banned");
+        Swal.fire({
+          title: 'Hold it!',
+          text: "User is banned",
+          icon: 'warning',
+          confirmButtonText: 'Cool',
+          background: '#1f1f1f',
+          confirmButtonColor:'rgb(158, 158, 158)',
+        });
       } else {
-        let sourceSecretKey = await takeSecretKey();
-        let succes = await axios.post("/payment", {
-          sourceSecretKey: sourceSecretKey,
-          receiverPublicKey: receiverPublicKey,
-          amount: input.amount,
-        });
-        alert("Succes !");
-        setSuccesTransaction(true);
-        setTransaction(succes.data);
-        setInput({
-          email: "",
-          amount: "",
-        });
-        setTransfer(true);
+        let sourceId = await takeSourceId();
+        try {
+          let succes = await axios.post("http://localhost:3001/payment", {
+            sourceId: sourceId,
+            receiverId: receiverId,
+            amount: input.amount,
+            currency: input.currency
+          });
+          Swal.fire({
+            title: 'Success!',
+            icon: 'success',
+            confirmButtonText: 'Cool',
+            background: '#1f1f1f',
+            confirmButtonColor:'rgb(158, 158, 158)',
+          });
+          
+          setSuccesTransaction(true);
+          setTransaction(succes.data);
+          setInput({
+            email: "",
+            amount: "",
+            currency: ""
+          });
+          setTransfer(true);
+          setWaiting(false)
+          
+        } catch (error) {
+          console.log('Error', error)
+        }
       }
     } else {
-      alert("Mail is not registered");
+      Swal.fire({
+        title: 'Uops!',
+        text: "Mail is not registered",
+        icon: 'error',
+        confirmButtonText: 'Ok',
+        background: '#1f1f1f',
+        confirmButtonColor:'rgb(158, 158, 158)',
+      });
     }
   };
-
-  const handleNewTransaction = () => window.location.reload();
-
+  
+  const handleNewTransaction = () => {
+    setSuccesTransaction(false)
+    setTransaction('');
+    setInput({
+      email: "",
+      amount: "",
+      currency: ""
+    });
+    setTransfer(true);
+  }
+  
   return (
-    <Container className={classes.cardCheck}>
+    <>
+
+      <Grid align="center">
       {session ? (
         <div>
           <Typography variant="h4">Transaction</Typography>
@@ -95,6 +158,7 @@ export default function Transaction() {
             Search by email the person you want to transfer
           </Typography>
           <br />
+          <Divider className={classes.divider}/>
           <form onSubmit={handleTransaction}>
             <FormControl className={classes.formCheck}>
               <TextField
@@ -105,14 +169,24 @@ export default function Transaction() {
                 onChange={handleChange}
                 color={error.email === "" ? "primary" : "secondary"}
                 fullWidth={true}
-              />
+              /> <br/>
+              <Select disabled={!input.email || error.email} fullWidth={true} name='currency' value={input.currency} onChange={handleChange} >
+                <MenuItem value='ARSR'>ARSR</MenuItem>
+                <MenuItem value='EURR'>EURR</MenuItem>
+                <MenuItem value='HenryCoin'>HenryCoin</MenuItem>
+                <MenuItem value='SRT'>SRT</MenuItem>
+                <MenuItem value='USDR'>USDR</MenuItem>
+                <MenuItem value='XLM'>XLM</MenuItem>
+                
+              </Select>
+
               <TextField
                 label={error.amount === "" ? "Amount" : error.amount}
                 name="amount"
                 type="text"
                 value={input.amount}
                 onChange={handleChange}
-                disabled={error.email === "" ? submit : !submit}
+                disabled={input.currency ? submit : !submit}
                 color={error.email === "" ? "primary" : "secondary"}
                 fullWidth={true}
               />
@@ -122,7 +196,8 @@ export default function Transaction() {
               <Button
                 type="submit"
                 variant="outlined"
-                color="primary"
+                className={classes.yellowButton}
+                style={{width: '60%', color: '#ffd523'}}
                 disabled={error.isError || transfer ? !submit : submit}
                 >
                 Transfer
@@ -138,21 +213,31 @@ export default function Transaction() {
               </Button>
             </ButtonGroup>
           </form>
-        </div>
-      ) : (
+          
+        </div> 
+      ) :  (
         history.push("/")
       )}
-      {succesTransaction ? (
-        <div>
-          <Typography variant="h6">
-            To see the detail of your transaction go to the follow link:
+      </Grid>
+      
+      <Grid align="center">
+        {waiting ? <div align='center'><p>Loading</p></div> : null}
+      {succesTransaction && transaction ? (
+        <div align='center'>
+          <br/>
+          <Typography variant="h3">
+            Detail of your transaction 
           </Typography>
-          <a href={transaction} rel="noreferrer" target="_blank">
-            Transaction Info
-          </a>
+          <Typography variant="h5">Your transfer</Typography>
+          <Typography variant="h6">{transaction.amount} {transaction.currency.toUpperCase()}</Typography>
+          <Typography variant="h5">Fee percentage</Typography>
+          <Typography variant="h6">{transaction.feePercentage}%</Typography>
+          <Typography variant="h5">Fee Amount</Typography>
+          <Typography variant="h6">{transaction.fee} {transaction.currency.toUpperCase()}</Typography>
           <br />
         </div>
       ) : null}
-    </Container>
+      </Grid>
+    </>
   );
 }

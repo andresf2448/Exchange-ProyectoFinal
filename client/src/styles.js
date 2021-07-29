@@ -7,6 +7,12 @@ const useStyles = makeStyles(theme => ({
     elevation: '3',
     height: '10rem'
   },
+  input:{
+    backgroundColor: theme.palette.secondary.background,
+    color: theme.palette.primary.marfilWhite,
+    margin: 1,
+    borderRadius: 2
+  },
   text: {
     color: theme.palette.primary.contrastText,
   },
@@ -35,6 +41,37 @@ const useStyles = makeStyles(theme => ({
     display:"flex",
     justifyContent: "center", 
     alignItems: "center" 
+  },
+
+  transactionCardContainer: {
+    backgroundColor: theme.palette.secondary.background,
+    color: theme.palette.primary.contrastText,
+    borderRadius: '6px',
+    padding: 20,                   
+    display:"flex",
+    justifyContent: "center", 
+    alignItems: "center"
+  },
+  cardUserContainer: {
+    backgroundColor: theme.palette.secondary.background,
+    color: theme.palette.primary.contrastText,
+    borderRadius: '6px', 
+    margin: '2%',
+    padding: 15,                   
+    display:"flex",
+    justifyContent: "center", 
+    alignItems: "center" 
+  },
+  cardUserSpinner: {
+    height:'60vh',
+    backgroundColor: theme.palette.secondary.background,
+    color: theme.palette.primary.contrastText,
+    borderRadius: '6px', 
+    padding: 15,  
+    display:"flex",
+    justifyContent: "center", 
+    alignItems: "center",
+    margin: '2%'
   },
   loginContainer: {
     height: "100vh",
@@ -65,14 +102,16 @@ const useStyles = makeStyles(theme => ({
   adminCard: {
     backgroundColor: theme.palette.secondary.background,
     marginTop: 15,
-    marginLeft: 15,
-    marginRight: 15,
+    marginLeft: 0,
+    marginRight: 50,
     marginBottom: 5,
-    padding: 10
+    paddingTop: 15,
+    paddingBottom: 15,
   },
   adminCardSearch: {
     display: "flex",
-    justifyContent: "center",
+    // justifyContent: "center",
+    flexDirection: 'row'
   },
   adminTableContainer: {
     maxHeight: "70vh"
@@ -83,14 +122,35 @@ const useStyles = makeStyles(theme => ({
   adminTableHeadCell: {
     backgroundColor: theme.palette.primary.dark
   },
+  // loadingProfileContainer:{
+  //   display: 'flex',
+  //   justifyContent: "center",
+  // },
+  loadingProfileGridItem: {
+    display: 'flex',
+    justifyContent: 'center',
+    // flexDirection: 'column',
+    // alignContent: 'center'
+  },
   cryptoCurrency: {
+    width: '96%',
     display: 'flex',
     flexDirection: 'column',
-    backgroundColor: theme.palette.primary.contrastText,
+    backgroundColor: theme.palette.primary.light,
     justifyContent: 'center',
   },
   offerTableHead: {
     backgroundColor: theme.palette.primary.light
+  },
+  modal: {
+    position: 'absolute',
+    width: 400,
+    backgroundColor: theme.palette.secondary.background,
+    border: '2px solid #000',
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(2, 4, 3),
+    top: '25%',
+    left: '35%',
   },
   tooltip: {
     borderRadius: "5px",
@@ -129,13 +189,11 @@ const useStyles = makeStyles(theme => ({
     alignItems: "center",
     justifyContent: "space-evenly"
   },
-
   landingCard: {
-    margin: '3%',
     height: 145,
-    width: 200,
-    padding: 20,
+    padding: 0,
     textAlign: 'center',
+    justifyContent: "center",
     letterSpacing: 3,
   },
   landingCards: {
@@ -153,10 +211,67 @@ const useStyles = makeStyles(theme => ({
       background: "#ffd523",
       color: '#000',
   }},
-
-
+  inviteCard: {
+    margin: '3%',
+    height: '90%',
+    width: '90%',
+    display: 'flex',
+    justifyContent: 'center',
+    padding: 10,
+    textAlign: 'center',
+    letterSpacing: 3,
+    color: theme.palette.primary.contrastText,
+    backgroundColor: theme.palette.primary.main,
+    transition: 'all .2s linear',
+    borderRadius: '4px',
+  },
+  invitedYellowButton: {
+    width: '29%', 
+    color: '#ffd523',
+    borderRadius: '3px',
+    transition: 'all .2s linear',
+    '&:hover': {
+      background: "#ffd52324",
+    }  
+  },
   presentationBox: {
     margin: "3%",
+  },
+  cardCheck:{
+    margin: '3%',
+    padding: '2%',
+    backgroundColor: '#272727b3',
+    color: '#fdfbfb'
+  },
+  divider:{
+    background: '#ffd523'
+  },
+  yellowButton: {
+    width: '18%', 
+    color: '#ffd523',
+    borderRadius: '3px',
+    transition: 'all .2s linear',
+    '&:hover': {
+      background: "#ffd52324",
+    }  
+  },
+  depositYellowButton: {
+    width: '60%', 
+    color: '#ffd523',
+    borderRadius: '3px',
+    transition: 'all .2s linear',
+    '&:hover': {
+      background: "#ffd52324",
+    }  
+  },
+
+  balanceAccount: {
+    letterSpacing: '3px',
+    margin: '3%',
+    display: 'flex',   
+    alignContent: 'center',
+    flexDirection: 'column',
+    fontSize: 'larger'
   },
   appLogo: {
     height: "100%",
@@ -165,6 +280,45 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  spinner:{
+    color: '#ffd523'
+  },
+  twitterGrid: {
+    margin: '1%',
+    alignContent: 'center',
+    justifyContent: 'center'
+  },
+  twitterCard: {
+    minHeight: '22vh',
+    minWidth: '35vh',
+    flexDirection: 'column',
+    padding: '10px',
+    display: 'flex',
+    alignContent: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
+    margin: '8px',
+    color: '#afafaf',
+    backgroundColor: '#15202B'
+  },
+  twitterLink: {
+    marginTop: '5%',
+    marginRight: '10%',
+    backgroundColor: '#1679B6',
+    color:'#04042b',
+    fontSize: '12px',
+    '&:hover': {
+      background: "#1DA1F2",
+      color: '#000'
+    }  
+  },
+  twitterUser:{
+    fontStyle: 'italic'
+  },
+  twitterMetrics:{
+    marginTop: '5%',
+    marginLeft: '10%',
   }
 }));
 

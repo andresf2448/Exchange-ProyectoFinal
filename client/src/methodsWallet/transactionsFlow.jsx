@@ -1,165 +1,150 @@
-import axios from "axios";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { getClientSecret } from "redux/actions/actions";
 import { supabase } from "supabase/supabase";
 import CheckoutForm from "../components/stripe/checkoutForm";
+import { FormControl, TextField, Button, Typography } from "@material-ui/core";
+import useStyles from 'styles';
+
 
 export default function TransactionsPopup() {
   const dispatch = useDispatch();
+  // const currency = useSelector(state => state.asset)
   const [intentionBuy, setIntentionBuy] = useState();
   const [transactionType, setTransactionType] = useState();
-  const [input, setInput] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    currency: "",
-    amount: "",
-  });
-  // const [error, setError] = useState();
-  const [transaction, setTransaction] = useState(false); 
-  const [kyc, setKyc] = useState(false);
+  const [input, setInput] = useState();
+  const [publicKey, setPublicKey] = useState(false);
+  
+  // const [kyc, setKyc] = useState(false);
+
+  const session = supabase.auth.session();
 
   const aux = window.location.hash;
 
-  const id = aux.slice(1);
+  const id = aux.slice(1,37);
+
+  const classes = useStyles();
+  
+  let currency 
+  let crypto
+  
+  if (aux.slice(37).length > 3) {
+     currency = aux.slice(37, 40)
+    crypto = aux.slice(40)
+  } else {
+    currency = aux.slice(37)
+  }
+  
 
   const info = async () => {
     const { data, error } = await supabase
       .from("transactions")
       .select("*")
       .eq("id", id);
-    if (error) return console.log(error); 
+   
+    if (error) return alert(error);
     if (data[0]) {
+      
       return setTransactionType(data[0].kind);
     }
   };
   info();
 
-  /* const getPublicKey = async () => {
-    const { data, error } = await supabase
-      .from("datauser")
-      .select("public_key")
-      .eq("id_user", id);
-
-    if (error) return error;
-    return data;
-  }; */
-
-  async function handleSubmit(event) {
+  async function handleSubmitTransaction(event) {
     event.preventDefault();
+    let {data: names} = await supabase 
+    .from('UserAnchor')
+    .select('firstName, lastName')
+    .eq('id_user', session.user.id)
+
+
+    let {data: email} = await supabase 
+    .from('datauser')
+    .select('email')
+    .eq('id_user', session.user.id)
+
     await supabase
       .from("transactions")
       .update([
         {
-          firstName: input.firstName,
-          lastName: input.lastName,
-          email: input.email,
+          firstName: names[0]?.firstName || 'No data',
+          lastName: names[0]?.lastName || 'No data',
+          email: email[0]?.email || 'No data',
           kyc_verified: true,
         },
       ])
       .eq("id", id);
 
-    setKyc(true);
+      if (currency.toUpperCase() === 'XLM' || currency.toUpperCase() === 'SRT' || currency.toUpperCase() === 'HENRY COIN') {
+        let {data: publicKey} = await supabase
+        .from('rocketWallet')
+        .select('stellarPublicKey')
+        
+        setPublicKey(publicKey[0].stellarPublicKey)
+        setIntentionBuy(true);
+
+      } else  {
+        
+        dispatch(
+          getClientSecret({ currency: currency, amount: input })
+        );
+        setIntentionBuy(true);
+
+      }
+
+      // setIntentionBuy(true);
   }
 
-  async function handleSubmitTransaction(event) {
-    event.preventDefault();
-    const amount_out = input.amount - input.amount * 0.05;
-    const amount_fee = input.amount * 0.05;
-     await supabase
-      .from("transactions")
-      .update([
-        {
-          amount_fee: amount_fee,
-          amount_out: amount_out,
-          amount_in: input.amount,
-        },
-      ])
-      .eq("id", id);
-    setIntentionBuy(true);
-    dispatch(
-      getClientSecret({ currency: input.currency, amount: input.amount })
-    );
-  }
-
-  
-  const createTransaction = async (event) => {
-    event.preventDefault()
-    let transactionBack = await axios.post('/transactions/deposit/interactive', {
-      asset_code: 'usdc',
-      account: id,
-      
-    })
-     setTransaction(transactionBack.data)
-  }
+  const closeTab = () => {
+    
+    // history.push("/home");
+    window.open("about:blank", "_self");
+    window.close();
+  };
   
   return (
-    <div>
-      <button onClick={createTransaction}>Create Transaction</button>
-      {/* {transaction ? <h4 > {transaction.url} </h4> : null} */}
-      {transaction ? <a href={transaction.url} > Link </a> : null}
-      <div> Hola </div>
-
-      {!kyc && (
-        <form onSubmit={handleSubmit}>
-          <input
-            type="text"
-            placeholder="firts name"
-            name="firtsName"
-            onChange={(event) =>
-              setInput({ ...input, [event.target.name]: event.target.value })
-            }
-          />
-          <input
-            type="text"
-            placeholder="last name"
-            name="lastName"
-            onChange={(event) =>
-              setInput({ ...input, [event.target.name]: event.target.value })
-            }
-          />
-          <input
-            type="email"
-            placeholder="email"
-            name="email"
-            onChange={(event) =>
-              setInput({ ...input, [event.target.name]: event.target.value })
-            }
-          />
-
-          <input type="submit" value="Send" />
-        </form>
-      )}
-      {kyc && (
+    <div align='center' >
+     
+      <div style={{'paddingTop':'40px'}}>
         <form onSubmit={handleSubmitTransaction}>
-          <input
-            type="text"
-            placeholder="currency"
-            name="currency"
-            onChange={(event) =>
-              setInput({ ...input, [event.target.name]: event.target.value })
-            }
-          />
-          <input
-            type="text"
-            placeholder="amount"
-            name="amount"
-            onChange={(event) =>
-              setInput({ ...input, [event.target.name]: event.target.value })
-            }
-          />
-          <input type="submit" value="Send" />
+         <FormControl>
+           <TextField 
+           type="text"
+           placeholder="Amount"
+           name="amount"
+           onChange={(event) =>
+             setInput(event.target.value)
+           }
+           />
+          <Button className={classes.yellowButton} onClick={(event) => handleSubmitTransaction(event)} disabled={!input} >Next</Button>
+          </FormControl>
         </form>
-      )}
-
+        </div>
+        {(currency.toUpperCase() !== 'XLM' && currency.toUpperCase() !== 'SRT' && currency.toUpperCase() !== 'HENRY COIN') ? 
       <div>
-        {transactionType === "deposit" && kyc && intentionBuy ? (
+        {transactionType === "deposit" && intentionBuy ? (
           <div>
-            <CheckoutForm amount={input.amount} currency={input.currency} />
+            <CheckoutForm amount={input} currency={currency + 'R'} crypto={crypto} id={id} />
           </div>
         ) : null}
-        {transactionType === "withdraw" && kyc && intentionBuy && (
+        </div>
+        : 
+        <div> 
+           {transactionType === "deposit" && intentionBuy && publicKey ? 
+            <div>
+              <br/>
+              <Typography variant="h6">You should transfer {input} {crypto || currency} to:</Typography> <br/>
+              <Typography variant="h6">PublicKey {publicKey} </Typography>
+              <Typography variant="h6">Then we will transfer our tokens to your account</Typography>
+              <Button color="primary" variant="contained" onClick={closeTab}>
+            Close Tab
+          </Button>
+            </div>
+          : null}
+        </div>
+        }
+        <div>
+        {transactionType === "withdraw" && intentionBuy && (
           <div>
             <div>A que cuenta desea retirar sus fondos?</div>
             <input type="text" />

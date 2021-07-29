@@ -1,15 +1,17 @@
 import React from "react";
 import { useHistory } from "react-router";
-
+import Swal from 'sweetalert2'
 import useStyles from "styles.js";
 
 import {
   Container,
   Typography,
   Button,
+  ButtonGroup,
   TextField,
   Grid,
   FormControl,
+  Card
 } from "@material-ui/core";
 
 import { supabase } from "supabase/supabase";
@@ -32,8 +34,22 @@ export default function RecoverPassword() {
 
     await supabase.auth.api.resetPasswordForEmail(email).then((response) => {
       const { error } = response;
-      if (error) return alert(error.message);
-      alert("Check your email");
+      if (error) return Swal.fire({
+        title: 'Error!',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Cool',
+        background: '#1f1f1f',
+        confirmButtonColor:'rgb(158, 158, 158)',
+      });
+
+      Swal.fire({
+        text: 'Check your email',
+        icon: 'success',
+        confirmButtonText: 'Cool',
+        background: '#1f1f1f',
+        confirmButtonColor:'rgb(158, 158, 158)',
+      })
     });
     await supabase.auth.signOut();
     history.push("/");
@@ -48,45 +64,44 @@ export default function RecoverPassword() {
   };
 
   return (
-    <Container maxWidth="sm">
-      <Typography variant="h4" gutterBottom>
-        Recover Password
-      </Typography>
-      <Grid container>
-        <Grid item xs={12}>
-          <form onSubmit={() => recoverPassword()}>
-            <FormControl>
-              <TextField
-                required
-                label="Email"
-                name="Email"
-                type="text"
-                value={email}
-                onChange={handleOnChange}
-                style={{ marginBottom: "3px" }}
-              />
-              <Button
-                className={classes.button}
-                type="submit"
-                variant="contained"
-                color="primary"
-                onClick={recoverPassword}
-              >
-                Send
-              </Button>
-              <Button
-                className={classes.button}
-                variant="contained"
-                color="primary"
-                onClick={back}
-              >
-                Back
-              </Button>
-
-            </FormControl>
-          </form>
+    <Container maxWidth="sm" className={classes.loginContainer}>
+      <Card elevation={3} className={classes.loginCard}> 
+        <Grid container alignContent="center" >
+          <Grid item xs={12} >
+            <Typography  variant="h3" gutterBottom className={classes.loginGridItem}>Recover Password</Typography>
+            <form onSubmit={() => recoverPassword()} className={classes.loginForm}>
+              <FormControl style={{marginBottom:'20px'}}>
+                <TextField
+                  required
+                  label="Email"
+                  name="Email"
+                  type="text"
+                  value={email}
+                  onChange={handleOnChange}
+                  style={{ marginBottom: "3px" }}
+                  />
+                <ButtonGroup fullWidth={true}>
+                  <Button
+                  type="submit"
+                  variant="contained"
+                  color="secondary"
+                  onClick={recoverPassword}
+                  >
+                    Send
+                  </Button>
+                  <Button
+                    variant="outlined"
+                    color="secondary"
+                    onClick={back}
+                    >
+                    Back
+                  </Button>
+                </ButtonGroup>
+              </FormControl>
+            </form>
+          </Grid>
         </Grid>
-      </Grid>
+      </Card>
     </Container>
   );
 }
