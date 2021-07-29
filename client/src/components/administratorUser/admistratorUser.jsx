@@ -413,7 +413,7 @@ export const AdministratorUser = () => {
                 </Grid>
               )}
             </Grid>
-            <Grid item xs={2}></Grid>
+            <Grid item xs={1}></Grid>
             <Grid item xs={4} direction="column">
               <form onSubmit={search} className={classes.adminCardSearch}>
                 <FormControl margin="normal" style={{ paddingRight: "10px" }}>
@@ -443,7 +443,7 @@ export const AdministratorUser = () => {
 
             <Grid
               item
-              xs={1}
+              xs={2}
               justifyContent="center"
               style={{ marginTop: "15px" }}
             >
