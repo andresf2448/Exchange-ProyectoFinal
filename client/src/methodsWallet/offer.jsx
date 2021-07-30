@@ -1,4 +1,4 @@
-import { Paper, Container, Typography, Grid, TableContainer, Table, TableHead, TableBody, TableRow, TableCell } from '@material-ui/core';
+import { Paper, Container, Grid, TableContainer, Table, TableHead, TableBody, TableRow, TableCell } from '@material-ui/core';
 import useStyles from 'styles';
 
 
