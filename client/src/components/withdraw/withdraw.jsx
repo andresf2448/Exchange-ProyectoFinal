@@ -1,10 +1,11 @@
 import {Container, Typography, FormControl, TextField, Select, MenuItem, Button} from '@material-ui/core';
 import useStyles from 'styles'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import validateCbu from 'arg.js'
 import axios from 'axios'
 import { supabase } from "supabase/supabase";
 import validate from './withdrawTool'
+import StellarSdk from "stellar-sdk";
 
 export const Withdraw = ()=>{
     const session = supabase.auth.session();
@@ -20,6 +21,9 @@ export const Withdraw = ()=>{
         email: "",
         amount: "",
       })
+    const [account, setAccount] = useState(false)
+    const [user, setUser] = useState(false);
+    const server = new StellarSdk.Server("https://horizon-testnet.stellar.org");
 
     const classes = useStyles();
 
@@ -32,7 +36,7 @@ export const Withdraw = ()=>{
             validate({
                 ...input,
                 [event.target.name]: event.target.value
-            })
+            }, user.balances)
         )
 
         if(event.target.name === 'cbu') {
@@ -52,17 +56,52 @@ export const Withdraw = ()=>{
           setTransaction(succes.data)
     }
 
+    const userExist = async () => {
+        let { data } = await supabase
+          .from("datauser")
+          .select("public_key")
+          .eq("id_user", session.user.id);
+    
+        if (data.length === 0) setUser(false);
+        if (data.length > 0) {
+          getBalance();
+          
+        }
+      };
+    
+      const getBalance = async () => {
+        let { data } = await supabase
+          .from("datauser")
+          .select("public_key")
+          .eq("id_user", session.user.id);
+    
+        await server
+          .loadAccount(data[0]?.public_key)
+          .then((response) => { 
+            let filteredAssets = response.balances.filter(element => element.asset_code === 'ARSR' || element.asset_code === 'USDR' || element.asset_code === 'EURR')
+            setAccount(filteredAssets)
+            setUser(response)
+          })
+          .catch((err) => console.log(err));
+      };
+    
+      useEffect(() => {
+        userExist();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+      }, []);
 
+      
     return (
         <Container align='center' style={{height:'38vh'}}>
             <FormControl >
             <Typography variant='h4'>Select options to withdraw</Typography>
             
                 <Select  fullWidth={true} name='currency' value={input.currency} onChange={handleChange} >
-                <MenuItem value='ARSR'>ARSR</MenuItem>
-                <MenuItem value='EURR'>EURR</MenuItem>
-                <MenuItem value='USDR'>USDR</MenuItem>
-               
+                {account && user ? 
+                  account.map(element =>                 
+                     <MenuItem value={element.asset_code }>{element.asset_code}</MenuItem>
+                  )
+                  : null}         
                 
               </Select>
             
@@ -81,6 +120,7 @@ export const Withdraw = ()=>{
                 margin='dense'
                 name='cbu'
                 type='text'
+                disabled={error.amount || !input.currency || !input.amount}
                 onChange={handleChange}
                 value={input.cbu}
                 placeholder='CBU account'

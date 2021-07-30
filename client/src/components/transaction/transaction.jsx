@@ -17,7 +17,9 @@ import {
 import useStyles from 'styles';
 import Swal from 'sweetalert2';
 import StellarSdk from "stellar-sdk";
-// import HashLoader from "react-spinners/HashLoader";
+
+
+import HashLoader from "react-spinners/HashLoader";
 
 export default function Transaction() {
   const [error, setError] = useState({
@@ -89,7 +91,7 @@ export default function Transaction() {
       if (info.data[0].bannedUser) {
         Swal.fire({
           title: 'Hold it!',
-          text: "User is banned",
+          text: `User is banned`,
           icon: 'warning',
           confirmButtonText: 'Cool',
           background: '#1f1f1f',
@@ -104,16 +106,8 @@ export default function Transaction() {
             amount: input.amount,
             currency: input.currency
           });
-          Swal.fire({
-            title: 'Success!',
-            icon: 'success',
-            confirmButtonText: 'Cool',
-            background: '#1f1f1f',
-            confirmButtonColor:'rgb(158, 158, 158)',
-          });
-          
-          setSuccesTransaction(true);
-          setTransaction(succes.data);
+          setSuccesTransaction(() => true);
+          setTransaction( () => succes.data);
           setInput({
             email: "",
             amount: "",
@@ -122,6 +116,16 @@ export default function Transaction() {
           setTransfer(true);
           setWaiting(false)
           
+          Swal.fire({
+            title: 'Success!',
+            html: `Your transfer <br> ${succes.data.amount} ${succes.data.currency} <br> Fee percentage <br> ${succes.data.feePercentage}% <br> Fee Amount <br> ${succes.data.fee} ${succes.data.currency} `,
+            icon: 'success',
+            confirmButtonText: 'Cool',
+            background: '#1f1f1f',
+            confirmButtonColor:'rgb(158, 158, 158)',
+          });
+          
+          
         } catch (error) {
           console.log('Error', error)
         }
@@ -129,7 +133,7 @@ export default function Transaction() {
     } else {
       Swal.fire({
         title: 'Uops!',
-        text: "Mail is not registered",
+        text: `Mail is not registered`,
         icon: 'error',
         confirmButtonText: 'Ok',
         background: '#1f1f1f',
@@ -185,13 +189,15 @@ export default function Transaction() {
 
       <Grid align="center">
       {session ? (
-        <div>
+          <div>
           <Typography variant="h4">Transaction</Typography>
           <Typography variant="h5">
             Search by email the person you want to transfer
           </Typography>
           <br />
           <Divider className={classes.divider}/>
+          {!waiting ?
+          <div>
           <form onSubmit={handleTransaction}>
             <FormControl className={classes.formCheck}>
               <TextField
@@ -221,8 +227,10 @@ export default function Transaction() {
                 color={error.amount === "" ? "primary" : "secondary"}
                 fullWidth={true}
               />
-            </FormControl>{" "}
-            <br /> <br />
+            </FormControl>
+            
+            <br /> <br />  
+                 
             <ButtonGroup className={classes.formCheck}>
               <Button
                 type="submit"
@@ -244,7 +252,8 @@ export default function Transaction() {
               </Button>
             </ButtonGroup>
           </form>
-          
+          </div>
+          : <div align='center'><br/><br/><br/><HashLoader color={'#ffd523'} size={40}/><br/><br/><br/></div>}
         </div> 
       ) :  (
         history.push("/")
@@ -252,8 +261,8 @@ export default function Transaction() {
       </Grid>
       
       <Grid align="center">
-        {waiting ? <div align='center'><p>Loading</p></div> : null}
-      {succesTransaction && transaction ? (
+        
+      {/* {succesTransaction && transaction ? (
         <div align='center'>
           <br/>
           <Typography variant="h3">
@@ -267,7 +276,7 @@ export default function Transaction() {
           <Typography variant="h6">{transaction.fee} {transaction.currency.toUpperCase()}</Typography>
           <br />
         </div>
-      ) : null}
+      ) : null} */}
       </Grid>
     </>
   );

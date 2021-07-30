@@ -1,4 +1,4 @@
-export default function validate(input) {
+export default function validate(input, array) {
     let error = {
       isError: false,
       amount: '',
@@ -21,5 +21,14 @@ export default function validate(input) {
       error.amount = `Amount must be at least 10 ${input.currency}`
       error.isError = true
     } 
+
+    let currency = array?.find(element =>  element.asset_type === 'native' ? element.asset_type : element.asset_code === input.currency)
+  
+    if(parseFloat(currency?.balance) < input.amount) {
+          error.amount = 'Amount exced what you have'
+          error.isError = true 
+    } 
+
+
     return error
   }
