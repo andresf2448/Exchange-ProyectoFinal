@@ -164,7 +164,7 @@ const Landing = () => {
             alignItems="center"
           >
             <Typography item xs={4} variant="h5" align="right">
-              Trades here are peer-to-peer! On StellarX you trade directly with
+              Trades here are peer-to-peer! On RocketXChange you trade directly with
               other traders. There’s no one in the middle. You always have sole
               control of your assets.
             </Typography>
