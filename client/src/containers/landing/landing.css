@@ -1,5 +1,5 @@
 .titleContainer{
-    margin-top: 8%; 
+    margin-top: 3%; 
     margin-bottom: 2%;
 }
 
@@ -12,15 +12,16 @@
     align-content: space-around;
     height: 100vh;
     display: inline-grid;
+    background-image: url('https://raw.githubusercontent.com/ahsanazim/slack-landing-page/master/screen_caps/main_background.jpg');
+    background-position: center;
+    border-radius: 4px;
 }
 
 .register{
     height: 110vh;
     width: 100%;
-    display: inline-grid;
-    align-content:center;
-    /* align-items: center; */
-    background-image: linear-gradient(120deg, #fdfbfb 0%, #c5c5c5 100%);
+    display: flex;
+    background-image: linear-gradient(120deg, #dddddd 0%, #949494 100%);
     border-radius: 4px;
     color: #272727b3;
 }
@@ -38,7 +39,6 @@
     background-repeat: no-repeat;
     background-size: cover;
     border-radius: 4px;
-    
 }
 
 .rocketFeaturesTypography{
@@ -91,4 +91,8 @@
 .toTopButton:hover{
     color: #272727b3; 
     background-color: #ffe988;
+}
+
+.logoRxC{
+    width: 45%;
 }

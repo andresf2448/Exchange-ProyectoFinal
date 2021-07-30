@@ -16,7 +16,7 @@ var connectionOptions = {
 const useStyles = makeStyles({
   scroll: {
     height: 420,
-    width: '100%',
+    width: "100%",
     overflow: "auto",
     marginTop: 2,
   },
@@ -53,12 +53,11 @@ export default function Twitter() {
   };
 
   return (
-    <Grid container spacing={12} className={classes.scroll}>
+    <Grid container className={classes.scroll}>
       {arr &&
         arr.map((twitt) => {
-          return <TwittCard data={twitt} />;  
-        })
-      }
+          return <TwittCard data={twitt} />;
+        })}
     </Grid>
   );
-};
+}

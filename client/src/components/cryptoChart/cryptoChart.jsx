@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { ResponsiveContainer, CartesianGrid, Tooltip, AreaChart, Area } from 'recharts';
+import { ResponsiveContainer, CartesianGrid, /*Tooltip,*/AreaChart, Area } from 'recharts'; 
 // import CustomTooltip from 'components/customTooltip/customTooltip';
 
 const CryptoChart = ({crypto}) => {
@@ -21,7 +21,7 @@ const CryptoChart = ({crypto}) => {
         const data = []
         res.data.prices.forEach(e => {
           let fecha = `${new Date(e[0]).getFullYear()}/${new Date(e[0]).getMonth() + 1}/${new Date(e[0]).getDate()}`;
-          console.log(fecha);
+          
           data.push({
             precio: e[1],
             date: fecha,
