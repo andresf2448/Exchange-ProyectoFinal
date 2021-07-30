@@ -47,7 +47,7 @@ export default function ManageBuyOffer({
 
     if (!data[0].hasProfileUserAnchor) {
       Swal.fire({
-        text: "PLEASE COMPLET THE PROFILE IN SETTINGS",
+        text: "PLEASE COMPLET YOUR PROFILE IN SETTINGS",
         icon: "error",
         confirmButtonText: "Okay!",
         background: "#1f1f1f",
@@ -90,8 +90,21 @@ export default function ManageBuyOffer({
     const verifyBalance = account?.balances?.filter(
       (balance) => balance.asset_code === ask.asset_code
     );
+
+    setTimeout(() => {
+      if (!verifyBalance || !account) {
+        Swal.fire({
+          text: "Please, try again!",
+          icon: "error",
+          confirmButtonText: "Okay!",
+          background: "#1f1f1f",
+          confirmButtonColor: "rgb(158, 158, 158)",
+        });
+      }
+    }, 2000);
     console.log("verifyAccount", verifyBalance);
     console.log(price, publicKey, amount, secretKey, account);
+
     if (account) {
       if (verifyBalance.length === 0) {
         Swal.fire({
