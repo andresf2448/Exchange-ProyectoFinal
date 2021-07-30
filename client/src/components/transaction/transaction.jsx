@@ -9,15 +9,15 @@ import {
   Button,
   TextField,
   FormControl,
-  ButtonGroup,
   Select,
   MenuItem,
   Divider,
 } from "@material-ui/core";
-import useStyles from 'styles';
-import Swal from 'sweetalert2';
+import useStyles from "styles";
+import Swal from "sweetalert2";
 import StellarSdk from "stellar-sdk";
-// import HashLoader from "react-spinners/HashLoader";
+
+import HashLoader from "react-spinners/HashLoader";
 
 export default function Transaction() {
   const [error, setError] = useState({
@@ -25,14 +25,14 @@ export default function Transaction() {
     email: "",
     amount: "",
   });
-  const [transaction, setTransaction] = useState("");
+
   const [waiting, setWaiting] = useState(false);
-  const [account, setAccount] = useState(false)
-  const [succesTransaction, setSuccesTransaction] = useState(false);
+  const [account, setAccount] = useState(false);
+
   const [input, setInput] = useState({
     email: "",
     amount: "",
-    currency: ""
+    currency: "",
   });
   const session = supabase.auth.session();
   const history = useHistory();
@@ -48,14 +48,17 @@ export default function Transaction() {
       ...input,
       [event.target.name]: event.target.value,
     });
-     setError(
-      await validate({
-        ...input,
-        [event.target.name]: event.target.value,
-      }, account.balances)
+    setError(
+      await validate(
+        {
+          ...input,
+          [event.target.name]: event.target.value,
+        },
+        account.balances
+      )
     );
-    if (event.target.name === 'amount') {
-      setTransfer(false)
+    if (event.target.name === "amount") {
+      setTransfer(false);
     }
   };
 
@@ -68,15 +71,15 @@ export default function Transaction() {
   const handleTransaction = async (event) => {
     event.preventDefault();
 
-    setWaiting(true)
+    setWaiting(true);
 
-    let {data} = await supabase
-    .from('UserAnchor')
-    .select('firstName, lastName')
-    .eq('id_user', session.user.id)
+    let { data } = await supabase
+      .from("UserAnchor")
+      .select("firstName, lastName")
+      .eq("id_user", session.user.id);
 
     if (data.length < 1) {
-      return alert('You need to complete your profile to do a transaction')
+      return alert("You need to complete your profile to do a transaction");
     }
     let receiverId = await handleMail();
 
@@ -88,12 +91,12 @@ export default function Transaction() {
 
       if (info.data[0].bannedUser) {
         Swal.fire({
-          title: 'Hold it!',
-          text: "User is banned",
-          icon: 'warning',
-          confirmButtonText: 'Cool',
-          background: '#1f1f1f',
-          confirmButtonColor:'rgb(158, 158, 158)',
+          title: "Hold it!",
+          text: `User is banned`,
+          icon: "warning",
+          confirmButtonText: "Cool",
+          background: "#1f1f1f",
+          confirmButtonColor: "rgb(158, 158, 158)",
         });
       } else {
         let sourceId = await takeSourceId();
@@ -102,52 +105,47 @@ export default function Transaction() {
             sourceId: sourceId,
             receiverId: receiverId,
             amount: input.amount,
-            currency: input.currency
+            currency: input.currency,
           });
-          Swal.fire({
-            title: 'Success!',
-            icon: 'success',
-            confirmButtonText: 'Cool',
-            background: '#1f1f1f',
-            confirmButtonColor:'rgb(158, 158, 158)',
-          });
-          
-          setSuccesTransaction(true);
-          setTransaction(succes.data);
+
           setInput({
             email: "",
             amount: "",
-            currency: ""
+            currency: "",
           });
           setTransfer(true);
-          setWaiting(false)
-          
+          setWaiting(false);
+
+          Swal.fire({
+            title: "Success!",
+            html: `Your transfer <br> ${succes.data.amount} ${succes.data.currency} <br> Fee percentage <br> ${succes.data.feePercentage}% <br> Fee Amount <br> ${succes.data.fee} ${succes.data.currency} `,
+            icon: "success",
+            confirmButtonText: "Cool",
+            background: "#1f1f1f",
+            confirmButtonColor: "rgb(158, 158, 158)",
+          });
+
+          setInput({
+            email: "",
+            amount: "",
+            currency: "",
+          });
+          setTransfer(true);
         } catch (error) {
-          console.log('Error', error)
+          console.log("Error", error);
         }
       }
     } else {
       Swal.fire({
-        title: 'Uops!',
-        text: "Mail is not registered",
-        icon: 'error',
-        confirmButtonText: 'Ok',
-        background: '#1f1f1f',
-        confirmButtonColor:'rgb(158, 158, 158)',
+        title: "Uops!",
+        text: `Mail is not registered`,
+        icon: "error",
+        confirmButtonText: "Ok",
+        background: "#1f1f1f",
+        confirmButtonColor: "rgb(158, 158, 158)",
       });
     }
   };
-  
-  const handleNewTransaction = () => {
-    setSuccesTransaction(false)
-    setTransaction('');
-    setInput({
-      email: "",
-      amount: "",
-      currency: ""
-    });
-    setTransfer(true);
-  }
 
   const userExist = async () => {
     let { data } = await supabase
@@ -179,95 +177,100 @@ export default function Transaction() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  
   return (
     <>
-
       <Grid align="center">
-      {session ? (
-        <div>
-          <Typography variant="h4">Transaction</Typography>
-          <Typography variant="h5">
-            Search by email the person you want to transfer
-          </Typography>
-          <br />
-          <Divider className={classes.divider}/>
-          <form onSubmit={handleTransaction}>
-            <FormControl className={classes.formCheck}>
-              <TextField
-                label={error.email === "" ? "Email" : error.email}
-                name="email"
-                type="text"
-                value={input.email}
-                onChange={handleChange}
-                color={error.email === "" ? "primary" : "secondary"}
-                fullWidth={true}
-              /> <br/>
-              <Select disabled={!input.email || error.email} fullWidth={true} name='currency' value={input.currency} onChange={handleChange} >
-                {account && user ? 
-                  account.balances?.map(element =>                    
-                  <MenuItem value={element.asset_type === 'native' ? 'XLM' : element.asset_code}>{element.asset_type === 'native' ? 'XLM' : element.asset_code}</MenuItem>
-                  )
-                  : null}                
-              </Select>
-
-              <TextField
-                label={error.amount === "" ? "Amount" : error.amount}
-                name="amount"
-                type="text"
-                value={input.amount}
-                onChange={handleChange}
-                disabled={input.currency && !error.email ? submit : !submit}
-                color={error.amount === "" ? "primary" : "secondary"}
-                fullWidth={true}
-              />
-            </FormControl>{" "}
-            <br /> <br />
-            <ButtonGroup className={classes.formCheck}>
-              <Button
-                type="submit"
-                variant="outlined"
-                className={classes.yellowButton}
-                style={{width: '60%', color: '#ffd523'}}
-                disabled={error.isError || transfer ? !submit : submit}
-                >
-                Transfer
-              </Button>{" "}
-              <br />
-              <Button
-                onClick={handleNewTransaction}
-                variant="contained"
-                color="primary"
-                disabled={succesTransaction ? submit : !submit}
-                >
-                New Transaction
-              </Button>
-            </ButtonGroup>
-          </form>
-          
-        </div> 
-      ) :  (
-        history.push("/")
-      )}
-      </Grid>
-      
-      <Grid align="center">
-        {waiting ? <div align='center'><p>Loading</p></div> : null}
-      {succesTransaction && transaction ? (
-        <div align='center'>
-          <br/>
-          <Typography variant="h3">
-            Detail of your transaction 
-          </Typography>
-          <Typography variant="h5">Your transfer</Typography>
-          <Typography variant="h6">{transaction.amount} {transaction.currency.toUpperCase()}</Typography>
-          <Typography variant="h5">Fee percentage</Typography>
-          <Typography variant="h6">{transaction.feePercentage}%</Typography>
-          <Typography variant="h5">Fee Amount</Typography>
-          <Typography variant="h6">{transaction.fee} {transaction.currency.toUpperCase()}</Typography>
-          <br />
-        </div>
-      ) : null}
+        {session ? (
+          <div>
+            <Typography variant="h4">Transaction</Typography>
+            <Typography variant="h5">
+              Search by email the person you want to transfer
+            </Typography>
+            <br />
+            <Divider className={classes.divider} />
+            {!waiting ? (
+              <div>
+                <form onSubmit={handleTransaction}>
+                  <FormControl className={classes.formCheck}>
+                    <TextField
+                      label={error.email === "" ? "Email" : error.email}
+                      name="email"
+                      type="text"
+                      value={input.email}
+                      onChange={handleChange}
+                      color={error.email === "" ? "primary" : "secondary"}
+                      fullWidth={true}
+                    />{" "}
+                    <br />
+                    <Select
+                      disabled={!input.email || error.email}
+                      fullWidth={true}
+                      name="currency"
+                      value={input.currency}
+                      onChange={handleChange}
+                    >
+                      {account && user
+                        ? account.balances?.map((element) => (
+                            <MenuItem
+                              value={
+                                element.asset_type === "native"
+                                  ? "XLM"
+                                  : element.asset_code
+                              }
+                            >
+                              {element.asset_type === "native"
+                                ? "XLM"
+                                : element.asset_code}
+                            </MenuItem>
+                          ))
+                        : null}
+                    </Select>
+                    <TextField
+                      label={error.amount === "" ? "Amount" : error.amount}
+                      name="amount"
+                      type="text"
+                      value={input.amount}
+                      onChange={handleChange}
+                      disabled={
+                        input.currency && !error.email ? submit : !submit
+                      }
+                      color={error.amount === "" ? "primary" : "secondary"}
+                      fullWidth={true}
+                    />
+                  </FormControl>
+                  <br /> <br />
+                  <Button
+                    type="submit"
+                    variant="outlined"
+                    className={classes.yellowButton}
+                    style={{ width: "60%", color: "#ffd523" }}
+                    disabled={error.isError || transfer ? !submit : submit}
+                  >
+                    Transfer
+                  </Button>{" "}
+                  <br />
+                </form>
+              </div>
+            ) : (
+              <div align="center">
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <HashLoader color={"#ffd523"} size={40} />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+              </div>
+            )}
+          </div>
+        ) : (
+          history.push("/")
+        )}
       </Grid>
     </>
   );

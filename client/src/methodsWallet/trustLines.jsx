@@ -19,9 +19,9 @@ export default function ChangeTrust({ publicKey, secretKey, assets, account }) {
   const [limitAmount, setLimitAmount] = useState();
   const [asset, setAsset] = useState();
   const [waiting, setWaiting] = useState(false);
-  const server = StellarSdk.Server("https://horizon-testnet.stellar.org");
+  const server = new StellarSdk.Server("https://horizon-testnet.stellar.org");
   const classes = useStyles();
-
+  
   async function trustLine() {
     setWaiting(() => true);
     const sourceKeypair = StellarSdk.Keypair.fromSecret(secretKey);

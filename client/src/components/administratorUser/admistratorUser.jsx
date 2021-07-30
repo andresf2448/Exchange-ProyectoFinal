@@ -207,10 +207,12 @@ export const AdministratorUser = () => {
   let search = (event) => {
     event.preventDefault();
 
+    let name = emailSearching.current.value;
+    
     let info = [...users];
     let filterSearch = info.filter((e) => {
       let { email } = e;
-      let data = email.includes(emailSearching.current.value);
+      let data = email.includes(name.toLowerCase());
       return data;
     });
 
