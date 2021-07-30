@@ -89,8 +89,8 @@ export default function CreateAccount() {
       {spinner ? <HashLoader color={'#ffd523'} size={20}/> :
         hasWallet ? (
           <Grid item key={12}>
-          {<Typography variant='h6'>PublicKey | {publicKeyUser}</Typography>}
-          {<Typography variant='h6'>SecretKey | {secretKeyUser}</Typography>}
+          {<Typography variant='subtitle1'>PublicKey | {publicKeyUser}</Typography>}
+          {<Typography variant='subtitle1'>SecretKey | {secretKeyUser}</Typography>}
           <Divider className={classes.divider}/>
           <br/>
           <MuxedAccount pk={publicKeyUser}/>

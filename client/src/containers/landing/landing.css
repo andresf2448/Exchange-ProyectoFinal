@@ -10,7 +10,7 @@
 
 .presentation{
     align-content: space-around;
-    height: 110vh;
+    height: 100vh;
     display: inline-grid;
 }
 
@@ -58,7 +58,7 @@
 }
 
 .frequencyQuestion{
-    height:110vh;
+    height: 100%;
     margin-top: 2%;
 }
 
@@ -70,25 +70,25 @@
 	transform: scale(1);
     -webkit-transform: scale(1);
 	-webkit-transition: .2s linear;
-    box-shadow: 2px 2px 12px 1px #272727b3;
+    box-shadow: 2px 2px 8px 1px #000000b3;
 }
 
 .landingPic:hover{
 	transform: scale(1.1);
     -webkit-transform: scale(1.1);
-    box-shadow:2px 2px 5px 4px #272727b3;
+    box-shadow:2px 2px 5px 4px #000000b3;
 }
 
 .toTopButton{
+    color:#1F1F1F;
+    background-color: #ffd20a;
     right: 1%;
     bottom: 1%;
     position: fixed;
-    color:#fdfbfb;
-    background-color: #ffd20a;
     border-radius: 3px;
 }
 
 .toTopButton:hover{
-    background-color: #ffe988;
     color: #272727b3; 
+    background-color: #ffe988;
 }

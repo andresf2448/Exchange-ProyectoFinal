@@ -12,6 +12,8 @@ import { deleteClientSecret } from "redux/actions/actions";
 import { useRef } from "react";
 import axios from "axios";
 
+import useStyles from "styles";
+
 export default function CheckoutForm({amount, currency, crypto, id}) {
   
   const dispatch = useDispatch();
@@ -26,6 +28,8 @@ export default function CheckoutForm({amount, currency, crypto, id}) {
   const session = supabase.auth.session();
 
   const inputEl = useRef(null);
+
+  const classes = useStyles();
 
 
   const handleSubmit = async (event) => {
@@ -114,8 +118,7 @@ export default function CheckoutForm({amount, currency, crypto, id}) {
         <div align='center'>
         <Button
           onClick={handleConfirm}
-          color="primary"
-          variant="contained"
+          className={classes.yellowButton}
           disabled={payment}
           
         >
@@ -133,7 +136,7 @@ export default function CheckoutForm({amount, currency, crypto, id}) {
       {waiting ? <div align='center'> <h3>Loading...</h3> </div> : null}
       {payment && paymentCrypto ? (
         <div align='center'>
-          <Typography variant="h3">Succes Payment</Typography> <br/>
+          <Typography variant="h3" style={{color: '#8CBC4E'}}>Succes Payment</Typography> <br/>
           <Typography variant="h5">Your payment</Typography> 
           <Typography variant="h6">{payment.amount / 100} {payment.currency.toUpperCase()}</Typography><br/>
           <Typography variant="h5">You received</Typography>
@@ -143,7 +146,7 @@ export default function CheckoutForm({amount, currency, crypto, id}) {
           <Typography variant="h5">The total fee was</Typography>
           <Typography variant="h6">{paymentCrypto.fee} {payment.currency.toUpperCase()}</Typography><br/>
           
-          <Button color="primary" variant="contained" onClick={closeTab}>
+          <Button className={classes.yellowButton} onClick={closeTab}>
             Close Tab
           </Button> 
         </div>
@@ -152,7 +155,7 @@ export default function CheckoutForm({amount, currency, crypto, id}) {
           <h1>{error}</h1>
           <h2>Try again with other card</h2>
           <h2>Or</h2>
-          <Button color="primary" variant="contained" onClick={closeTab}>
+          <Button color='secondary' onClick={closeTab}>
             Close Tab
           </Button>
         </>

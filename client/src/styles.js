@@ -14,7 +14,11 @@ const useStyles = makeStyles(theme => ({
     borderRadius: 2
   },
   text: {
-    color: theme.palette.primary.contrastText,
+    color: "#fff",
+  },
+  textAbout: {
+    color: '#ffd523',
+    padding: 10
   },
   button: {
     width: '200px'
@@ -38,6 +42,16 @@ const useStyles = makeStyles(theme => ({
     borderRadius: '6px',
     margin: 30,
     padding: 15,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center"
+  },
+
+  transactionCardContainer: {
+    backgroundColor: theme.palette.secondary.background,
+    color: theme.palette.primary.contrastText,
+    borderRadius: '6px',
+    padding: 20,
     display: "flex",
     justifyContent: "center",
     alignItems: "center"
@@ -98,6 +112,15 @@ const useStyles = makeStyles(theme => ({
     paddingTop: 15,
     paddingBottom: 15,
   },
+  backCryptoCard: {
+    backgroundColor: '#272727b3',
+    marginTop: 15,
+    marginLeft: 0,
+    marginRight: 50,
+    marginBottom: 5,
+    paddingTop: 15,
+    paddingBottom: 15,
+  },
   adminCardSearch: {
     display: "flex",
     // justifyContent: "center",
@@ -126,7 +149,7 @@ const useStyles = makeStyles(theme => ({
     width: '96%',
     display: 'flex',
     flexDirection: 'column',
-    backgroundColor: theme.palette.primary.light,
+    backgroundColor: '#000',
     justifyContent: 'center',
   },
   offerTableHead: {
@@ -218,6 +241,7 @@ const useStyles = makeStyles(theme => ({
   },
   invitedYellowButton: {
     width: '29%',
+    height: '6vh',
     color: '#ffd523',
     borderRadius: '3px',
     transition: 'all .2s linear',
@@ -239,6 +263,24 @@ const useStyles = makeStyles(theme => ({
   },
   yellowButton: {
     width: '18%',
+    color: '#ffd523',
+    borderRadius: '3px',
+    transition: 'all .2s linear',
+    '&:hover': {
+      background: "#ffd52324",
+    }
+  },
+  depositYellowButton: {
+    width: '60%',
+    color: '#ffd523',
+    borderRadius: '3px',
+    transition: 'all .2s linear',
+    '&:hover': {
+      background: "#ffd52324",
+    }
+  },
+  muxedYellowButton: {
+    width: '100%',
     color: '#ffd523',
     borderRadius: '3px',
     transition: 'all .2s linear',
@@ -306,9 +348,18 @@ const useStyles = makeStyles(theme => ({
     paddingLeft: '3vw',
     paddingRight: '3vw',
     paddingBottom: '2vh'
+  },
+  tabs1: {
+    backgroundColor: 'rgb(255, 217, 112)',
+    color: '#272727b3',
+  },
+  tabs2: {
+    backgroundColor: 'rgb(10, 147, 168)'
+  },
+  muxedAccountsList: {
+    overflowY: 'scroll',
+    height: 200
   }
-
-
 }));
 
 export default useStyles;

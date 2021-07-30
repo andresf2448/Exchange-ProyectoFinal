@@ -193,6 +193,7 @@ const Landing = () => {
                 hashSpy={true}
                 offset={50}
                 duration={500}
+                color='primary'
                 className="toTopButton">
                     <Button>
                         up!

@@ -14,7 +14,6 @@ function Trade() {
   const [secretKey, setSecretKey] = useState();
   const session = supabase.auth.session();
 
-
   async function getAssets() {
     const { data: assets } = await supabase.from("assets").select("*");
     return setAssets(assets);
@@ -38,11 +37,12 @@ function Trade() {
   if (!publicKey && !secretKey) {
     keys();
   }
-  //--------------------------------------Logic offersByAccount
+  //---Logic offersByAccount
   const [updateOffers, setUpdateOffers] = useState(true);
   const [offers, setOffers] = useState();
   const server = new StellarSdk.Server("https://horizon-testnet.stellar.org");
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const getOffers = useCallback(() => {
     server
       .offers()
@@ -67,6 +67,8 @@ function Trade() {
 
   return (
     <Grid container style={{ backgroundColor: "#1f1f1f" }}>
+      {/* solo para quitar el warning */}
+      {offers && null}
       <Grid container item display="column" justifyContent={true}>
         {/* <Grid item xs={12} sm={3} style={{ height: "700px" }}>
           <Orderbook assets={assets} />
@@ -100,7 +102,9 @@ function Trade() {
         {/* </Grid> */}
         {/* <Grid container item sm={3}>
           <Grid item xs={12} style={{ height: "300px", paddingTop: "40px" }}>
-            <Card style={{ height: '300px', textAlign:'center' }}>Listado de ventas activas</Card>
+            <Card style={{ height: "300px", textAlign: "center" }}>
+              Listado de ventas activas
+            </Card>
 
             <OffersByAccount publicKey={publicKey} />
           </Grid>
@@ -109,7 +113,7 @@ function Trade() {
           </Grid>
         </Grid> */}
         {/* ////////*/}
-        <Grid item xs={12} sm={3} style={{ marginTop:'0.5vh' }}>
+        <Grid item xs={12} sm={3} style={{ marginTop: "0.5vh" }}>
           <Orderbook assets={assets} />
         </Grid>
         <Grid container item xs={12} sm={6}>
@@ -117,7 +121,7 @@ function Trade() {
             item
             xs={12}
             style={{
-              marginLeft:'1vw',
+              marginLeft: "1vw",
               marginRight: "1vw",
               height: "45vh",
               marginTop: "8vh",
@@ -125,7 +129,12 @@ function Trade() {
           >
             <TradingView />
           </Grid>
-          <Grid item xs={12} sm={6} style={{ marginLeft:'13vw', marginTop:'4vh'}}>
+          <Grid
+            item
+            xs={12}
+            sm={6}
+            style={{ marginLeft: "13vw", marginTop: "4vh" }}
+          >
             <ManageBuyOffer
               publicKey={publicKey}
               secretKey={secretKey}
@@ -142,14 +151,14 @@ function Trade() {
                 textAlign: "center",
                 marginLeft: "2vw",
                 marginRight: "2vw",
-                height: "40vh"
+                height: "40vh",
               }}
             >
               Active Sale Offers List
-            <OffersByAccount offers={offers} />
+              <OffersByAccount offers={offers} />
             </Card>
           </Grid>
-          <Grid item xs={12} style={{marginTop:'4vh', marginLeft:'2vw'}}>
+          <Grid item xs={12} style={{ marginTop: "4vh", marginLeft: "2vw" }}>
             <CryptoCalculator />
           </Grid>
         </Grid>

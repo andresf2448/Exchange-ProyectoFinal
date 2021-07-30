@@ -25,6 +25,7 @@ export default function ManageBuyOffer({
   // const [secondSelect, setSecondSelect] = useState(1)
 
   const server = new StellarSdk.Server("https://horizon-testnet.stellar.org");
+
   const classes = useStyles();
 
   const updateTransactions = async () => {

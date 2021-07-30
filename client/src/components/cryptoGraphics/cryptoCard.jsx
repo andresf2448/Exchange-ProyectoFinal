@@ -20,7 +20,7 @@ const CryptoCard = (props) => {
                   </Grid>
                   <Grid item sm={12}>
                     <Typography variant="h5" className={color}>
-                      {price ? `$ ${price}` : <SkewLoader size={10} />}{" "}
+                      {price ? `$ ${price}` : <SkewLoader size={10} color='white' />}{" "}
                     </Typography>
                   </Grid>
                 </Grid>

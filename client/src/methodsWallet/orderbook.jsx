@@ -3,11 +3,17 @@ import StellarSdk from "stellar-sdk";
 import Offer from "./offer.jsx";
 import { Grid } from "@material-ui/core";
 
-export default function Orderbook({assets}) {
-  const [assetBuy, setAssetBuy] = useState(new StellarSdk.Asset("USDC", "GC5W3BH2MQRQK2H4A6LP3SXDSAAY2W2W64OWKKVNQIAOVWSAHFDEUSDC"));
+export default function Orderbook({ assets }) {
+  const [assetBuy, setAssetBuy] = useState(
+    new StellarSdk.Asset(
+      "USDC",
+      "GC5W3BH2MQRQK2H4A6LP3SXDSAAY2W2W64OWKKVNQIAOVWSAHFDEUSDC"
+    )
+  );
   const [assetSell, setAssetSell] = useState(StellarSdk.Asset.native());
   const [response, setResponse] = useState();
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const server = new StellarSdk.Server("https://horizon-testnet.stellar.org");
 
   const selectAssetBuy = (event) => {
@@ -67,7 +73,7 @@ export default function Orderbook({assets}) {
               <option key={element.asset_code}>{element.asset_code}</option>
               );
             })}
-      </select>{" "}
+      </select>
       </Grid>
       <Grid item xs={4}>
       <select
@@ -82,7 +88,7 @@ export default function Orderbook({assets}) {
               <option key={element.asset_code}>{element.asset_code}</option>
             );
           })}
-      </select>{" "}
+      </select>
       </Grid>
       </Grid>
       {response && <Offer asks={response.asks} bids={response.bids} />}
