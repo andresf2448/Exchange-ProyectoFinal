@@ -106,7 +106,7 @@ const Landing = () => {
             </Link>
           </Typography>
         </Grid>
-        <Grid container xs={3} justifyContent="space-around">
+        <Grid container xs={3} justifyContent="space-around" style={{marginTop: '1%'}}>
           <Button
             color="secundary"
             variant="contained"
