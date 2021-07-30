@@ -47,8 +47,8 @@ export default function BalanceAccount() {
         <div>
           {account ? (
             <div>
-              <TableContainer>
-                <Table>
+              <TableContainer className={classes.adminTableContainer} style={{marginBottom:'3vh', marginTop:'3vh'}}>
+                <Table stickyHeader className={classes.adminTable}>
                   <TableHead>
                     <TableRow>
                       <TableCell>Asset</TableCell>
