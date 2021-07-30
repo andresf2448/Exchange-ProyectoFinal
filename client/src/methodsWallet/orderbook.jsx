@@ -59,16 +59,15 @@ export default function Orderbook({ assets }) {
 
   return (
     <Grid container>
-      <Grid container style={{ marginRight: "2vw" }}>
-        <Grid item xs={1}></Grid>
-        <Grid item xs={4}>
+      <Grid container style={{ marginRight: "2vw", marginLeft:'1.7vw' }}>
+        <Grid item xs={6}>
           <Select
           variant='outlined'
             defaultValue=""
             value={assetBuy.code}
             name="asset"
             onChange={(event) => selectAssetBuy(event)}
-            style={{height:'5vh', width:'9vw'}}
+            style={{height:'5vh', width:'10.5vw'}}
           >
             <MenuItem disabled value={1}>Buy Asset</MenuItem>
             {assets &&
@@ -81,15 +80,14 @@ export default function Orderbook({ assets }) {
               })}
           </Select>
         </Grid>
-        <Grid item xs={2}></Grid>
-        <Grid item xs={4}>
+        <Grid item xs={6}>
           <Select
             variant='outlined'
             defaultValue=""
             value={assetSell.code}
             name="asset"
             onChange={(event) => selectAssetSell(event)}
-            style={{height:'5vh', width:'9vw'}}
+            style={{height:'5vh', width:'10.5vw'}}
 
           >
             <MenuItem value={1}>Sell Asset</MenuItem>

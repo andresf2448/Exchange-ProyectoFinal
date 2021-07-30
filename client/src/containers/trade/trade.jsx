@@ -71,49 +71,6 @@ function Trade() {
       {/* solo para quitar el warning */}
       {offers && null}
       <Grid container item display="column" justifyContent={true}>
-        {/* <Grid item xs={12} sm={3} style={{ height: "700px" }}>
-          <Orderbook assets={assets} />
-        </Grid>
-        <Grid container item xs={12} sm={6}>
-          <Grid
-            item
-            xs={12}
-            style={{
-              height: "400px",
-              paddingRight: "25px",
-              paddingTop: "40px",
-            }}
-          >
-            <TradingView />
-          </Grid>
-
-            <Grid item xs={12} sm={6} > */}
-        {/* <Card elevation={3} className={classes.cardContainer} > */}
-
-        {/* <ManageBuyOffer
-                publicKey={publicKey}
-                secretKey={secretKey}
-              /> */}
-        {/* </Card> */}
-        {/* </Grid> */}
-        {/* <Grid item xs={12} sm={6}>
-              <ManageBuyOffer />
-            </Grid> */}
-
-        {/* </Grid> */}
-        {/* <Grid container item sm={3}>
-          <Grid item xs={12} style={{ height: "300px", paddingTop: "40px" }}>
-            <Card style={{ height: "300px", textAlign: "center" }}>
-              Listado de ventas activas
-            </Card>
-
-            <OffersByAccount publicKey={publicKey} />
-          </Grid>
-          <Grid item xs={12}>
-            <CryptoCalculator />
-          </Grid>
-        </Grid> */}
-        {/* ////////*/}
         <Grid item xs={12} sm={3} style={{ marginTop: "2vh" }}>
           <Orderbook assets={assets} />
         </Grid>
@@ -125,7 +82,7 @@ function Trade() {
               marginLeft: "1vw",
               marginRight: "1vw",
               height: "45vh",
-              marginTop: "8vh",
+              marginTop: "2vh",
             }}
           >
             <TradingView />
@@ -134,7 +91,7 @@ function Trade() {
             item
             xs={12}
             sm={6}
-            style={{ marginLeft: "13vw", marginTop: "1vh" }}
+            style={{ marginLeft: "13vw", marginTop: "5vh" }}
           >
             <ManageBuyOffer
               publicKey={publicKey}
@@ -146,10 +103,10 @@ function Trade() {
           <Grid item xs={12} sm={6}></Grid>
         </Grid>
         <Grid container item sm={3}>
-          <Grid item xs={12} style={{ marginTop: "8vh" }}>
+          <Grid item xs={12} style={{ marginTop: "2vh" }}>
             <OffersByAccount offers={offers} />
           </Grid>
-          <Grid item xs={12} style={{ marginTop: "1vh", marginLeft: "2vw" }}>
+          <Grid item xs={12} style={{ marginTop: "2vh", marginLeft: "2vw" }}>
             <CryptoCalculator />
           </Grid>
         </Grid>

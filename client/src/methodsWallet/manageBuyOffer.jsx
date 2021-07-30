@@ -208,9 +208,9 @@ export default function ManageBuyOffer({
             >
               Create your sale offer:
             </Typography>
-            <hr color="#ffd523" />
+            <hr style={{color:"#ffd523", marginBottom:'2vh'}} />
           </Grid>
-          <Grid item xs={4}>
+          <Grid item xs={4} style={{marginBottom:'2vh'}}>
             <Select
               variant="standard"
               value={assetAsk}
@@ -232,7 +232,7 @@ export default function ManageBuyOffer({
                 })}
             </Select>
           </Grid>
-          <Grid item xs={8}>
+          <Grid item xs={8} >
             <TextField
               variant="standard"
               value={amount}
@@ -240,9 +240,10 @@ export default function ManageBuyOffer({
               name="amount"
               onChange={(event) => setAmount(event.target.value)}
               placeholder="Amount to sell"
+              inputProps={{style:{textAlign:'center'}}}
             />
           </Grid>
-          <Grid item xs={4}>
+          <Grid item xs={4} style={{marginBottom:'2vh'}}>
             <Select
               value={assetBid}
               variant="standard"
@@ -272,10 +273,12 @@ export default function ManageBuyOffer({
               name="price"
               onChange={(event) => setPrice(event.target.value)}
               placeholder="Price per token"
+              inputProps={{style:{textAlign:'center'}}}
+
             />
           </Grid>
-          <Grid item xs={8}></Grid>
-          <Grid item xs={4}>
+          <Grid item xs={6}></Grid>
+          <Grid item xs={4} style={{marginLeft:'1vw'}}>
             {hasProfileValidate ? (
               <Button type="submit" className={classes.invitedYellowButton}>
                 Submit
