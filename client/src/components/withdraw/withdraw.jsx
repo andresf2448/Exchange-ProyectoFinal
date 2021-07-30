@@ -6,11 +6,13 @@ import axios from 'axios'
 import { supabase } from "supabase/supabase";
 import validate from './withdrawTool'
 import StellarSdk from "stellar-sdk";
+import Swal from "sweetalert2";
+import HashLoader from "react-spinners/HashLoader";
 
 export const Withdraw = ()=>{
     const session = supabase.auth.session();
     const [cbu, setCbu] = useState(false)
-    const [transaction, setTransaction] = useState(false)
+    // const [transaction, setTransaction] = useState(false)
     const [input, setInput] = useState({
         currency: '',
         amount: '',
@@ -53,7 +55,16 @@ export const Withdraw = ()=>{
             currency: input.currency
           });
 
-          setTransaction(succes.data)
+          Swal.fire({
+            title: "Success!",
+            html: `Your transfer <br> ${succes.data.amount} ${succes.data.currency} <br> Fee percentage <br> ${succes.data.feePercentage}% <br> Fee Amount <br> ${succes.data.fee} ${succes.data.currency} `,
+            icon: "success",
+            confirmButtonText: "Cool",
+            background: "#1f1f1f",
+            confirmButtonColor: "rgb(158, 158, 158)",
+          });
+
+        //   setTransaction(succes.data)
     }
 
     const userExist = async () => {
@@ -93,6 +104,7 @@ export const Withdraw = ()=>{
       
     return (
         <Container align='center' style={{height:'38vh'}}>
+        {user ? 
             <FormControl >
             <Typography variant='h4'>Select options to withdraw</Typography>
             
@@ -125,17 +137,33 @@ export const Withdraw = ()=>{
                 value={input.cbu}
                 placeholder='CBU account'
                 />
+                <div align='center'>
                 <Button type='submit' className={classes.depositYellowButton} disabled={!cbu || !input.currency || error.amount} onClick={handleSubmit}>Withdraw</Button>
+                </div>
             </FormControl>
-            {transaction ? <div>
-                <Typography variant="h5">Your transfer</Typography>
-                <Typography variant="h6">{transaction.amount} {transaction.currency.toUpperCase()}</Typography>
-                <Typography variant="h5">Fee percentage</Typography>
-                <Typography variant="h6">{transaction.feePercentage}%</Typography>
-                <Typography variant="h5">Fee Amount</Typography>
-                <Typography variant="h6">{transaction.fee} {transaction.currency.toUpperCase()}</Typography>
-            </div>
-            : null}
-        </Container>
+            
+            : 
+            <div>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+            <HashLoader color={"#ffd523"} size={40} />
+            </div> }
+            </Container>
     )
 }
+
+
+// {/* {transaction ? <div>
+//                 <Typography variant="h5">Your transfer</Typography>
+//                 <Typography variant="h6">{transaction.amount} {transaction.currency.toUpperCase()}</Typography>
+//                 <Typography variant="h5">Fee percentage</Typography>
+//                 <Typography variant="h6">{transaction.feePercentage}%</Typography>
+//                 <Typography variant="h5">Fee Amount</Typography>
+//                 <Typography variant="h6">{transaction.fee} {transaction.currency.toUpperCase()}</Typography>
+//                 </div>
+//             : null} */}

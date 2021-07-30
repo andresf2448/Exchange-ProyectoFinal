@@ -3,7 +3,7 @@ import StellarSdk from "stellar-sdk";
 import { Divider } from "@material-ui/core";
 import useStyles from "styles";
 import { supabase } from "../supabase/supabase";
-import CreateAccount from "./createAccount";
+// import CreateAccount from "./createAccount";
 import HashLoader from "react-spinners/HashLoader";
 
 export default function BalanceAccount() {
@@ -22,8 +22,9 @@ export default function BalanceAccount() {
 
     if (data.length === 0) setUser(false);
     if (data.length > 0) {
-      getBalance();
-      setUser(true);
+      setUser(() => true);
+      getBalance()
+      
     }
   };
 
@@ -33,7 +34,7 @@ export default function BalanceAccount() {
       .select("public_key")
       .eq("id_user", session.user.id);
 
-    await server
+    server
       .loadAccount(data[0]?.public_key)
       .then((response) => setAccount(response))
       .catch((err) => console.log(err));
@@ -57,13 +58,13 @@ export default function BalanceAccount() {
                   index
                 ) => (
                   <div key={index} className={classes.balanceAccount}>
+                    <Divider className={classes.divider} /> <br/>
                     <div>Asset: {!asset_code ? "XLM" : asset_code} </div>
                     <br />
-                    <Divider className={classes.divider} />
                     <br />
-                    <div>Balance: {balance} </div>
-                    <div> Monto en ofertas de venta: {selling_liabilities}</div>
-                    <div> Monto en ofertas de compra: {buying_liabilities}</div>
+                    <div>Balance: {parseFloat(balance).toFixed(2)} </div>
+                    <div> Mount of selling offers: {parseFloat(selling_liabilities).toFixed(2)}</div>
+                    <div> Mount of buying offers: {parseFloat(buying_liabilities).toFixed(2)}</div> <br/>
                   </div>
                 )
               )}
@@ -75,7 +76,7 @@ export default function BalanceAccount() {
       ) : (
         <div>
           " Debes crear una wallet para ver tu balance"
-          <CreateAccount />
+          {/* <CreateAccount /> */}
         </div>
       )}
     </div>
