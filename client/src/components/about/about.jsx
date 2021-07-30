@@ -38,7 +38,7 @@ export default function About() {
     {
       name: "Julián Ruiz",
       contact: "https://www.linkedin.com/in/julian-ruiz-v/",
-      img: "https://www.nationalgeographic.com.es/medio/2021/03/09/perro_4da5a8be_800x1200.jpg",
+      img: "https://avatars.githubusercontent.com/u/76981775?v=4",
     },
     {
       name: "Facundo Vaena",
