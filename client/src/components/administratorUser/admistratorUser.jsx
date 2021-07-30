@@ -348,76 +348,103 @@ export const AdministratorUser = () => {
       <Card elevation={3} className={classes.adminCard}>
         {admin ? (
           <Grid container>
-            <Grid container direction="column" alignContent="center">
-              <Button
-                onClick={() => setCommision(!commision)}
-                variant="contained"
-              >
-                {"Change the commision server"}
-              </Button>
-              {commision ? (
-                <Grid item xs={4}>
-                  <form onSubmit={comisionChange}>
-                    <TextField
-                      type="text"
-                      placeholder="New value"
-                      inputRef={newComision}
-                      color="secondary"
-                      variant="outlined"
-                      size="small"
-                      required
-                    />
-
-                    <TextField
-                      type="text"
-                      placeholder="Write CONFIRM"
-                      inputRef={confirmation}
-                      color="secondary"
-                      variant="outlined"
-                      size="small"
-                      required
-                    />
-                    <Button variant="contained" color="secondary" type="submit">
-                      {"Send "}
+            <Grid container item xs={6}>
+              {!commision ? (
+                <Grid container style={{ height: "5vh", marginLeft: "2vw" }}>
+                  <Grid item xs={7}>
+                    <Button
+                      onClick={() => setCommision(!commision)}
+                      variant="contained"
+                    >
+                      {"Change the commision server"}
                     </Button>
-                  </form>
+                  </Grid>
+                  <Grid item xs={5} style={{ marginTop: "-1vh" }}>
+                    <Typography
+                      variant="body1"
+                      color="secondary"
+                      gutterBottom
+                      align="left"
+                    >
+                      Current Commission: {statusComision.porcentaje} %
+                    </Typography>
+                    <Typography
+                      variant="body1"
+                      color="secondary"
+                      gutterBottom
+                      align="left"
+                    >
+                      Date: {new Date(statusComision.fecha).getDate()}/
+                      {new Date(statusComision.fecha).getMonth() + 1}/
+                      {new Date(statusComision.fecha).getUTCFullYear()}{" "}
+                      {new Date(statusComision.fecha).getUTCHours()}:
+                      {new Date(statusComision.fecha).getUTCMinutes()}
+                    </Typography>
+                  </Grid>
                 </Grid>
               ) : (
-                <Grid item xs={5}>
-                  <Typography
-                    variant="body1"
-                    color="secondary"
-                    gutterBottom
-                    align="left"
-                  >
-                    Current Commission: {statusComision.porcentaje} %
-                  </Typography>
-                  <Typography
-                    variant="body1"
-                    color="secondary"
-                    gutterBottom
-                    align="left"
-                  >
-                    Date: {new Date(statusComision.fecha).getDate()}/
-                    {new Date(statusComision.fecha).getMonth() + 1}/
-                    {new Date(statusComision.fecha).getUTCFullYear()}{" "}
-                    {new Date(statusComision.fecha).getUTCHours()}:
-                    {new Date(statusComision.fecha).getUTCMinutes()}
-                  </Typography>
-                </Grid>
+                <>
+                  <form onSubmit={comisionChange}>
+                    <Grid
+                      container
+                      style={{ height: "5vh", marginLeft: "2vw" }}
+                    >
+                      <Grid item xs={3}>
+                        <TextField
+                          type="text"
+                          placeholder="New value"
+                          inputRef={newComision}
+                          color="secondary"
+                          variant="outlined"
+                          required
+                          size="small"
+                        />
+                      </Grid>
+                      <Grid item xs={3}>
+                        <TextField
+                          type="text"
+                          placeholder="Write CONFIRM"
+                          inputRef={confirmation}
+                          color="secondary"
+                          variant="outlined"
+                          size="small"
+                          required
+                        />
+                      </Grid>
+                      <Grid item xs={1}></Grid>
+                      <Grid item xs={4}>
+                        <ButtonGroup>
+                          <Button
+                            variant="contained"
+                            color="secondary"
+                            type="submit"
+                          >
+                            {"Send "}
+                          </Button>
+                          <Button
+                            variant="contained"
+                            color="secondary"
+                            onClick={() => setCommision(!commision)}
+                          >
+                            {"back "}
+                          </Button>
+                        </ButtonGroup>
+                      </Grid>
+                    </Grid>
+                  </form>
+                </>
               )}
             </Grid>
-            <Grid item xs={1}></Grid>
-            <Grid item xs={4}>
+            <Grid item xs={4} style={{ height: "7vh" }}>
               <form onSubmit={search} className={classes.adminCardSearch}>
-                <FormControl margin="normal" style={{ paddingRight: "10px" }}>
+                <FormControl style={{ paddingRight: "10px" }}>
                   <TextField
                     type="text"
                     placeholder="Search User by email"
                     inputRef={emailSearching}
                   />
                 </FormControl>
-                <FormControl margin="normal">
+                <FormControl>
                   <ButtonGroup>
                     <Button type="submit" variant="contained" color="secondary">
                       Search
@@ -434,29 +461,27 @@ export const AdministratorUser = () => {
                 </FormControl>
               </form>
             </Grid>
-
-            <Grid item xs={2} style={{ marginTop: "15px" }}>
-              {emails.length > 0 ? (
-                <div>
-                  <Button
-                    type="button"
-                    // onClick={addMessage}
-                    onClick={() => handleOpen()}
-                    color="primary"
-                    variant="contained"
-                    className={classes.buttonBack}
-                  >
-                    {" Add Message "}
-                  </Button>
-                  <Modal
-                    open={open}
-                    // onClose={() => handleClose()}
-                  >
-                    {body}
-                  </Modal>
-                </div>
-              ) : null}
-            </Grid>
+            {/* <Grid item xs={1}></Grid> */}
+            {emails.length > 0 ? (
+              <Grid item xs={2} style={{}}>
+                <Button
+                  type="button"
+                  // onClick={addMessage}
+                  onClick={() => handleOpen()}
+                  color="primary"
+                  variant="contained"
+                  className={classes.buttonBack}
+                >
+                  {" Add Message "}
+                </Button>
+                <Modal
+                  open={open}
+                  // onClose={() => handleClose()}
+                >
+                  {body}
+                </Modal>
+              </Grid>
+            ) : null}
 
             <Grid item xs={12}>
               <TableContainer className={classes.adminTableContainer}>

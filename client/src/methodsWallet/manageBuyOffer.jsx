@@ -155,7 +155,11 @@ export default function ManageBuyOffer({
       <form onSubmit={(event) => handleSubmit(event)}>
         <Grid container>
           <Grid item xs={12}>
-            <Typography>Create your sale offer:</Typography>
+            <Typography style={{
+              textAlign: "center",
+              marginBottom: "2vh",
+            }}>Create your sale offer:</Typography>
+            <hr color='#ffd523'/>
           </Grid>
           <Grid item xs={4}>
             <Select
