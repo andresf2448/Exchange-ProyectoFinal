@@ -1,4 +1,4 @@
-import { AppBar, Tabs, Tab } from "@material-ui/core";
+import { AppBar, Avatar, Tabs, Tab } from "@material-ui/core";
 import { useState, useEffect } from "react";
 import { useHistory } from "react-router";
 import { supabase } from "supabase/supabase";
@@ -10,6 +10,7 @@ import { AdministratorUser } from "components/administratorUser/admistratorUser"
 import Trade from "containers/trade/trade";
 import { InviteUser } from "components/invite/invite";
 import FaqAbout from "containers/faqAbout/faqAbout";
+import logoRXC from './rocketXchange-white.png';
 
 export const NavBar = () => {
   const history = useHistory();
@@ -46,7 +47,7 @@ export const NavBar = () => {
     <>
       <AppBar position="static" variant="fullWidth">
         <Tabs value={value} variant="scrollable" onChange={handleChange}>
-          <Tab label="Rocket X Change" />
+          <Tab icon={<Avatar alt="test avatar" src={logoRXC} style={{widht: '100'}} />} />
           <Tab label="Wallet" />
           <Tab label="Trade" />
           <Tab label="Settings" />

@@ -13,6 +13,7 @@ import { useHistory } from "react-router";
 import { useState } from "react";
 import Register from "components/register/register";
 import Login from "components/login/login";
+import logoRXC from './rocketXchange-transparent.png';
 
 const Landing = () => {
     const classes = useStyles();
@@ -28,14 +29,12 @@ const Landing = () => {
         setLoginModal(!loginModal)
     }
 
-
     return (
         <Container  className='landing'>
         {session ? history.push("/home") : null}
-
             <Grid container xs={12} className={classes.landingContainers} spacing={2}>
                 <Grid item xs={3}>
-                    <Typography variant="h4"> 
+                    <Typography variant="h5"> 
                         <Link activeClass="active"
                         to="presentation"
                         spy={true}
@@ -49,7 +48,7 @@ const Landing = () => {
                     </Typography>
                 </Grid>
                 <Grid item xs={2}> 
-                    <Typography variant="h4">
+                    <Typography variant="h5">
                         <Link activeClass="active"
                             to="cryptos"
                             spy={true}
@@ -63,7 +62,7 @@ const Landing = () => {
                     </Typography>
                 </Grid>
                 <Grid item xs={2}> 
-                    <Typography variant="h4"> 
+                    <Typography variant="h5"> 
                         <Link activeClass="active"
                             to="rocketFeatures"
                             spy={true}
@@ -77,7 +76,7 @@ const Landing = () => {
                     </Typography>
                 </Grid>
                 <Grid item xs={2}> 
-                    <Typography variant="h4">
+                    <Typography variant="h5">
                         <Link activeClass="active"
                                 to="frequencyQuestion"
                                 spy={true}
@@ -109,7 +108,7 @@ const Landing = () => {
             <Divider variant="middle" style={{margin: '1%', backgroundColor:'#fdfbfb'}}/>
 
             <div className="presentation">
-                <Grid container xs={12} className="titleContainer">
+                <Grid container className="titleContainer">
                     <Typography item xs={8} variant="h2" align="left" > Make your money work with cryptocurrencies</Typography>
                     <Box item xs={4} fontSize={22} fontStyle="oblique"> 
                         Bet on the future of finance and save without restrictions
@@ -127,15 +126,17 @@ const Landing = () => {
 
 
             <div className="register">
-                <Grid container={true} xs={12} className={classes.landingRegister} spacing={6} style={{padding:'8%'}}>
-                    <Typography item xs={8} variant="h4">
-                        Don't let time go by, start trading now!
-                    </Typography>
-                    <Box item xs={4}>
-                        Logo RocketXchange
-                    </Box>
-                    <Grid item xs={4} alignItems='center'>
-                        <Button className='registerButton'  onClick={handleRegister} style={{ padding:'10px', width:'60%', backgroundColor: '#ffd523', color: '#272727b3', letterSpacing:'3px'}} variant="contained">REGISTER!</Button> 
+                <Grid container className={classes.landingRegister} align="center">
+                    <Grid item xs={12}>
+                        <Typography variant="h4" align='rigth' style={{color: '#000', fontWeight:'bold'}}>
+                            Don't let time go by, start trading now!
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <img className="logoRxC" src={logoRXC} alt='rocketXchange-transparent'/>
+                    </Grid>
+                    <Grid item xs={4}>
+                        <Button onClick={handleRegister} style={{ width:'50%', backgroundColor: '#ffd523', color: '#272727b3', letterSpacing:'4px'}} variant="contained">REGISTER!</Button> 
                     </Grid>
                 </Grid>
             </div>
@@ -193,7 +194,6 @@ const Landing = () => {
                 hashSpy={true}
                 offset={50}
                 duration={500}
-                color='primary'
                 className="toTopButton">
                     <Button>
                         up!
