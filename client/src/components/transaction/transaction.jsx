@@ -79,7 +79,14 @@ export default function Transaction() {
       .eq("id_user", session.user.id);
 
     if (data.length < 1) {
-      return alert("You need to complete your profile to do a transaction");
+      return Swal.fire({
+        title: 'Hold it!',
+        text: "You need to complete your profile to do a transaction",
+        icon: 'warning',
+        confirmButtonText: 'Got it',
+        background: '#1f1f1f',
+        confirmButtonColor:'rgb(158, 158, 158)',
+      });
     }
     let receiverId = await handleMail();
 
