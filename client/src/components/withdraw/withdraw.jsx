@@ -12,7 +12,7 @@ import HashLoader from "react-spinners/HashLoader";
 export const Withdraw = ()=>{
     const session = supabase.auth.session();
     const [cbu, setCbu] = useState(false)
-    // const [transaction, setTransaction] = useState(false)
+    
     const [input, setInput] = useState({
         currency: '',
         amount: '',
@@ -25,6 +25,7 @@ export const Withdraw = ()=>{
       })
     const [account, setAccount] = useState(false)
     const [user, setUser] = useState(false);
+    const [waiting, setWaiting] = useState(false);
     const server = new StellarSdk.Server("https://horizon-testnet.stellar.org");
 
     const classes = useStyles();
@@ -47,7 +48,7 @@ export const Withdraw = ()=>{
     }
 
     const handleSubmit = async () => {
-                
+                setWaiting(true)
           let succes = await axios.post("http://localhost:3001/payment", {
             sourceId: session.user.id,
             receiverId: 'rocket',
@@ -64,7 +65,19 @@ export const Withdraw = ()=>{
             confirmButtonColor: "rgb(158, 158, 158)",
           });
 
-        //   setTransaction(succes.data)
+        if(succes.data){
+          setWaiting(false)
+          setInput({
+            currency: '',
+            amount: '',
+            cbu: ''
+        })
+        setError({
+          isError: true,
+          email: "",
+          amount: "",
+        })
+        }
     }
 
     const userExist = async () => {
@@ -107,7 +120,8 @@ export const Withdraw = ()=>{
         {user ? 
             <FormControl >
             <Typography variant='h4'>Select options to withdraw</Typography>
-            
+              {!waiting ?
+              <>
                 <Select  fullWidth={true} name='currency' value={input.currency} onChange={handleChange} >
                 {account && user ? 
                   account.map(element =>                 
@@ -140,6 +154,17 @@ export const Withdraw = ()=>{
                 <div align='center'>
                 <Button type='submit' className={classes.depositYellowButton} disabled={!cbu || !input.currency || error.amount} onClick={handleSubmit}>Withdraw</Button>
                 </div>
+                </>
+                :  <div>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+            <HashLoader color={"#ffd523"} size={40} />
+            </div> }
             </FormControl>
             
             : 
