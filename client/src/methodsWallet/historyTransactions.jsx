@@ -30,7 +30,7 @@ export default function HistoryTransactions({ publicKey }) {
       {/* <Divider variant="middle" className={classes.divider} /> */}
       {/* style={{ overflowY: "scroll", height: "40vh" }} */}
       {/* <Grid align="center"  > */}
-        <TableContainer className={classes.adminTableContainer} style={{ marginBottom: '2vh', marginTop:'2vh' }}>
+        <TableContainer className={classes.trustLineTableContainer} style={{ marginBottom: '2vh', marginTop:'2vh' }}>
           <Table className={classes.adminTable} stickyHeader>
             <TableHead>
               <TableRow>
@@ -48,17 +48,8 @@ export default function HistoryTransactions({ publicKey }) {
             </TableBody>
           </Table>
         </TableContainer>
-        {/* <ul style={{ listStyle: "none", textAlign: "left" }}>
-          {transactions &&
-            transactions.map((transaction, i) => (
-              <li key={transaction.id}>
-                {i} - id de transaction: {transaction.id}
-              </li>
-            ))}
-        </ul> */}
-      {/* </Grid> */}
+        
     </div>
   );
 }
-
 
