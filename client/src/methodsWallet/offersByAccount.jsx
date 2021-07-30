@@ -1,5 +1,5 @@
 export default function OffersByAccount({ offers }) {
-  
+  console.log("esta es la publickey", offers)
   return (
     <>
       {offers?.records?.length > 1 &&

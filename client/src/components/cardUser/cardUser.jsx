@@ -56,7 +56,7 @@ export const CardUser = () => {
         .select("*")
         .eq(
           "account_id",
-          "GAJ22WDPA3IOIJPOXBWPWAXU3MVVTHNXZJZ3DSGXZSK4LYKLKTJGJY33"
+          data[0]?.public_key
         );
 
       if (transactionsData.data.length !== 0) {
@@ -84,7 +84,7 @@ export const CardUser = () => {
     if (data.length > 0) {
       const ofertas = await server
         .offers()
-        .forAccount("GAJ22WDPA3IOIJPOXBWPWAXU3MVVTHNXZJZ3DSGXZSK4LYKLKTJGJY33")
+        .forAccount(data[0]?.public_key)
         .order("desc")
         .limit(10)
         .call();
