@@ -1,6 +1,6 @@
 import StellarSdk from "stellar-sdk";
 import { useState } from "react";
-import {TableContainer, Table, TableHead, TableRow, TableCell, TableBody } from "@material-ui/core";
+import {Grid, Typography, TableContainer, Table, TableHead, TableRow, TableCell, TableBody } from "@material-ui/core";
 import useStyles from "styles";
 // import Transaction from "components/transaction/transaction";
 
@@ -30,7 +30,13 @@ export default function HistoryTransactions({ publicKey }) {
       {/* <Divider variant="middle" className={classes.divider} /> */}
       {/* style={{ overflowY: "scroll", height: "40vh" }} */}
       {/* <Grid align="center"  > */}
-        <TableContainer className={classes.trustLineTableContainer} style={{ marginBottom: '2vh', marginTop:'2vh' }}>
+
+
+     
+        {
+
+        transactions ?
+        <TableContainer className={classes.adminTableContainer} style={{ marginBottom: '2vh', marginTop:'2vh' }}>
           <Table className={classes.adminTable} stickyHeader>
             <TableHead>
               <TableRow>
@@ -48,7 +54,13 @@ export default function HistoryTransactions({ publicKey }) {
             </TableBody>
           </Table>
         </TableContainer>
-        
+        :
+        <Grid>
+          <Typography variant="h4">
+            You haven´t made transactions yet
+          </Typography>
+        </Grid>
+    }
     </div>
   );
 }

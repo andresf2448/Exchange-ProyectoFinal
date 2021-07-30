@@ -110,7 +110,7 @@ export default function TransactionsPopup() {
   return (
     <div align='center' >
      
-      <div style={{'paddingTop':'40px'}}>
+      <div style={{paddingTop:'40px'}}>
         <form onSubmit={handleSubmitTransaction}>
          <FormControl>
            <TextField 
@@ -121,7 +121,7 @@ export default function TransactionsPopup() {
              setInput(event.target.value)
            }
            />
-        <Button className={classes.yellowButton} onClick={(event) => handleSubmitTransaction(event)} disabled={!input} >Next</Button>
+          <Button className={classes.yellowButtonFlow} onClick={(event) => handleSubmitTransaction(event)} disabled={!input} >Next</Button>
           </FormControl>
         </form>
         </div>
@@ -141,7 +141,7 @@ export default function TransactionsPopup() {
               <Typography variant="h6">You should transfer {input} {crypto || currency} to:</Typography> <br/>
               <Typography variant="h6">PublicKey {publicKey} </Typography>
               <Typography variant="h6">Then we will transfer our tokens to your account</Typography>
-              <Button color="primary" variant="contained" onClick={closeTab}>
+              <Button className={classes.yellowButton} onClick={closeTab}>
             Close Tab
           </Button>
             </div>

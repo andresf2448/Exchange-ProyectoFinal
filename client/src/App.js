@@ -2,7 +2,8 @@ import React, { Suspense, lazy } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { CardUser } from "components/cardUser/cardUser";
 import "./App.scss";
-import { Typography, Grid } from "@material-ui/core";
+import { Container, Grid } from "@material-ui/core";
+import rocketLogo from './rocketXchange-logos_white.png';
 
 const Login = lazy(() => import("components/login/login"));
 const Register = lazy(() => import("components/register/register"));
@@ -28,9 +29,11 @@ function App() {
       <div className="App">
         <Suspense
           fallback={
-            <Grid>
-              <Typography variant="h4">Loading...</Typography>
-            </Grid>
+            <Container>
+              <Grid align="center" style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                <img  alt="" src={rocketLogo} style={{height: '60%', width: '60%'}}/>
+              </Grid>
+            </Container>
           }
         >
           <Switch>
