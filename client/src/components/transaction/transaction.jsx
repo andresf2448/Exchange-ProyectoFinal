@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { supabase } from "supabase/supabase";
 import { takereceiverId, takeSourceId, validate } from "./transactioTools";
@@ -16,6 +16,7 @@ import {
 } from "@material-ui/core";
 import useStyles from 'styles';
 import Swal from 'sweetalert2';
+import StellarSdk from "stellar-sdk";
 // import HashLoader from "react-spinners/HashLoader";
 
 export default function Transaction() {
@@ -26,7 +27,7 @@ export default function Transaction() {
   });
   const [transaction, setTransaction] = useState("");
   const [waiting, setWaiting] = useState(false);
-  
+  const [account, setAccount] = useState(false)
   const [succesTransaction, setSuccesTransaction] = useState(false);
   const [input, setInput] = useState({
     email: "",
@@ -37,6 +38,8 @@ export default function Transaction() {
   const history = useHistory();
   const submit = false;
   const [transfer, setTransfer] = useState(false);
+  const [user, setUser] = useState(false);
+  const server = new StellarSdk.Server("https://horizon-testnet.stellar.org");
 
   const classes = useStyles();
 
@@ -49,7 +52,7 @@ export default function Transaction() {
       await validate({
         ...input,
         [event.target.name]: event.target.value,
-      })
+      }, account.balances)
     );
     if (event.target.name === 'amount') {
       setTransfer(false)
@@ -145,6 +148,37 @@ export default function Transaction() {
     });
     setTransfer(true);
   }
+
+  const userExist = async () => {
+    let { data } = await supabase
+      .from("datauser")
+      .select("public_key")
+      .eq("id_user", session.user.id);
+
+    if (data.length === 0) setUser(false);
+    if (data.length > 0) {
+      getBalance();
+      setUser(true);
+    }
+  };
+
+  const getBalance = async () => {
+    let { data } = await supabase
+      .from("datauser")
+      .select("public_key")
+      .eq("id_user", session.user.id);
+
+    await server
+      .loadAccount(data[0]?.public_key)
+      .then((response) => setAccount(response))
+      .catch((err) => console.log(err));
+  };
+
+  useEffect(() => {
+    userExist();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   
   return (
     <>
@@ -170,13 +204,11 @@ export default function Transaction() {
                 fullWidth={true}
               /> <br/>
               <Select disabled={!input.email || error.email} fullWidth={true} name='currency' value={input.currency} onChange={handleChange} >
-                <MenuItem value='ARSR'>ARSR</MenuItem>
-                <MenuItem value='EURR'>EURR</MenuItem>
-                <MenuItem value='HenryCoin'>HenryCoin</MenuItem>
-                <MenuItem value='SRT'>SRT</MenuItem>
-                <MenuItem value='USDR'>USDR</MenuItem>
-                <MenuItem value='XLM'>XLM</MenuItem>
-                
+                {account && user ? 
+                  account.balances?.map(element =>                    
+                  <MenuItem value={element.asset_type === 'native' ? 'XLM' : element.asset_code}>{element.asset_type === 'native' ? 'XLM' : element.asset_code}</MenuItem>
+                  )
+                  : null}                
               </Select>
 
               <TextField
@@ -185,8 +217,8 @@ export default function Transaction() {
                 type="text"
                 value={input.amount}
                 onChange={handleChange}
-                disabled={input.currency ? submit : !submit}
-                color={error.email === "" ? "primary" : "secondary"}
+                disabled={input.currency && !error.email ? submit : !submit}
+                color={error.amount === "" ? "primary" : "secondary"}
                 fullWidth={true}
               />
             </FormControl>{" "}
