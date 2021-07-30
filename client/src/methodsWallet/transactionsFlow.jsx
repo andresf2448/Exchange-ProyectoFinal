@@ -10,13 +10,11 @@ import Swal from "sweetalert2";
 
 export default function TransactionsPopup() {
   const dispatch = useDispatch();
-  // const currency = useSelector(state => state.asset)
   const [intentionBuy, setIntentionBuy] = useState();
   const [transactionType, setTransactionType] = useState();
   const [input, setInput] = useState();
   const [publicKey, setPublicKey] = useState(false);
   
-  // const [kyc, setKyc] = useState(false);
 
   const session = supabase.auth.session();
 
@@ -100,7 +98,6 @@ export default function TransactionsPopup() {
 
       }
 
-      // setIntentionBuy(true);
   }
 
   const closeTab = () => {
@@ -124,7 +121,7 @@ export default function TransactionsPopup() {
              setInput(event.target.value)
            }
            />
-          <Button className={classes.yellowButton} onClick={(event) => handleSubmitTransaction(event)} disabled={!input} >Next</Button>
+        <Button className={classes.yellowButton} onClick={(event) => handleSubmitTransaction(event)} disabled={!input} >Next</Button>
           </FormControl>
         </form>
         </div>
