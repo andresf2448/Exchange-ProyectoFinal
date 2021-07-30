@@ -1,6 +1,6 @@
 import CreateAccount from "methodsWallet/createAccount";
 import Transaction from "components/transaction/transaction";
-import TransactionsHistory from "methodsWallet/historyTransactions";
+/* import TransactionsHistory from "methodsWallet/historyTransactions"; */
 import { Deposit } from "components/deposit/deposit";
 import BalanceAccount from "methodsWallet/balanceAccount";
 import { Withdraw } from "components/withdraw/withdraw";
@@ -64,7 +64,7 @@ export default function WalletContainer() {
             <Tab label="Get key" />
             <Tab label="Balance" />
             <Tab label="Transaction" />
-            <Tab label="Transaction history" />
+            {/* <Tab label="Transaction history" /> */}
             <Tab label="Change trust" />
             <Tab label="Deposit" className={classes.tabs1} />
             <Tab label="Withdraw" className={classes.tabs2} />
@@ -77,8 +77,8 @@ export default function WalletContainer() {
           {value === 0 && <CreateAccount assets={assets} />}
           {value === 1 && <BalanceAccount assets={assets} />}
           {value === 2 && <Transaction />}
-          {value === 3 && <TransactionsHistory publicKey={publicKey} />}
-          {value === 4 && (
+          {/* {value === 3 && <TransactionsHistory publicKey={publicKey} />} */}
+          {value === 3 && (
             <ChangeTrust
               publicKey={publicKey}
               secretKey={secretKey}
@@ -86,8 +86,8 @@ export default function WalletContainer() {
               account={account}
             />
           )}
-          {value === 5 && <Deposit />}
-          {value === 6 && <Withdraw />}
+          {value === 4 && <Deposit />}
+          {value === 5 && <Withdraw />}
         </Card>
       </Grid>
     </Grid>
