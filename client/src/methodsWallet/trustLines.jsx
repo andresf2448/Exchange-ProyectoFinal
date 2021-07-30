@@ -19,6 +19,7 @@ import { useState } from "react";
 import StellarSdk from "stellar-sdk";
 import useStyles from "styles";
 import HashLoader from "react-spinners/HashLoader";
+import Swal from "sweetalert2";
 
 export default function ChangeTrust({ publicKey, secretKey, assets, account }) {
   const [limitAmount, setLimitAmount] = useState();
@@ -53,9 +54,28 @@ export default function ChangeTrust({ publicKey, secretKey, assets, account }) {
 
       await server.submitTransaction(transaction).then(() => {
         setWaiting(() => false);
+        setAsset()
+        setLimitAmount()
+        Swal.fire({
+          title: "Succes!",
+          text: "succes",
+          icon: "success",
+            confirmButtonText: "Cool",
+            background: "#1f1f1f",
+            confirmButtonColor: "rgb(158, 158, 158)",
+        });
+
       });
     } catch (err) {
-      console.log(err);
+        setAsset()
+        setLimitAmount()
+      Swal.fire({
+        text: "Oh no! Something went wrong.",
+        icon: "error",
+        confirmButtonText: "Okay!",
+        background: "#1f1f1f",
+        confirmButtonColor: "rgb(158, 158, 158)",
+      });
     }
   }
 
@@ -75,6 +95,7 @@ export default function ChangeTrust({ publicKey, secretKey, assets, account }) {
     trustLine(publicKey, secretKey, asset, limitAmount.toString());
   }
 
+  
   return (
     <div>
       <div>
@@ -86,6 +107,18 @@ export default function ChangeTrust({ publicKey, secretKey, assets, account }) {
             direction="column"
           >
             <Typography variant="h4">Change Trust Assets</Typography>
+            {waiting ? 
+            <div>
+              <br/>
+              <br/>
+              <br/>
+            <HashLoader color={"#ffd523"} size={40} /> 
+              <br/>
+              <br/>
+              <br/>
+            </div>
+            :
+            <> 
             <Grid item xs={12}>
               <form onSubmit={(e) => handleSubmit(e)}>
                 <FormControl>
@@ -98,7 +131,7 @@ export default function ChangeTrust({ publicKey, secretKey, assets, account }) {
                     onChange={(event) => selectAsset(event)}
                     style={{ paddingBottom: 10 }}
                   >
-                    {/* <option>Select an Asset</option> */}
+                   
                     {assets &&
                       assets.map((element) => {
                         if (element.asset_code === "XLM") {
@@ -135,7 +168,8 @@ export default function ChangeTrust({ publicKey, secretKey, assets, account }) {
               </form>
             </Grid>
             <br />
-            {waiting ? <HashLoader color={"#ffd523"} size={20} /> : null}
+            </>
+             }
             <Grid item xs={12}>
               <TableContainer style={{maxHeight:'50vh'}}>
                 <Table stickyHeader className={classes.adminTable}>
@@ -167,57 +201,6 @@ export default function ChangeTrust({ publicKey, secretKey, assets, account }) {
                   </TableBody>
                 </Table>
               </TableContainer>
-
-
-
-              {/* <div align="center" key={asset.asset_code}> */}
-              {/* <Divider className={classes.divider} /> */}
-              {/* <br/> */}
-              {/* {asset.asset_type !== "native" ? ( */}
-              {/* <div style={{
-                        disply: "flex",
-                        justifyContent: "center",
-                      }}>
-                        <div>
-                          <div 
-                          className='conteiner'
-                            style={{
-                              'display': 'flex',
-                              'justifyContent': 'space-evenly',
-                              'flexDirection':'colum'
-                            }}
-                          >
-                            <div >
-                              <Typography variant="h5">Asset</Typography>
-                              <Typography variant="h6">
-                                {" "}
-                                {asset.asset_code}
-                              </Typography>
-                            </div>
-                            <div style={{
-                              disply: "flex"}}>
-                              <Typography variant="h5">Limit</Typography>
-                              <Typography variant="h6">
-                                {parseFloat(asset.limit).toFixed(2)}{" "}
-                              </Typography>
-                            </div>
-                          </div>
-                        </div>
-                        <div>
-                          <br />
-                          <Typography variant="h5">Asset issuer</Typography>
-                          <Typography variant="h6">
-                            {" "}
-                            {asset.asset_issuer}{" "}
-                          </Typography>
-                        </div>
-                      </div>
-                    ) : null}
-
-                    <br />
-                    <br />
-                  </div> */}
-
             </Grid>
           </Grid>
         </Container>
@@ -225,34 +208,3 @@ export default function ChangeTrust({ publicKey, secretKey, assets, account }) {
     </div>
   );
 }
-
-
-// <div>
-//               <TableContainer className={classes.adminTableContainer} style={{marginBottom:'3vh', marginTop:'3vh'}}>
-//                 <Table stickyHeader className={classes.adminTable}>
-//                   <TableHead>
-//                     <TableRow>
-//                       <TableCell align='center'>Asset</TableCell>
-//                       <TableCell>Balance</TableCell>
-//                       <TableCell>Mount of selling offers</TableCell>
-//                       <TableCell>Mount of buying offers</TableCell>
-//                     </TableRow>
-//                   </TableHead>
-//                   <TableBody>
-//                     {account?.balances?.map(({ balance, asset_code, selling_liabilities, buying_liabilities }, index) => {
-//                       return (
-//                         <TableRow hover={{backgroundColor:'black'}}>
-//                           <TableCell align='center'>{!asset_code ? "XLM" : asset_code}</TableCell>
-//                           <TableCell align='center'>{parseFloat(balance).toFixed(2)}</TableCell>
-//                           <TableCell align='center'>{parseFloat(selling_liabilities).toFixed(2)}</TableCell>
-//                           <TableCell align='center'>{parseFloat(buying_liabilities).toFixed(2)}</TableCell>
-//                         </TableRow>
-
-//                       )
-//                     })}
-//                   </TableBody>
-
-
-//                 </Table>
-
-//               </TableContainer>
