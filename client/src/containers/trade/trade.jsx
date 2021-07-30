@@ -48,6 +48,7 @@ function Trade() {
       .offers()
       .forAccount(publicKey)
       .order("desc")
+      .limit(7)
       .call()
       .then(function (offers) {
         setOffers(offers);
