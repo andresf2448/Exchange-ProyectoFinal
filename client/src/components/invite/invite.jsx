@@ -15,7 +15,7 @@ export const InviteUser = () => {
     e.preventDefault();
     let inviteEmail = Email.current.value;
     const session = await supabase.auth.session();
-    axios.post("http://localhost:3001/invite", {
+    axios.post("https://rocketxchangeapi.herokuapp.com/invite", {
       sendEmail: session.user.email,
       inviteEmail,
     });

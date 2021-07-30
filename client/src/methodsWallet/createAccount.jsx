@@ -47,7 +47,7 @@ export default function CreateAccount() {
   const createdAccounts = async (event) => {
     event.preventDefault();
     setSpinner(true);
-    const response = await axios.get("http://localhost:3001/createWallet");
+    const response = await axios.get("https://rocketxchangeapi.herokuapp.com/createWallet");
     
     const { publicKey, secretKey } = response.data;
     const { user } = session;
