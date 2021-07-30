@@ -86,7 +86,7 @@ const Landing = () => {
               duration={500}
               className="navItems"
             >
-              About us
+              About
             </Link>
           </Typography>
         </Grid>
@@ -112,6 +112,7 @@ const Landing = () => {
             variant="contained"
             justifyContent="left"
             onClick={handleRegister}
+            style={{width: '45%'}}
           >
             REGISTER
           </Button>
@@ -127,7 +128,7 @@ const Landing = () => {
             variant="contained"
             justifyContent="left"
             onClick={handleLogin}
-            style={{ color: "#000", backgroundColor: "#ffd523" }}
+            style={{ width: '45%',color: "#000", backgroundColor: "#ffd523" }}
           >
             LOGIN
           </Button>
@@ -148,11 +149,10 @@ const Landing = () => {
 
       <div className="presentation">
         <Grid container className="titleContainer">
-          <Typography item xs={8} variant="h2" align="left">
-            {" "}
+          <Typography item xs={8} variant="h3">
             Make your money work with cryptocurrencies
           </Typography>
-          <Box item xs={4} fontSize={22} fontStyle="oblique">
+          <Box item xs={4} fontSize={22} fontStyle="oblique" className="titleContainer">
             Bet on the future of finance and save without restrictions
           </Box>
         </Grid>
@@ -163,7 +163,7 @@ const Landing = () => {
             spacing={6}
             alignItems="center"
           >
-            <Typography item xs={4} variant="h5">
+            <Typography item xs={4} variant="h5" align="right">
               Trades here are peer-to-peer! On StellarX you trade directly with
               other traders. There’s no one in the middle. You always have sole
               control of your assets.
@@ -194,9 +194,9 @@ const Landing = () => {
             <Button
               onClick={handleRegister}
               style={{
-                width: "50%",
+                width: "65%",
                 backgroundColor: "#ffd523",
-                color: "#272727b3",
+                color: "#131313cc",
                 letterSpacing: "4px",
               }}
               variant="contained"
@@ -281,7 +281,9 @@ const Landing = () => {
         duration={500}
         className="toTopButton"
       >
-        <Button>up!</Button>
+        <Button style={{color: '#131313cc'}}>
+            up!
+        </Button>
       </Link>
     </Container>
   );
