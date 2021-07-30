@@ -6,8 +6,6 @@ import { supabase } from "../supabase/supabase";
 import CreateAccount from "./createAccount";
 import HashLoader from "react-spinners/HashLoader";
 
-
-
 export default function BalanceAccount() {
   const [account, setAccount] = useState(false);
   const [user, setUser] = useState(false);
@@ -65,13 +63,13 @@ export default function BalanceAccount() {
                   index
                 ) => (
                     <div key={index} className={classes.balanceAccount}>
-                      <div>Asset: {!asset_code ? "XLM" : asset_code} </div>
-                      <br/>
                       <Divider  className={classes.divider}/>
                       <br/>
+                      <div>Asset: {!asset_code ? "XLM" : asset_code} </div>
                       <div>Balance: {balance} </div>
                       <div> Monto en ofertas de venta: {selling_liabilities}</div>
                       <div> Monto en ofertas de compra: {buying_liabilities}</div>
+                      <br/>
                     </div>
                 )
               )}

@@ -34,7 +34,7 @@ const takeEmails = async () => {
   return emails
 }
 
-export async function validate(input) {
+export async function validate(input, array) {
   let error = {
     isError: false,
     amount: '',
@@ -50,7 +50,6 @@ export async function validate(input) {
     error.email = "Email is required"
     error.isError = true
   } else if (!emails.find(mail => mail.email === input.email)) {
-    
     error.email = "Email is invalid"
     error.isError = true
   }
@@ -70,5 +69,14 @@ export async function validate(input) {
     error.amount = `Amount must be at least 10 ${input.currency}`
     error.isError = true
   } 
+  
+  let currency = array?.find(element =>  element.asset_type === 'native' ? element.asset_type : element.asset_code === input.currency)
+  
+  if(parseFloat(currency?.balance) < input.amount) {
+        error.amount = 'Amount exced what you have'
+        error.isError = true 
+  } 
+
+
   return error
 }
