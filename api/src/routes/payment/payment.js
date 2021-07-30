@@ -78,9 +78,9 @@ router.post('/', async (req, res) => {
 
     if( crypto ) {
         amount_out = await calculatePrice(amount_out, currency, crypto)
-        transaction = await main(sourcePublicKey, sourceKeypair, receiverPublicKey, amount_out, crypto)
+        transaction = await main(sourcePublicKey, sourceKeypair, receiverPublicKey, amount_out.toString(), crypto)
     } else {
-        transaction = await main(sourcePublicKey, sourceKeypair, receiverPublicKey, amount_out, currency)
+        transaction = await main(sourcePublicKey, sourceKeypair, receiverPublicKey, amount_out.toString(), currency)
 
     }
       
