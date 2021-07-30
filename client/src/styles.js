@@ -199,8 +199,8 @@ const useStyles = makeStyles(theme => ({
   },
   landingRegister: {
     display: "flex",
-    alignItems: "center",
-    justifyContent: "space-evenly"
+    padding: 60,
+    justifyContent: "space-around",
   },
   landingCard: {
     height: 145,
