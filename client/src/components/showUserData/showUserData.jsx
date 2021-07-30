@@ -9,7 +9,7 @@ export const ShowUserData = () => {
   return (
     <Grid container style={{ display: "flex", paddingLeft: "1%" }}>
       <Grid item xs={10}>
-        <Typography>Login as: {email}</Typography>
+        <Typography>Logged as: {email}</Typography>
       </Grid>
     </Grid>
   );
