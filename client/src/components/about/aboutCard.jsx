@@ -51,7 +51,7 @@ export default function AboutCard({ name, img, contact }) {
       {/*-------- */}
       <Card className="back" style={{ width: "200px", height: "260px" }}>
         <CardContent>
-          <a href={contact}>
+          <a target='_blank' href={contact}>
             <CardMedia
               className="githubLink"
               style={{ borderRadius: "15px" }}
