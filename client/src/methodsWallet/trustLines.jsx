@@ -8,7 +8,13 @@ import {
   MenuItem,
   Button,
   Grid,
-  Divider
+  Divider,
+  Table,
+  TableContainer,
+  TableHead,
+  TableBody,
+  TableCell,
+  TableRow
 } from "@material-ui/core";
 import { useState } from "react";
 import StellarSdk from "stellar-sdk";
@@ -21,7 +27,7 @@ export default function ChangeTrust({ publicKey, secretKey, assets, account }) {
   const [waiting, setWaiting] = useState(false);
   const server = new StellarSdk.Server("https://horizon-testnet.stellar.org");
   const classes = useStyles();
-  
+
   async function trustLine() {
     setWaiting(() => true);
     const sourceKeypair = StellarSdk.Keypair.fromSecret(secretKey);
@@ -73,7 +79,7 @@ export default function ChangeTrust({ publicKey, secretKey, assets, account }) {
   return (
     <div>
       <div>
-        <Container>
+        <Container style={{maxHeight:'78vh'}}>
           <Grid
             container
             justifyContent="center"
@@ -118,27 +124,58 @@ export default function ChangeTrust({ publicKey, secretKey, assets, account }) {
                     style={{ paddingBottom: 10 }}
                   />
                   <div align='center'>
-                  <Button
-                    type="submit"
-                    className={classes.yellowButton}
-                    style={{ paddingBottom: 10 }}
-                  >
-                    Finish
-                  </Button>
+                    <Button
+                      type="submit"
+                      className={classes.yellowButton}
+                      style={{ paddingBottom: 10 }}
+                    >
+                      Finish
+                    </Button>
                   </div>
                 </FormControl>
               </form>
             </Grid>
-            <br/>
+            <br />
             {waiting ? <HashLoader color={"#ffd523"} size={20} /> : null}
             <Grid item xs={12}>
-              {account &&
-                account.balances.map((asset) => (
-                  <div align="center" key={asset.asset_code}>
-                    <Divider className={classes.divider} />
-                    <br/>
-                    {asset.asset_type !== "native" ? (
-                      <div style={{
+              <TableContainer style={{maxHeight:'50vh'}}>
+                <Table stickyHeader className={classes.adminTable}>
+                  <TableHead>
+                    <TableRow>
+                      <TableCell align='center'>Asset</TableCell>
+                      <TableCell align='center'>Limit</TableCell>
+                      <TableCell align='center'>Asset issuer</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {account &&
+                      account.balances.map((asset) => {
+
+
+                        return (<>
+
+                          {asset.asset_type !== 'native' ?
+
+                            <TableRow hover={{backgroundColor:'black'}}>
+                              <TableCell align='center'>{asset.asset_code}</TableCell>
+                              <TableCell align='center'>{parseFloat(asset.limit).toFixed(2)}</TableCell>
+                              <TableCell align='center'>{asset.asset_issuer}</TableCell>
+                            </TableRow>
+                            : null}
+                        </>)
+
+                      })}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+
+
+
+              {/* <div align="center" key={asset.asset_code}> */}
+              {/* <Divider className={classes.divider} /> */}
+              {/* <br/> */}
+              {/* {asset.asset_type !== "native" ? ( */}
+              {/* <div style={{
                         disply: "flex",
                         justifyContent: "center",
                       }}>
@@ -180,8 +217,8 @@ export default function ChangeTrust({ publicKey, secretKey, assets, account }) {
 
                     <br />
                     <br />
-                  </div>
-                ))}
+                  </div> */}
+
             </Grid>
           </Grid>
         </Container>
@@ -189,3 +226,34 @@ export default function ChangeTrust({ publicKey, secretKey, assets, account }) {
     </div>
   );
 }
+
+
+// <div>
+//               <TableContainer className={classes.adminTableContainer} style={{marginBottom:'3vh', marginTop:'3vh'}}>
+//                 <Table stickyHeader className={classes.adminTable}>
+//                   <TableHead>
+//                     <TableRow>
+//                       <TableCell align='center'>Asset</TableCell>
+//                       <TableCell>Balance</TableCell>
+//                       <TableCell>Mount of selling offers</TableCell>
+//                       <TableCell>Mount of buying offers</TableCell>
+//                     </TableRow>
+//                   </TableHead>
+//                   <TableBody>
+//                     {account?.balances?.map(({ balance, asset_code, selling_liabilities, buying_liabilities }, index) => {
+//                       return (
+//                         <TableRow hover={{backgroundColor:'black'}}>
+//                           <TableCell align='center'>{!asset_code ? "XLM" : asset_code}</TableCell>
+//                           <TableCell align='center'>{parseFloat(balance).toFixed(2)}</TableCell>
+//                           <TableCell align='center'>{parseFloat(selling_liabilities).toFixed(2)}</TableCell>
+//                           <TableCell align='center'>{parseFloat(buying_liabilities).toFixed(2)}</TableCell>
+//                         </TableRow>
+
+//                       )
+//                     })}
+//                   </TableBody>
+
+
+//                 </Table>
+
+//               </TableContainer>

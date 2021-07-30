@@ -75,27 +75,7 @@ export default function BalanceAccount() {
                 </Table>
 
               </TableContainer>
-              {/* {account?.balances?.map(
-                (
-                  {
-                    balance,
-                    asset_code,
-                    selling_liabilities,
-                    buying_liabilities,
-                  },
-                  index
-                ) => (
-                  <div key={index} className={classes.balanceAccount}>
-                    <Divider className={classes.divider} /> <br />
-                    <div>Asset: {!asset_code ? "XLM" : asset_code} </div>
-                    <br />
-                    <br />
-                    <div>Balance: {parseFloat(balance).toFixed(2)} </div>
-                    <div> Mount of selling offers: {parseFloat(selling_liabilities).toFixed(2)}</div>
-                    <div> Mount of buying offers: {parseFloat(buying_liabilities).toFixed(2)}</div> <br />
-                  </div>
-                )
-              )} */}
+              
             </div>
           ) : (
             <HashLoader color={"#ffd523"} size={30} />
