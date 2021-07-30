@@ -93,7 +93,7 @@ export const CryptoCalculator = () => {
   return (
     <Card
       className={classes.cardSaleOffer}
-      style={{ width: "15vw", height: "25vh", paddingTop:'2vh'}}
+      style={{ width: "15vw", height: "35vh", paddingTop:'2vh'}}
     >
       <Grid container>
         <Grid item xs={12} style={{marginBottom:'1vh'}}>
@@ -105,11 +105,11 @@ export const CryptoCalculator = () => {
           >
             Currency Converter
           </Typography>
-          <hr color='#ffd523'/>
+          <hr style={{color:'#ffd523', marginBottom:'3vh'}}/>
         </Grid>
 
         <Grid item xs={1}></Grid>
-        <Grid item xs={5} style={{ marginBottom: "2vh" }}>
+        <Grid item xs={5} style={{ marginBottom: "5vh" }}>
           <Select
             displayEmpty
             value={firstCurrency}
@@ -141,7 +141,7 @@ export const CryptoCalculator = () => {
         <Grid item xs={1}></Grid>
 
         <Grid item xs={1}></Grid>
-        <Grid item xs={5} style={{ marginBottom: "2vh" }}>
+        <Grid item xs={5} style={{ marginBottom: "4vh" }}>
           <Select
             displayEmpty
             value={secondCurrency}
