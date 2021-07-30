@@ -23,7 +23,6 @@ import { useState } from "react";
 import Register from "components/register/register";
 import Login from "components/login/login";
 import logoRXC from "./rocketXchange-transparent.png";
-//import { BorderColor } from "@material-ui/icons";
 
 const Landing = () => {
   const classes = useStyles();
@@ -109,12 +108,9 @@ const Landing = () => {
         </Grid>
         <Grid container xs={3} justifyContent="space-around">
           <Button
-            style={{
-              backgroundColor: "#000",
-              color: "#ffd523",
-              borderColor: "#ffd523",
-              border: "1px solid ",
-            }}
+            color="secundary"
+            variant="contained"
+            justifyContent="left"
             onClick={handleRegister}
           >
             REGISTER
@@ -129,6 +125,7 @@ const Landing = () => {
           <Button
             color="primary"
             variant="contained"
+            justifyContent="left"
             onClick={handleLogin}
             style={{ color: "#000", backgroundColor: "#ffd523" }}
           >
@@ -151,11 +148,11 @@ const Landing = () => {
 
       <div className="presentation">
         <Grid container className="titleContainer">
-          <Typography xs={8} variant="h2">
+          <Typography item xs={8} variant="h2" align="left">
             {" "}
             Make your money work with cryptocurrencies
           </Typography>
-          <Box xs={4} fontSize={22} fontStyle="oblique">
+          <Box item xs={4} fontSize={22} fontStyle="oblique">
             Bet on the future of finance and save without restrictions
           </Box>
         </Grid>
@@ -166,7 +163,7 @@ const Landing = () => {
             spacing={6}
             alignItems="center"
           >
-            <Typography xs={4} variant="h5">
+            <Typography item xs={4} variant="h5">
               Trades here are peer-to-peer! On StellarX you trade directly with
               other traders. There’s no one in the middle. You always have sole
               control of your assets.
@@ -180,6 +177,7 @@ const Landing = () => {
           <Grid item xs={12}>
             <Typography
               variant="h4"
+              align="rigth"
               style={{ color: "#000", fontWeight: "bold" }}
             >
               Don't let time go by, start trading now!
@@ -216,11 +214,11 @@ const Landing = () => {
           className={classes.landingContainers}
           style={{ padding: "5%", justifyContent: "center" }}
         >
-          <Typography xs={5} variant="h4" className={classes.landingCard}>
+          <Typography item xs={5} variant="h4" className={classes.landingCard}>
             Get in real time the waves of the cryptos with the highest volume to
             make better investments!
           </Typography>
-          <Grid item xs={7}>
+          <Grid item xs={7} justifyContent="center">
             <img
               src={pic}
               alt="cryptographicsRealtimePic"
@@ -243,22 +241,22 @@ const Landing = () => {
           justifyContent="space-evenly"
           className="aboutGrid"
         >
-          <Card xs={3} className={classes.landingCards}>
+          <Card item xs={3} className={classes.landingCards}>
             <MonetizationOnIcon fontSize="large" />
             <Typography>
               The better way to trade directly with other traders. There’s no
               one in the middle!
             </Typography>
           </Card>
-          <Card xs={3} className={classes.landingCards}>
+          <Card item xs={3} className={classes.landingCards}>
             <SecurityIcon fontSize="large" />
             <Typography> Acquire your cryptocurrencies safely</Typography>
           </Card>
-          <Card xs={3} className={classes.landingCards}>
+          <Card item xs={3} className={classes.landingCards}>
             <img className="cryptoIcons" src={stellarIcon} alt="no img" />
             <Typography>Deposit and withdraw, fiat and crypto</Typography>
           </Card>
-          <Card xs={3} className={classes.landingCards}>
+          <Card item xs={3} className={classes.landingCards}>
             <img className="cryptoIcons" src={balance} alt="no img" />
             <Typography>Use our platform to see your balances</Typography>
           </Card>
