@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { ResponsiveContainer, CartesianGrid, Tooltip, AreaChart, Area } from 'recharts';
-import CustomTooltip from 'components/customTooltip/customTooltip';
+// import CustomTooltip from 'components/customTooltip/customTooltip';
 
 const CryptoChart = ({crypto}) => {
   const [price, setPrice] = useState([]);
@@ -41,7 +41,7 @@ const CryptoChart = ({crypto}) => {
           </linearGradient>
         </defs>
         <Area dataKey="precio" stroke="#2451b7" fill="url(#color)"/>
-        <Tooltip content={<CustomTooltip />} />
+        {/* <Tooltip content={<CustomTooltip />} /> */}
         <CartesianGrid opacity={0.1} vertical={false}/>
       </AreaChart>
     </ResponsiveContainer>

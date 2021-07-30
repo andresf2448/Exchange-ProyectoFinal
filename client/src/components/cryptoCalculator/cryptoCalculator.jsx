@@ -93,7 +93,7 @@ export const CryptoCalculator = () => {
   return (
     <Card
       className={classes.cardSaleOffer}
-      style={{ width: "15vw", height: "20vh" }}
+      style={{ width: "15vw", height: "22vh", paddingTop:'4vh'}}
     >
       <Grid container>
         <Grid item xs={12}>

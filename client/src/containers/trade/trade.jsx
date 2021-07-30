@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import { Grid, Card } from "@material-ui/core";
+import { Grid, Card, Typography, CardContent } from "@material-ui/core";
 import { CryptoCalculator } from "components/cryptoCalculator/cryptoCalculator";
 import ManageBuyOffer from "methodsWallet/manageBuyOffer";
 import Orderbook from "methodsWallet/orderbook";
@@ -113,7 +113,7 @@ function Trade() {
           </Grid>
         </Grid> */}
         {/* ////////*/}
-        <Grid item xs={12} sm={3} style={{ marginTop: "0.5vh" }}>
+        <Grid item xs={12} sm={3} style={{ marginTop: "2vh" }}>
           <Orderbook assets={assets} />
         </Grid>
         <Grid container item xs={12} sm={6}>
@@ -146,19 +146,9 @@ function Trade() {
         </Grid>
         <Grid container item sm={3}>
           <Grid item xs={12} style={{ marginTop: "8vh" }}>
-            <Card
-              style={{
-                textAlign: "center",
-                marginLeft: "2vw",
-                marginRight: "2vw",
-                height: "40vh",
-              }}
-            >
-              Active Sale Offers List
               <OffersByAccount offers={offers} />
-            </Card>
           </Grid>
-          <Grid item xs={12} style={{ marginTop: "4vh", marginLeft: "2vw" }}>
+          <Grid item xs={12} style={{ marginTop:"2vh", marginLeft: "2vw" }}>
             <CryptoCalculator />
           </Grid>
         </Grid>
