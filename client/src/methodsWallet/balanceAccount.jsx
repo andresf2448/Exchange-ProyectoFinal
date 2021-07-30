@@ -48,7 +48,6 @@ export default function BalanceAccount() {
   }, []);
 
   
-
   return (
     <div>
       {user ? (
