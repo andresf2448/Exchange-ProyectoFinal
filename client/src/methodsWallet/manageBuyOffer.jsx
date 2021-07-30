@@ -45,18 +45,20 @@ export default function ManageBuyOffer({
     bid = new StellarSdk.Asset(asset_code, asset_issuer);
   } else bid = StellarSdk.Asset.native();
 
-  useEffect(async () => {
-    await server
+  useEffect(() => {
+    server
       .loadAccount("GDWIGFKMGORBKFW7IZOKBZ4OBXXKITSOLJFTBRKFJOBKLQCGCZJ54IFE")
       .then((res) => setAccount(res))
       .catch((err) => console.log(err));
+      // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [account]);
 
   async function makeBuyOffer() {
     const verifyBalance = account?.balances?.filter(
       (balance) => balance.asset_code === ask.asset_code
     );
-
+    console.log("verifyAccount", verifyBalance)
+      console.log(price, publicKey, amount, secretKey, account);
     if (account) {
       if (verifyBalance.length === 0) {
         Swal.fire({
@@ -81,14 +83,15 @@ export default function ManageBuyOffer({
 
     try {
       const sourceKeypair = StellarSdk.Keypair.fromSecret(secretKey);
-
+      console.log("entramos carajo")
       const [
         {
           max_fee: { mode: fee },
         },
-      ] = await Promise.all([server.feeStats()]);
-
-      const transaction = new StellarSdk.TransactionBuilder(account, {
+        accounts
+      ] = await Promise.all([server.feeStats(), server.loadAccount(publicKey)]);
+      console.log("este es el account", account)
+      const transaction = new StellarSdk.TransactionBuilder(accounts, {
         fee,
         networkPassphrase: StellarSdk.Networks.TESTNET,
       })
@@ -112,6 +115,7 @@ export default function ManageBuyOffer({
 
       transaction.sign(sourceKeypair);
       const asd = await server.submitTransaction(transaction);
+      console.log(asd)
     } catch (e) {
       Swal.fire({
         text: "Oh no! Something went wrong.",
