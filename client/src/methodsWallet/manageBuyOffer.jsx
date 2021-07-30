@@ -76,7 +76,7 @@ export default function ManageBuyOffer({
             price: price,
           })
         )
-        .setTimeout(10000000)
+        .setTimeout(0)
         .build();
 
       transaction.sign(sourceKeypair);

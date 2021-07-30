@@ -41,7 +41,7 @@ const CryptoChart = ({crypto}) => {
           </linearGradient>
         </defs>
         <Area dataKey="precio" stroke="#2451b7" fill="url(#color)"/>
-        <Tooltip content={<CustomTooltip />} />
+        {/* <Tooltip content={<CustomTooltip />} /> */}
         <CartesianGrid opacity={0.1} vertical={false}/>
       </AreaChart>
     </ResponsiveContainer>

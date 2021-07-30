@@ -1,5 +1,4 @@
 const router = require("express").Router();
-require("dotenv").config();
 const multer = require("multer");
 const ocrad = require("async-ocrad");
 
