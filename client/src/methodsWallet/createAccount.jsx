@@ -36,7 +36,6 @@ export default function CreateAccount() {
       setSecretKeyUser(secret.data[0].secret_key);
       setPublicKeyUser(data[0].public_key);
       setHasWallet(true);
- 
     }
   };
 
