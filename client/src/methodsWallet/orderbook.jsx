@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
 import StellarSdk from "stellar-sdk";
 import Offer from "./offer.jsx";
-import { Grid, Select, MenuItem } from "@material-ui/core";
+import { Grid, Select, MenuItem, Card } from "@material-ui/core";
+import HashLoader from "react-spinners/HashLoader";
 
 export default function Orderbook({ assets }) {
+  // const [ spinner, setSpinner] = useState(true)
   const [assetBuy, setAssetBuy] = useState(
     new StellarSdk.Asset(
       "USDC",
@@ -29,7 +31,6 @@ export default function Orderbook({ assets }) {
     return setAssetBuy(asset);
   };
   const selectAssetSell = (event) => {
-
     if (event.target.value === "XLM") {
       return setAssetSell(new StellarSdk.Asset.native());
     }
@@ -59,17 +60,19 @@ export default function Orderbook({ assets }) {
 
   return (
     <Grid container>
-      <Grid container style={{ marginRight: "2vw", marginLeft:'1.7vw' }}>
+      <Grid container style={{ marginRight: "2vw", marginLeft: "1.7vw" }}>
         <Grid item xs={6}>
           <Select
-          variant='outlined'
+            variant="outlined"
             defaultValue=""
             value={assetBuy.code}
             name="asset"
             onChange={(event) => selectAssetBuy(event)}
-            style={{height:'5vh', width:'10.5vw'}}
+            style={{ height: "5vh", width: "10.5vw" }}
           >
-            <MenuItem disabled value={1}>Buy Asset</MenuItem>
+            <MenuItem disabled value={1}>
+              Buy Asset
+            </MenuItem>
             {assets &&
               assets.map((element) => {
                 return (
@@ -82,13 +85,12 @@ export default function Orderbook({ assets }) {
         </Grid>
         <Grid item xs={6}>
           <Select
-            variant='outlined'
+            variant="outlined"
             defaultValue=""
             value={assetSell.code}
             name="asset"
             onChange={(event) => selectAssetSell(event)}
-            style={{height:'5vh', width:'10.5vw'}}
-
+            style={{ height: "5vh", width: "10.5vw" }}
           >
             <MenuItem value={1}>Sell Asset</MenuItem>
             {assets &&
@@ -102,7 +104,18 @@ export default function Orderbook({ assets }) {
           </Select>
         </Grid>
       </Grid>
-      {response && <Offer asks={response.asks} bids={response.bids} />}
+      {!response ? (
+        <>
+          <Card style={{width: '21vw', height: '45vh', marginLeft:'3vh', paddingTop:'35vh'}}>
+            <HashLoader
+              color={"#ffd523"}
+              css={{ marginLeft: "10vw", marginTop: "40vh" }}
+            />
+          </Card>
+        </>
+      ) : (
+        <Offer asks={response.asks} bids={response.bids} />
+      )}
     </Grid>
   );
 }
