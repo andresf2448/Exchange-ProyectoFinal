@@ -1,7 +1,18 @@
-import { Grid, Typography, Select, MenuItem, Button } from "@material-ui/core";
-import { useState } from "react";
+import {
+  Grid,
+  Typography,
+  Select,
+  MenuItem,
+  Button,
+  TextField,
+  Card,
+} from "@material-ui/core";
+import { useState, useEffect } from "react";
 import StellarSdk from "stellar-sdk";
 import useStyles from "styles";
+import Swal from "sweetalert2";
+
+import { supabase } from "supabase/supabase";
 
 export default function ManageBuyOffer({
   secretKey,
@@ -13,17 +24,46 @@ export default function ManageBuyOffer({
   const [assetBid, setAssetBid] = useState();
   const [amount, setAmount] = useState();
   const [price, setPrice] = useState();
-  // const [firstSelect, setFirstSelect] = useState(1)
-  // const [secondSelect, setSecondSelect] = useState(1)
-
+  const [account, setAccount] = useState();
   const server = new StellarSdk.Server("https://horizon-testnet.stellar.org");
+  const [hasProfileValidate, setHasProfileValidate] = useState(true);
 
   const classes = useStyles();
+
+  const session = supabase.auth.session();
 
   const updateTransactions = async () => {
     await makeBuyOffer();
     return setUpdateOffers(true);
   };
+
+  let hasProfile = async () => {
+    await supabase;
+
+    let { data } = await supabase
+      .from("RegisteredUsers")
+      .select(`hasProfileUserAnchor`)
+      .eq("id_user", session.user.id);
+
+    if (!data[0].hasProfileUserAnchor) {
+      Swal.fire({
+        text: "PLEASE COMPLET YOUR PROFILE IN SETTINGS",
+        icon: "error",
+        confirmButtonText: "Okay!",
+        background: "#1f1f1f",
+        confirmButtonColor: "rgb(158, 158, 158)",
+      });
+
+      setHasProfileValidate(false);
+    }
+
+    console.log(data);
+  };
+
+  useEffect(() => {
+    hasProfile();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   let ask = undefined;
   if (assetAsk && ask === undefined && assetAsk.asset_code !== "XLM") {
@@ -38,18 +78,65 @@ export default function ManageBuyOffer({
     bid = new StellarSdk.Asset(asset_code, asset_issuer);
   } else bid = StellarSdk.Asset.native();
 
+  useEffect(() => {
+    server
+      .loadAccount("GDWIGFKMGORBKFW7IZOKBZ4OBXXKITSOLJFTBRKFJOBKLQCGCZJ54IFE")
+      .then((res) => setAccount(res))
+      .catch((err) => console.log(err));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [account]);
+
   async function makeBuyOffer() {
+    const verifyBalance = account?.balances?.filter(
+      (balance) => balance.asset_code === ask.asset_code
+    );
+
+    setTimeout(() => {
+      if (!verifyBalance || !account) {
+        Swal.fire({
+          text: "Please, try again!",
+          icon: "error",
+          confirmButtonText: "Okay!",
+          background: "#1f1f1f",
+          confirmButtonColor: "rgb(158, 158, 158)",
+        });
+      }
+    }, 2000);
+    console.log("verifyAccount", verifyBalance);
+    console.log(price, publicKey, amount, secretKey, account);
+
+    if (account) {
+      if (verifyBalance.length === 0) {
+        Swal.fire({
+          text: "This asset is not available",
+          icon: "error",
+          confirmButtonText: "Okay!",
+          background: "#1f1f1f",
+          confirmButtonColor: "rgb(158, 158, 158)",
+        });
+      }
+      if (Number(verifyBalance[0].balance) < Number(amount)) {
+        Swal.fire({
+          text: "This account doesn't have enough founds for this offer",
+          icon: "error",
+          confirmButtonText: "Okay!",
+          background: "#1f1f1f",
+          confirmButtonColor: "rgb(158, 158, 158)",
+        });
+      }
+    }
+
     try {
       const sourceKeypair = StellarSdk.Keypair.fromSecret(secretKey);
-
+      console.log("entramos carajo");
       const [
         {
           max_fee: { mode: fee },
         },
-        account,
+        accounts,
       ] = await Promise.all([server.feeStats(), server.loadAccount(publicKey)]);
-
-      const transaction = new StellarSdk.TransactionBuilder(account, {
+      console.log("este es el account", account);
+      const transaction = new StellarSdk.TransactionBuilder(accounts, {
         fee,
         networkPassphrase: StellarSdk.Networks.TESTNET,
       })
@@ -68,14 +155,20 @@ export default function ManageBuyOffer({
             price: price,
           })
         )
-        .setTimeout(10000000)
+        .setTimeout(0)
         .build();
 
       transaction.sign(sourceKeypair);
-      await server.submitTransaction(transaction);
+      const asd = await server.submitTransaction(transaction);
+      console.log(asd);
     } catch (e) {
-      console.error("Oh no! Something went wrong.");
-      console.error(e);
+      Swal.fire({
+        text: "Oh no! Something went wrong.",
+        icon: "error",
+        confirmButtonText: "Okay!",
+        background: "#1f1f1f",
+        confirmButtonColor: "rgb(158, 158, 158)",
+      });
     }
   }
 
@@ -101,143 +194,104 @@ export default function ManageBuyOffer({
     event.preventDefault();
     updateTransactions();
   }
-  // function handleChange(event) {
-  //   selectAssetAsk(event);
-  //   setFirstSelect(event.target.value)
-  // }
-  // function handleChange2(event) {
-  //   selectAssetBid(event);
-  //   setSecondSelect(event.target.value);
-  // }
 
   return (
-    <Grid
-      container
-      style={{
-        backgroundColor: "#393939",
-        // marginLeft: "-19px",
-        paddingLeft: "20px",
-        marginTop: "-22px",
-      }}
-    >
+    <Card className={classes.cardSaleOffer}>
       <form onSubmit={(event) => handleSubmit(event)}>
-        <Grid container item>
+        <Grid container>
           <Grid item xs={12}>
-            <Typography>Create your sale offer:</Typography>
-          </Grid>
-          <Grid item style={{ display: "flex" }}>
-            <Grid item xs={12}>
-              <Select
-                value={assetAsk}
-                style={{
-                  marginTop: "2px",
-                  padding: "5px",
-                  borderRadius: "3px",
-                  backgroundColor: "white",
-                  color: "rgb(183, 189, 198)",
-                }}
-                onChange={(event) => selectAssetAsk(event)}
-              >
-                <MenuItem disabled value={1}>
-                  Buy asset
-                </MenuItem>
-                {assets &&
-                  assets.map((element) => {
-                    return (
-                      <MenuItem
-                        value={element.asset_code}
-                        key={element.asset_code}
-                      >
-                        {element.asset_code}
-                      </MenuItem>
-                    );
-                  })}
-              </Select>
-            </Grid>
-            <Grid item xs={12}>
-              <input
-                style={{
-                  padding: "12px",
-                  borderRadius: "6px",
-                  backgroundColor: "white",
-                  // color: "rgb(183, 189, 198)",
-                }}
-                value={amount}
-                type="text"
-                name="amount"
-                onChange={(event) => setAmount(event.target.value)}
-                placeholder="Amount to sell"
-              />
-            </Grid>
-          </Grid>
-          <Grid item style={{ display: "flex", marginTop: "5px" }}>
-            <Grid item xs={12}>
-              <Select
-                value={assetBid}
-                style={{
-                  marginTop: "1.5px",
-                  paddingRight: "8.5px",
-                  padding: "5px",
-                  borderRadius: "3px",
-                  backgroundColor: "white",
-                  color: "rgb(183, 189, 198)",
-                }}
-                onChange={(event) => selectAssetBid(event)}
-              >
-                <MenuItem disabled value={1}>
-                  Bid asset
-                </MenuItem>
-                {assets &&
-                  assets.map((element) => {
-                    return (
-                      <MenuItem
-                        value={element.asset_code}
-                        key={element.asset_code}
-                      >
-                        {element.asset_code}
-                      </MenuItem>
-                    );
-                  })}
-              </Select>
-            </Grid>
-            <Grid item xs={12}>
-              <input
-                style={{
-                  padding: "12px",
-                  borderRadius: "6px",
-                  backgroundColor: "white",
-                  color: "rgb(183, 189, 198)",
-                  paddingBottom: "22px",
-                  marginTop: "0px",
-                }}
-                value={price}
-                type="text"
-                name="price"
-                onChange={(event) => setPrice(event.target.value)}
-                placeholder="  Price per token"
-              />
-            </Grid>
-          </Grid>
-          <Grid
-            item
-            style={{ display: "flex", justifyContent: "flex-end" }}
-            xs={12}
-          >
-            <Button
-              type="submit"
-              className={classes.invitedYellowButton}
-              // style={{
-              //   color:'grey',
-              //   marginRight: "105px",
-              //   marginTop: "4px",
-              //   backgroundColor: "white",
-              // }}
+            <Typography
+              style={{
+                textAlign: "center",
+                marginBottom: "2vh",
+              }}
             >
-              Submit
-            </Button>
+              Create your sale offer:
+            </Typography>
+            <hr color="#ffd523" />
+          </Grid>
+          <Grid item xs={4}>
+            <Select
+              variant="standard"
+              value={assetAsk}
+              onChange={(event) => selectAssetAsk(event)}
+            >
+              <MenuItem disabled value={1}>
+                Buy asset
+              </MenuItem>
+              {assets &&
+                assets.map((element) => {
+                  return (
+                    <MenuItem
+                      value={element.asset_code}
+                      key={element.asset_code}
+                    >
+                      {element.asset_code}
+                    </MenuItem>
+                  );
+                })}
+            </Select>
+          </Grid>
+          <Grid item xs={8}>
+            <TextField
+              variant="standard"
+              value={amount}
+              type="text"
+              name="amount"
+              onChange={(event) => setAmount(event.target.value)}
+              placeholder="Amount to sell"
+            />
+          </Grid>
+          <Grid item xs={4}>
+            <Select
+              value={assetBid}
+              variant="standard"
+              onChange={(event) => selectAssetBid(event)}
+            >
+              <MenuItem disabled value={1}>
+                Bid asset
+              </MenuItem>
+              {assets &&
+                assets.map((element) => {
+                  return (
+                    <MenuItem
+                      value={element.asset_code}
+                      key={element.asset_code}
+                    >
+                      {element.asset_code}
+                    </MenuItem>
+                  );
+                })}
+            </Select>
+          </Grid>
+          <Grid item xs={8}>
+            <TextField
+              variant="standard"
+              value={price}
+              type="text"
+              name="price"
+              onChange={(event) => setPrice(event.target.value)}
+              placeholder="Price per token"
+            />
+          </Grid>
+          <Grid item xs={8}></Grid>
+          <Grid item xs={4}>
+            {hasProfileValidate ? (
+              <Button type="submit" className={classes.invitedYellowButton}>
+                Submit
+              </Button>
+            ) : (
+              <Button
+                type="submit"
+                className={classes.invitedYellowButton}
+                disabled
+              >
+                Submit
+              </Button>
+            )}
           </Grid>
         </Grid>
       </form>
-    </Grid>
+    </Card>
   );
 }

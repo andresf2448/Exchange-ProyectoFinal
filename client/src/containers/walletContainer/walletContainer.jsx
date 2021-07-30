@@ -53,16 +53,21 @@ export default function WalletContainer() {
 
   return (
     <Grid container>
-      <Grid item xs={2} alignItems="flex-start">
+      <Grid item xs={2}>
         <AppBar position="static" style={{ height: "87vh" }}>
-          <Tabs orientation="vertical" value={value} onChange={handleChange}>
+          <Tabs
+            orientation="vertical"
+            value={value}
+            onChange={handleChange}
+            variant="fullWidth"
+          >
             <Tab label="Get key" />
             <Tab label="Balance" />
             <Tab label="Transaction" />
             <Tab label="Transaction history" />
             <Tab label="Change trust" />
-            <Tab label="Deposit" />
-            <Tab label="Withdraw" />
+            <Tab label="Deposit" className={classes.tabs1} />
+            <Tab label="Withdraw" className={classes.tabs2} />
           </Tabs>
         </AppBar>
       </Grid>

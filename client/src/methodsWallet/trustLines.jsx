@@ -8,18 +8,22 @@ import {
   MenuItem,
   Button,
   Grid,
+  Divider
 } from "@material-ui/core";
 import { useState } from "react";
 import StellarSdk from "stellar-sdk";
 import useStyles from "styles";
+import HashLoader from "react-spinners/HashLoader";
 
 export default function ChangeTrust({ publicKey, secretKey, assets, account }) {
   const [limitAmount, setLimitAmount] = useState();
   const [asset, setAsset] = useState();
+  const [waiting, setWaiting] = useState(false);
   const server = new StellarSdk.Server("https://horizon-testnet.stellar.org");
   const classes = useStyles();
-
+  
   async function trustLine() {
+    setWaiting(() => true);
     const sourceKeypair = StellarSdk.Keypair.fromSecret(secretKey);
     const [
       {
@@ -37,12 +41,14 @@ export default function ChangeTrust({ publicKey, secretKey, assets, account }) {
             limit: limitAmount,
           })
         )
-
         .setTimeout(0)
         .build();
+      console.log(asset);
       transaction.sign(sourceKeypair);
 
-      await server.submitTransaction(transaction);
+      await server.submitTransaction(transaction).then(() => {
+        setWaiting(() => false);
+      });
     } catch (err) {
       console.log(err);
     }
@@ -63,6 +69,7 @@ export default function ChangeTrust({ publicKey, secretKey, assets, account }) {
     e.preventDefault();
     trustLine(publicKey, secretKey, asset, limitAmount.toString());
   }
+
   return (
     <div>
       <div>
@@ -77,7 +84,7 @@ export default function ChangeTrust({ publicKey, secretKey, assets, account }) {
             <Grid item xs={12}>
               <form onSubmit={(e) => handleSubmit(e)}>
                 <FormControl>
-                  <InputLabel InputLabel id="demo-simple-select-label">
+                  <InputLabel id="demo-simple-select-label">
                     Select an Asset
                   </InputLabel>
                   <Select
@@ -106,29 +113,73 @@ export default function ChangeTrust({ publicKey, secretKey, assets, account }) {
                   <TextField
                     type="text"
                     name="limitAmount"
-                    placeholder="Limit for trust"
+                    placeholder="Quantity of trust in this asset"
                     onChange={(e) => setLimitAmount(e.target.value)}
                     style={{ paddingBottom: 10 }}
                   />
-                  <Button 
-                  type="submit" 
-                  className={classes.yellowButton}
-                  style={{paddingBottom: 10}}
+                  <div align='center'>
+                  <Button
+                    type="submit"
+                    className={classes.yellowButton}
+                    style={{ paddingBottom: 10 }}
                   >
                     Finish
                   </Button>
+                  </div>
                 </FormControl>
               </form>
             </Grid>
+            <br/>
+            {waiting ? <HashLoader color={"#ffd523"} size={20} /> : null}
             <Grid item xs={12}>
               {account &&
                 account.balances.map((asset) => (
-                  <div key={asset.asset_code}>
-                    {" "}
-                    Asset: {asset.asset_code}, Limit: {asset.limit}  
+                  <div align="center" key={asset.asset_code}>
+                    <Divider className={classes.divider} />
                     <br/>
-                    Asset issuer:{" "}
-                    {asset.asset_issuer}{" "}
+                    {asset.asset_type !== "native" ? (
+                      <div style={{
+                        disply: "flex",
+                        justifyContent: "center",
+                      }}>
+                        <div>
+                          <div 
+                          className='conteiner'
+                            style={{
+                              'display': 'flex',
+                              'justifyContent': 'space-evenly',
+                              'flexDirection':'colum'
+                            }}
+                          >
+                            <div >
+                              <Typography variant="h5">Asset</Typography>
+                              <Typography variant="h6">
+                                {" "}
+                                {asset.asset_code}
+                              </Typography>
+                            </div>
+                            <div style={{
+                              disply: "flex"}}>
+                              <Typography variant="h5">Limit</Typography>
+                              <Typography variant="h6">
+                                {parseFloat(asset.limit).toFixed(2)}{" "}
+                              </Typography>
+                            </div>
+                          </div>
+                        </div>
+                        <div>
+                          <br />
+                          <Typography variant="h5">Asset issuer</Typography>
+                          <Typography variant="h6">
+                            {" "}
+                            {asset.asset_issuer}{" "}
+                          </Typography>
+                        </div>
+                      </div>
+                    ) : null}
+
+                    <br />
+                    <br />
                   </div>
                 ))}
             </Grid>

@@ -1,4 +1,4 @@
-import { Paper, Container, Typography, Grid, TableContainer, Table, TableHead, TableBody, TableRow, TableCell } from '@material-ui/core';
+import { Paper, Container, Grid, TableContainer, Table, TableHead, TableBody, TableRow, TableCell } from '@material-ui/core';
 import useStyles from 'styles';
 
 
@@ -8,11 +8,10 @@ export default function Offer({ asks, bids }) {
 const classes = useStyles(); 
 
   return (
-    <Container width="100px">
+    <Container>
       <Grid container justifyContent="center" spacing={2}>
         <Grid item xs={12}>
-          <Typography variant='h5' style={{marginLeft:'90px'}}>Buying</Typography>
-          <TableContainer className={classes.tableScroll} style={{width:'290px'}} component={Paper} >
+          <TableContainer className={classes.tableScroll} style={{width:'21vw', minHeight:'40vh', maxHeight: '40vh'}} component={Paper} >
             <Table stickyHeader size="small" >
               <TableHead >
                 <TableRow>
@@ -23,8 +22,8 @@ const classes = useStyles();
               <TableBody>
                 {asks?.map((ask, i) => (
                   <TableRow  key={i}>
-                    <TableCell align='center'>{ask.price}</TableCell>
-                    <TableCell align='center'>{ask.amount}</TableCell>
+                    <TableCell align='center' style={{color:'green'}}>{ask.price}</TableCell>
+                    <TableCell align='center' style={{color:'green'}}>{ask.amount}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>
@@ -32,8 +31,7 @@ const classes = useStyles();
           </TableContainer>
         </Grid>
         <Grid item xs={12}>
-          <Typography variant='h5' style={{marginLeft:'95px'}}>Selling</Typography>
-          <TableContainer className={classes.tableScroll} style={{width:'290px'}} component={Paper}>
+          <TableContainer className={classes.tableScroll} style={{width:'21vw', minHeight:'30vh', maxHeight: '30vh'}} component={Paper}>
             <Table stickyHeader size="small" >
               <TableHead >
                 <TableRow>
@@ -44,8 +42,8 @@ const classes = useStyles();
               <TableBody>
                 {bids?.map((bid, i) => (
                   <TableRow key={i}>
-                    <TableCell align='center'>{bid.price}</TableCell>
-                    <TableCell align='center'>{bid.amount}</TableCell>
+                    <TableCell align='center' style={{color:'#9b0000'}}>{bid.price}</TableCell>
+                    <TableCell align='center' style={{color:'#9b0000'}}>{bid.amount}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>

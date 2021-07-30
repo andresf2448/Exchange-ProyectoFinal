@@ -3,23 +3,25 @@ const StellarSdk = require("stellar-sdk");
 const axios = require("axios");
 require("dotenv").config();
 
-router.get("/", async (req, res) => {
+router.get("/", (req, res) => {
  
   const pair = StellarSdk.Keypair.random();
-  function createTestAccount() {
+  async function createTestAccount() {
     try {
-      axios(`https://friendbot.stellar.org?addr=${pair.publicKey()}`);
+      await axios(`https://friendbot.stellar.org?addr=${pair.publicKey()}`);
+      
+      const publicKey = pair.publicKey();
+      const secretKey = pair.secret();
+      const result = { publicKey, secretKey };
+    
+      return res.json(result);
        
     } catch (e) {
       console.error("Oh no! Something went wrong:", e);
+      res.status(500).json({message: 'Stellar net has failed'})
     }
   }
   createTestAccount();
-  const publicKey = pair.publicKey();
-  const secretKey = pair.secret();
-  const result = { publicKey, secretKey };
-
-  return res.json(result);
 });
 
 module.exports = router;

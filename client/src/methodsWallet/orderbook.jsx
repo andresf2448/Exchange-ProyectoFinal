@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import StellarSdk from "stellar-sdk";
 import Offer from "./offer.jsx";
-import { Grid } from "@material-ui/core";
+import { Grid, Select, MenuItem } from "@material-ui/core";
 
 export default function Orderbook({ assets }) {
   const [assetBuy, setAssetBuy] = useState(
@@ -29,6 +29,7 @@ export default function Orderbook({ assets }) {
     return setAssetBuy(asset);
   };
   const selectAssetSell = (event) => {
+
     if (event.target.value === "XLM") {
       return setAssetSell(new StellarSdk.Asset.native());
     }
@@ -57,37 +58,50 @@ export default function Orderbook({ assets }) {
   }, [assetSell, assetBuy, server]);
 
   return (
-    <Grid container style={{ width: "350px" }}>
-      <Grid container style={{ justifyContent: "center", marginRight: "30px" }}>
-        <Grid item>
-          <select
+    <Grid container>
+      <Grid container style={{ marginRight: "2vw" }}>
+        <Grid item xs={1}></Grid>
+        <Grid item xs={4}>
+          <Select
+          variant='outlined'
             defaultValue=""
+            value={assetBuy.code}
             name="asset"
             onChange={(event) => selectAssetBuy(event)}
+            style={{height:'5vh', width:'9vw'}}
           >
-            <option>Buy Asset</option>
+            <MenuItem disabled value={1}>Buy Asset</MenuItem>
             {assets &&
               assets.map((element) => {
                 return (
-                  <option key={element.asset_code}>{element.asset_code}</option>
+                  <MenuItem key={element.asset_code} value={element.asset_code}>
+                    {element.asset_code}
+                  </MenuItem>
                 );
               })}
-          </select>{" "}
+          </Select>
         </Grid>
-        <Grid item>
-          <select
+        <Grid item xs={2}></Grid>
+        <Grid item xs={4}>
+          <Select
+            variant='outlined'
             defaultValue=""
+            value={assetSell.code}
             name="asset"
             onChange={(event) => selectAssetSell(event)}
+            style={{height:'5vh', width:'9vw'}}
+
           >
-            <option>Sell Asset</option>
+            <MenuItem value={1}>Sell Asset</MenuItem>
             {assets &&
               assets.map((element) => {
                 return (
-                  <option key={element.asset_code}>{element.asset_code}</option>
+                  <MenuItem key={element.asset_code} value={element.asset_code}>
+                    {element.asset_code}
+                  </MenuItem>
                 );
               })}
-          </select>{" "}
+          </Select>
         </Grid>
       </Grid>
       {response && <Offer asks={response.asks} bids={response.bids} />}
