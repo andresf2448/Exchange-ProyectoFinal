@@ -238,9 +238,7 @@ export const Deposit = () => {
                      <MenuItem value={element.asset_code }>{element.asset_code}</MenuItem>
                   )
                   : null} 
-              {/* <MenuItem value="ARSR">ARS</MenuItem>
-              <MenuItem value="EURR">EUR</MenuItem>
-              <MenuItem value="USDR">USD</MenuItem> */}
+              
             </Select>{" "}
             <br />
             <Button
@@ -272,11 +270,7 @@ export const Deposit = () => {
               What crypto do you want to deposit?
             </Typography>
             <Select name="crypto" value={input.crypto} onChange={handleChange}>
-            {/* {account ? 
-                  account.map(element =>                 
-                     <MenuItem value={element.asset_code }>{element.asset_code}</MenuItem>
-                  )
-                  : null}  */}
+          
               <MenuItem value="XLM">XLM</MenuItem>
               <MenuItem value="SRT">SRT</MenuItem>
               <MenuItem value="HenryCoin">HenryCoin</MenuItem>
@@ -313,8 +307,7 @@ export const Deposit = () => {
                      <MenuItem value={element.asset_type === 'native' ? 'XLM' : element.asset_code }>{element.asset_type === 'native' ? 'XLM' : element.asset_code}</MenuItem>
                   )
                   : null} 
-              {/* <MenuItem value="XLM">XLM</MenuItem>
-              <MenuItem value="HenryCoin">HenryCoin</MenuItem> */}
+          
             </Select>{" "}
             <br />
             <Typography variant="h6">
@@ -326,9 +319,7 @@ export const Deposit = () => {
                      <MenuItem value={element.asset_code }>{element.asset_code}</MenuItem>
                   )
                   : null} 
-              {/* <MenuItem value="ARS">ARS</MenuItem>
-              <MenuItem value="EUR">EUR</MenuItem>
-              <MenuItem value="USD">USD</MenuItem> */}
+             
             </Select>{" "}
             <br />
             <Button
