@@ -93,22 +93,23 @@ export const CryptoCalculator = () => {
   return (
     <Card
       className={classes.cardSaleOffer}
-      style={{ width: "15vw", height: "22vh", paddingTop:'4vh'}}
+      style={{ width: "15vw", height: "25vh", paddingTop:'2vh'}}
     >
       <Grid container>
-        <Grid item xs={12}>
+        <Grid item xs={12} style={{marginBottom:'1vh'}}>
           <Typography
             style={{
               textAlign: "center",
-              marginBottom: "1vh",
+              marginBottom: "2vh",
             }}
           >
             Currency Converter
           </Typography>
+          <hr color='#ffd523'/>
         </Grid>
 
         <Grid item xs={1}></Grid>
-        <Grid item xs={5} style={{ marginBottom: "1vh" }}>
+        <Grid item xs={5} style={{ marginBottom: "2vh" }}>
           <Select
             displayEmpty
             value={firstCurrency}

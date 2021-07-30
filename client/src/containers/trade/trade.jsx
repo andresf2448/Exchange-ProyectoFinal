@@ -133,7 +133,7 @@ function Trade() {
             item
             xs={12}
             sm={6}
-            style={{ marginLeft: "13vw", marginTop: "4vh" }}
+            style={{ marginLeft: "13vw", marginTop: "1vh" }}
           >
             <ManageBuyOffer
               publicKey={publicKey}
@@ -148,7 +148,7 @@ function Trade() {
           <Grid item xs={12} style={{ marginTop: "8vh" }}>
               <OffersByAccount offers={offers} />
           </Grid>
-          <Grid item xs={12} style={{ marginTop:"2vh", marginLeft: "2vw" }}>
+          <Grid item xs={12} style={{marginTop:'1vh',marginLeft: "2vw" }}>
             <CryptoCalculator />
           </Grid>
         </Grid>
