@@ -130,6 +130,9 @@ const useStyles = makeStyles(theme => ({
   adminTableContainer: {
     maxHeight: "70vh"
   },
+  trustLineTableContainer:{
+    maxHeight:'40vh',
+  },
   adminTable: {
     backgroundColor: theme.palette.primary.light
   },
@@ -147,7 +150,7 @@ const useStyles = makeStyles(theme => ({
     // alignContent: 'center'
   },
   cryptoCurrency: {
-    width: '96%',
+    width: '98%',
     display: 'flex',
     flexDirection: 'column',
     backgroundColor: '#000',
@@ -271,6 +274,16 @@ const useStyles = makeStyles(theme => ({
       background: "#ffd52324",
     }
   },
+  yellowButtonFlow: {
+    width: '100%',
+    color: '#ffd523',
+    borderRadius: '3px',
+    transition: 'all .2s linear',
+    '&:hover': {
+      background: "#ffd52324",
+    }
+  },
+
   depositYellowButton: {
     width: '60%',
     color: '#ffd523',

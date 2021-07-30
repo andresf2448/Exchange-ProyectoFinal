@@ -5,17 +5,16 @@ import { supabase } from "supabase/supabase";
 import CheckoutForm from "../components/stripe/checkoutForm";
 import { FormControl, TextField, Button, Typography } from "@material-ui/core";
 import useStyles from 'styles';
+import Swal from "sweetalert2";
 
 
 export default function TransactionsPopup() {
   const dispatch = useDispatch();
-  // const currency = useSelector(state => state.asset)
   const [intentionBuy, setIntentionBuy] = useState();
   const [transactionType, setTransactionType] = useState();
   const [input, setInput] = useState();
   const [publicKey, setPublicKey] = useState(false);
   
-  // const [kyc, setKyc] = useState(false);
 
   const session = supabase.auth.session();
 
@@ -42,7 +41,14 @@ export default function TransactionsPopup() {
       .select("*")
       .eq("id", id);
    
-    if (error) return alert(error);
+    if (error) return Swal.fire({
+      title: 'Uops!',
+      text: error,
+      icon: 'error',
+      confirmButtonText: 'Ok',
+      background: '#1f1f1f',
+      confirmButtonColor:'rgb(158, 158, 158)',
+    });
     if (data[0]) {
       
       return setTransactionType(data[0].kind);
@@ -92,7 +98,6 @@ export default function TransactionsPopup() {
 
       }
 
-      // setIntentionBuy(true);
   }
 
   const closeTab = () => {
@@ -105,7 +110,7 @@ export default function TransactionsPopup() {
   return (
     <div align='center' >
      
-      <div style={{'paddingTop':'40px'}}>
+      <div style={{paddingTop:'40px'}}>
         <form onSubmit={handleSubmitTransaction}>
          <FormControl>
            <TextField 
@@ -116,7 +121,7 @@ export default function TransactionsPopup() {
              setInput(event.target.value)
            }
            />
-          <Button className={classes.yellowButton} onClick={(event) => handleSubmitTransaction(event)} disabled={!input} >Next</Button>
+          <Button className={classes.yellowButtonFlow} onClick={(event) => handleSubmitTransaction(event)} disabled={!input} >Next</Button>
           </FormControl>
         </form>
         </div>
@@ -136,7 +141,7 @@ export default function TransactionsPopup() {
               <Typography variant="h6">You should transfer {input} {crypto || currency} to:</Typography> <br/>
               <Typography variant="h6">PublicKey {publicKey} </Typography>
               <Typography variant="h6">Then we will transfer our tokens to your account</Typography>
-              <Button color="primary" variant="contained" onClick={closeTab}>
+              <Button className={classes.yellowButton} onClick={closeTab}>
             Close Tab
           </Button>
             </div>
