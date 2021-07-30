@@ -6,7 +6,7 @@ import {
   MenuItem,
   Grid,
 } from "@material-ui/core";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import depositHook from "../../customHooks/depositHook";
 import { Link } from "react-router-dom";
 import { setAset } from "redux/actions/actions";
@@ -15,43 +15,10 @@ import { supabase } from "../../supabase/supabase";
 import useStyles from "styles";
 import Swal from "sweetalert2";
 
+import StellarSdk from "stellar-sdk";
+import HashLoader from "react-spinners/HashLoader";
 
-// const [publicKey, setPublicKey] = useState();
-// const [secretKey, setSecretKey] = useState();
-// const [assetIssuer, setAssetIssuer] = useState();
-// const [responseHook, setResponseHook] = useState();
 
-// const session = supabase.auth.session();
-
-// const classes = useStyles();
-
-// async function getKeys() {
-//   let { data: publicKey } = await supabase
-//     .from("datauser")
-//     .select("public_key")
-//     .eq("id_user", session.user.id);
-
-//   let { data: secretKey } = await supabase
-//     .from("wallet")
-//     .select("secret_key")
-//     .eq("id_user", session.user.id);
-
-//   let response;
-//   if (input.fiat && input.xlm === "") {
-//     response = await supabase
-//       .from("assets")
-//       .select("asset_issuer")
-//       .eq("asset_code", input.fiat);
-//   } else if (input.crypto) {
-//     response = await supabase
-//       .from("assets")
-//       .select("asset_issuer")
-//       .eq("asset_code", input.crypto);
-//   } else if (input.xlm) {
-//     response = await supabase
-//       .from("assets")
-//       .select("asset_issuer")
-//       .eq("asset_code", input.xlm);
 export const Deposit = () => {
   const dispatch = useDispatch();
   const [input, setInput] = useState(false);
@@ -63,6 +30,10 @@ export const Deposit = () => {
 
   const [assetIssuer, setAssetIssuer] = useState();
   const [responseHook, setResponseHook] = useState();
+  const [account, setAccount] = useState(false);
+  const [userCrypto, setUserCrypto] = useState(false);
+
+  const server = new StellarSdk.Server("https://horizon-testnet.stellar.org");
 
   const session = supabase.auth.session();
 
@@ -191,8 +162,44 @@ export const Deposit = () => {
     }
   };
 
+  const userExist = async () => {
+    let { data } = await supabase
+      .from("datauser")
+      .select("public_key")
+      .eq("id_user", session.user.id);
+
+    if (data.length === 0) setUserCrypto(false);
+    if (data.length > 0) {
+      getBalance();
+      
+    }
+  };
+
+  const getBalance = async () => {
+    let { data } = await supabase
+      .from("datauser")
+      .select("public_key")
+      .eq("id_user", session.user.id);
+
+    await server
+      .loadAccount(data[0]?.public_key)
+      .then((response) => { 
+        let filteredAssetsFiat = response.balances.filter(element => element.asset_code === 'ARSR' || element.asset_code === 'USDR' || element.asset_code === 'EURR')
+        let filteredAssetsCrypto = response.balances.filter(element => element.asset_type === 'native' || element.asset_code === 'HenryCoin' )
+        setAccount(filteredAssetsFiat)
+        setUserCrypto(filteredAssetsCrypto)
+      })
+      .catch((err) => console.log(err));
+  };
+
+  useEffect(() => {
+    userExist();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <Container>
+      {account ?
       <Grid container justifyContent="space-between">
         <Grid item xs={4} align="center">
           <Button
@@ -226,9 +233,14 @@ export const Deposit = () => {
               What FIAT do you want to deposit?
             </Typography>
             <Select name="fiat" value={input.fiat} onChange={handleChange}>
-              <MenuItem value="ARSR">ARS</MenuItem>
+            {account ? 
+                  account.map(element =>                 
+                     <MenuItem value={element.asset_code }>{element.asset_code}</MenuItem>
+                  )
+                  : null} 
+              {/* <MenuItem value="ARSR">ARS</MenuItem>
               <MenuItem value="EURR">EUR</MenuItem>
-              <MenuItem value="USDR">USD</MenuItem>
+              <MenuItem value="USDR">USD</MenuItem> */}
             </Select>{" "}
             <br />
             <Button
@@ -260,6 +272,11 @@ export const Deposit = () => {
               What crypto do you want to deposit?
             </Typography>
             <Select name="crypto" value={input.crypto} onChange={handleChange}>
+            {/* {account ? 
+                  account.map(element =>                 
+                     <MenuItem value={element.asset_code }>{element.asset_code}</MenuItem>
+                  )
+                  : null}  */}
               <MenuItem value="XLM">XLM</MenuItem>
               <MenuItem value="SRT">SRT</MenuItem>
               <MenuItem value="HenryCoin">HenryCoin</MenuItem>
@@ -291,17 +308,27 @@ export const Deposit = () => {
               What crypto do you want to buy?
             </Typography>
             <Select name="xlm" value={input.xlm} onChange={handleChange}>
-              <MenuItem value="XLM">XLM</MenuItem>
-              <MenuItem value="HenryCoin">HenryCoin</MenuItem>
+            {userCrypto ? 
+                  userCrypto.map(element =>                 
+                     <MenuItem value={element.asset_type === 'native' ? 'XLM' : element.asset_code }>{element.asset_type === 'native' ? 'XLM' : element.asset_code}</MenuItem>
+                  )
+                  : null} 
+              {/* <MenuItem value="XLM">XLM</MenuItem>
+              <MenuItem value="HenryCoin">HenryCoin</MenuItem> */}
             </Select>{" "}
             <br />
             <Typography variant="h6">
               With what FIAT currency are you going to pay?
             </Typography>
             <Select name="fiat" value={input.fiat} onChange={handleChange}>
-              <MenuItem value="ARS">ARS</MenuItem>
+            {account ? 
+                  account.map(element =>                 
+                     <MenuItem value={element.asset_code }>{element.asset_code}</MenuItem>
+                  )
+                  : null} 
+              {/* <MenuItem value="ARS">ARS</MenuItem>
               <MenuItem value="EUR">EUR</MenuItem>
-              <MenuItem value="USD">USD</MenuItem>
+              <MenuItem value="USD">USD</MenuItem> */}
             </Select>{" "}
             <br />
             <Button
@@ -332,6 +359,19 @@ export const Deposit = () => {
           </Grid>
         ) : null}
       </Grid>
+      :  
+      <div align='center'>
+          <br/>
+          <br/>
+          <br/>
+          
+      <HashLoader color={"#ffd523"} size={40} />
+         <br/>
+          <br/>
+          <br/>
+          <br/>
+      </div> }
+      
     </Container>
   );
 };

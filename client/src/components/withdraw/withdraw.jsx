@@ -157,13 +157,3 @@ export const Withdraw = ()=>{
     )
 }
 
-
-// {/* {transaction ? <div>
-//                 <Typography variant="h5">Your transfer</Typography>
-//                 <Typography variant="h6">{transaction.amount} {transaction.currency.toUpperCase()}</Typography>
-//                 <Typography variant="h5">Fee percentage</Typography>
-//                 <Typography variant="h6">{transaction.feePercentage}%</Typography>
-//                 <Typography variant="h5">Fee Amount</Typography>
-//                 <Typography variant="h6">{transaction.fee} {transaction.currency.toUpperCase()}</Typography>
-//                 </div>
-//             : null} */}
