@@ -1,4 +1,5 @@
 const server = require("./src/app");
+require('dotenv').config();
 
 
 // Here we put the main route and the secondary routes we have to create it in a new file and import its here.
