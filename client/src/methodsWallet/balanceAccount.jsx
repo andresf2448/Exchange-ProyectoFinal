@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import StellarSdk from "stellar-sdk";
-import { TableContainer, Table, TableHead, TableBody, TableRow, TableCell } from "@material-ui/core";
+import { Typography, TableContainer, Table, TableHead, TableBody, TableRow, TableCell } from "@material-ui/core";
 import useStyles from "styles";
 import { supabase } from "../supabase/supabase";
 // import CreateAccount from "./createAccount";
@@ -82,10 +82,9 @@ export default function BalanceAccount() {
           )}
         </div>
       ) : (
-        <div>
-          " Debes crear una wallet para ver tu balance"
-          {/* <CreateAccount /> */}
-        </div>
+        <Typography variant='h4'>
+          Create an account to see your balance
+        </Typography>
       )}
     </div>
   );
