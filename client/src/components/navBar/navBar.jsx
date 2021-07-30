@@ -10,7 +10,7 @@ import { AdministratorUser } from "components/administratorUser/admistratorUser"
 import Trade from "containers/trade/trade";
 import { InviteUser } from "components/invite/invite";
 import FaqAbout from "containers/faqAbout/faqAbout";
-import logoRXC from './rocketXchange-white.png';
+import logoRXC from "./rocketXchange-white.png";
 
 export const NavBar = () => {
   const history = useHistory();
@@ -45,9 +45,17 @@ export const NavBar = () => {
   };
   return (
     <>
-      <AppBar position="static" variant="fullWidth">
+      <AppBar position="static">
         <Tabs value={value} variant="scrollable" onChange={handleChange}>
-          <Tab icon={<Avatar alt="test avatar" src={logoRXC} style={{widht: '100'}} />} />
+          <Tab
+            icon={
+              <Avatar
+                alt="test avatar"
+                src={logoRXC}
+                style={{ widht: "100" }}
+              />
+            }
+          />
           <Tab label="Wallet" />
           <Tab label="Trade" />
           <Tab label="Settings" />

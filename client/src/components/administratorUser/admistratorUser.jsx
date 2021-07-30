@@ -295,13 +295,7 @@ export const AdministratorUser = () => {
 
   const body = (
     <Grid container>
-      <Grid
-        item
-        xs={10}
-        direction="column"
-        align="center"
-        className={classes.modal}
-      >
+      <Grid item xs={10} align="center" className={classes.modal}>
         <Typography
           variant="h5"
           className={classes.text}
@@ -354,7 +348,7 @@ export const AdministratorUser = () => {
       <Card elevation={3} className={classes.adminCard}>
         {admin ? (
           <Grid container>
-            <Grid container xs={5} direction="column" alignContent="center">
+            <Grid container direction="column" alignContent="center">
               <Button
                 onClick={() => setCommision(!commision)}
                 variant="contained"
@@ -362,7 +356,7 @@ export const AdministratorUser = () => {
                 {"Change the commision server"}
               </Button>
               {commision ? (
-                <Grid item xs={4} direction="column">
+                <Grid item xs={4}>
                   <form onSubmit={comisionChange}>
                     <TextField
                       type="text"
@@ -414,7 +408,7 @@ export const AdministratorUser = () => {
               )}
             </Grid>
             <Grid item xs={1}></Grid>
-            <Grid item xs={4} direction="column">
+            <Grid item xs={4}>
               <form onSubmit={search} className={classes.adminCardSearch}>
                 <FormControl margin="normal" style={{ paddingRight: "10px" }}>
                   <TextField
@@ -441,12 +435,7 @@ export const AdministratorUser = () => {
               </form>
             </Grid>
 
-            <Grid
-              item
-              xs={2}
-              justifyContent="center"
-              style={{ marginTop: "15px" }}
-            >
+            <Grid item xs={2} style={{ marginTop: "15px" }}>
               {emails.length > 0 ? (
                 <div>
                   <Button

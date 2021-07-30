@@ -37,9 +37,9 @@ export default function ChangeTrust({ publicKey, secretKey, assets, account }) {
             limit: limitAmount,
           })
         )
-
         .setTimeout(0)
         .build();
+      console.log(asset);
       transaction.sign(sourceKeypair);
 
       await server.submitTransaction(transaction);
@@ -77,7 +77,7 @@ export default function ChangeTrust({ publicKey, secretKey, assets, account }) {
             <Grid item xs={12}>
               <form onSubmit={(e) => handleSubmit(e)}>
                 <FormControl>
-                  <InputLabel InputLabel id="demo-simple-select-label">
+                  <InputLabel id="demo-simple-select-label">
                     Select an Asset
                   </InputLabel>
                   <Select
@@ -106,14 +106,14 @@ export default function ChangeTrust({ publicKey, secretKey, assets, account }) {
                   <TextField
                     type="text"
                     name="limitAmount"
-                    placeholder="Limit for trust"
+                    placeholder="Quantity of trust in this asset"
                     onChange={(e) => setLimitAmount(e.target.value)}
                     style={{ paddingBottom: 10 }}
                   />
-                  <Button 
-                  type="submit" 
-                  className={classes.yellowButton}
-                  style={{paddingBottom: 10}}
+                  <Button
+                    type="submit"
+                    className={classes.yellowButton}
+                    style={{ paddingBottom: 10 }}
                   >
                     Finish
                   </Button>
@@ -125,10 +125,9 @@ export default function ChangeTrust({ publicKey, secretKey, assets, account }) {
                 account.balances.map((asset) => (
                   <div key={asset.asset_code}>
                     {" "}
-                    Asset: {asset.asset_code}, Limit: {asset.limit}  
-                    <br/>
-                    Asset issuer:{" "}
-                    {asset.asset_issuer}{" "}
+                    Asset: {asset.asset_code}, Limit: {asset.limit}
+                    <br />
+                    Asset issuer: {asset.asset_issuer}{" "}
                   </div>
                 ))}
             </Grid>
