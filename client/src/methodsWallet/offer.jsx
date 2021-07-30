@@ -8,11 +8,11 @@ export default function Offer({ asks, bids }) {
 const classes = useStyles(); 
 
   return (
-    <Container width="100px">
+    <Container>
       <Grid container justifyContent="center" spacing={2}>
         <Grid item xs={12}>
-          <Typography variant='h5' style={{marginLeft:'90px'}}>Buying</Typography>
-          <TableContainer className={classes.tableScroll} style={{width:'290px'}} component={Paper} >
+          <Typography variant='h5' style={{marginLeft:'7vw'}}>Buying</Typography>
+          <TableContainer className={classes.tableScroll} style={{width:'21vw'}} component={Paper} >
             <Table stickyHeader size="small" >
               <TableHead >
                 <TableRow>
@@ -32,8 +32,8 @@ const classes = useStyles();
           </TableContainer>
         </Grid>
         <Grid item xs={12}>
-          <Typography variant='h5' style={{marginLeft:'95px'}}>Selling</Typography>
-          <TableContainer className={classes.tableScroll} style={{width:'290px'}} component={Paper}>
+          <Typography variant='h5' style={{marginLeft:'7vw'}}>Selling</Typography>
+          <TableContainer className={classes.tableScroll} style={{width:'21vw'}} component={Paper}>
             <Table stickyHeader size="small" >
               <TableHead >
                 <TableRow>

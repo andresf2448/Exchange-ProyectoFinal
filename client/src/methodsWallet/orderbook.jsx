@@ -57,38 +57,39 @@ export default function Orderbook({ assets }) {
   }, [assetSell, assetBuy, server]);
 
   return (
-    <Grid container style={{ width: "350px" }}>
-      <Grid container style={{ justifyContent: "center", marginRight: "30px" }}>
-        <Grid item>
-          <select
-            defaultValue=""
-            name="asset"
-            onChange={(event) => selectAssetBuy(event)}
-          >
-            <option>Buy Asset</option>
-            {assets &&
-              assets.map((element) => {
-                return (
-                  <option key={element.asset_code}>{element.asset_code}</option>
-                );
-              })}
-          </select>{" "}
-        </Grid>
-        <Grid item>
-          <select
-            defaultValue=""
-            name="asset"
-            onChange={(event) => selectAssetSell(event)}
-          >
-            <option>Sell Asset</option>
-            {assets &&
-              assets.map((element) => {
-                return (
-                  <option key={element.asset_code}>{element.asset_code}</option>
-                );
-              })}
-          </select>{" "}
-        </Grid>
+    <Grid container>
+      <Grid container style={{ marginRight:'30px'}}>
+        <Grid item xs={2}></Grid>
+      <Grid item xs={4}>
+      <select
+        defaultValue=""
+        name="asset"
+        onChange={(event) => selectAssetBuy(event)}
+      >
+        <option>Buy Asset</option>
+        {assets &&
+          assets.map((element) => {
+            return (
+              <option key={element.asset_code}>{element.asset_code}</option>
+              );
+            })}
+      </select>
+      </Grid>
+      <Grid item xs={4}>
+      <select
+        defaultValue=""
+        name="asset"
+        onChange={(event) => selectAssetSell(event)}
+      >
+        <option>Sell Asset</option>
+        {assets &&
+          assets.map((element) => {
+            return (
+              <option key={element.asset_code}>{element.asset_code}</option>
+            );
+          })}
+      </select>
+      </Grid>
       </Grid>
       {response && <Offer asks={response.asks} bids={response.bids} />}
     </Grid>
