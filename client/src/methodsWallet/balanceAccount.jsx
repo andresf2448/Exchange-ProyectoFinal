@@ -51,7 +51,7 @@ export default function BalanceAccount() {
                 <Table stickyHeader className={classes.adminTable}>
                   <TableHead>
                     <TableRow>
-                      <TableCell>Asset</TableCell>
+                      <TableCell align='center'>Asset</TableCell>
                       <TableCell>Balance</TableCell>
                       <TableCell>Mount of selling offers</TableCell>
                       <TableCell>Mount of buying offers</TableCell>
@@ -60,11 +60,11 @@ export default function BalanceAccount() {
                   <TableBody>
                     {account?.balances?.map(({ balance, asset_code, selling_liabilities, buying_liabilities }, index) => {
                       return (
-                        <TableRow>
-                          <TableCell>{!asset_code ? "XLM" : asset_code}</TableCell>
-                          <TableCell>{parseFloat(balance).toFixed(2)}</TableCell>
-                          <TableCell>{parseFloat(selling_liabilities).toFixed(2)}</TableCell>
-                          <TableCell>{parseFloat(buying_liabilities).toFixed(2)}</TableCell>
+                        <TableRow hover={{backgroundColor:'black'}}>
+                          <TableCell align='center'>{!asset_code ? "XLM" : asset_code}</TableCell>
+                          <TableCell align='center'>{parseFloat(balance).toFixed(2)}</TableCell>
+                          <TableCell align='center'>{parseFloat(selling_liabilities).toFixed(2)}</TableCell>
+                          <TableCell align='center'>{parseFloat(buying_liabilities).toFixed(2)}</TableCell>
                         </TableRow>
 
                       )
