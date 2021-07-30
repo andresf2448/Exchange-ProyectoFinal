@@ -1,6 +1,5 @@
 .titleContainer{
-    margin-top: 3%; 
-    margin-bottom: 2%;
+    margin: 2%;
 }
 
 .navItems:hover{
@@ -23,7 +22,7 @@
     display: flex;
     background-image: linear-gradient(120deg, #dddddd 0%, #949494 100%);
     border-radius: 4px;
-    color: #272727b3;
+    color: #131313b3;
 }
 
 .cryptos {

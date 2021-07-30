@@ -122,6 +122,7 @@ export const CryptoCalculator = () => {
             <MenuItem value="ARS">ARS</MenuItem>
             <MenuItem value="BTC">Bitcoin</MenuItem>
             <MenuItem value="ETH">Ethereum</MenuItem>
+            <MenuItem value="XLM">XLM</MenuItem>
           </Select>
         </Grid>
 
@@ -153,6 +154,7 @@ export const CryptoCalculator = () => {
             <MenuItem value="ARS">ARS</MenuItem>
             <MenuItem value="BTC">Bitcoin</MenuItem>
             <MenuItem value="ETH">Ethereum</MenuItem>
+            <MenuItem value="XLM">XLM</MenuItem>
           </Select>
         </Grid>
 
