@@ -5,6 +5,7 @@ import { supabase } from "supabase/supabase";
 import CheckoutForm from "../components/stripe/checkoutForm";
 import { FormControl, TextField, Button, Typography } from "@material-ui/core";
 import useStyles from 'styles';
+import Swal from "sweetalert2";
 
 
 export default function TransactionsPopup() {
@@ -42,7 +43,14 @@ export default function TransactionsPopup() {
       .select("*")
       .eq("id", id);
    
-    if (error) return alert(error);
+    if (error) return Swal.fire({
+      title: 'Uops!',
+      text: error,
+      icon: 'error',
+      confirmButtonText: 'Ok',
+      background: '#1f1f1f',
+      confirmButtonColor:'rgb(158, 158, 158)',
+    });
     if (data[0]) {
       
       return setTransactionType(data[0].kind);

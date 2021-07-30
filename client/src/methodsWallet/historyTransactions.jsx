@@ -1,8 +1,8 @@
 import StellarSdk from "stellar-sdk";
 import { useState } from "react";
-import { Container, Grid, Typography, Divider, TableContainer, Table, TableHead, TableRow, TableCell, TableBody } from "@material-ui/core";
+import {TableContainer, Table, TableHead, TableRow, TableCell, TableBody } from "@material-ui/core";
 import useStyles from "styles";
-import Transaction from "components/transaction/transaction";
+// import Transaction from "components/transaction/transaction";
 
 
 export default function HistoryTransactions({ publicKey }) {

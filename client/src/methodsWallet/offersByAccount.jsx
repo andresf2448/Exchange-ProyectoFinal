@@ -9,7 +9,7 @@ export default function OffersByAccount({ offers }) {
         textAlign: "center",
         marginLeft: "2vw",
         marginRight: "2vw",
-        height: "40vh",
+        height: "45vh",
       }}>
       <Typography>Active Sale Offers List</Typography>
       <TableContainer className={classes.tableScroll}>
@@ -24,7 +24,7 @@ export default function OffersByAccount({ offers }) {
           <TableBody>
             {offers?.records?.length > 1 &&
               offers.records.map((offer) => (
-                <TableRow key={offer.id}>
+                <TableRow key={offer.id} hover={{backgroundColor:'black'}}>
                   <TableCell>{offer.amount}</TableCell>
                   <TableCell>{offer.buying?.asset_code}</TableCell>
                   <TableCell>{offer.price}</TableCell>
