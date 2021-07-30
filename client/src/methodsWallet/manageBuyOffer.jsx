@@ -12,6 +12,8 @@ import StellarSdk from "stellar-sdk";
 import useStyles from "styles";
 import Swal from "sweetalert2";
 
+import { supabase } from "supabase/supabase";
+
 export default function ManageBuyOffer({
   secretKey,
   assets,
@@ -24,13 +26,44 @@ export default function ManageBuyOffer({
   const [price, setPrice] = useState();
   const [account, setAccount] = useState();
   const server = new StellarSdk.Server("https://horizon-testnet.stellar.org");
+  const [hasProfileValidate, setHasProfileValidate] = useState(true);
 
   const classes = useStyles();
+
+  const session = supabase.auth.session();
 
   const updateTransactions = async () => {
     await makeBuyOffer();
     return setUpdateOffers(true);
   };
+
+  let hasProfile = async () => {
+    await supabase;
+
+    let { data } = await supabase
+      .from("RegisteredUsers")
+      .select(`hasProfileUserAnchor`)
+      .eq("id_user", session.user.id);
+
+    if (!data[0].hasProfileUserAnchor) {
+      Swal.fire({
+        text: "PLEASE COMPLET YOUR PROFILE IN SETTINGS",
+        icon: "error",
+        confirmButtonText: "Okay!",
+        background: "#1f1f1f",
+        confirmButtonColor: "rgb(158, 158, 158)",
+      });
+
+      setHasProfileValidate(false);
+    }
+
+    console.log(data);
+  };
+
+  useEffect(() => {
+    hasProfile();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   let ask = undefined;
   if (assetAsk && ask === undefined && assetAsk.asset_code !== "XLM") {
@@ -50,7 +83,7 @@ export default function ManageBuyOffer({
       .loadAccount("GDWIGFKMGORBKFW7IZOKBZ4OBXXKITSOLJFTBRKFJOBKLQCGCZJ54IFE")
       .then((res) => setAccount(res))
       .catch((err) => console.log(err));
-      // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [account]);
 
   async function makeBuyOffer() {
@@ -59,7 +92,7 @@ export default function ManageBuyOffer({
     );
 
     setTimeout(() => {
-      if(!verifyBalance || !account){
+      if (!verifyBalance || !account) {
         Swal.fire({
           text: "Please, try again!",
           icon: "error",
@@ -68,11 +101,9 @@ export default function ManageBuyOffer({
           confirmButtonColor: "rgb(158, 158, 158)",
         });
       }
-    }, 2000)
-    console.log("verifyAccount", verifyBalance)
-      console.log(price, publicKey, amount, secretKey, account);
-
-    
+    }, 2000);
+    console.log("verifyAccount", verifyBalance);
+    console.log(price, publicKey, amount, secretKey, account);
 
     if (account) {
       if (verifyBalance.length === 0) {
@@ -83,7 +114,6 @@ export default function ManageBuyOffer({
           background: "#1f1f1f",
           confirmButtonColor: "rgb(158, 158, 158)",
         });
-
       }
       if (Number(verifyBalance[0].balance) < Number(amount)) {
         Swal.fire({
@@ -98,14 +128,14 @@ export default function ManageBuyOffer({
 
     try {
       const sourceKeypair = StellarSdk.Keypair.fromSecret(secretKey);
-      console.log("entramos carajo")
+      console.log("entramos carajo");
       const [
         {
           max_fee: { mode: fee },
         },
-        accounts
+        accounts,
       ] = await Promise.all([server.feeStats(), server.loadAccount(publicKey)]);
-      console.log("este es el account", account)
+      console.log("este es el account", account);
       const transaction = new StellarSdk.TransactionBuilder(accounts, {
         fee,
         networkPassphrase: StellarSdk.Networks.TESTNET,
@@ -130,7 +160,7 @@ export default function ManageBuyOffer({
 
       transaction.sign(sourceKeypair);
       const asd = await server.submitTransaction(transaction);
-      console.log(asd)
+      console.log(asd);
     } catch (e) {
       Swal.fire({
         text: "Oh no! Something went wrong.",
@@ -170,11 +200,15 @@ export default function ManageBuyOffer({
       <form onSubmit={(event) => handleSubmit(event)}>
         <Grid container>
           <Grid item xs={12}>
-            <Typography style={{
-              textAlign: "center",
-              marginBottom: "2vh",
-            }}>Create your sale offer:</Typography>
-            <hr color='#ffd523'/>
+            <Typography
+              style={{
+                textAlign: "center",
+                marginBottom: "2vh",
+              }}
+            >
+              Create your sale offer:
+            </Typography>
+            <hr color="#ffd523" />
           </Grid>
           <Grid item xs={4}>
             <Select
@@ -242,9 +276,19 @@ export default function ManageBuyOffer({
           </Grid>
           <Grid item xs={8}></Grid>
           <Grid item xs={4}>
-            <Button type="submit" className={classes.invitedYellowButton}>
-              Submit
-            </Button>
+            {hasProfileValidate ? (
+              <Button type="submit" className={classes.invitedYellowButton}>
+                Submit
+              </Button>
+            ) : (
+              <Button
+                type="submit"
+                className={classes.invitedYellowButton}
+                disabled
+              >
+                Submit
+              </Button>
+            )}
           </Grid>
         </Grid>
       </form>
