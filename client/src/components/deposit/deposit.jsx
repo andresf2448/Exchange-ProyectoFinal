@@ -13,6 +13,8 @@ import { setAset } from "redux/actions/actions";
 import { useDispatch } from "react-redux";
 import { supabase } from "../../supabase/supabase";
 import useStyles from "styles";
+import Swal from "sweetalert2";
+
 
 // const [publicKey, setPublicKey] = useState();
 // const [secretKey, setSecretKey] = useState();
@@ -122,7 +124,14 @@ export const Deposit = () => {
         setResponseHook,
       });
     } else {
-      alert("Problems with your keys");
+      Swal.fire({
+        title: 'Ups!',
+        text: "There's an issue with your keys",
+        icon: 'warning',
+        confirmButtonText: 'Hmm..',
+        background: '#1f1f1f',
+        confirmButtonColor:'rgb(158, 158, 158)',
+      });
     }
   }
 
@@ -145,7 +154,14 @@ export const Deposit = () => {
       .eq("id_user", session.user.id);
 
     if (data.length < 1) {
-      return alert("You need to complete your profile to do a deposit");
+      return Swal.fire({
+        title: 'Hold it!',
+        text: "You need to complete your profile to do a deposit",
+        icon: 'warning',
+        confirmButtonText: 'Cool',
+        background: '#1f1f1f',
+        confirmButtonColor:'rgb(158, 158, 158)',
+      });
     }
 
     setResponseHook();
