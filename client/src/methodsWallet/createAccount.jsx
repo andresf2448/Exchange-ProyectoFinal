@@ -46,6 +46,7 @@ export default function CreateAccount() {
 
   const createdAccounts = async (event) => {
     event.preventDefault();
+    setSpinner(true);
     const response = await axios.get("http://localhost:3001/createWallet");
     
     const { publicKey, secretKey } = response.data;
@@ -59,8 +60,8 @@ export default function CreateAccount() {
 
     setPublicKey(() => public_key);
     setSecretKey(() => secret_key);
-    
-
+   
+  
     await supabase.from("datauser").insert([
       {
         id_user,
@@ -78,8 +79,9 @@ export default function CreateAccount() {
         secret_key,
       },
     ]);
-    userExist()
-    setHasWallet(true)
+    userExist();
+    setHasWallet(true);
+    setSpinner(false);
   };
 
   useEffect(() => {
@@ -93,20 +95,20 @@ export default function CreateAccount() {
       {spinner ? <HashLoader color={'#ffd523'} size={20}/> :
         hasWallet ? (
           <Grid item key={12}>
-          {<Typography variant='subtitle1'>PublicKey | {publicKeyUser}</Typography>}
-          {<Typography variant='subtitle1'>SecretKey | {secretKeyUser}</Typography>}
-          <Divider className={classes.divider}/>
-          <br/>
-          <MuxedAccount pk={publicKeyUser}/>
+            {<Typography variant='subtitle1'>PublicKey | {publicKeyUser}</Typography>}
+            {<Typography variant='subtitle1'>SecretKey | {secretKeyUser}</Typography>}
+            <Divider className={classes.divider}/>
+            <br/>
+            <MuxedAccount pk={publicKeyUser}/>
           </Grid>
           
           ) : (
             <form onSubmit={createdAccounts}>
-            <label> User Name </label>
-            <input ref={userName} required />
-            <Button className={classes.yellowButton}  type="submit">
-            Crear Wallet
-            </Button>
+              <label> User Name </label>
+              <input ref={userName} required />
+              <Button className={classes.yellowButton}  type="submit">
+                Crear Wallet
+              </Button>
             </form>
           )
       }
