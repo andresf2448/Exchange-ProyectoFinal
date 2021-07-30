@@ -8,9 +8,8 @@ import { supabase } from "../../supabase/supabase";
 import StellarSdk from "stellar-sdk";
 
 import { Card, Tabs, Tab, Grid, AppBar } from "@material-ui/core";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import useStyles from "styles";
-import { getAssets } from "redux/actions/actions";
 import ChangeTrust from "methodsWallet/trustLines";
 
 export default function WalletContainer() {
