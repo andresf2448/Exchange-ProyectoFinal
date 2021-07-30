@@ -126,7 +126,10 @@ const feeCalculator = async (amount) => {
 }
 
 const calculatePrice = async (amount_out, currency, crypto) => {
-    
+    console.log(currency);
+    if(currency === "HenryCoin"){
+        currency = "XLM";
+    }
     let priceData = await axios(`https://min-api.cryptocompare.com/data/price?api_key={0aec49a900c2d7469630114260688bb1914813d1f365aa38f494f6c8a6e946d1}&fsym=XLM&tsyms=${currency.slice(0,3)}`)
     
     let price = amount_out / priceData.data[currency.slice(0,3)]
