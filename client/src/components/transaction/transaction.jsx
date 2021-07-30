@@ -4,7 +4,7 @@ import { useHistory } from "react-router-dom";
 import { supabase } from "supabase/supabase";
 import { takereceiverId, takeSourceId, validate } from "./transactioTools";
 import {
-  Container,
+  Grid,
   Typography,
   Button,
   TextField,
@@ -16,7 +16,7 @@ import {
 } from "@material-ui/core";
 import useStyles from 'styles';
 import Swal from 'sweetalert2';
-import HashLoader from "react-spinners/HashLoader";
+// import HashLoader from "react-spinners/HashLoader";
 
 export default function Transaction() {
   const [error, setError] = useState({
@@ -108,7 +108,7 @@ export default function Transaction() {
             background: '#1f1f1f',
             confirmButtonColor:'rgb(158, 158, 158)',
           });
-          console.log(succes)
+          
           setSuccesTransaction(true);
           setTransaction(succes.data);
           setInput({
@@ -120,7 +120,7 @@ export default function Transaction() {
           setWaiting(false)
           
         } catch (error) {
-          console.log('El catch', error)
+          console.log('Error', error)
         }
       }
     } else {
@@ -148,8 +148,8 @@ export default function Transaction() {
   
   return (
     <>
-    <Container className={classes.cardCheck}>
-      
+
+      <Grid align="center">
       {session ? (
         <div>
           <Typography variant="h4">Transaction</Typography>
@@ -217,11 +217,10 @@ export default function Transaction() {
       ) :  (
         history.push("/")
       )}
+      </Grid>
       
-      </Container>
-      
-      <Container>
-        {waiting ? <div align='center'><HashLoader color={'#ffd523'} size={50}/></div> : null}
+      <Grid align="center">
+        {waiting ? <div align='center'><p>Loading</p></div> : null}
       {succesTransaction && transaction ? (
         <div align='center'>
           <br/>
@@ -237,7 +236,7 @@ export default function Transaction() {
           <br />
         </div>
       ) : null}
-      </Container>
+      </Grid>
     </>
   );
 }

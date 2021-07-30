@@ -11,7 +11,7 @@ import {
 } from "@material-ui/core";
 import { useState } from "react";
 import StellarSdk from "stellar-sdk";
-import useStyles from 'styles';
+import useStyles from "styles";
 
 export default function ChangeTrust({ publicKey, secretKey, assets, account }) {
   const [limitAmount, setLimitAmount] = useState();
@@ -20,15 +20,13 @@ export default function ChangeTrust({ publicKey, secretKey, assets, account }) {
   const classes = useStyles();
 
   async function trustLine() {
-    const sourceKeypair = StellarSdk.Keypair.fromSecret(
-      secretKey
-    );
+    const sourceKeypair = StellarSdk.Keypair.fromSecret(secretKey);
     const [
       {
         max_fee: { mode: fee },
       },
     ] = await Promise.all([server.feeStats()]);
-    try{
+    try {
       const transaction = new StellarSdk.TransactionBuilder(account, {
         fee,
         networkPassphrase: StellarSdk.Networks.TESTNET,
@@ -36,17 +34,17 @@ export default function ChangeTrust({ publicKey, secretKey, assets, account }) {
         .addOperation(
           StellarSdk.Operation.changeTrust({
             asset: asset,
-            limit: limitAmount
+            limit: limitAmount,
           })
         )
-  
+
         .setTimeout(0)
         .build();
       transaction.sign(sourceKeypair);
-  
+
       await server.submitTransaction(transaction);
-    }catch(err){
-      console.log(err)
+    } catch (err) {
+      console.log(err);
     }
   }
 
@@ -92,7 +90,7 @@ export default function ChangeTrust({ publicKey, secretKey, assets, account }) {
                     {assets &&
                       assets.map((element) => {
                         if (element.asset_code === "XLM") {
-                          return;
+                          return null;
                         } else {
                           return (
                             <MenuItem
@@ -112,7 +110,7 @@ export default function ChangeTrust({ publicKey, secretKey, assets, account }) {
                     onChange={(e) => setLimitAmount(e.target.value)}
                     style={{ paddingBottom: 10 }}
                   />
-                <Button 
+                  <Button 
                   type="submit" 
                   className={classes.yellowButton}
                   style={{paddingBottom: 10}}
@@ -122,18 +120,20 @@ export default function ChangeTrust({ publicKey, secretKey, assets, account }) {
                 </FormControl>
               </form>
             </Grid>
+            <Grid item xs={12}>
+              {account &&
+                account.balances.map((asset) => (
+                  <div key={asset.asset_code}>
+                    {" "}
+                    Asset: {asset.asset_code}, Limit: {asset.limit}  
+                    <br/>
+                    Asset issuer:{" "}
+                    {asset.asset_issuer}{" "}
+                  </div>
+                ))}
+            </Grid>
           </Grid>
         </Container>
-      </div>
-      <div>
-        {account &&
-          account.balances.map((asset) => (
-            <div key={asset.asset_code}>
-              {" "}
-              Asset: {asset.asset_code}, Limit: {asset.limit} Asset issuer:{" "}
-              {asset.asset_issuer}{" "}
-            </div>
-          ))}
       </div>
     </div>
   );

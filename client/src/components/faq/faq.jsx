@@ -34,7 +34,7 @@ export default function Faq() {
                 </Grid>
             </Grid> */}
             
-            <Typography variant='h5' className={classes.text}>About us</Typography>
+            <Typography variant='h5' className={classes.textAbout}>About us</Typography>
             <Accordion>
                 <AccordionSummary
                     expandIcon={<ExpandMore />}
@@ -73,7 +73,7 @@ export default function Faq() {
             </Accordion>
 
 
-            <Typography variant='h5' className={classes.text}>Cryptocurrency Exchange</Typography>
+            <Typography variant='h5' className={classes.textAbout}>Cryptocurrency Exchange</Typography>
 
 
             <Accordion>
@@ -109,7 +109,7 @@ export default function Faq() {
                 </AccordionDetails>
 
             </Accordion>
-            <Typography variant='h5' className={classes.text}>Buy crypto with Fiat</Typography>
+            <Typography variant='h5' className={classes.textAbout}>Buy crypto with Fiat</Typography>
             <Accordion>
                 <AccordionSummary
                     expandIcon={<ExpandMore />}

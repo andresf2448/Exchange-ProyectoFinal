@@ -61,7 +61,7 @@ export default function MuxedAccount ( props ) {
     return(
         <Container>
             <form onSubmit={createMuxedAccount}>
-                <Button className={classes.yellowButton} type="submit">
+                <Button className={classes.muxedYellowButton} type="submit" size='small'>
                     Create a muxed account
                 </Button>
             </form> 
@@ -69,7 +69,7 @@ export default function MuxedAccount ( props ) {
                 {
                     mux &&
                     <Grow container in='true' timeout='auto'>
-                        <Grid container  spacing={2}>
+                        <Grid container>
                             <Grid item xs={12}>
                                 <Paper className={classes.cryptoCurrency} elevation={10}>
                                     <Typography variant='subtitle1' align='center'>
@@ -81,10 +81,7 @@ export default function MuxedAccount ( props ) {
                                 <Paper className={classes.cryptoCurrency} elevation={10}>
                                     <Box align='center' alignItems="center">
                                         <Typography variant='subtitle1' align='center'>
-                                            BASE ACCOUNT SEQUENCE 
-                                        </Typography>
-                                        <Typography variant='subtitle1' align='center'>
-                                            - {mux.muxedSequence} -
+                                            BASE ACCOUNT SEQUENCE - {mux.muxedSequence} -
                                         </Typography>
                                     </Box>
                                 </Paper>
@@ -97,12 +94,13 @@ export default function MuxedAccount ( props ) {
                 container
                 direction="column"
                 justifyContent="center"
-                alignItems="left">
-                <Button type="submit" className={classes.yellowButton} onClick={getMuxedAccount}>
+                alignItems="left"
+                >
+                <Button type="submit" margin='dense' className={classes.muxedYellowButton} onClick={getMuxedAccount} size='small'>
                     Get your muxed accounts
                 </Button>
-
-                <Grid item xs={12}>
+                
+                <Grid item xs={12} style={{maxHeight:'26vh', overflow:'auto'}}>
                     { 
                         muxedAccounts.length > 0 &&
                         muxedAccounts.map(account => (

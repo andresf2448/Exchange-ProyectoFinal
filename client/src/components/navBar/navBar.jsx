@@ -46,7 +46,7 @@ export const NavBar = () => {
     <>
       <AppBar position="static" variant="fullWidth">
         <Tabs value={value} variant="scrollable" onChange={handleChange}>
-          <Tab label="RocketExChange" />
+          <Tab label="RocketXChange" />
           <Tab label="Wallet" />
           <Tab label="Trade" />
           <Tab label="Settings" />

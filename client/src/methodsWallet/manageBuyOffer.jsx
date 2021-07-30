@@ -1,4 +1,12 @@
-import { Grid, Typography, Select, MenuItem, Button } from "@material-ui/core";
+import {
+  Grid,
+  Typography,
+  Select,
+  MenuItem,
+  Button,
+  TextField,
+  Card,
+} from "@material-ui/core";
 import { useState } from "react";
 import StellarSdk from "stellar-sdk";
 import useStyles from "styles";
@@ -17,6 +25,7 @@ export default function ManageBuyOffer({
   // const [secondSelect, setSecondSelect] = useState(1)
 
   const server = new StellarSdk.Server("https://horizon-testnet.stellar.org");
+
   const classes = useStyles();
 
   const updateTransactions = async () => {
@@ -67,7 +76,7 @@ export default function ManageBuyOffer({
             price: price,
           })
         )
-        .setTimeout(10000000)
+        .setTimeout(0)
         .build();
 
       transaction.sign(sourceKeypair);
@@ -110,132 +119,87 @@ export default function ManageBuyOffer({
   // }
 
   return (
-    <Grid
-      container
-      style={{
-        backgroundColor: "#393939",
-        // marginLeft: "-19px",
-        paddingLeft: "20px",
-        marginTop: "-22px",
-      }}
-    >
+    <Card className={classes.cardSaleOffer} >
       <form onSubmit={(event) => handleSubmit(event)}>
-        <Grid container item >
+        <Grid container >
           <Grid item xs={12}>
             <Typography>Create your sale offer:</Typography>
           </Grid>
-          <Grid item style={{ display: "flex" }}>
-            <Grid item xs={12}>
-              <Select
-                value={assetAsk}
-                style={{
-                  marginTop: "2px",
-                  padding: "5px",
-                  borderRadius: "3px",
-                  backgroundColor: "white",
-                  color: "rgb(183, 189, 198)",
-                }}
-                onChange={(event) => selectAssetAsk(event)}
-              >
-                <MenuItem disabled value={1}>
-                  Buy asset
-                </MenuItem>
-                {assets &&
-                  assets.map((element) => {
-                    return (
-                      <MenuItem
-                        value={element.asset_code}
-                        key={element.asset_code}
-                      >
-                        {element.asset_code}
-                      </MenuItem>
-                    );
-                  })}
-              </Select>
-            </Grid>
-            <Grid item xs={12}>
-              <input
-                style={{
-                  padding: "12px",
-                  borderRadius: "6px",
-                  backgroundColor: "white",
-                  // color: "rgb(183, 189, 198)",
-                }}
-                value={amount}
-                type="text"
-                name="amount"
-                onChange={(event) => setAmount(event.target.value)}
-                placeholder="Amount to sell"
-              />
-            </Grid>
+          <Grid item xs={4}>
+            <Select
+              variant="standard"
+              value={assetAsk}
+              onChange={(event) => selectAssetAsk(event)}
+            >
+              <MenuItem disabled value={1}>
+                Buy asset
+              </MenuItem>
+              {assets &&
+                assets.map((element) => {
+                  return (
+                    <MenuItem
+                      value={element.asset_code}
+                      key={element.asset_code}
+                    >
+                      {element.asset_code}
+                    </MenuItem>
+                  );
+                })}
+            </Select>
           </Grid>
-          <Grid item style={{ display: "flex", marginTop: "5px" }}>
-            <Grid item xs={12}>
-              <Select
-                value={assetBid}
-                style={{
-                  marginTop: "1.5px",
-                  paddingRight: "8.5px",
-                  padding: "5px",
-                  borderRadius: "3px",
-                  backgroundColor: "white",
-                  color: "rgb(183, 189, 198)",
-                }}
-                onChange={(event) => selectAssetBid(event)}
-              >
-                <MenuItem disabled value={1}>
-                  Bid asset
-                </MenuItem>
-                {assets &&
-                  assets.map((element) => {
-                    return (
-                      <MenuItem
-                        value={element.asset_code}
-                        key={element.asset_code}
-                      >
-                        {element.asset_code}
-                      </MenuItem>
-                    );
-                  })}
-              </Select>
-            </Grid>
-            <Grid item xs={12}>
-              <input
-                style={{
-                  padding: "12px",
-                  borderRadius: "6px",
-                  backgroundColor: "white",
-                  color: "rgb(183, 189, 198)",
-                }}
-                value={price}
-                style={{paddingRight:'22px', paddingBottom:'22px', marginTop:'0px', borderRadius:'6px', }}
-                type="text"
-                name="price"
-                onChange={(event) => setPrice(event.target.value)}
-                placeholder="  Price per token"
-              />
-            </Grid>
+          <Grid item xs={8}>
+            <TextField
+              variant="standard"
+              value={amount}
+              type="text"
+              name="amount"
+              onChange={(event) => setAmount(event.target.value)}
+              placeholder="Amount to sell"
+            />
           </Grid>
-          <Grid
-            item
-            style={{ display: "flex", justifyContent: "flex-end" }}
-            xs={12}
-          >
+          <Grid item xs={4}>
+            <Select
+              value={assetBid}
+              variant="standard"
+              onChange={(event) => selectAssetBid(event)}
+            >
+              <MenuItem disabled value={1}>
+                Bid asset
+              </MenuItem>
+              {assets &&
+                assets.map((element) => {
+                  return (
+                    <MenuItem
+                      value={element.asset_code}
+                      key={element.asset_code}
+                    >
+                      {element.asset_code}
+                    </MenuItem>
+                  );
+                })}
+            </Select>
+          </Grid>
+          <Grid item xs={8}>
+            <TextField
+              variant="standard"
+              value={price}
+              type="text"
+              name="price"
+              onChange={(event) => setPrice(event.target.value)}
+              placeholder="Price per token"
+            />
+          </Grid>
+          <Grid item xs={8}></Grid>
+          <Grid item xs={4}>
             <Button
               type="submit"
               className={classes.invitedYellowButton}
-              // style={{
-              //   color:'grey',
-              //   marginRight: "105px",
-              //   marginTop: "4px",
-              //   backgroundColor: "white",
-              // }}
             >
               Submit
             </Button>
           </Grid>
         </Grid>
       </form>
-    </Grid>
+    </Card>
   );
 }

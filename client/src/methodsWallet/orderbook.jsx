@@ -1,13 +1,19 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import StellarSdk from "stellar-sdk";
 import Offer from "./offer.jsx";
 import { Grid } from "@material-ui/core";
 
-export default function Orderbook({assets}) {
-  const [assetBuy, setAssetBuy] = useState(new StellarSdk.Asset("USDC", "GC5W3BH2MQRQK2H4A6LP3SXDSAAY2W2W64OWKKVNQIAOVWSAHFDEUSDC"));
+export default function Orderbook({ assets }) {
+  const [assetBuy, setAssetBuy] = useState(
+    new StellarSdk.Asset(
+      "USDC",
+      "GC5W3BH2MQRQK2H4A6LP3SXDSAAY2W2W64OWKKVNQIAOVWSAHFDEUSDC"
+    )
+  );
   const [assetSell, setAssetSell] = useState(StellarSdk.Asset.native());
   const [response, setResponse] = useState();
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const server = new StellarSdk.Server("https://horizon-testnet.stellar.org");
 
   const selectAssetBuy = (event) => {
@@ -51,9 +57,10 @@ export default function Orderbook({assets}) {
   }, [assetSell, assetBuy, server]);
 
   return (
-    <Grid container style={{width:'350px'}}>
-      <Grid container style={{justifyContent:'center', marginRight:'30px'}}>
-      <Grid item>
+    <Grid container>
+      <Grid container style={{ marginRight:'30px'}}>
+        <Grid item xs={2}></Grid>
+      <Grid item xs={4}>
       <select
         defaultValue=""
         name="asset"
@@ -64,11 +71,11 @@ export default function Orderbook({assets}) {
           assets.map((element) => {
             return (
               <option key={element.asset_code}>{element.asset_code}</option>
-            );
-          })}
-      </select>{" "}
+              );
+            })}
+      </select>
       </Grid>
-      <Grid item>
+      <Grid item xs={4}>
       <select
         defaultValue=""
         name="asset"
@@ -81,7 +88,7 @@ export default function Orderbook({assets}) {
               <option key={element.asset_code}>{element.asset_code}</option>
             );
           })}
-      </select>{" "}
+      </select>
       </Grid>
       </Grid>
       {response && <Offer asks={response.asks} bids={response.bids} />}
