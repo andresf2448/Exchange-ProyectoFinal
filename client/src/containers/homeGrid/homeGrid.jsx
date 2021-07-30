@@ -7,8 +7,8 @@ export const HomeGrid = () => {
   const classes = useStyles();
   return (
     <Container maxWidth="lg">
-      <Grid container spacing={12} alignItems="center">
-        <Grid item xs={8} alignItems="center">
+      <Grid container alignItems="center">
+        <Grid item xs={8}>
           <Card elevation={3} className={classes.backCryptoCard}>
             {/* <CryptoGraphics /> */}
           </Card>
