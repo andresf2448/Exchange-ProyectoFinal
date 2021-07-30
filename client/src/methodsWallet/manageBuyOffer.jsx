@@ -7,9 +7,10 @@ import {
   TextField,
   Card,
 } from "@material-ui/core";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import StellarSdk from "stellar-sdk";
 import useStyles from "styles";
+import Swal from "sweetalert2";
 
 export default function ManageBuyOffer({
   secretKey,
@@ -21,9 +22,7 @@ export default function ManageBuyOffer({
   const [assetBid, setAssetBid] = useState();
   const [amount, setAmount] = useState();
   const [price, setPrice] = useState();
-  // const [firstSelect, setFirstSelect] = useState(1)
-  // const [secondSelect, setSecondSelect] = useState(1)
-
+  const [account, setAccount] = useState();
   const server = new StellarSdk.Server("https://horizon-testnet.stellar.org");
 
   const classes = useStyles();
@@ -46,7 +45,40 @@ export default function ManageBuyOffer({
     bid = new StellarSdk.Asset(asset_code, asset_issuer);
   } else bid = StellarSdk.Asset.native();
 
+  useEffect(async () => {
+    await server
+      .loadAccount("GDWIGFKMGORBKFW7IZOKBZ4OBXXKITSOLJFTBRKFJOBKLQCGCZJ54IFE")
+      .then((res) => setAccount(res))
+      .catch((err) => console.log(err));
+  }, [account]);
+
   async function makeBuyOffer() {
+    const verifyBalance = account?.balances?.filter(
+      (balance) => balance.asset_code === ask.asset_code
+    );
+
+    if (account) {
+      if (verifyBalance.length === 0) {
+        Swal.fire({
+          text: "This asset is not available",
+          icon: "error",
+          confirmButtonText: "Okay!",
+          background: "#1f1f1f",
+          confirmButtonColor: "rgb(158, 158, 158)",
+        });
+
+      }
+      if (Number(verifyBalance[0].balance) < Number(amount)) {
+        Swal.fire({
+          text: "This account doesn't have enough founds for this offer",
+          icon: "error",
+          confirmButtonText: "Okay!",
+          background: "#1f1f1f",
+          confirmButtonColor: "rgb(158, 158, 158)",
+        });
+      }
+    }
+
     try {
       const sourceKeypair = StellarSdk.Keypair.fromSecret(secretKey);
 
@@ -54,8 +86,7 @@ export default function ManageBuyOffer({
         {
           max_fee: { mode: fee },
         },
-        account,
-      ] = await Promise.all([server.feeStats(), server.loadAccount(publicKey)]);
+      ] = await Promise.all([server.feeStats()]);
 
       const transaction = new StellarSdk.TransactionBuilder(account, {
         fee,
@@ -80,10 +111,15 @@ export default function ManageBuyOffer({
         .build();
 
       transaction.sign(sourceKeypair);
-      await server.submitTransaction(transaction);
+      const asd = await server.submitTransaction(transaction);
     } catch (e) {
-      console.error("Oh no! Something went wrong.");
-      console.error(e);
+      Swal.fire({
+        text: "Oh no! Something went wrong.",
+        icon: "error",
+        confirmButtonText: "Okay!",
+        background: "#1f1f1f",
+        confirmButtonColor: "rgb(158, 158, 158)",
+      });
     }
   }
 
@@ -109,21 +145,17 @@ export default function ManageBuyOffer({
     event.preventDefault();
     updateTransactions();
   }
-  // function handleChange(event) {
-  //   selectAssetAsk(event);
-  //   setFirstSelect(event.target.value)
-  // }
-  // function handleChange2(event) {
-  //   selectAssetBid(event);
-  //   setSecondSelect(event.target.value);
-  // }
 
   return (
-    <Card className={classes.cardSaleOffer} >
+    <Card className={classes.cardSaleOffer}>
       <form onSubmit={(event) => handleSubmit(event)}>
-        <Grid container >
+        <Grid container>
           <Grid item xs={12}>
-            <Typography>Create your sale offer:</Typography>
+            <Typography style={{
+              textAlign: "center",
+              marginBottom: "2vh",
+            }}>Create your sale offer:</Typography>
+            <hr color='#ffd523'/>
           </Grid>
           <Grid item xs={4}>
             <Select
@@ -191,10 +223,7 @@ export default function ManageBuyOffer({
           </Grid>
           <Grid item xs={8}></Grid>
           <Grid item xs={4}>
-            <Button
-              type="submit"
-              className={classes.invitedYellowButton}
-            >
+            <Button type="submit" className={classes.invitedYellowButton}>
               Submit
             </Button>
           </Grid>

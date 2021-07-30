@@ -41,9 +41,9 @@ export default function ChangeTrust({ publicKey, secretKey, assets, account }) {
             limit: limitAmount,
           })
         )
-
         .setTimeout(0)
         .build();
+      console.log(asset);
       transaction.sign(sourceKeypair);
 
       await server.submitTransaction(transaction).then(() => {
@@ -84,7 +84,7 @@ export default function ChangeTrust({ publicKey, secretKey, assets, account }) {
             <Grid item xs={12}>
               <form onSubmit={(e) => handleSubmit(e)}>
                 <FormControl>
-                  <InputLabel InputLabel id="demo-simple-select-label">
+                  <InputLabel id="demo-simple-select-label">
                     Select an Asset
                   </InputLabel>
                   <Select
@@ -113,7 +113,7 @@ export default function ChangeTrust({ publicKey, secretKey, assets, account }) {
                   <TextField
                     type="text"
                     name="limitAmount"
-                    placeholder="Limit for trust"
+                    placeholder="Quantity of trust in this asset"
                     onChange={(e) => setLimitAmount(e.target.value)}
                     style={{ paddingBottom: 10 }}
                   />

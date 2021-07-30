@@ -5,7 +5,6 @@ require("dotenv").config();
 
 router.get("/", (req, res) => {
  
-  
   const pair = StellarSdk.Keypair.random();
   async function createTestAccount() {
     try {
@@ -19,6 +18,7 @@ router.get("/", (req, res) => {
        
     } catch (e) {
       console.error("Oh no! Something went wrong:", e);
+      res.status(500).json({message: 'Stellar net has failed'})
     }
   }
   createTestAccount();
