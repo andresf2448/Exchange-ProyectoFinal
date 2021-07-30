@@ -150,7 +150,7 @@ const useStyles = makeStyles(theme => ({
     // alignContent: 'center'
   },
   cryptoCurrency: {
-    width: '96%',
+    width: '98%',
     display: 'flex',
     flexDirection: 'column',
     backgroundColor: '#000',
