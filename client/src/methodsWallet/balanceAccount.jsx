@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import StellarSdk from "stellar-sdk";
-import { Divider, TableContainer, Table, TableHead, TableBody, TableRow, TableCell } from "@material-ui/core";
+import { TableContainer, Table, TableHead, TableBody, TableRow, TableCell } from "@material-ui/core";
 import useStyles from "styles";
 import { supabase } from "../supabase/supabase";
 // import CreateAccount from "./createAccount";
