@@ -45,6 +45,9 @@ const main = async function (sourcePublicKey, sourceKeypair, receiverPublicKey, 
     } else if (currency.toUpperCase() === 'EURR') {
         asset = new Asset('EURR', 'GC3EFAUIEISOQ55SBNYHRRAI2DKUOLABSSMAXETE2BVLD3LLYEU5KGKH')
 
+    }   else if (currency.toUpperCase() === 'HENRYCOIN') {
+        asset = new Asset('HenryCoin', 'GDJX4IPQFAZRSBNA7ZM456O226SPZV33VCOZFFO4HE3NMH6JOZE66OAM')
+
     }
      console.log('El aset EURR',asset)
     
@@ -126,7 +129,7 @@ const feeCalculator = async (amount) => {
 }
 
 const calculatePrice = async (amount_out, currency, crypto) => {
-    console.log(currency);
+    
     if(currency === "HenryCoin"){
         currency = "XLM";
     }

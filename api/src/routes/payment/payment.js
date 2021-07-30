@@ -92,12 +92,12 @@ router.post('/', async (req, res) => {
         let feeReceiverPublicKey = data[0].stellarPublicKey
 
         let transactionFee = await main(sourcePublicKey, sourceKeypair, feeReceiverPublicKey, fee.toString(), currency)
-        console.log('La transaction con el fee', transactionFee)
+        
         if (transactionFee.isError && transactionFee.message === 'Invalid account') return res.status(400).json({ message: transaction.message, error: transaction.error  })
         if (transactionFee.isError) return res.status(500).json({ message: transaction.message, error: transaction.error  })
     }
     
-    console.log('la transaction', transaction)
+    
     if (transaction.isError && transaction.message === 'Invalid account') return res.status(400).json({ message: transaction.message, error: transaction.error  })
     if (transaction.isError) return res.status(500).json({ message: transaction.message, error: transaction.error  })
     

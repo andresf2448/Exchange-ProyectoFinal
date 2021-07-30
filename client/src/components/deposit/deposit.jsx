@@ -192,6 +192,20 @@ export const Deposit = () => {
       .catch((err) => console.log(err));
   };
 
+  const handleLink = () => {
+    setSelector({
+      fiat: "",
+      crypto: "",
+      xlm: "",
+    })
+    setInput({
+      fiat: "",
+      crypto: "",
+      xlm: "",
+    });
+    setResponseHook()
+  }
+
   useEffect(() => {
     userExist();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -235,7 +249,7 @@ export const Deposit = () => {
             <Select name="fiat" value={input.fiat} onChange={handleChange}>
             {account ? 
                   account.map(element =>                 
-                     <MenuItem value={element.asset_code }>{element.asset_code}</MenuItem>
+                     <MenuItem value={element.asset_code }>{element.asset_code.substring(0,3)}</MenuItem>
                   )
                   : null} 
               
@@ -252,6 +266,7 @@ export const Deposit = () => {
             <br />
             {responseHook && (
               <Link
+              onClick={handleLink}
                 to={
                   responseHook.interactiveResponse.url +
                   `${input.fiat.slice(0, 3)}`
@@ -287,6 +302,7 @@ export const Deposit = () => {
             <br />
             {responseHook && (
               <Link
+              onClick={handleLink}
                 to={responseHook.interactiveResponse.url + `${input.crypto}`}
                 target="_blank"
                 style={{ textDecoration: "none", color: "primary" }}
@@ -316,7 +332,7 @@ export const Deposit = () => {
             <Select name="fiat" value={input.fiat} onChange={handleChange}>
             {account ? 
                   account.map(element =>                 
-                     <MenuItem value={element.asset_code }>{element.asset_code}</MenuItem>
+                     <MenuItem value={element.asset_code }>{element.asset_code.substring(0,3)}</MenuItem>
                   )
                   : null} 
              
@@ -333,6 +349,7 @@ export const Deposit = () => {
             <br />
             {responseHook && (
               <Link
+              onClick={handleLink}
                 to={
                   responseHook.interactiveResponse.url +
                   `${input.fiat.slice(0, 3)}${input.xlm}`
