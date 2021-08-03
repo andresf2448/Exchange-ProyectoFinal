@@ -6,7 +6,7 @@ import BalanceAccount from "methodsWallet/balanceAccount";
 import { Withdraw } from "components/withdraw/withdraw";
 import { supabase } from "../../supabase/supabase";
 import StellarSdk from "stellar-sdk";
-import { Card, Tabs, Tab, Grid, AppBar } from "@material-ui/core";
+import { Card, Tabs, Tab, Grid, AppBar, useMediaQuery } from "@material-ui/core";
 import { useState } from "react";
 import useStyles from "styles";
 import ChangeTrust from "methodsWallet/trustLines";
@@ -18,6 +18,9 @@ export default function WalletContainer() {
   const [assets, setAssets] = useState();
   const session = supabase.auth.session();
   const server = new StellarSdk.Server("https://horizon-testnet.stellar.org");
+  const ourMediaQuery = useMediaQuery("(min-width:820px)");
+
+  
 
   const keys = async () => {
     const { data: assets } = await supabase.from("assets").select("*");
@@ -60,14 +63,15 @@ export default function WalletContainer() {
             value={value}
             onChange={handleChange}
             variant="fullWidth"
+            centered={true}
           >
-            <Tab label="Get key" />
-            <Tab label="Balance" />
-            <Tab label="Transaction" />
+            <Tab label="Get key" className={ourMediaQuery?classes.tabsNormal:classes.tabsResponsive} />
+            <Tab label="Balance" className={ourMediaQuery?classes.tabsNormal:classes.tabsResponsive}/>
+            <Tab label="Transaction" className={ourMediaQuery?classes.tabsNormal:classes.tabsResponsive}/>
             {/* <Tab label="Transaction history" /> */}
-            <Tab label="Change trust" />
-            <Tab label="Deposit" className={classes.tabs1} />
-            <Tab label="Withdraw" className={classes.tabs2} />
+            <Tab label="Change trust" className={ourMediaQuery?classes.tabsNormal:classes.tabsResponsive}/>
+            <Tab label="Deposit" className={ourMediaQuery?classes.tabs1:classes.tabs1Responsive} />
+            <Tab label='Withdraw' className={ourMediaQuery?classes.tabs2:classes.tabs2Responsive} />
           </Tabs>
         </AppBar>
       </Grid>

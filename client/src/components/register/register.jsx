@@ -151,7 +151,8 @@ export default function Register ( { back } ) {
                     </Button>
                     <Button 
                       variant="outlined"
-                      color="secondary" onClick={()=> back()}>
+                      color="secondary" onClick={()=> back()}
+                    >
                       Back
                     </Button>
                   </ButtonGroup>

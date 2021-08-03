@@ -364,12 +364,32 @@ const useStyles = makeStyles(theme => ({
     paddingRight: '3vw',
     paddingBottom: '2vh'
   },
-  tabs1: {
+  tabsNormal:{
+    fontSize: '14px',
+  },
+  tabsResponsive: {
+    paddingRight: '4vh',
+    fontSize: '8px',
+  },
+  tabs1:
+  {
     backgroundColor: 'rgb(255, 217, 112)',
     color: '#272727b3',
+
+  },
+  tabs1Responsive: {
+    backgroundColor: 'rgb(255, 217, 112)',
+    color: '#272727b3',
+    fontSize: '10px',
+    paddingRight: '4vh',
   },
   tabs2: {
-    backgroundColor: 'rgb(10, 147, 168)'
+    backgroundColor: 'rgb(10, 147, 168)',
+  },
+  tabs2Responsive: {
+    backgroundColor: 'rgb(10, 147, 168)',
+    fontSize: '10px',
+    paddingRight: '4vh',
   },
   muxedAccountsList: {
     overflowY: 'scroll',
