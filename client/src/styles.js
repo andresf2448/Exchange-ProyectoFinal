@@ -81,12 +81,13 @@ const useStyles = makeStyles(theme => ({
     height: "100vh",
     display: "flex",
     alignItems: "center",
+    justifyContent: 'center'
   },
   loginCard: {
     backgroundColor: theme.palette.secondary.background,
     color: theme.palette.primary.contrastText,
     borderRadius: '6px',
-    minWidth: "600px"
+    minWidth: "300px"
   },
   loginForm: {
     display: "flex",
