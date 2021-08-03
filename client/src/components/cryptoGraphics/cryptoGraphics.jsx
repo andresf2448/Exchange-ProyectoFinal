@@ -195,7 +195,7 @@ export const CryptoGraphics = () => {
       btcSocket.close();
       chzSocket.close();
       filSocket.close();
-      adaSocket.close();
+      adaSocket.close(); 
       bnbSocket.close();
       dotSocket.close();
       axsSocket.close();

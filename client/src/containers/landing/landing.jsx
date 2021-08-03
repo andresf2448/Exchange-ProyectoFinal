@@ -138,10 +138,10 @@ const Landing = () => {
         onClose={handleRegister}
         style={{ zIndex: "1000", position: "fixed" }}
       >
-        <Register />
+        <Register back={handleRegister}/>
       </Modal>
       <Modal open={loginModal} onClose={handleLogin} style={{ zIndex: "1000" }}>
-        <Login />
+        <Login back={handleLogin}/>
       </Modal>
     </ButtonGroup>
   );

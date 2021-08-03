@@ -13,13 +13,14 @@ import {
   FormControl,
   Link,
   Grid,
-  Card
+  Card,
+  ButtonGroup
 } from "@material-ui/core";
 
 import { supabase } from "supabase/supabase";
 import { useEffect } from "react";
 
-export default function Login () {
+export default function Login ({ back }) {
   const history = useHistory();
   const [login, setLogin] = useState(false)
   const classes = useStyles();
@@ -156,14 +157,14 @@ export default function Login () {
                 )}
 
                 {/* this button goes first for the submit function when pressing enter */}
-                {/* <ButtonGroup className={classes.loginGridItem}> */}
+                <ButtonGroup className={classes.loginGridItem}>
                   <Button type="submit" variant="contained" color="secondary" className={classes.loginGridItem}>
                     Login
                   </Button>
-                  {/* <Button variant="outlined" color="secondary" onClick={singUpRoute}>
-                    Sing up
-                  </Button> */}
-                {/* </ButtonGroup> */}
+                  <Button variant="outlined" color="secondary" onClick={ ()=> back() }>
+                    Back
+                  </Button>
+                </ButtonGroup>
               </FormControl>
             </form>
           </Grid>

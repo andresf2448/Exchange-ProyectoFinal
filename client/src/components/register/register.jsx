@@ -17,7 +17,7 @@ import {
   Card
 } from "@material-ui/core";
 
-export default function Register () {
+export default function Register ( { back } ) {
   const history = useHistory();
   const classes = useStyles();
 
@@ -148,6 +148,11 @@ export default function Register () {
                       disabled={!submit}
                     >
                       Sing up
+                    </Button>
+                    <Button 
+                      variant="outlined"
+                      color="secondary" onClick={()=> back()}>
+                      Back
                     </Button>
                   </ButtonGroup>
               </FormControl>
