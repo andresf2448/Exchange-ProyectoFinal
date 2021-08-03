@@ -364,6 +364,13 @@ const useStyles = makeStyles(theme => ({
     paddingRight: '3vw',
     paddingBottom: '2vh'
   },
+  appBar:{
+    height: '87vh'
+  },
+  appBarResponsive:{
+    width: "20vw",
+    height: 'auto'
+  },
   tabsNormal:{
     fontSize: '14px',
   },

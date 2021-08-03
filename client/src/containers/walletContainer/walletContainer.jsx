@@ -57,7 +57,7 @@ export default function WalletContainer() {
   return (
     <Grid container>
       <Grid item xs={2}>
-        <AppBar position="static" style={{ height: "87vh" }}>
+        <AppBar position="static" className={ourMediaQuery?classes.appBar:classes.appBarResponsive}>
           <Tabs
             orientation="vertical"
             value={value}
