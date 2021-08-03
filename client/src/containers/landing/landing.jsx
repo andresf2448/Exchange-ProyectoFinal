@@ -172,7 +172,7 @@ const Landing = () => {
         <Grid container>
           <AppBar color='transparent' position='static'>
             <Toolbar>
-              <Grid item xs={2}>
+              <Grid item xs={2} align="left">
                 <Button
                   onClick={handleClick}
                   aria-controls="simple-menu"
@@ -194,10 +194,10 @@ const Landing = () => {
                   <MenuItem onClick={handleClose}> {faq}</MenuItem>
                 </Menu>
               </Grid>
-              <Grid item xs={3}>
+              <Grid item xs={5}>
                 {rocket}
               </Grid>
-              <Grid item xs={7} align='right'>
+              <Grid item xs={5} align='right'>
                 {buttons}
               </Grid>
             </Toolbar>
