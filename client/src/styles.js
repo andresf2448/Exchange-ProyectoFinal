@@ -130,8 +130,8 @@ const useStyles = makeStyles(theme => ({
   adminTableContainer: {
     maxHeight: "70vh"
   },
-  trustLineTableContainer:{
-    maxHeight:'40vh',
+  trustLineTableContainer: {
+    maxHeight: '40vh',
   },
   adminTable: {
     backgroundColor: theme.palette.primary.light
