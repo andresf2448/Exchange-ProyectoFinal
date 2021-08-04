@@ -13,7 +13,8 @@ import {
   TableHead,
   TableBody,
   TableCell,
-  TableRow
+  TableRow,
+  useMediaQuery
 } from "@material-ui/core";
 import { useState } from "react";
 import StellarSdk from "stellar-sdk";
@@ -27,6 +28,7 @@ export default function ChangeTrust({ publicKey, secretKey, assets, account }) {
   const [waiting, setWaiting] = useState(false);
   const server = new StellarSdk.Server("https://horizon-testnet.stellar.org");
   const classes = useStyles();
+  const ourMediaQuery = useMediaQuery("(min-width:820px)");
 
   async function trustLine() {
     setWaiting(() => true);
@@ -106,7 +108,7 @@ export default function ChangeTrust({ publicKey, secretKey, assets, account }) {
             alignItems="center"
             direction="column"
           >
-            <Typography variant="h4">Change Trust Assets</Typography>
+            <Typography variant={ourMediaQuery?'h6':'body'}>Change Trust Assets</Typography>
             {waiting ? 
             <div>
               <br/>
@@ -172,27 +174,26 @@ export default function ChangeTrust({ publicKey, secretKey, assets, account }) {
              }
             <Grid item xs={12}>
               <TableContainer style={{maxHeight:'50vh'}}>
-                <Table stickyHeader className={classes.adminTable}>
+                <Table stickyHeader className={classes.adminTable} size={ourMediaQuery?'medium':'small'}>
                   <TableHead>
                     <TableRow>
-                      <TableCell align='center'>Asset</TableCell>
-                      <TableCell align='center'>Limit</TableCell>
-                      <TableCell align='center'>Asset issuer</TableCell>
+                      <TableCell align='center' size={ourMediaQuery?'medium':'small'}>Asset</TableCell>
+                      <TableCell align='center' size={ourMediaQuery?'medium':'small'}>Limit</TableCell>
+                      <TableCell align='center' size={ourMediaQuery?'medium':'small'}>Asset issuer</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
                     {account &&
                       account.balances.map((asset) => {
 
-
                         return (<>
 
                           {asset.asset_type !== 'native' ?
 
                             <TableRow hover={{backgroundColor:'black'}}>
-                              <TableCell align='center'>{asset.asset_code}</TableCell>
-                              <TableCell align='center'>{parseFloat(asset.limit).toFixed(2)}</TableCell>
-                              <TableCell align='center'>{asset.asset_issuer}</TableCell>
+                              <TableCell align='center' size={ourMediaQuery?'medium':'small'}>{asset.asset_code}</TableCell>
+                              <TableCell align='center' size={ourMediaQuery?'medium':'small'}>{parseFloat(asset.limit).toFixed(2)}</TableCell>
+                              <TableCell align='center' size={ourMediaQuery?'medium':'small'}>{asset.asset_issuer}</TableCell>
                             </TableRow>
                             : null}
                         </>)

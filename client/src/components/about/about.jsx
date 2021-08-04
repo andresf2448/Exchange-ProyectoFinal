@@ -1,9 +1,11 @@
 import React from "react";
-import { Typography, Grid } from "@material-ui/core";
+import { useMediaQuery, Typography, Grid } from "@material-ui/core";
 // import './about.css';
 import AboutCard from "./aboutCard";
 
 export default function About() {
+  const ourMediaQuery = useMediaQuery("(min-width:820px)");
+
   let team = [
     {
       name: "Rodrigo Juarez",
@@ -55,6 +57,7 @@ export default function About() {
         flexDirection: "column",
         width: "90%",
         marginLeft: "86px",
+        backgroundColor: "#1f1f1f",
       }}
     >
       <Grid
@@ -65,7 +68,7 @@ export default function About() {
           marginRight: "90px",
         }}
       >
-        <Typography variant="h3">Meet The Team</Typography>
+        <Typography variant={ourMediaQuery?"h3":'subtitle1'}>Meet The Team</Typography>
       </Grid>
       <Grid container style={{ display: "flex", marginTop: "-80px" }}>
         {team.map((element, index) => {

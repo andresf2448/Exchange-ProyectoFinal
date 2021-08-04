@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
-import { Button, Grid, Typography, Divider } from "@material-ui/core";
+import { Button, Grid, Typography, Divider, useMediaQuery } from "@material-ui/core";
 import useStyles from "styles";
 import { supabase } from "supabase/supabase";
 import MuxedAccount from 'methodsWallet/muxedAccount.jsx';
@@ -17,6 +17,7 @@ export default function CreateAccount() {
   const [publicKeyUser, setPublicKeyUser] = useState(null);
   const [secretKeyUser, setSecretKeyUser] = useState(null);
   const [spinner, setSpinner] = useState(true);
+  const ourMediaQuery = useMediaQuery("(min-width:820px)");
 
   const userExist = async () => {
     let { data } = await supabase
@@ -91,17 +92,24 @@ export default function CreateAccount() {
   },[])
 
   return (
-    <div>
+    <Grid container>
       {spinner ? <HashLoader color={'#ffd523'} size={20}/> :
         hasWallet ? (
-          <Grid item key={12}>
-            {<Typography variant='subtitle1'>PublicKey | {publicKeyUser}</Typography>}
-            {<Typography variant='subtitle1'>SecretKey | {secretKeyUser}</Typography>}
+
+          <Grid style={{maxWidth: '100%'}} >
+            <Grid item xs={12} >
+              <Typography variant={ourMediaQuery?'h6':'subtitle2'}>PublicKey |</Typography>
+              <Typography variant={ourMediaQuery?'h6':'subtitle2'} style={{maxWidth:'100%'}}> {publicKeyUser}</Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <Typography variant={ourMediaQuery?'h6':'subtitle2'}>SecretKey | {secretKeyUser}</Typography>
+            </Grid>
             <Divider className={classes.divider}/>
             <br/>
             <MuxedAccount pk={publicKeyUser}/>
+ 
           </Grid>
-          
+            
           ) : (
             <form onSubmit={createdAccounts}>
               <label> User Name </label>
@@ -112,6 +120,6 @@ export default function CreateAccount() {
             </form>
           )
       }
-    </div>
+    </Grid>
   );
 }

@@ -12,6 +12,7 @@ import {
   Select,
   MenuItem,
   Divider,
+  useMediaQuery,
 } from "@material-ui/core";
 import useStyles from "styles";
 import Swal from "sweetalert2";
@@ -20,6 +21,8 @@ import StellarSdk from "stellar-sdk";
 import HashLoader from "react-spinners/HashLoader";
 
 export default function Transaction() {
+  const ourMediaQuery = useMediaQuery("(min-width:820px)");
+
   const [error, setError] = useState({
     isError: true,
     email: "",
@@ -189,8 +192,8 @@ export default function Transaction() {
       <Grid align="center">
         {session ? (
           <div>
-            <Typography variant="h4">Transaction</Typography>
-            <Typography variant="h5">
+            <Typography variant={ourMediaQuery?'h4':'h5'}>Transaction</Typography>
+            <Typography variant={ourMediaQuery?'h6':'body'}>
               Search by email the person you want to transfer
             </Typography>
             <br />

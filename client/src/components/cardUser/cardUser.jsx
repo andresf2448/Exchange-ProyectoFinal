@@ -4,11 +4,12 @@ import StellarSdk from "stellar-sdk";
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { DataGrid } from "@material-ui/data-grid";
-import { Container, Card, Grid, Typography, Divider } from "@material-ui/core";
+import { Button, useMediaQuery, Container, Card, Grid, Typography, Divider } from "@material-ui/core";
 import useStyles from "styles";
 import HashLoader from "react-spinners/HashLoader";
 
-export const CardUser = () => {
+export const CardUser = ({ back }) => {
+  const ourMediaQuery = useMediaQuery("(min-width:820px)");
   const classes = useStyles();
   const [account, setAccount] = useState();
   const [offers, setOffers] = useState();
@@ -141,7 +142,7 @@ export const CardUser = () => {
       {spinner ? (
         <Card elevation={3} className={classes.cardUserSpinner}>
           <Grid style={{ height: "8vh" }}>
-            <HashLoader color={"#ffd523"} size={70} />
+            <HashLoader color={"#ffd523"} size={50} />
           </Grid>
         </Card>
       ) : (
@@ -150,7 +151,10 @@ export const CardUser = () => {
             {account && validatePublicKey ? (
               <Grid container>
                 <Grid item xs={10} align="center" style={{ marginBottom: 20 }}>
-                  <Typography variant="h3"> {email}</Typography>
+                  <Typography variant={ourMediaQuery?"h3":"h6"}> {email}</Typography>
+                  <Button variant='contained' color='secondary' onClick={()=> back()}>
+                    Back
+                  </Button>
                 </Grid>
                 <Grid
                   item
@@ -160,17 +164,17 @@ export const CardUser = () => {
                 ></Grid>
                 <Grid item xs={12} align="center" style={{ marginBottom: 20 }}>
                   <Divider variant="middle" className={classes.divider} />
-                  <Typography variant="h4">BALANCE</Typography>
-                  <Typography variant="body1">
+                  <Typography variant={ourMediaQuery?"h4":"h6"}>BALANCE</Typography>
+                  <Typography variant={ourMediaQuery?"body1":"body2"}>
                     Asset: {!account.asset_code ? "XLM" : account.asset_code}
                   </Typography>
-                  <Typography variant="body1">
+                  <Typography variant={ourMediaQuery?"body1":"body2"}>
                     Balance: {account.balance}
                   </Typography>
-                  <Typography variant="body1">
+                  <Typography variant={ourMediaQuery?"body1":"body2"}>
                     Monto en ofertas de venta: {account.selling_liabilities}
                   </Typography>
-                  <Typography variant="body1">
+                  <Typography variant={ourMediaQuery?"body1":"body2"}>
                     Monto en ofertas de compra: {account.buying_liabilities}
                   </Typography>{" "}
                 </Grid>
@@ -178,7 +182,10 @@ export const CardUser = () => {
             ) : (
               <Grid container>
                 <Grid item xs={10} align="center">
-                  <Typography variant="h3">USER HAS NO WALLET</Typography>
+                  <Typography variant={ourMediaQuery?"h3":"h6"}>USER HAS NOT WALLET</Typography>
+                  <Button color='secondary' variant='contained' onClick={()=> back()}>
+                    Back
+                  </Button>
                 </Grid>
                 <Grid
                   item
@@ -190,20 +197,22 @@ export const CardUser = () => {
             )}
             {validateOffers ? (
               <Grid item xs={12} align="center" style={{ marginBottom: 20 }}>
-                <Typography variant="h4">OFFERS</Typography>
+                <Typography variant={ourMediaQuery?"h4":"body2"}>OFFERS</Typography>
                 <div style={{ height: 380, width: "70%" }}>
                   <DataGrid
                     style={{ color: "whitesmoke" }}
                     rows={offers}
                     columns={columnsOffer}
                     pageSize={5}
+                    autoPageSize
+                    onResize
                   />
                 </div>
               </Grid>
             ) : null}
             {validateTransactions ? (
               <Grid item xs={12} align="center" style={{ marginBottom: 20 }}>
-                <Typography variant="h4">TRANSACTIONS</Typography>
+                <Typography variant={ourMediaQuery?"h4":"body2"}>TRANSACTIONS</Typography>
                 <div style={{ height: 330, width: "100%" }}>
                   <DataGrid
                     style={{ color: "whitesmoke" }}

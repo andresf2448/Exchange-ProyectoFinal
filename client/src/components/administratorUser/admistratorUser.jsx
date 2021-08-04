@@ -352,7 +352,7 @@ export const AdministratorUser = () => {
           <Grid container>
             <Grid container item xs={6}>
               {!commision ? (
-                <Grid container style={{ height: "5vh", marginLeft: "2vw" }}>
+                <Grid container style={{ height: "15vh", marginLeft: "2vw", display: "flex", justifyContent: "space-around" }}>
                   <Grid item xs={7}>
                     <Button
                       onClick={() => setCommision(!commision)}
@@ -389,7 +389,7 @@ export const AdministratorUser = () => {
                   <form onSubmit={comisionChange}>
                     <Grid
                       container
-                      style={{ height: "5vh", marginLeft: "2vw" }}
+                      style={{ height: "15vh", marginLeft: "2vw" }}
                     >
                       <Grid item xs={3}>
                         <TextField
@@ -424,7 +424,7 @@ export const AdministratorUser = () => {
                             {"Send "}
                           </Button>
                           <Button
-                            variant="contained"
+                            variant="outlined"
                             color="secondary"
                             onClick={() => setCommision(!commision)}
                           >
@@ -457,7 +457,7 @@ export const AdministratorUser = () => {
                       color="secondary"
                       onClick={() => cancelSearch()}
                     >
-                      Reset Search
+                      Reset 
                     </Button>
                   </ButtonGroup>
                 </FormControl>
@@ -494,48 +494,49 @@ export const AdministratorUser = () => {
                   className={classes.adminTable}
                   stickyHeader={true}
                 >
-                  <TableHead style={{ height: "11vh" }}>
+                  <TableHead style={{ height: "15vh" }}>
                     <TableRow>
                       <TableCell
-                        style={{ color: "#fdfbfb", backgroundColor: "#0c0c0c" }}
+                        style={{ color: "#000", backgroundColor: "#949494" }}
                       >
                         #
                       </TableCell>
                       <TableCell
-                        style={{ color: "#fdfbfb", backgroundColor: "#0c0c0c" }}
+                        style={{ color: "#000", backgroundColor: "#949494" }}
                       >
                         EMAIL
                       </TableCell>
                       <TableCell
-                        style={{ color: "#fdfbfb", backgroundColor: "#0c0c0c" }}
+                        style={{ color: "#000", backgroundColor: "#949494" }}
                       >
                         ID USER
                       </TableCell>
                       <TableCell
-                        style={{ color: "#fdfbfb", backgroundColor: "#0c0c0c" }}
+                        style={{ color: "#000", backgroundColor: "#949494" }}
                       >
                         BLOCK USER
                       </TableCell>
                       <TableCell
-                        style={{ color: "#fdfbfb", backgroundColor: "#0c0c0c" }}
+                        style={{ color: "#000", backgroundColor: "#949494" }}
                       >
                         ROLE
                       </TableCell>
                       <TableCell
-                        style={{ color: "#fdfbfb", backgroundColor: "#0c0c0c" }}
+                        style={{ color: "#000", backgroundColor: "#949494" }}
                       >
                         RESET PASSWORD
                       </TableCell>
                       <TableCell
-                        style={{ color: "#fdfbfb", backgroundColor: "#0c0c0c" }}
+                        style={{ color: "#000", backgroundColor: "#949494" }}
                       >
                         SEND EMAIL <br />
                         {selectAll ? (
                           <Button
-                            size="small"
+                            size="medium"
                             variant="contained"
                             color="secondary"
                             onClick={() => selectionAll()}
+
                           >
                             SELECT ALL
                           </Button>
@@ -546,12 +547,12 @@ export const AdministratorUser = () => {
                             color="secondary"
                             onClick={unSelectionAll}
                           >
-                            UNSELECT ALL
+                            UNSELECT
                           </Button>
                         )}
                       </TableCell>
                       <TableCell
-                        style={{ color: "#fdfbfb", backgroundColor: "#0c0c0c" }}
+                        style={{ color: "#000", backgroundColor: "#949494" }}
                       >
                         DETAILS USER
                       </TableCell>
@@ -610,7 +611,7 @@ export const AdministratorUser = () => {
                               onClose={handleModalClose}
                               style={{ overflow: "scroll", zIndex: "10000" }}
                             >
-                              <CardUser />
+                              <CardUser back={handleModalClose} />
                             </Modal>
                           </TableCell>
                         </TableRow>
