@@ -18,12 +18,15 @@ import {
 } from "@material-ui/core";
 import { validate } from "./validate";
 import useStyles from 'styles';
+import {useDispatch} from 'react-redux'
+import {profileComplete} from '../../redux/actions/actions'
 
 export const LoadingProfile = () => {
   const classes = useStyles();
   const session = supabase.auth.session();
   const { user } = session;
   let id_user = user.id;
+  const dispatch = useDispatch()
 
   const [error, setError] = useState({
     isError: true,
@@ -94,6 +97,7 @@ export const LoadingProfile = () => {
       .match({ id_user });
 
     setHasProfile(true);
+    dispatch(profileComplete())
   }
 
   async function updateProfileEdit(event) {

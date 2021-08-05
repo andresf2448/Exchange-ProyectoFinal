@@ -13,13 +13,15 @@ import {
   TableHead,
   TableBody,
   TableCell,
-  TableRow
+  TableRow,
 } from "@material-ui/core";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import StellarSdk from "stellar-sdk";
 import useStyles from "styles";
 import HashLoader from "react-spinners/HashLoader";
 import Swal from "sweetalert2";
+import { useDispatch, useSelector } from "react-redux";
+import { getFullBalance, getBalance } from "../redux/actions/actions";
 
 export default function ChangeTrust({ publicKey, secretKey, assets, account }) {
   const [limitAmount, setLimitAmount] = useState();
@@ -27,6 +29,9 @@ export default function ChangeTrust({ publicKey, secretKey, assets, account }) {
   const [waiting, setWaiting] = useState(false);
   const server = new StellarSdk.Server("https://horizon-testnet.stellar.org");
   const classes = useStyles();
+  const dispatch = useDispatch();
+  let fullAssets = useSelector((state) => state.fullAssets);
+  let accountCreated = useSelector((state) => state.account);
 
   async function trustLine() {
     setWaiting(() => true);
@@ -49,26 +54,27 @@ export default function ChangeTrust({ publicKey, secretKey, assets, account }) {
         )
         .setTimeout(0)
         .build();
-      console.log(asset);
+
       transaction.sign(sourceKeypair);
 
       await server.submitTransaction(transaction).then(() => {
+        dispatch(getFullBalance());
+        dispatch(getBalance());
         setWaiting(() => false);
-        setAsset()
-        setLimitAmount()
+        setAsset();
+        setLimitAmount();
         Swal.fire({
           title: "Succes!",
           text: "succes",
           icon: "success",
-            confirmButtonText: "Cool",
-            background: "#1f1f1f",
-            confirmButtonColor: "rgb(158, 158, 158)",
+          confirmButtonText: "Cool",
+          background: "#1f1f1f",
+          confirmButtonColor: "rgb(158, 158, 158)",
         });
-
       });
     } catch (err) {
-        setAsset()
-        setLimitAmount()
+      setAsset();
+      setLimitAmount();
       Swal.fire({
         text: "Oh no! Something went wrong.",
         icon: "error",
@@ -95,11 +101,15 @@ export default function ChangeTrust({ publicKey, secretKey, assets, account }) {
     trustLine(publicKey, secretKey, asset, limitAmount.toString());
   }
 
-  
+  useEffect(() => {
+    dispatch(getFullBalance());
+  }, [fullAssets, dispatch]);
+
   return (
     <div>
+      {accountCreated ? 
       <div>
-        <Container style={{maxHeight:'78vh'}}>
+        <Container style={{ maxHeight: "78vh" }}>
           <Grid
             container
             justifyContent="center"
@@ -107,96 +117,98 @@ export default function ChangeTrust({ publicKey, secretKey, assets, account }) {
             direction="column"
           >
             <Typography variant="h4">Change Trust Assets</Typography>
-            {waiting ? 
-            <div>
-              <br/>
-              <br/>
-              <br/>
-            <HashLoader color={"#ffd523"} size={40} /> 
-              <br/>
-              <br/>
-              <br/>
-            </div>
-            :
-            <> 
+            {waiting ? (
+              <div>
+                <br />
+                <br />
+                <br />
+                <HashLoader color={"#ffd523"} size={40} />
+                <br />
+                <br />
+                <br />
+              </div>
+            ) : (
+              <>
+                <Grid item xs={12}>
+                  <form onSubmit={(e) => handleSubmit(e)}>
+                    <FormControl>
+                      <InputLabel id="demo-simple-select-label">
+                        Select an Asset
+                      </InputLabel>
+                      <Select
+                        defaultValue=""
+                        name="Asset"
+                        onChange={(event) => selectAsset(event)}
+                        style={{ paddingBottom: 10 }}
+                      >
+                        {assets &&
+                          assets.map((element) => {
+                            if (element.asset_code === "XLM") {
+                              return null;
+                            } else {
+                              return (
+                                <MenuItem
+                                  key={element.asset_code}
+                                  value={element.asset_code}
+                                >
+                                  {element.asset_code}
+                                </MenuItem>
+                              );
+                            }
+                          })}
+                      </Select>
+                      <TextField
+                        type="text"
+                        name="limitAmount"
+                        placeholder="Quantity of trust in this asset"
+                        onChange={(e) => setLimitAmount(e.target.value)}
+                        style={{ paddingBottom: 10 }}
+                      />
+                      <div align="center">
+                        <Button
+                          type="submit"
+                          className={classes.yellowButton}
+                          style={{ paddingBottom: 10 }}
+                        >
+                          Finish
+                        </Button>
+                      </div>
+                    </FormControl>
+                  </form>
+                </Grid>
+                <br />
+              </>
+            )}
             <Grid item xs={12}>
-              <form onSubmit={(e) => handleSubmit(e)}>
-                <FormControl>
-                  <InputLabel id="demo-simple-select-label">
-                    Select an Asset
-                  </InputLabel>
-                  <Select
-                    defaultValue=""
-                    name="Asset"
-                    onChange={(event) => selectAsset(event)}
-                    style={{ paddingBottom: 10 }}
-                  >
-                   
-                    {assets &&
-                      assets.map((element) => {
-                        if (element.asset_code === "XLM") {
-                          return null;
-                        } else {
-                          return (
-                            <MenuItem
-                              key={element.asset_code}
-                              value={element.asset_code}
-                            >
-                              {element.asset_code}
-                            </MenuItem>
-                          );
-                        }
-                      })}
-                  </Select>
-                  <TextField
-                    type="text"
-                    name="limitAmount"
-                    placeholder="Quantity of trust in this asset"
-                    onChange={(e) => setLimitAmount(e.target.value)}
-                    style={{ paddingBottom: 10 }}
-                  />
-                  <div align='center'>
-                    <Button
-                      type="submit"
-                      className={classes.yellowButton}
-                      style={{ paddingBottom: 10 }}
-                    >
-                      Finish
-                    </Button>
-                  </div>
-                </FormControl>
-              </form>
-            </Grid>
-            <br />
-            </>
-             }
-            <Grid item xs={12}>
-              <TableContainer style={{maxHeight:'50vh'}}>
+              <TableContainer style={{ maxHeight: "50vh" }}>
                 <Table stickyHeader className={classes.adminTable}>
                   <TableHead>
                     <TableRow>
-                      <TableCell align='center'>Asset</TableCell>
-                      <TableCell align='center'>Limit</TableCell>
-                      <TableCell align='center'>Asset issuer</TableCell>
+                      <TableCell align="center">Asset</TableCell>
+                      <TableCell align="center">Limit</TableCell>
+                      <TableCell align="center">Asset issuer</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {account &&
-                      account.balances.map((asset) => {
-
-
-                        return (<>
-
-                          {asset.asset_type !== 'native' ?
-
-                            <TableRow hover={{backgroundColor:'black'}}>
-                              <TableCell align='center'>{asset.asset_code}</TableCell>
-                              <TableCell align='center'>{parseFloat(asset.limit).toFixed(2)}</TableCell>
-                              <TableCell align='center'>{asset.asset_issuer}</TableCell>
-                            </TableRow>
-                            : null}
-                        </>)
-
+                    {fullAssets &&
+                      fullAssets.map((asset) => {
+                        return (
+                          <>
+                            {asset.asset_type !== "native" ? (
+                              <TableRow hover={{ backgroundColor: "black" }}>
+                                <TableCell align="center">
+                                  {asset.asset_code}
+                                </TableCell>
+                                <TableCell align="center">
+                                  {parseFloat(asset.limit).toFixed(2)}
+                                </TableCell>
+                                <TableCell align="center">
+                                  {asset.asset_issuer}
+                                </TableCell>
+                              </TableRow>
+                            ) : null}
+                          </>
+                        );
                       })}
                   </TableBody>
                 </Table>
@@ -205,6 +217,9 @@ export default function ChangeTrust({ publicKey, secretKey, assets, account }) {
           </Grid>
         </Container>
       </div>
+      : <div align='center'>
+      <Typography variant="h4">You have to create an account to change trust</Typography>
+      </div> }
     </div>
   );
 }

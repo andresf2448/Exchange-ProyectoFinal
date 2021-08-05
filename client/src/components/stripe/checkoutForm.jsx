@@ -8,7 +8,7 @@ import "./stripeCard.css";
 import Swal from 'sweetalert2';
 
 import CardForm from "./stripeCard";
-import { deleteClientSecret } from "redux/actions/actions";
+import { deleteClientSecret, getBalance, getFullBalance } from "redux/actions/actions";
 import { useRef } from "react";
 import axios from "axios";
 
@@ -55,43 +55,45 @@ export default function CheckoutForm({amount, currency, crypto, id}) {
         confirmButtonColor:'rgb(158, 158, 158)',
       });
 
-      if (data.length > 0) {
-        const result = await stripe.confirmCardPayment(clientSecret, {
-          payment_method: {
-            card: elements.getElement(CardElement),
-            billing_details: {
-              name: data[0]?.firstName + ' ' + data[0]?.lastName || "No data",
-            },
-        }});
-        if (result.error) {
-          setError(result.error.message);
-        } else if (result.paymentIntent.status === "succeeded") {
-          setPayment(result.paymentIntent);
-          
-          let paymentRocket = await axios.post('http://localhost:3001/payment', {
-            sourceId: 'rocket', 
-            receiverId: session.user.id, 
-            amount: amount,
-            currency: currency,
-            crypto: crypto
-          })
-
-            await supabase
-          .from("transactions")
-          .update([
-          {
-            amount_fee: paymentRocket.data.fee,
-            amount_out: paymentRocket.data.amount,
-            amount_in: amount,
+    
+      const result = await stripe.confirmCardPayment(clientSecret, {
+        payment_method: {
+          card: elements.getElement(CardElement),
+          billing_details: {
+            name: data[0]?.firstName + ' ' + data[0]?.lastName || "No data",
           },
-           ])
-        .eq("id", id);
-          
-          setPaymentCrypto(paymentRocket.data)
-          setWaiting(false);
-        }
+      }});
+      if (result.error) {
+        setError(result.error.message);
+      } else if (result.paymentIntent.status === "succeeded") {
+        setPayment(result.paymentIntent);
+        
+        let paymentRocket = await axios.post('http://localhost:3001/payment', {
+          sourceId: 'rocket', 
+          receiverId: session.user.id, 
+          amount: amount,
+          currency: currency,
+          crypto: crypto
+        })
 
+          await supabase
+        .from("transactions")
+        .update([
+        {
+          amount_fee: paymentRocket.data.fee,
+          amount_out: paymentRocket.data.amount,
+          amount_in: amount,
+        },
+          ])
+      .eq("id", id);
+        
+        setPaymentCrypto(paymentRocket.data)
+        dispatch(getFullBalance())
+        dispatch(getBalance())
+        setWaiting(false);
       }
+
+    
       }
   }
   
