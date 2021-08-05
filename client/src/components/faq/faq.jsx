@@ -1,11 +1,15 @@
 import React, { useState, useEffect} from 'react'
-import { Container, Typography, Accordion, AccordionSummary, AccordionDetails } from '@material-ui/core'
+import { Container, useMediaQuery, Typography, Accordion, AccordionSummary, AccordionDetails } from '@material-ui/core'
 import { ExpandMore } from '@material-ui/icons'
 import useStyles from 'styles.js'
 import { supabase } from 'supabase/supabase'
 
 export default function Faq() {
     const [fee, setFee] = useState('loading')
+
+    const ourMediaQuery = useMediaQuery("(min-width:820px)");
+
+
     useEffect(()=>{
         feeCommision();
     }, [])
@@ -23,7 +27,7 @@ export default function Faq() {
     // let amount_fee = parseFloat(amount) * (data[data.length - 1].percentage / 100)
     const classes = useStyles();
     return (
-        <Container style={{ width: '90%' }}>
+        <Container style={ ourMediaQuery ? { width: '90%', marginTop:'0px'} : { width: '90%', textAlign:'center', marginTop:'28px', marginLeft:'6%', backgroundColor:'1f1f1f' }}>
 
             {/* <Grid container sm={12} >
                 <Grid imte sm={6}>
@@ -34,12 +38,12 @@ export default function Faq() {
                 </Grid>
             </Grid> */}
             
-            <Typography variant='h5' className={classes.textAbout}>About us</Typography>
+            <Typography variant='h5' style={ourMediaQuery ? {textAlign:'center'}:{marginLeft:'0%'}} className={classes.textAbout}>About us</Typography>
             <Accordion>
                 <AccordionSummary
                     expandIcon={<ExpandMore />}
                 >
-                    <Typography variant='h6' >What is RocketXChange?</Typography>
+                    <Typography variant='h6' style={ourMediaQuery ? {textAlign:'center'}:{marginLeft:'3%'}} >What is RocketXChange?</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
                     <Typography>
@@ -73,7 +77,7 @@ export default function Faq() {
             </Accordion>
 
 
-            <Typography variant='h5' className={classes.textAbout}>Cryptocurrency Exchange</Typography>
+            <Typography variant='h5' style={ourMediaQuery ? {textAlign:'center'}:{marginLeft:'1%'}} className={classes.textAbout}>Cryptocurrency Exchange</Typography>
 
 
             <Accordion>
@@ -109,7 +113,7 @@ export default function Faq() {
                 </AccordionDetails>
 
             </Accordion>
-            <Typography variant='h5' className={classes.textAbout}>Buy crypto with Fiat</Typography>
+            <Typography variant='h5' style={ourMediaQuery ? {textAlign:'center'}:{paddingRight:'30px' , marginLeft:'3.5%'}} className={classes.textAbout}>Buy crypto with Fiat</Typography>
             <Accordion>
                 <AccordionSummary
                     expandIcon={<ExpandMore />}
