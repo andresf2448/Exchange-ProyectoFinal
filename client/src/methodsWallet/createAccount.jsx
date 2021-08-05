@@ -96,13 +96,13 @@ export default function CreateAccount() {
       {spinner ? <HashLoader color={'#ffd523'} size={20}/> :
         hasWallet ? (
 
-          <Grid style={{maxWidth: '100%'}} >
+          <Grid style={{maxWidth: '100%', width: 'fit-content'}} >
             <Grid item xs={12} >
               <Typography variant={ourMediaQuery?'h6':'subtitle2'}>PublicKey |</Typography>
-              <Typography variant={ourMediaQuery?'h6':'subtitle2'} style={{maxWidth:'100%'}}> {publicKeyUser}</Typography>
+              <Typography variant={ourMediaQuery?'h6':'subtitle2'} style={{wordWrap: "break-word"}}> {publicKeyUser}</Typography>
             </Grid>
             <Grid item xs={12}>
-              <Typography variant={ourMediaQuery?'h6':'subtitle2'}>SecretKey | {secretKeyUser}</Typography>
+              <Typography variant={ourMediaQuery?'h6':'subtitle2'} style={{wordWrap: "break-word"}}> SecretKey | {secretKeyUser}</Typography>
             </Grid>
             <Divider className={classes.divider}/>
             <br/>

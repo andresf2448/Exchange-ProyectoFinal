@@ -152,16 +152,18 @@ export const CardUser = ({ back }) => {
               <Grid container>
                 <Grid item xs={10} align="center" style={{ marginBottom: 20 }}>
                   <Typography variant={ourMediaQuery?"h3":"h6"}> {email}</Typography>
-                  <Button variant='contained' color='secondary' onClick={()=> back()}>
-                    Back
-                  </Button>
+                  
                 </Grid>
                 <Grid
                   item
                   xs={2}
                   align="center"
-                  style={{ marginBottom: 20 }}
-                ></Grid>
+                  style={{ marginTop:'2%'}}
+                >
+                  <Button variant='contained' color='secondary' onClick={()=> back()}>
+                    Back
+                  </Button>
+                </Grid>
                 <Grid item xs={12} align="center" style={{ marginBottom: 20 }}>
                   <Divider variant="middle" className={classes.divider} />
                   <Typography variant={ourMediaQuery?"h4":"h6"}>BALANCE</Typography>

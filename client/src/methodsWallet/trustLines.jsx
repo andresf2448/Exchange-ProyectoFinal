@@ -14,7 +14,7 @@ import {
   TableBody,
   TableCell,
   TableRow,
-  useMediaQuery
+  useMediaQuery,
 } from "@material-ui/core";
 import { useState } from "react";
 import StellarSdk from "stellar-sdk";
@@ -29,6 +29,7 @@ export default function ChangeTrust({ publicKey, secretKey, assets, account }) {
   const server = new StellarSdk.Server("https://horizon-testnet.stellar.org");
   const classes = useStyles();
   const ourMediaQuery = useMediaQuery("(min-width:820px)");
+  const ourMediaQuery2 = useMediaQuery("(min-width:600px)");
 
   async function trustLine() {
     setWaiting(() => true);
@@ -56,21 +57,20 @@ export default function ChangeTrust({ publicKey, secretKey, assets, account }) {
 
       await server.submitTransaction(transaction).then(() => {
         setWaiting(() => false);
-        setAsset()
-        setLimitAmount()
+        setAsset();
+        setLimitAmount();
         Swal.fire({
           title: "Succes!",
           text: "succes",
           icon: "success",
-            confirmButtonText: "Cool",
-            background: "#1f1f1f",
-            confirmButtonColor: "rgb(158, 158, 158)",
+          confirmButtonText: "Cool",
+          background: "#1f1f1f",
+          confirmButtonColor: "rgb(158, 158, 158)",
         });
-
       });
     } catch (err) {
-        setAsset()
-        setLimitAmount()
+      setAsset();
+      setLimitAmount();
       Swal.fire({
         text: "Oh no! Something went wrong.",
         icon: "error",
@@ -97,107 +97,148 @@ export default function ChangeTrust({ publicKey, secretKey, assets, account }) {
     trustLine(publicKey, secretKey, asset, limitAmount.toString());
   }
 
-  
   return (
     <div>
       <div>
-        <Container style={{maxHeight:'78vh'}}>
+        <Container style={{ maxHeight: "78vh" }}>
           <Grid
             container
             justifyContent="center"
             alignItems="center"
             direction="column"
           >
-            <Typography variant={ourMediaQuery?'h6':'body'}>Change Trust Assets</Typography>
-            {waiting ? 
-            <div>
-              <br/>
-              <br/>
-              <br/>
-            <HashLoader color={"#ffd523"} size={40} /> 
-              <br/>
-              <br/>
-              <br/>
-            </div>
-            :
-            <> 
-            <Grid item xs={12}>
-              <form onSubmit={(e) => handleSubmit(e)}>
-                <FormControl>
-                  <InputLabel id="demo-simple-select-label">
-                    Select an Asset
-                  </InputLabel>
-                  <Select
-                    defaultValue=""
-                    name="Asset"
-                    onChange={(event) => selectAsset(event)}
-                    style={{ paddingBottom: 10 }}
-                  >
-                   
-                    {assets &&
-                      assets.map((element) => {
-                        if (element.asset_code === "XLM") {
-                          return null;
-                        } else {
-                          return (
-                            <MenuItem
-                              key={element.asset_code}
-                              value={element.asset_code}
-                            >
-                              {element.asset_code}
-                            </MenuItem>
-                          );
-                        }
-                      })}
-                  </Select>
-                  <TextField
-                    type="text"
-                    name="limitAmount"
-                    placeholder="Quantity of trust in this asset"
-                    onChange={(e) => setLimitAmount(e.target.value)}
-                    style={{ paddingBottom: 10 }}
-                  />
-                  <div align='center'>
-                    <Button
-                      type="submit"
-                      className={classes.yellowButton}
-                      style={{ paddingBottom: 10 }}
-                    >
-                      Finish
-                    </Button>
-                  </div>
-                </FormControl>
-              </form>
-            </Grid>
-            <br />
-            </>
-             }
-            <Grid item xs={12}>
-              <TableContainer style={{maxHeight:'50vh'}}>
-                <Table stickyHeader className={classes.adminTable} size={ourMediaQuery?'medium':'small'}>
+            <Typography variant={ourMediaQuery ? "h6" : "body"}>
+              Change Trust Assets
+            </Typography>
+            {waiting ? (
+              <div>
+                <br />
+                <br />
+                <br />
+                <HashLoader color={"#ffd523"} size={40} />
+                <br />
+                <br />
+                <br />
+              </div>
+            ) : (
+              <>
+                <Grid item xs={12}>
+                  <form onSubmit={(e) => handleSubmit(e)}>
+                    <FormControl>
+                      <InputLabel id="demo-simple-select-label">
+                        Select an Asset
+                      </InputLabel>
+                      <Select
+                        defaultValue=""
+                        name="Asset"
+                        onChange={(event) => selectAsset(event)}
+                        style={{ paddingBottom: 10 }}
+                      >
+                        {assets &&
+                          assets.map((element) => {
+                            if (element.asset_code === "XLM") {
+                              return null;
+                            } else {
+                              return (
+                                <MenuItem
+                                  key={element.asset_code}
+                                  value={element.asset_code}
+                                >
+                                  {element.asset_code}
+                                </MenuItem>
+                              );
+                            }
+                          })}
+                      </Select>
+                      <TextField
+                        type="text"
+                        name="limitAmount"
+                        placeholder="Quantity of trust in this asset"
+                        onChange={(e) => setLimitAmount(e.target.value)}
+                        style={{ paddingBottom: 10 }}
+                      />
+                      <div align="center">
+                        <Button
+                          type="submit"
+                          className={classes.yellowButton}
+                          style={{ paddingBottom: 10 }}
+                        >
+                          Finish
+                        </Button>
+                      </div>
+                    </FormControl>
+                  </form>
+                </Grid>
+                <br />
+              </>
+            )}
+            <Grid item xs={12} align="center" style={{ wordWrap: "break-word" }}>
+              <TableContainer style={!ourMediaQuery2 ?{maxHeight: "50vh", overflow:'auto', maxWidth:'60vw'}:{ maxHeight: "50vh", overflow:'scroll'}}>
+                <Table
+                  stickyHeader
+                  className={classes.adminTable}
+                  size={ourMediaQuery ? "medium" : "small"}
+                >
                   <TableHead>
                     <TableRow>
-                      <TableCell align='center' size={ourMediaQuery?'medium':'small'}>Asset</TableCell>
-                      <TableCell align='center' size={ourMediaQuery?'medium':'small'}>Limit</TableCell>
-                      <TableCell align='center' size={ourMediaQuery?'medium':'small'}>Asset issuer</TableCell>
+                      <TableCell
+                        align="center"
+                        size={ourMediaQuery ? "medium" : "small"}
+                      >
+                        Asset
+                      </TableCell>
+                      <TableCell
+                        align="center"
+                        size={ourMediaQuery ? "medium" : "small"}
+                      >
+                        Limit
+                      </TableCell>
+                      <TableCell
+                        align="center"
+                        size={ourMediaQuery ? "medium" : "small"}
+                        style={{maxWidth:'50%' }}
+                      >
+                        Asset issuer
+                      </TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
                     {account &&
                       account.balances.map((asset) => {
-
-                        return (<>
-
-                          {asset.asset_type !== 'native' ?
-
-                            <TableRow hover={{backgroundColor:'black'}}>
-                              <TableCell align='center' size={ourMediaQuery?'medium':'small'}>{asset.asset_code}</TableCell>
-                              <TableCell align='center' size={ourMediaQuery?'medium':'small'}>{parseFloat(asset.limit).toFixed(2)}</TableCell>
-                              <TableCell align='center' size={ourMediaQuery?'medium':'small'}>{asset.asset_issuer}</TableCell>
-                            </TableRow>
-                            : null}
-                        </>)
-
+                        return (
+                          <>
+                            {asset.asset_type !== "native" ? (
+                              <TableRow
+                              hover={{ backgroundColor: "black" }}
+                              style={{ wordWrap: "break-word" }}
+                              >
+                                <TableCell
+                                  align="center"
+                                  size={ourMediaQuery ? "medium" : "small"}
+                                >
+                                  {asset.asset_code}
+                                </TableCell>
+                                <TableCell
+                                  align="center"
+                                  size={ourMediaQuery ? "medium" : "small"}
+                                >
+                                  {parseFloat(asset.limit).toFixed(2)}
+                                </TableCell>
+                                <TableCell
+                                  align="center"
+                                  size={ourMediaQuery ? "medium" : "small"}
+                                  style={{ maxWidth: "20vw" }}
+                                >
+                                  <Typography
+                                    style={{ wordWrap: "break-word" }}
+                                  >
+                                    {asset.asset_issuer}
+                                  </Typography>
+                                </TableCell>
+                              </TableRow>
+                            ) : null}
+                          </>
+                        );
                       })}
                   </TableBody>
                 </Table>
