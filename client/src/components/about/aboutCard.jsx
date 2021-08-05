@@ -6,6 +6,7 @@ import {
   CardMedia,
   Grid,
   Button,
+  useMediaQuery
 } from "@material-ui/core";
 import "./about.css";
 export default function AboutCard({ name, img, contact }) {
@@ -15,11 +16,14 @@ export default function AboutCard({ name, img, contact }) {
     setIsRotated((rotated) => !rotated);
   };
 
+  const ourMediaQuery = useMediaQuery("(min-width:820px)");
+
+
   return (
     <Grid container className={`card ${isRotated ? "rotated" : " "}`}>
       <Card
         className="front"
-        style={{ width: "200px", height: "260px" }}
+        style={ ourMediaQuery ? { width: "200px", height: "260px" } : { width: "200px", height: "245px" }}
         sm={2}
       >
         <CardContent>
@@ -49,7 +53,10 @@ export default function AboutCard({ name, img, contact }) {
         </CardContent>
       </Card>
 
-      <Card className="back" style={{ width: "200px", height: "260px" }}>
+      <Card 
+      className="back" 
+      style={ ourMediaQuery ? { width: "200px", height: "260px" } : { width: "200px", height: "245px" }}  
+      >
         <CardContent>
           <a target="_blank" href={contact} rel="noreferrer">
             <CardMedia
