@@ -1,5 +1,8 @@
 import { useState, useEffect, useCallback } from "react";
-import { Grid /* , Card, Typography, CardContent */ } from "@material-ui/core";
+import {
+  Grid,
+  /* , Card, Typography, CardContent */
+} from "@material-ui/core";
 import { CryptoCalculator } from "components/cryptoCalculator/cryptoCalculator";
 import ManageBuyOffer from "methodsWallet/manageBuyOffer";
 import Orderbook from "methodsWallet/orderbook";
@@ -13,6 +16,7 @@ function Trade() {
   const [publicKey, setPublicKey] = useState();
   const [secretKey, setSecretKey] = useState();
   const session = supabase.auth.session();
+ 
 
   async function getAssets() {
     const { data: assets } = await supabase.from("assets").select("*");
@@ -68,47 +72,54 @@ function Trade() {
 
   return (
     <Grid container style={{ backgroundColor: "#1f1f1f" }}>
-      {/* solo para quitar el warning */}
-      {offers && null}
-      <Grid container item display="column" justifyContent={true}>
-        <Grid item xs={12} sm={3} style={{ marginTop: "2vh" }}>
-          <Orderbook assets={assets} />
+      <Grid item xs={12} sm={4} md={3} style={{ marginBottom: "3%" }}>
+        <Orderbook assets={assets} />
+      </Grid>
+      <Grid container item sm={8} md={6}>
+        <Grid
+          item
+          xs={12}
+          style={{
+            height: "45vh",
+            marginLeft: "5%",
+            marginRight: "5%",
+            marginBottom: "3%",
+          }}
+        >
+          <TradingView />
         </Grid>
-        <Grid container item xs={12} sm={6}>
-          <Grid
-            item
-            xs={12}
-            style={{
-              marginLeft: "1vw",
-              marginRight: "1vw",
-              height: "45vh",
-              marginTop: "2vh",
-            }}
-          >
-            <TradingView />
-          </Grid>
-          <Grid
-            item
-            xs={12}
-            sm={6}
-            style={{ marginLeft: "13vw", marginTop: "5vh" }}
-          >
-            <ManageBuyOffer
-              publicKey={publicKey}
-              secretKey={secretKey}
-              setUpdateOffers={setUpdateOffers}
-              assets={assets}
-            />
-          </Grid>
-          <Grid item xs={12} sm={6}></Grid>
+        <Grid
+          item
+          xs={12}
+          style={{ marginLeft: "5%", marginRight: "5%", marginBottom: "3%" }}
+        >
+          <ManageBuyOffer
+            publicKey={publicKey}
+            secretKey={secretKey}
+            setUpdateOffers={setUpdateOffers}
+            assets={assets}
+          />
         </Grid>
-        <Grid container item sm={3}>
-          <Grid item xs={12} style={{ marginTop: "2vh" }}>
-            <OffersByAccount offers={offers} />
-          </Grid>
-          <Grid item xs={12} style={{ marginTop: "2vh", marginLeft: "2vw" }}>
-            <CryptoCalculator />
-          </Grid>
+      </Grid>
+      <Grid container item xs={12} md={3}>
+        <Grid
+          item
+          xs={12}
+          sm={4}
+          md={12}
+          style={{marginBottom: "3%"}}
+        >
+          <OffersByAccount offers={offers} />
+        </Grid>
+        <Grid
+          item
+          xs={12}
+          sm={8}
+          md={12}
+
+          style={{marginBottom: "3%"}}
+        >
+          <CryptoCalculator />
         </Grid>
       </Grid>
     </Grid>

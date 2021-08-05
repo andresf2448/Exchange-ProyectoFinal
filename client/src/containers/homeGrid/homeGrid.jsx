@@ -11,7 +11,7 @@ export const HomeGrid = () => {
       {
       ourMediaQuery?
       <Grid container alignItems="center">
-        <Grid item xs={8}>
+        <Grid item xs={8} >
           <Card elevation={3} className={classes.backCryptoCard}>
             <CryptoGraphics />
           </Card>

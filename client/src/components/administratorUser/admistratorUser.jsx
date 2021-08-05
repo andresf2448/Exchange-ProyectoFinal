@@ -344,37 +344,36 @@ export const AdministratorUser = () => {
   return (
     <Container
       disableGutters
-      maxWidth={false}
       className={classes.adminContainer}
     >
       <Card elevation={3} className={classes.adminCard}>
         {admin ? (
           <Grid container>
-            <Grid container item xs={6}>
+            <Grid container item md={6} style={{marginBottom:'1%'}}>
               {!commision ? (
-                <Grid container style={{ height: "15vh", marginLeft: "2vw", display: "flex", justifyContent: "space-around" }}>
-                  <Grid item xs={7}>
+                <Grid container style={{ marginLeft:'2%'}}>
+                  <Grid item xs={5} md={6}>
                     <Button
                       onClick={() => setCommision(!commision)}
                       variant="contained"
+                      style={{marginTop:'2%'}}
                     >
-                      {"Change the commision server"}
+                      {"Change commision"}
                     </Button>
                   </Grid>
-                  <Grid item xs={5} style={{ marginTop: "-1vh" }}>
+                  <Grid item xs={7} md={6}>
                     <Typography
-                      variant="body1"
+                      variant="subtitle1"
                       color="secondary"
-                      gutterBottom
-                      align="left"
+                      style={{marginTop:'-2%'}}
                     >
                       Current Commission: {statusComision.porcentaje} %
                     </Typography>
                     <Typography
-                      variant="body1"
+                      variant="subtitle1"
                       color="secondary"
-                      gutterBottom
-                      align="left"
+                      style={{margin:'0%'}}
+
                     >
                       Date: {new Date(statusComision.fecha).getDate()}/
                       {new Date(statusComision.fecha).getMonth() + 1}/
@@ -387,10 +386,7 @@ export const AdministratorUser = () => {
               ) : (
                 <>
                   <form onSubmit={comisionChange}>
-                    <Grid
-                      container
-                      style={{ height: "15vh", marginLeft: "2vw" }}
-                    >
+                    <Grid container style={{marginLeft:'2%', marginTop:'2%'}} >
                       <Grid item xs={3}>
                         <TextField
                           type="text"
@@ -414,8 +410,8 @@ export const AdministratorUser = () => {
                         />
                       </Grid>
                       <Grid item xs={1}></Grid>
-                      <Grid item xs={4}>
-                        <ButtonGroup>
+                      <Grid item xs={4} >
+                        <ButtonGroup style={{height: '100%'}}>
                           <Button
                             variant="contained"
                             color="secondary"
@@ -437,17 +433,17 @@ export const AdministratorUser = () => {
                 </>
               )}
             </Grid>
-            <Grid item xs={4} style={{ height: "7vh" }}>
+            <Grid item md={4}>
               <form onSubmit={search} className={classes.adminCardSearch}>
-                <FormControl style={{ paddingRight: "10px" }}>
+                <FormControl style={{ marginTop:'2%',paddingRight: "3%", height: "100%" }}>
                   <TextField
                     type="text"
                     placeholder="Search User by email"
                     inputRef={emailSearching}
                   />
                 </FormControl>
-                <FormControl>
-                  <ButtonGroup>
+                <FormControl style={{ marginTop:'2%'}}>
+                  <ButtonGroup >
                     <Button type="submit" variant="contained" color="secondary">
                       Search
                     </Button>
@@ -465,14 +461,13 @@ export const AdministratorUser = () => {
             </Grid>
             {/* <Grid item xs={1}></Grid> */}
             {emails.length > 0 ? (
-              <Grid item xs={2} style={{}}>
+              <Grid item xs={12} md={2}>
                 <Button
                   type="button"
-                  // onClick={addMessage}
                   onClick={() => handleOpen()}
-                  color="primary"
-                  variant="contained"
-                  className={classes.buttonBack}
+                  color="secondary"
+                  variant="outlined"
+                  style={{marginLeft:'5%', marginTop:'4%', marginBottom:'1%'}}
                 >
                   {" Add Message "}
                 </Button>

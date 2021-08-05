@@ -107,12 +107,10 @@ const useStyles = makeStyles(theme => ({
   },
   adminCard: {
     backgroundColor: theme.palette.secondary.background,
-    marginTop: '2vh',
-    marginLeft: '2vw',
-    marginRight: '2vw',
-    // marginBottom: '1vh',
-    paddingTop: '2vh',
-    paddingBottom: '2vh',
+    marginTop: '1%',
+    marginLeft: '2%',
+    marginRight: '2%',
+    paddingTop: '1%',
   },
   backCryptoCard: {
     backgroundColor: '#272727b3',
@@ -359,27 +357,26 @@ const useStyles = makeStyles(theme => ({
     marginLeft: '10%',
   },
   cardSaleOffer: {
-    paddingTop: '3vh',
-    paddingLeft: '3vw',
-    paddingRight: '3vw',
-    paddingBottom: '2vh'
+    paddingTop: '5%',
+    paddingLeft: '10%',
+    paddingRight: '10%',
+    paddingBottom: '5%'
   },
-  appBar:{
+  appBar: {
     height: '87vh'
   },
-  appBarResponsive:{
+  appBarResponsive: {
     width: "20vw",
     height: 'auto'
   },
-  tabsNormal:{
+  tabsNormal: {
     fontSize: '14px',
   },
   tabsResponsive: {
     paddingRight: '4vh',
     fontSize: '8px',
   },
-  tabs1:
-  {
+  tabs1: {
     backgroundColor: 'rgb(255, 217, 112)',
     color: '#272727b3',
 
