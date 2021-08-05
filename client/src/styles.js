@@ -107,12 +107,10 @@ const useStyles = makeStyles(theme => ({
   },
   adminCard: {
     backgroundColor: theme.palette.secondary.background,
-    marginTop: '2vh',
-    marginLeft: '2vw',
-    marginRight: '2vw',
-    // marginBottom: '1vh',
-    paddingTop: '2vh',
-    paddingBottom: '2vh',
+    marginTop: '1%',
+    marginLeft: '2%',
+    marginRight: '2%',
+    paddingTop: '1%',
   },
   backCryptoCard: {
     backgroundColor: '#272727b3',
