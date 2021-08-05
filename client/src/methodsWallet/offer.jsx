@@ -1,14 +1,12 @@
 import {
   Paper,
-  Container,
   Grid,
   TableContainer,
   Table,
   TableHead,
   TableBody,
   TableRow,
-  TableCell,
-  
+  TableCell
 } from "@material-ui/core";
 import useStyles from "styles";
 
@@ -16,12 +14,11 @@ export default function Offer({ asks, bids }) {
   const classes = useStyles();
 
   return (
-    <Container>
-        <Grid container justifyContent="center" spacing={2}>
-          <Grid item xs={12}>
+        <Grid container>
+          <Grid item xs={12}  style={{marginBottom:'5%'}}>
             <TableContainer
               className={classes.tableScroll}
-              style={{ width: "21vw", minHeight: "39vh", maxHeight: "39vh" }}
+              style={{ minHeight: "38vh", maxHeight: "38vh" }}
               component={Paper}
             >
               <Table stickyHeader size="small">
@@ -34,10 +31,10 @@ export default function Offer({ asks, bids }) {
                 <TableBody>
                   {asks?.map((ask, i) => (
                     <TableRow key={i} hover={{backgroundColor:'black'}}>
-                      <TableCell align="center" style={{ color: "#008000ab", fontWeight:'bold'  }}>
+                      <TableCell align="center" style={{ color: "rgb(17, 95, 0)", fontWeight:'bold', backgroundColor:'rgb(106, 106, 106)'  }}>
                         {ask.price}
                       </TableCell>
-                      <TableCell align="center" style={{ color: "#008000ab", fontWeight:'bold'  }}>
+                      <TableCell align="center" style={{ color: "rgb(17, 95, 0)", fontWeight:'bold', backgroundColor:'rgb(106, 106, 106)'  }}>
                         {ask.amount}
                       </TableCell>
                     </TableRow>
@@ -49,7 +46,7 @@ export default function Offer({ asks, bids }) {
           <Grid item xs={12}>
             <TableContainer
               className={classes.tableScroll}
-              style={{ width: "21vw", minHeight: "39vh", maxHeight: "39vh" }}
+              style={{ minHeight: "38vh", maxHeight: "38vh" }}
               component={Paper}
             >
               <Table stickyHeader size="small">
@@ -62,10 +59,10 @@ export default function Offer({ asks, bids }) {
                 <TableBody>
                   {bids?.map((bid, i) => (
                     <TableRow key={i} hover={{backgroundColor:'black'}}>
-                      <TableCell align="center" style={{ color: "rgba(155, 0, 0, 0.48)", fontWeight:'bold' }}>
+                      <TableCell align="center" style={{ color: "rgb(155, 0, 0)", fontWeight:'bold', backgroundColor:'rgb(106, 106, 106)' }}>
                         {bid.price}
                       </TableCell>
-                      <TableCell align="center" style={{ color: "rgba(155, 0, 0, 0.48)", fontWeight:'bold' }}>
+                      <TableCell align="center" style={{ color: "rgb(155, 0, 0)", fontWeight:'bold', backgroundColor:'rgb(106, 106, 106)' }}>
                         {bid.amount}
                       </TableCell>
                     </TableRow>
@@ -75,6 +72,5 @@ export default function Offer({ asks, bids }) {
             </TableContainer>
           </Grid>
         </Grid>
-    </Container>
   );
 }

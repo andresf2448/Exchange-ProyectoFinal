@@ -7,9 +7,10 @@ export default function OffersByAccount({ offers }) {
   return (
     <Card  style={{
         textAlign: "center",
-        marginLeft: "2vw",
-        marginRight: "2vw",
         height: "45vh",
+        width: '90%',
+        marginLeft:'5%',
+        marginRight:'5%'
       }}>
       <Typography>Active Sale Offers List</Typography>
       <TableContainer className={classes.tableScroll}>
@@ -25,9 +26,9 @@ export default function OffersByAccount({ offers }) {
             {offers?.records?.length > 1 &&
               offers.records.map((offer) => (
                 <TableRow key={offer.id} hover={{backgroundColor:'black'}}>
-                  <TableCell>{offer.amount}</TableCell>
+                  <TableCell align='center'>{parseFloat(offer.amount)}</TableCell>
                   <TableCell>{offer.buying?.asset_code}</TableCell>
-                  <TableCell>{offer.price}</TableCell>
+                  <TableCell align='center'>{parseFloat(offer.price)}</TableCell>
                 </TableRow>
               ))}
           </TableBody>
