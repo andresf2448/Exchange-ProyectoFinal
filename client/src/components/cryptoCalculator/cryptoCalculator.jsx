@@ -6,7 +6,7 @@ import {
   Grid,
   Typography,
   Card,
-  TextField,
+  TextField
 } from "@material-ui/core";
 import axios from "axios";
 import Swal from "sweetalert2";
@@ -93,7 +93,7 @@ export const CryptoCalculator = () => {
   return (
     <Card
       className={classes.cardSaleOffer}
-      style={{ width: "15vw", height: "35vh", paddingTop:'2vh'}}
+      style={{marginLeft:'5%', marginRight:'5%'}}
     >
       <Grid container>
         <Grid item xs={12} style={{marginBottom:'1vh'}}>
@@ -108,8 +108,7 @@ export const CryptoCalculator = () => {
           <hr style={{color:'#ffd523', marginBottom:'3vh'}}/>
         </Grid>
 
-        <Grid item xs={1}></Grid>
-        <Grid item xs={5} style={{ marginBottom: "5vh" }}>
+        <Grid item xs={5}  >
           <Select
             displayEmpty
             value={firstCurrency}
@@ -126,9 +125,10 @@ export const CryptoCalculator = () => {
             <MenuItem value="XLM">XLM</MenuItem>
           </Select>
         </Grid>
-
         <Grid item xs={1}></Grid>
-        <Grid item xs={4}>
+
+        <Grid item xs={1} ></Grid>
+        <Grid item xs={5} style={{ marginBottom: "5vh" }}>
           <TextField
             type="text"
             required
@@ -138,10 +138,8 @@ export const CryptoCalculator = () => {
             }
           />
         </Grid>
-        <Grid item xs={1}></Grid>
 
-        <Grid item xs={1}></Grid>
-        <Grid item xs={5} style={{ marginBottom: "4vh" }}>
+        <Grid item xs={5} >
           <Select
             displayEmpty
             value={secondCurrency}
@@ -158,10 +156,11 @@ export const CryptoCalculator = () => {
             <MenuItem value="XLM">XLM</MenuItem>
           </Select>
         </Grid>
-
         <Grid item xs={1}></Grid>
-        <Grid item xs={5}>
-          <TextField type="text" disabled value={result} />
+
+        <Grid item xs={1} ></Grid>
+        <Grid item xs={5} style={{ marginBottom: "4vh" }}>
+          <TextField type="text" placeholder='Result' disabled value={result} />
         </Grid>
         <Grid item xs={4}></Grid>
         <Grid item xs={4} style={{marginLeft:'1vw'}}>
