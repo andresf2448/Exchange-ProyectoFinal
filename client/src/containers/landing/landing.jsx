@@ -39,6 +39,7 @@ const Landing = () => {
   const [registerModal, setRegisterModal] = useState(false);
   const [loginModal, setLoginModal] = useState(false);
   const ourMediaQuery = useMediaQuery("(min-width:730px)");
+  const ourMediaQuery2 = useMediaQuery("(min-width:650px)");
   let session = supabase.auth.session();
 
   const handleRegister = () => {
@@ -129,7 +130,7 @@ const Landing = () => {
         variant="contained"
         // justifyContent="left"
         onClick={handleLogin}
-        style={{width:'50%', color: "#000", backgroundColor: "#ffd523" }}
+        style={{ width: "50%", color: "#000", backgroundColor: "#ffd523" }}
       >
         LOGIN
       </Button>
@@ -138,14 +139,13 @@ const Landing = () => {
         onClose={handleRegister}
         style={{ zIndex: "1000", position: "fixed" }}
       >
-        <Register back={handleRegister}/>
+        <Register back={handleRegister} />
       </Modal>
       <Modal open={loginModal} onClose={handleLogin} style={{ zIndex: "1000" }}>
-        <Login back={handleLogin}/>
+        <Login back={handleLogin} />
       </Modal>
     </ButtonGroup>
   );
-  
 
   return (
     <Container className="landing">
@@ -164,13 +164,13 @@ const Landing = () => {
           <Grid item xs={2}>
             <Typography variant="h5">{faq}</Typography>
           </Grid>
-          <Grid item xs={3} align='right'>
+          <Grid item xs={3} align="right">
             {buttons}
           </Grid>
         </Grid>
       ) : (
         <Grid container>
-          <AppBar color='transparent' position='static'>
+          <AppBar color="transparent" position="static">
             <Toolbar>
               <Grid item xs={2} align="left">
                 <Button
@@ -197,7 +197,7 @@ const Landing = () => {
               <Grid item xs={5}>
                 {rocket}
               </Grid>
-              <Grid item xs={5} align='right'>
+              <Grid item xs={5} align="right">
                 {buttons}
               </Grid>
             </Toolbar>
@@ -252,18 +252,18 @@ const Landing = () => {
               Don't let time go by, start trading now!
             </Typography>
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={12} align="center">
             <img
-              className="logoRxC"
+              className={ourMediaQuery?"logoRxC":"logoRxCResponsive"}
               src={logoRXC}
               alt="rocketXchange-transparent"
             />
           </Grid>
-          <Grid item xs={4}>
+          <Grid item xs={12} align="center">
             <Button
+              size="large"
               onClick={handleRegister}
               style={{
-                width: "65%",
                 backgroundColor: "#ffd523",
                 color: "#131313cc",
                 letterSpacing: "4px",
@@ -283,15 +283,23 @@ const Landing = () => {
           className={classes.landingContainers}
           style={{ padding: "5%", justifyContent: "center" }}
         >
-          <Typography item xs={5} variant="h4" className={classes.landingCard}>
-            Get in real time the waves of the cryptos with the highest volume to
-            make better investments!
-          </Typography>
-          <Grid item xs={7} justifyContent="center">
+          <Grid item xs={12}>
+            <Typography
+              item
+              xs={5}
+              variant="h4"
+              className={classes.landingCard}
+            >
+              Get in real time the waves of the cryptos with the highest volume
+              to make better investments!
+            </Typography>
+          </Grid>
+          <Grid item xs={12} align="center">
             <img
               src={pic}
               alt="cryptographicsRealtimePic"
               className="landingPic"
+              style={ourMediaQuery2 ? null : {marginTop: "80%"}}
             />
           </Grid>
         </Grid>

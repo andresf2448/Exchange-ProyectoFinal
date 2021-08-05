@@ -95,7 +95,6 @@ export default function CreateAccount() {
     <Grid container>
       {spinner ? <HashLoader color={'#ffd523'} size={20}/> :
         hasWallet ? (
-
           <Grid style={{maxWidth: '100%'}} >
             <Grid item xs={12} >
               <Typography variant={ourMediaQuery?'h6':'subtitle2'}>PublicKey |</Typography>
