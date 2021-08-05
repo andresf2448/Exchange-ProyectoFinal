@@ -59,7 +59,7 @@ export default function Orderbook({ assets }) {
   }, [assetSell, assetBuy, server]);
 
   return (
-      <Grid container style={{ width:"90%",marginRight: "5%", marginLeft: "5%" }}>
+      <Grid container style={{ width:"90%", marginRight: "5%", marginLeft: "5%" }}>
         <Grid item xs={6} align="center">
           <Select
             variant="outlined"
@@ -107,7 +107,7 @@ export default function Orderbook({ assets }) {
             <Card
               style={{
                 // minWidth: "21vw",
-                height: "35vh",
+                height: "45vh",
                 paddingTop: "35vh",
               }}
             >

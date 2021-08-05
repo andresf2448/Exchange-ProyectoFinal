@@ -6,19 +6,22 @@ import {
   TableHead,
   TableBody,
   TableRow,
-  TableCell
+  TableCell,
+  useMediaQuery
 } from "@material-ui/core";
 import useStyles from "styles";
 
 export default function Offer({ asks, bids }) {
   const classes = useStyles();
+  const ourMediaQuery = useMediaQuery("(max-width:960px)");
+
 
   return (
         <Grid container>
-          <Grid item xs={12}  style={{marginBottom:'5%'}}>
+          <Grid item xs={12}  style={ourMediaQuery? {marginBottom:'3%'}:{marginBottom:'10%'}}>
             <TableContainer
               className={classes.tableScroll}
-              style={{ minHeight: "38vh", maxHeight: "38vh" }}
+              style={{ height:'40vh' }}
               component={Paper}
             >
               <Table stickyHeader size="small">
@@ -46,7 +49,7 @@ export default function Offer({ asks, bids }) {
           <Grid item xs={12}>
             <TableContainer
               className={classes.tableScroll}
-              style={{ minHeight: "38vh", maxHeight: "38vh" }}
+              style={{ height:'40vh' }}
               component={Paper}
             >
               <Table stickyHeader size="small">

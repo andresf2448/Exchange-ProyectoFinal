@@ -10,7 +10,7 @@ export default function OffersByAccount({ offers }) {
         height: "45vh",
         width: '90%',
         marginLeft:'5%',
-        marginRight:'5%'
+        marginRight:'5%',
       }}>
       <Typography>Active Sale Offers List</Typography>
       <TableContainer className={classes.tableScroll}>
