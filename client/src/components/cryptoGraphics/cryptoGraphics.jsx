@@ -230,7 +230,7 @@ export const CryptoGraphics = () => {
     <Container>
       <Grid container spacing={2}>
         {renderData.map((e, i) => (
-          <Grid item sm={3} key={i}>
+          <Grid item xs={12} sm={3} key={i}>
             <CryptoCard
               i={i}
               price={e.price}
