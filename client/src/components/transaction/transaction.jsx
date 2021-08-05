@@ -16,7 +16,7 @@ import {
 import useStyles from "styles";
 import Swal from "sweetalert2";
 import StellarSdk from "stellar-sdk";
-
+import { useSelector } from "react-redux";
 import HashLoader from "react-spinners/HashLoader";
 
 export default function Transaction() {
@@ -40,7 +40,7 @@ export default function Transaction() {
   const [transfer, setTransfer] = useState(false);
   const [user, setUser] = useState(false);
   const server = new StellarSdk.Server("https://horizon-testnet.stellar.org");
-
+  let accountCreated = useSelector((state) => state.account);
   const classes = useStyles();
 
   const handleChange = async (event) => {
@@ -186,6 +186,7 @@ export default function Transaction() {
 
   return (
     <>
+    {accountCreated ? 
       <Grid align="center">
         {session ? (
           <div>
@@ -279,6 +280,9 @@ export default function Transaction() {
           history.push("/")
         )}
       </Grid>
+      : <div align='center'>
+      <Typography variant="h4">You have to create an account to do transactions</Typography>
+      </div>  }
     </>
   );
 }

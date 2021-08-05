@@ -1,88 +1,83 @@
-import React, { useState } from "react";
-import StellarSdk from "stellar-sdk";
-import { Typography, TableContainer, Table, TableHead, TableBody, TableRow, TableCell } from "@material-ui/core";
+import {useEffect} from "react";
+import {
+  Typography,
+  TableContainer,
+  Table,
+  TableHead,
+  TableBody,
+  TableRow,
+  TableCell,
+} from "@material-ui/core";
 import useStyles from "styles";
-import { supabase } from "../supabase/supabase";
-// import CreateAccount from "./createAccount";
 import HashLoader from "react-spinners/HashLoader";
+import { useSelector, useDispatch } from "react-redux";
+import { getFullBalance } from "redux/actions/actions";
 
 export default function BalanceAccount() {
-  const [account, setAccount] = useState(false);
-  const [user, setUser] = useState(false);
   const classes = useStyles();
+  const fullAssets = useSelector((state) => state.fullAssets);
+  const account = useSelector((state) => state.account);
+  const dispatch = useDispatch()
 
-  const session = supabase.auth.session();
-  const server = new StellarSdk.Server("https://horizon-testnet.stellar.org");
-
-  const userExist = async () => {
-    let { data } = await supabase
-      .from("datauser")
-      .select("public_key")
-      .eq("id_user", session.user.id);
-
-    if (data.length === 0) setUser(false);
-    if (data.length > 0) {
-      setUser(() => true);
-      getBalance()
-
-    }
-  };
-
-  const getBalance = async () => {
-    let { data } = await supabase
-      .from("datauser")
-      .select("public_key")
-      .eq("id_user", session.user.id);
-
-    server
-      .loadAccount(data[0]?.public_key)
-      .then((response) => setAccount(response))
-      .catch((err) => console.log(err));
-  };
-  userExist();
+  useEffect(() => {
+    dispatch(getFullBalance())
+  }, [fullAssets, dispatch])
 
   return (
     <div>
-      {user ? (
+      {account ? (
         <div>
-          {account ? (
+          {fullAssets ? (
             <div>
-              <TableContainer className={classes.adminTableContainer} style={{marginBottom:'3vh', marginTop:'3vh'}}>
+              <TableContainer
+                className={classes.adminTableContainer}
+                style={{ marginBottom: "3vh", marginTop: "3vh" }}
+              >
                 <Table stickyHeader className={classes.adminTable}>
                   <TableHead>
                     <TableRow>
-                      <TableCell align='center'>Asset</TableCell>
+                      <TableCell align="center">Asset</TableCell>
                       <TableCell>Balance</TableCell>
                       <TableCell>Mount of selling offers</TableCell>
                       <TableCell>Mount of buying offers</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {account?.balances?.map(({ balance, asset_code, selling_liabilities, buying_liabilities }, index) => {
-                      return (
-                        <TableRow hover={{backgroundColor:'black'}}>
-                          <TableCell align='center'>{!asset_code ? "XLM" : asset_code}</TableCell>
-                          <TableCell align='center'>{parseFloat(balance).toFixed(2)}</TableCell>
-                          <TableCell align='center'>{parseFloat(selling_liabilities).toFixed(2)}</TableCell>
-                          <TableCell align='center'>{parseFloat(buying_liabilities).toFixed(2)}</TableCell>
-                        </TableRow>
-
-                      )
-                    })}
+                    {fullAssets.map(
+                      ({
+                        balance,
+                        asset_code,
+                        selling_liabilities,
+                        buying_liabilities,
+                      }) => {
+                        return (
+                          <TableRow hover={{ backgroundColor: "black" }}>
+                            <TableCell align="center">
+                              {!asset_code ? "XLM" : asset_code}
+                            </TableCell>
+                            <TableCell align="center">
+                              {parseFloat(balance).toFixed(2)}
+                            </TableCell>
+                            <TableCell align="center">
+                              {parseFloat(selling_liabilities).toFixed(2)}
+                            </TableCell>
+                            <TableCell align="center">
+                              {parseFloat(buying_liabilities).toFixed(2)}
+                            </TableCell>
+                          </TableRow>
+                        );
+                      }
+                    )}
                   </TableBody>
-
-
                 </Table>
-
               </TableContainer>
-              
             </div>
           ) : (
             <HashLoader color={"#ffd523"} size={30} />
           )}
         </div>
       ) : (
-        <Typography variant='h4'>
+        <Typography variant="h4">
           Create an account to see your balance
         </Typography>
       )}

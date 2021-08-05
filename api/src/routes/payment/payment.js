@@ -19,6 +19,7 @@ router.post('/', async (req, res) => {
 
     let sourceSecretKey
     let payFee = false
+    let receiverRocket = false
     
     if (sourceId === 'rocket') {
         
@@ -44,7 +45,8 @@ router.post('/', async (req, res) => {
         const {data} = await supabase
         .from('rocketWallet')
         .select('stellarPublicKey')
-        
+        payFee = false
+        receiverRocket = true
         receiverPublicKey = data[0].stellarPublicKey   
 
     } else {
@@ -79,6 +81,10 @@ router.post('/', async (req, res) => {
     if( crypto ) {
         amount_out = await calculatePrice(amount_out, currency, crypto)
         transaction = await main(sourcePublicKey, sourceKeypair, receiverPublicKey, amount_out.toString(), crypto)
+    } else if(receiverRocket) {
+        amount_out = amount_out + fee
+        transaction = await main(sourcePublicKey, sourceKeypair, receiverPublicKey, amount_out.toString(), currency)
+
     } else {
         transaction = await main(sourcePublicKey, sourceKeypair, receiverPublicKey, amount_out.toString(), currency)
 
