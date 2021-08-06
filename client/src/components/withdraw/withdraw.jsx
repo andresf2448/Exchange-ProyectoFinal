@@ -13,13 +13,15 @@ import validateCbu from "arg.js";
 import axios from "axios";
 import { supabase } from "supabase/supabase";
 import validate from "./withdrawTool";
-import StellarSdk from "stellar-sdk";
 import Swal from "sweetalert2";
 import HashLoader from "react-spinners/HashLoader";
+import { useSelector, useDispatch } from "react-redux";
+import { getFullBalance, getBalance } from "redux/actions/actions";
 
 export const Withdraw = () => {
   const session = supabase.auth.session();
   const [cbu, setCbu] = useState(false);
+  const dispatch = useDispatch()
 
   const [input, setInput] = useState({
     currency: "",
@@ -31,10 +33,9 @@ export const Withdraw = () => {
     email: "",
     amount: "",
   });
-  const [account, setAccount] = useState(false);
-  const [user, setUser] = useState(false);
   const [waiting, setWaiting] = useState(false);
-  const server = new StellarSdk.Server("https://horizon-testnet.stellar.org");
+  let assetsFiat = useSelector((state) => state.assetsFiat);
+  let account = useSelector((state) => state.account);
 
   const classes = useStyles();
 
@@ -51,7 +52,7 @@ export const Withdraw = () => {
           ...input,
           [event.target.name]: event.target.value,
         },
-        user.balances
+        assetsFiat
       )
     );
 
@@ -68,6 +69,9 @@ export const Withdraw = () => {
       amount: input.amount,
       currency: input.currency,
     });
+
+    dispatch(getBalance())
+    dispatch(getFullBalance())
 
     Swal.fire({
       title: "Success!",
@@ -93,97 +97,79 @@ export const Withdraw = () => {
     }
   };
 
-  const userExist = async () => {
-    let { data } = await supabase
-      .from("datauser")
-      .select("public_key")
-      .eq("id_user", session.user.id);
-
-    if (data.length === 0) setUser(false);
-    if (data.length > 0) {
-      getBalance();
-    }
-  };
-
-  const getBalance = async () => {
-    let { data } = await supabase
-      .from("datauser")
-      .select("public_key")
-      .eq("id_user", session.user.id);
-
-    await server
-      .loadAccount(data[0]?.public_key)
-      .then((response) => {
-        let filteredAssets = response.balances.filter(
-          (element) =>
-            element.asset_code === "ARSR" ||
-            element.asset_code === "USDR" ||
-            element.asset_code === "EURR"
-        );
-        setAccount(filteredAssets);
-        setUser(response);
-      })
-      .catch((err) => console.log(err));
-  };
-
   useEffect(() => {
-    userExist();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    dispatch(getBalance())
+    dispatch(getFullBalance())
+  }, [dispatch])
 
   return (
-    <Container align="center" style={{ height: "38vh" }}>
-      {user ? (
-        <FormControl>
-          <Typography variant="h4">Select options to withdraw</Typography>
-          {!waiting ? (
-            <>
-              <Select
-                fullWidth={true}
-                name="currency"
-                value={input.currency}
-                onChange={handleChange}
-              >
-                {account && user
-                  ? account.map((element) => (
-                      <MenuItem value={element.asset_code}>
-                        {element.asset_code}
-                      </MenuItem>
-                    ))
-                  : null}
-              </Select>
+    <div>
+      {account && assetsFiat.length > 0 ? (
+        <Container align="center" style={{ height: "38vh" }}>
+          {assetsFiat ? (
+            <FormControl>
+              <Typography variant="h4">Select options to withdraw</Typography>
+              {!waiting ? (
+                <>
+                  <Select
+                    fullWidth={true}
+                    name="currency"
+                    value={input.currency}
+                    onChange={handleChange}
+                  >
+                    {assetsFiat
+                      ? assetsFiat.map((element) => (
+                          <MenuItem value={element.asset_code}>
+                            {element.asset_code}
+                          </MenuItem>
+                        ))
+                      : null}
+                  </Select>
 
-              <TextField
-                name="amount"
-                margin="dense"
-                type="text"
-                label={error.amount === "" ? "Amount" : error.amount}
-                color={error.amount === "" ? "primary" : "secondary"}
-                disabled={!input.currency}
-                onChange={handleChange}
-                value={input.amount}
-                placeholder="Amount"
-              />
-              <TextField
-                margin="dense"
-                name="cbu"
-                type="text"
-                disabled={error.amount || !input.currency || !input.amount}
-                onChange={handleChange}
-                value={input.cbu}
-                placeholder="CBU account"
-              />
-              <div align="center">
-                <Button
-                  type="submit"
-                  className={classes.depositYellowButton}
-                  disabled={!cbu || !input.currency || error.amount}
-                  onClick={handleSubmit}
-                >
-                  Withdraw
-                </Button>
-              </div>
-            </>
+                  <TextField
+                    name="amount"
+                    margin="dense"
+                    type="text"
+                    label={error.amount === "" ? "Amount" : error.amount}
+                    color={error.amount === "" ? "primary" : "secondary"}
+                    disabled={!input.currency}
+                    onChange={handleChange}
+                    value={input.amount}
+                    placeholder="Amount"
+                  />
+                  <TextField
+                    margin="dense"
+                    name="cbu"
+                    type="text"
+                    disabled={error.amount || !input.currency || !input.amount}
+                    onChange={handleChange}
+                    value={input.cbu}
+                    placeholder="CBU account"
+                  />
+                  <div align="center">
+                    <Button
+                      type="submit"
+                      className={classes.depositYellowButton}
+                      disabled={!cbu || !input.currency || error.amount}
+                      onClick={handleSubmit}
+                    >
+                      Withdraw
+                    </Button>
+                  </div>
+                </>
+              ) : (
+                <div>
+                  <br />
+                  <br />
+                  <br />
+                  <br />
+                  <br />
+                  <br />
+                  <br />
+                  <HashLoader color={"#ffd523"} size={40} />
+                </div>
+              )}
+            </FormControl>
           ) : (
             <div>
               <br />
@@ -196,19 +182,15 @@ export const Withdraw = () => {
               <HashLoader color={"#ffd523"} size={40} />
             </div>
           )}
-        </FormControl>
+        </Container>
       ) : (
-        <div>
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <HashLoader color={"#ffd523"} size={40} />
+        <div align="center">
+          <Typography variant="h4">
+            You have to create an account and trust in a token
+          </Typography>
+          <Typography variant="h4">(EURR, USDR or ARS) to withdraw</Typography>
         </div>
       )}
-    </Container>
+    </div>
   );
 };
