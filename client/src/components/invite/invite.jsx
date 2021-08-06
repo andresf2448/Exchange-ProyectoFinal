@@ -16,7 +16,7 @@ export const InviteUser = () => {
     e.preventDefault();
     let inviteEmail = Email.current.value;
     const session = await supabase.auth.session();
-    axios.post("http://localhost:3001/invite", {
+    axios.post("/invite", {
       sendEmail: session.user.email,
       inviteEmail,
     });

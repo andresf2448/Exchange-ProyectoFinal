@@ -12,7 +12,7 @@ import 'normalize.css';
 import dotenv from "dotenv";
 dotenv.config();
 
-axios.defaults.baseURL = 'http://localhost:3000';
+axios.defaults.baseURL = process.env.REACT_APP_API || "http://localhost:3001";
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLISHEABLE_KEY)
 
