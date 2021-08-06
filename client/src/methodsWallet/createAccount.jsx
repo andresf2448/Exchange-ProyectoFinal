@@ -106,7 +106,7 @@ export default function CreateAccount() {
       ) : (
         <form onSubmit={createdAccounts}>
           <label> User Name </label>
-          <input ref={userName} required />
+          <input onChange={(event) => setUserName(event.target.value)} required />
           <Button className={classes.yellowButton} type="submit">
             Crear Wallet
           </Button>

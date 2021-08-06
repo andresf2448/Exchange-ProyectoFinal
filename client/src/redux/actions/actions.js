@@ -123,7 +123,7 @@ export function getClientSecret(payload) {
   return async function (dispatch) {
     try {
       let paymentIntent = await axios.post(
-        "/create-payment-intent",
+        "http://localhost:3001/create-payment-intent",
         payload
       );
       dispatch({
