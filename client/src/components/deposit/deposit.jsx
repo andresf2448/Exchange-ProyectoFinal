@@ -4,7 +4,7 @@ import {
   Button,
   Select,
   MenuItem,
-  /* useMediaQuery, */
+  useMediaQuery,
   Grid,
 } from "@material-ui/core";
 import { useState } from "react";
@@ -25,8 +25,8 @@ export const Deposit = () => {
     crypto: "",
     xlm: "",
   });
-/*   const ourMediaQuery = useMediaQuery("(min-width:720px)");
- */
+  const ourMediaQuery = useMediaQuery("(min-width:720px)");
+
   const [assetIssuer, setAssetIssuer] = useState();
   const [responseHook, setResponseHook] = useState();
   const assetsCrypto = useSelector((state) => state.assetsCrypto);
@@ -175,7 +175,7 @@ export const Deposit = () => {
       {account ? (
         <Container>
           {assetsCrypto && assetsFiat ? (
-            <Grid container justifyContent="space-between">
+            <Grid container justifyContent="space-between" direction={ourMediaQuery ? "row" : "column"} alignItems="center">
               <Grid item xs={4} align="center">
                 <Button
                   className={classes.depositYellowButton}
