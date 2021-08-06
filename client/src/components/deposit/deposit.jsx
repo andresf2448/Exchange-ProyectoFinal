@@ -83,7 +83,7 @@ export const Deposit = () => {
         assetCode = input.xlm;
       }
 
-      const homeDomain = "localhost:3001";
+      const homeDomain = "rocketxchangeapi.herokuapp.com";
       
       depositHook({
         publicKey,
