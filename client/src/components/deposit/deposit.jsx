@@ -4,6 +4,7 @@ import {
   Button,
   Select,
   MenuItem,
+  useMediaQuery,
   Grid,
 } from "@material-ui/core";
 import { useState } from "react";
@@ -24,6 +25,7 @@ export const Deposit = () => {
     crypto: "",
     xlm: "",
   });
+  const ourMediaQuery = useMediaQuery("(min-width:720px)");
 
   const [assetIssuer, setAssetIssuer] = useState();
   const [responseHook, setResponseHook] = useState();
@@ -80,7 +82,7 @@ export const Deposit = () => {
         assetCode = input.xlm;
       }
 
-      const homeDomain = "localhost:3001";
+      const homeDomain = "rocketxchangeapi.herokuapp.com";
 
       depositHook({
         publicKey,
@@ -372,7 +374,9 @@ export const Deposit = () => {
           )}
         </Container>
       ) : (
-        <Typography variant="h4">You have to create an account to deposit</Typography>
+        <Typography variant="h4">
+          You have to create an account to deposit
+        </Typography>
       )}
     </div>
   );

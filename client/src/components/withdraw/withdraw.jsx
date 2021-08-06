@@ -61,7 +61,7 @@ export const Withdraw = () => {
 
   const handleSubmit = async () => {
     setWaiting(true);
-    let succes = await axios.post("http://localhost:3001/payment", {
+    let succes = await axios.post("/payment", {
       sourceId: session.user.id,
       receiverId: "rocket",
       amount: input.amount,
@@ -174,13 +174,11 @@ export const Withdraw = () => {
           )}
         </Container>
       ) : (
-        <div align='center'>
-        <Typography variant="h4">
-          You have to create an account and trust in a token 
-          </Typography>
+        <div align="center">
           <Typography variant="h4">
-          (EURR, USDR or ARS) to withdraw
-        </Typography>
+            You have to create an account and trust in a token
+          </Typography>
+          <Typography variant="h4">(EURR, USDR or ARS) to withdraw</Typography>
         </div>
       )}
     </div>

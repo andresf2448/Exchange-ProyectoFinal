@@ -12,6 +12,7 @@ import {
   InputLabel,
   Select,
   MenuItem,
+  useMediaQuery,
 } from "@material-ui/core";
 import { validate } from "./validate";
 import Swal from 'sweetalert2'
@@ -23,6 +24,7 @@ export const LoadId = () => {
   const session = supabase.auth.session();
   const { user } = session;
   let id_user = user.id;
+  const ourMediaQuery = useMediaQuery("(min-width:820px)");
 
   const [error, setError] = useState({
     isError: true,
@@ -77,7 +79,7 @@ export const LoadId = () => {
     data.append("file", file);
     data.append("identificacion", idNumber);
 
-    const response = await axios.post("http://localhost:3001/upload", data);
+    const response = await axios.post("/upload", data);
  
     if (response.data === true) {
       await supabase.from("IdentityDocument").insert([
@@ -220,19 +222,19 @@ export const LoadId = () => {
     <Container>
       <Grid container>
         <Grid item sm={12} >
-        <Typography variant="h4" gutterBottom align="center">
+        <Typography variant={ourMediaQuery?'h4':'subtitle1'} gutterBottom align="center">
           Update Identification Document
         </Typography>
         </Grid>
       {hasProfile ? (
         <Grid item xs={12} className={classes.loadingProfileGridItem}>
           <FormControl>
-            <Typography variant="h6">ID type: {idType}</Typography>
-            <Typography variant="h6">ID number: {idNumber}</Typography>
-            <Typography variant="h6">Birth date: {birthDate}</Typography>
-            <Typography variant="h6">Nationality: {nationality}</Typography>
-            <Typography variant="h6">Issue date: {idIssueDate}</Typography>
-            <Typography variant="h6">Expiration date: {idExpirationDate}</Typography>
+            <Typography variant={ourMediaQuery?'h6':'subtitle2'}>ID type: {idType}</Typography>
+            <Typography variant={ourMediaQuery?'h6':'subtitle2'}>ID number: {idNumber}</Typography>
+            <Typography variant={ourMediaQuery?'h6':'subtitle2'}>Birth date: {birthDate}</Typography>
+            <Typography variant={ourMediaQuery?'h6':'subtitle2'}>Nationality: {nationality}</Typography>
+            <Typography variant={ourMediaQuery?'h6':'subtitle2'}>Issue date: {idIssueDate}</Typography>
+            <Typography variant={ourMediaQuery?'h6':'subtitle2'}>Expiration date: {idExpirationDate}</Typography>
             <Button onClick={() => handleEdit()} className={classes.yellowButton}>Edit</Button>
           </FormControl>
         </Grid>
@@ -326,7 +328,7 @@ export const LoadId = () => {
               direction="column"
               alignContent="space-around"
             >
-              <label style={{paddingBottom: 10}}>Please enter a scanned image in black and white .jpeg or .png format with the highest possible resolution. Verify that the background where the number is located is as white as possible and that in the total image only the content of the card is visible.</label>
+              <Typography variant={ourMediaQuery?'h6':'body1'}>Please enter a scanned image in black and white .jpeg or .png format with the highest possible resolution. Verify that the background where the number is located is as white as possible and that in the total image only the content of the card is visible.</Typography>
               <TextField
                 name="file"
                 type="file"

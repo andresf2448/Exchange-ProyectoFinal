@@ -14,7 +14,8 @@ import {
   Button,
   ButtonGroup,
   Checkbox,
-  Tooltip
+  Tooltip,
+  useMediaQuery
 } from "@material-ui/core";
 import { validate } from "./validate";
 import useStyles from 'styles';
@@ -27,6 +28,8 @@ export const LoadingProfile = () => {
   const { user } = session;
   let id_user = user.id;
   const dispatch = useDispatch()
+
+  const ourMediaQuery = useMediaQuery("(min-width:650px)");
 
   const [error, setError] = useState({
     isError: true,
@@ -209,19 +212,19 @@ export const LoadingProfile = () => {
 
   return (
     <Container>
-      <Typography variant="h4" gutterBottom align="center">
+      <Typography variant={ourMediaQuery?'h4':'subtitle1'} gutterBottom align="center">
         Update Information
       </Typography>
       {hasProfile ? (
         <Container className={classes.loadingProfileGridItem}>
           <FormControl>
-            <Typography variant='h6'>First name: {firstName}</Typography>
-            <Typography variant='h6'>Last name: {lastName}</Typography>
-            <Typography variant='h6'>Additional name: {additionalName}</Typography>
-            <Typography variant='h6'>Mobile Number: {mobileNumber}</Typography>
-            <Typography variant='h6'>Occupation: {occupation}</Typography>
-            <Typography variant='h6'>Gender: {gender}</Typography>
-            <Typography variant='h6'>Two Step Verification: {hasTwoFA? 'Yes': 'No'}</Typography>
+            <Typography variant={ourMediaQuery?'h6':'subtitle2'}>First name: {firstName}</Typography>
+            <Typography variant={ourMediaQuery?'h6':'subtitle2'}>Last name: {lastName}</Typography>
+            <Typography variant={ourMediaQuery?'h6':'subtitle2'}>Additional name: {additionalName}</Typography>
+            <Typography variant={ourMediaQuery?'h6':'subtitle2'}>Mobile Number: {mobileNumber}</Typography>
+            <Typography variant={ourMediaQuery?'h6':'subtitle2'}>Occupation: {occupation}</Typography>
+            <Typography variant={ourMediaQuery?'h6':'subtitle2'}>Gender: {gender}</Typography>
+            <Typography variant={ourMediaQuery?'h6':'subtitle2'}>Two Step Verification: {hasTwoFA? 'Yes': 'No'}</Typography>
             <Button onClick={() => handleEdit()} className={classes.yellowButton}>Edit</Button>
           </FormControl>
         </Container>

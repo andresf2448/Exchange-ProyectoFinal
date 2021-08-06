@@ -59,16 +59,15 @@ export default function Orderbook({ assets }) {
   }, [assetSell, assetBuy, server]);
 
   return (
-    <Grid container>
-      <Grid container style={{ marginRight: "2vw", marginLeft: "1.7vw" }}>
-        <Grid item xs={6}>
+      <Grid container style={{ width:"90%", marginRight: "5%", marginLeft: "5%" }}>
+        <Grid item xs={6} align="center">
           <Select
             variant="outlined"
             defaultValue=""
             value={assetBuy.code}
             name="asset"
             onChange={(event) => selectAssetBuy(event)}
-            style={{ height: "5vh", width: "10.5vw" }}
+            style={{ height: "75%", width: "100%" }}
           >
             <MenuItem disabled value={1}>
               Buy Asset
@@ -83,14 +82,14 @@ export default function Orderbook({ assets }) {
               })}
           </Select>
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={6} align="center">
           <Select
             variant="outlined"
             defaultValue=""
             value={assetSell.code}
             name="asset"
             onChange={(event) => selectAssetSell(event)}
-            style={{ height: "5vh", width: "10.5vw" }}
+            style={{ height: "75%", width: "100%" }}
           >
             <MenuItem value={1}>Sell Asset</MenuItem>
             {assets &&
@@ -103,19 +102,26 @@ export default function Orderbook({ assets }) {
               })}
           </Select>
         </Grid>
+        {!response ? (
+          <Grid item xs={12}>
+            <Card
+              style={{
+                // minWidth: "21vw",
+                height: "45vh",
+                paddingTop: "35vh",
+              }}
+            >
+              <HashLoader
+                color={"#ffd523"}
+                css={{ marginLeft: "45%", marginTop: "40vh" }}
+              />
+            </Card>
+          </Grid>
+        ) : (
+          <Grid item xs={12}>
+            <Offer asks={response.asks} bids={response.bids} />
+          </Grid>
+        )}
       </Grid>
-      {!response ? (
-        <>
-          <Card style={{width: '21vw', height: '45vh', marginLeft:'3vh', paddingTop:'35vh'}}>
-            <HashLoader
-              color={"#ffd523"}
-              css={{ marginLeft: "10vw", marginTop: "40vh" }}
-            />
-          </Card>
-        </>
-      ) : (
-        <Offer asks={response.asks} bids={response.bids} />
-      )}
-    </Grid>
   );
 }

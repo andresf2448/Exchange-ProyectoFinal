@@ -1,4 +1,4 @@
-import { Container, Grid, TextField, Button, Typography, FormControl } from "@material-ui/core";
+import { Container, Grid, TextField, Button, Typography, FormControl, useMediaQuery } from "@material-ui/core";
 import { useRef, useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { supabase } from "supabase/supabase";
@@ -10,6 +10,8 @@ export default function RestorePassword() {
   const session = supabase.auth.session();
   const { user } = session;
   let id_user = user.id;
+
+  const ourMediaQuery = useMediaQuery("(min-width:820px)");
 
   const [hasResetPassword, setHasResetPassword] = useState(false);
 
@@ -81,16 +83,18 @@ export default function RestorePassword() {
           justifyContent="center"
           alignItems="center"
         >
-          <Typography variant="h4">Write your new password</Typography>
+          <Typography variant={ourMediaQuery?'h6':'body1'}>Write your new password</Typography>
           <TextField
             type="password"
             inputRef={newPassword}
+            size={ourMediaQuery?'medium':'small'}
             placeholder="Your new password"
           />
           <TextField
             type="password"
             inputRef={validatePassword}
             placeholder="Confirm your password"
+            size={ourMediaQuery?'medium':'small'}
           />
           <Button className={classes.yellowButton} onClick={submit}>
             Send
@@ -100,9 +104,8 @@ export default function RestorePassword() {
         <Container>
             {hasResetPassword ?
                 <Grid container direction="column" justifyContent="center" alignItems="center">
-                    <Typography variant="h4">Write your new password</Typography>
+                    <Typography variant={ourMediaQuery?'h4':'h6'}> Write your new password</Typography>
                     <FormControl margin="normal">
-
                     <TextField
                         type="password"
                         ref={newPassword}
@@ -126,7 +129,7 @@ export default function RestorePassword() {
                 </Grid>
                 :
                 <Container>
-                    <Typography variant="h4" align="center">
+                    <Typography variant={ourMediaQuery?'h6':'body1'} align="center">
                         You didn´t request a password change
                     </Typography>
                 </Container>

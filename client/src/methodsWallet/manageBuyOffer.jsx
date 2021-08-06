@@ -210,7 +210,7 @@ export default function ManageBuyOffer({
             </Typography>
             <hr style={{color:"#ffd523", marginBottom:'2vh'}} />
           </Grid>
-          <Grid item xs={4} style={{marginBottom:'2vh'}}>
+          <Grid item xs={4} style={{marginBottom:'2vh'}} align='center'>
             <Select
               variant="standard"
               value={assetAsk}
@@ -232,7 +232,7 @@ export default function ManageBuyOffer({
                 })}
             </Select>
           </Grid>
-          <Grid item xs={8} >
+          <Grid item xs={8} align='center'>
             <TextField
               variant="standard"
               value={amount}
@@ -243,7 +243,7 @@ export default function ManageBuyOffer({
               inputProps={{style:{textAlign:'center'}}}
             />
           </Grid>
-          <Grid item xs={4} style={{marginBottom:'2vh'}}>
+          <Grid item xs={4} style={{marginBottom:'2vh'}} align='center'>
             <Select
               value={assetBid}
               variant="standard"
@@ -265,7 +265,7 @@ export default function ManageBuyOffer({
                 })}
             </Select>
           </Grid>
-          <Grid item xs={8}>
+          <Grid item xs={8} align='center'>
             <TextField
               variant="standard"
               value={price}
