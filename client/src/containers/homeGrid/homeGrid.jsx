@@ -21,7 +21,7 @@ export const HomeGrid = () => {
         </Grid>
       </Grid>
       : 
-      <Grid container alignItems="center" >
+      <Grid container >
         <Grid item xs={12}>
           <Card elevation={3} className={classes.backCryptoCard}>
             <CryptoGraphics />

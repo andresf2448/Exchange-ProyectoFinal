@@ -4,6 +4,7 @@ import {
   Button,
   Select,
   MenuItem,
+  useMediaQuery,
   Grid,
 } from "@material-ui/core";
 import { useState, useEffect } from "react";
@@ -19,6 +20,7 @@ import StellarSdk from "stellar-sdk";
 import HashLoader from "react-spinners/HashLoader";
 
 
+
 export const Deposit = () => {
   const dispatch = useDispatch();
   const [input, setInput] = useState(false);
@@ -27,6 +29,7 @@ export const Deposit = () => {
     crypto: "",
     xlm: "",
   });
+  const ourMediaQuery = useMediaQuery("(min-width:720px)");
 
   const [assetIssuer, setAssetIssuer] = useState();
   const [responseHook, setResponseHook] = useState();
@@ -214,8 +217,8 @@ export const Deposit = () => {
   return (
     <Container>
       {account ?
-      <Grid container justifyContent="space-between">
-        <Grid item xs={4} align="center">
+      <Grid container justifyContent="space-between" direction={ourMediaQuery ? "row" : "column"} alignItems="center">
+        <Grid item xs={4} align="center" >
           <Button
             className={classes.depositYellowButton}
             onClick={() => handleClick(true, "fiat")}

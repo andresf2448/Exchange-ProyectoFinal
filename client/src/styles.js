@@ -44,7 +44,8 @@ const useStyles = makeStyles(theme => ({
     padding: 15,
     display: "flex",
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
+    marginBotton: "3%"
   },
 
   transactionCardContainer: {
