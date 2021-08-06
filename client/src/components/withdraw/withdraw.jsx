@@ -8,18 +8,20 @@ import {
   Button,
 } from "@material-ui/core";
 import useStyles from "styles";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import validateCbu from "arg.js";
 import axios from "axios";
 import { supabase } from "supabase/supabase";
 import validate from "./withdrawTool";
 import Swal from "sweetalert2";
 import HashLoader from "react-spinners/HashLoader";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { getFullBalance, getBalance } from "redux/actions/actions";
 
 export const Withdraw = () => {
   const session = supabase.auth.session();
   const [cbu, setCbu] = useState(false);
+  const dispatch = useDispatch()
 
   const [input, setInput] = useState({
     currency: "",
@@ -61,12 +63,15 @@ export const Withdraw = () => {
 
   const handleSubmit = async () => {
     setWaiting(true);
-    let succes = await axios.post("/payment", {
+    let succes = await axios.post("http://localhost:3001/payment", {
       sourceId: session.user.id,
       receiverId: "rocket",
       amount: input.amount,
       currency: input.currency,
     });
+
+    dispatch(getBalance())
+    dispatch(getFullBalance())
 
     Swal.fire({
       title: "Success!",
@@ -91,6 +96,11 @@ export const Withdraw = () => {
       });
     }
   };
+
+  useEffect(() => {
+    dispatch(getBalance())
+    dispatch(getFullBalance())
+  }, [dispatch])
 
   return (
     <div>

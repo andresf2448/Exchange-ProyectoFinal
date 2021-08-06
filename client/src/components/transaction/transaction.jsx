@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { supabase } from "supabase/supabase";
 import { takereceiverId, takeSourceId, validate } from "./transactioTools";
@@ -16,12 +16,14 @@ import {
 } from "@material-ui/core";
 import useStyles from "styles";
 import Swal from "sweetalert2";
-import StellarSdk from "stellar-sdk";
-import { useSelector } from "react-redux";
+// import StellarSdk from "stellar-sdk";
+import { useSelector, useDispatch } from "react-redux";
 import HashLoader from "react-spinners/HashLoader";
+import { getFullBalance, getBalance } from "redux/actions/actions";
 
 export default function Transaction() {
   const ourMediaQuery = useMediaQuery("(min-width:820px)");
+  const dispatch = useDispatch()
 
   const [error, setError] = useState({
     isError: true,
@@ -30,7 +32,7 @@ export default function Transaction() {
   });
 
   const [waiting, setWaiting] = useState(false);
-  const [account, setAccount] = useState(false);
+  
 
   const [input, setInput] = useState({
     email: "",
@@ -41,9 +43,8 @@ export default function Transaction() {
   const history = useHistory();
   const submit = false;
   const [transfer, setTransfer] = useState(false);
-  const [user, setUser] = useState(false);
-  const server = new StellarSdk.Server("https://horizon-testnet.stellar.org");
   let accountCreated = useSelector((state) => state.account);
+  let fullAssets = useSelector(state => state.fullAssets)
   const classes = useStyles();
 
   const handleChange = async (event) => {
@@ -57,7 +58,7 @@ export default function Transaction() {
           ...input,
           [event.target.name]: event.target.value,
         },
-        account.balances
+        fullAssets
       )
     );
     if (event.target.name === "amount") {
@@ -75,22 +76,6 @@ export default function Transaction() {
     event.preventDefault();
 
     setWaiting(true);
-
-    let { data } = await supabase
-      .from("UserAnchor")
-      .select("firstName, lastName")
-      .eq("id_user", session.user.id);
-
-    if (data.length < 1) {
-      return Swal.fire({
-        title: 'Hold it!',
-        text: "You need to complete your profile to do a transaction",
-        icon: 'warning',
-        confirmButtonText: 'Got it',
-        background: '#1f1f1f',
-        confirmButtonColor:'rgb(158, 158, 158)',
-      });
-    }
     let receiverId = await handleMail();
 
     if (receiverId) {
@@ -111,7 +96,7 @@ export default function Transaction() {
       } else {
         let sourceId = await takeSourceId();
         try {
-          let succes = await axios.post("/payment", {
+          let succes = await axios.post("http://localhost:3001/payment", {
             sourceId: sourceId,
             receiverId: receiverId,
             amount: input.amount,
@@ -125,7 +110,8 @@ export default function Transaction() {
           });
           setTransfer(true);
           setWaiting(false);
-
+          dispatch(getFullBalance())
+          dispatch(getBalance())
           Swal.fire({
             title: "Success!",
             html: `Your transfer <br> ${succes.data.amount} ${succes.data.currency} <br> Fee percentage <br> ${succes.data.feePercentage}% <br> Fee Amount <br> ${succes.data.fee} ${succes.data.currency} `,
@@ -157,35 +143,6 @@ export default function Transaction() {
     }
   };
 
-  const userExist = async () => {
-    let { data } = await supabase
-      .from("datauser")
-      .select("public_key")
-      .eq("id_user", session.user.id);
-
-    if (data.length === 0) setUser(false);
-    if (data.length > 0) {
-      getBalance();
-      setUser(true);
-    }
-  };
-
-  const getBalance = async () => {
-    let { data } = await supabase
-      .from("datauser")
-      .select("public_key")
-      .eq("id_user", session.user.id);
-
-    await server
-      .loadAccount(data[0]?.public_key)
-      .then((response) => setAccount(response))
-      .catch((err) => console.log(err));
-  };
-
-  useEffect(() => {
-    userExist();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   return (
     <>
@@ -220,8 +177,8 @@ export default function Transaction() {
                       value={input.currency}
                       onChange={handleChange}
                     >
-                      {account && user
-                        ? account.balances?.map((element) => (
+                      {fullAssets 
+                        ? fullAssets.map((element) => (
                             <MenuItem
                               value={
                                 element.asset_type === "native"

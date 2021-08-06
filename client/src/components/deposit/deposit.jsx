@@ -38,6 +38,7 @@ export const Deposit = () => {
   const classes = useStyles();
 
   async function getKeys() {
+    
     let { data: publicKey } = await supabase
       .from("datauser")
       .select("public_key")
@@ -67,7 +68,7 @@ export const Deposit = () => {
     }
 
     setAssetIssuer(() => response.data[0].asset_issuer);
-
+    
     createTransactionId(publicKey[0].public_key, secretKey[0].secret_key);
   }
 
@@ -82,8 +83,8 @@ export const Deposit = () => {
         assetCode = input.xlm;
       }
 
-      const homeDomain = "rocketxchangeapi.herokuapp.com";
-
+      const homeDomain = "localhost:3001";
+      
       depositHook({
         publicKey,
         secretKey,

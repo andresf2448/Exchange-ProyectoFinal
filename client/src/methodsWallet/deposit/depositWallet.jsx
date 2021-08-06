@@ -30,7 +30,7 @@ export default function DepositWallet() {
   const assetIssuer =
     "GCHMQERSYAEIXDGRQLZZPXOLCZZLN535HWYC6ARIGSKZ2DKV4YQHJ6AB";
 
-  const homeDomain = "rocketxchangeapi.herokuapp.com";
+  const homeDomain = "localhost:3001";
   
  useEffect(() => {
     async function callHook() {

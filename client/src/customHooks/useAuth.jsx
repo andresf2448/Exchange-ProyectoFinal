@@ -27,8 +27,8 @@ export default async function useAuth({
 const startChallenge = async (authEndpoint, serverPublicKey, publicKey) => {
   const params = { account: publicKey };
 
-  const webDomain = "rocketxchangeapi.herokuapp.com";
-  const webAuthDomain = "rocketxchangeapi.herokuapp.com/authentication";
+  const webDomain = "localhost:3001";
+  const webAuthDomain = "localhost:3001/authentication";
 
   const authURL = new URL(authEndpoint);
 

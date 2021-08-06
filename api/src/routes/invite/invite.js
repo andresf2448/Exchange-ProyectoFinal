@@ -5,7 +5,7 @@ const { pass } = process.env;
 
 router.post("/", (req, res) => {
   const {sendEmail, inviteEmail} = req.body;
-  const Url = "https://rocket-exchange.vercel.app/";
+  const Url = "http://rocket-exchange.vercel.app/";
   const name = "RocketExChange";
 
   var transporter = nodemailer.createTransport({
