@@ -5,17 +5,20 @@ import { useSelector, useDispatch } from "react-redux";
 import { supabase } from "supabase/supabase";
 import { Button, Typography } from "@material-ui/core";
 import "./stripeCard.css";
-import Swal from 'sweetalert2';
+import Swal from "sweetalert2";
 
 import CardForm from "./stripeCard";
-import { deleteClientSecret } from "redux/actions/actions";
+import {
+  deleteClientSecret,
+  getBalance,
+  getFullBalance,
+} from "redux/actions/actions";
 import { useRef } from "react";
 import axios from "axios";
 
 import useStyles from "styles";
 
-export default function CheckoutForm({amount, currency, crypto, id}) {
-  
+export default function CheckoutForm({ amount, currency, crypto, id }) {
   const dispatch = useDispatch();
   const stripe = useStripe();
   const elements = useElements();
@@ -31,13 +34,12 @@ export default function CheckoutForm({amount, currency, crypto, id}) {
 
   const classes = useStyles();
 
-
   const handleSubmit = async (event) => {
     event.preventDefault();
-    
+
     setWaiting(() => true);
     setError(() => false);
-    
+
     if (!stripe || !elements) return;
 
     if (clientSecret) {
@@ -46,55 +48,55 @@ export default function CheckoutForm({amount, currency, crypto, id}) {
         .select("firstName, lastName")
         .eq("id_user", session.user.id);
 
-      if (error) return Swal.fire({
-        title: 'Error!',
-        text: error.message,
-        icon: 'error',
-        confirmButtonText: 'Cool',
-        background: '#1f1f1f',
-        confirmButtonColor:'rgb(158, 158, 158)',
+      if (error)
+        return Swal.fire({
+          title: "Error!",
+          text: error.message,
+          icon: "error",
+          confirmButtonText: "Cool",
+          background: "#1f1f1f",
+          confirmButtonColor: "rgb(158, 158, 158)",
+        });
+
+      const result = await stripe.confirmCardPayment(clientSecret, {
+        payment_method: {
+          card: elements.getElement(CardElement),
+          billing_details: {
+            name: data[0]?.firstName + " " + data[0]?.lastName || "No data",
+          },
+        },
       });
+      if (result.error) {
+        setError(result.error.message);
+      } else if (result.paymentIntent.status === "succeeded") {
+        setPayment(result.paymentIntent);
 
-      if (data.length > 0) {
-        const result = await stripe.confirmCardPayment(clientSecret, {
-          payment_method: {
-            card: elements.getElement(CardElement),
-            billing_details: {
-              name: data[0]?.firstName + ' ' + data[0]?.lastName || "No data",
-            },
-        }});
-        if (result.error) {
-          setError(result.error.message);
-        } else if (result.paymentIntent.status === "succeeded") {
-          setPayment(result.paymentIntent);
-          
-          let paymentRocket = await axios.post('/payment', {
-            sourceId: 'rocket', 
-            receiverId: session.user.id, 
-            amount: amount,
-            currency: currency,
-            crypto: crypto
-          })
+        let paymentRocket = await axios.post("http://localhost:3001/payment", {
+          sourceId: "rocket",
+          receiverId: session.user.id,
+          amount: amount,
+          currency: currency,
+          crypto: crypto,
+        });
 
-            await supabase
+        await supabase
           .from("transactions")
           .update([
-          {
-            amount_fee: paymentRocket.data.fee,
-            amount_out: paymentRocket.data.amount,
-            amount_in: amount,
-          },
-           ])
-        .eq("id", id);
-          
-          setPaymentCrypto(paymentRocket.data)
-          setWaiting(false);
-        }
+            {
+              amount_fee: paymentRocket.data.fee,
+              amount_out: paymentRocket.data.amount,
+              amount_in: amount,
+            },
+          ])
+          .eq("id", id);
 
+        setPaymentCrypto(paymentRocket.data);
+        dispatch(getFullBalance());
+        dispatch(getBalance());
+        setWaiting(false);
       }
-      }
-  }
-  
+    }
+  };
 
   const closeTab = () => {
     dispatch(deleteClientSecret());
@@ -110,20 +112,19 @@ export default function CheckoutForm({amount, currency, crypto, id}) {
   const handleConfirm = () => {
     inputEl.current.click();
   };
-  
+
   return (
     <>
       <form onSubmit={handleSubmit}>
-        <CardForm /> <br/>
-        <div align='center'>
-        <Button
-          onClick={handleConfirm}
-          className={classes.yellowButton}
-          disabled={payment}
-          
-        >
-          Confirm order
-        </Button>
+        <CardForm /> <br />
+        <div align="center">
+          <Button
+            onClick={handleConfirm}
+            className={classes.yellowButton}
+            disabled={payment}
+          >
+            Confirm order
+          </Button>
         </div>
         <input
           ref={inputEl}
@@ -133,29 +134,47 @@ export default function CheckoutForm({amount, currency, crypto, id}) {
           disabled={!stripe}
         />
       </form>
-      {waiting ? <div align='center'> <h3>Loading...</h3> </div> : null}
+      {waiting ? (
+        <div align="center">
+          {" "}
+          <h3>Loading...</h3>{" "}
+        </div>
+      ) : null}
       {payment && paymentCrypto ? (
-        <div align='center'>
-          <Typography variant="h3" style={{color: '#8CBC4E'}}>Succes Payment</Typography> <br/>
-          <Typography variant="h5">Your payment</Typography> 
-          <Typography variant="h6">{payment.amount / 100} {payment.currency.toUpperCase()}</Typography><br/>
+        <div align="center">
+          <Typography variant="h3" style={{ color: "#8CBC4E" }}>
+            Succes Payment
+          </Typography>{" "}
+          <br />
+          <Typography variant="h5">Your payment</Typography>
+          <Typography variant="h6">
+            {payment.amount / 100} {payment.currency.toUpperCase()}
+          </Typography>
+          <br />
           <Typography variant="h5">You received</Typography>
-          <Typography variant="h6">{paymentCrypto.amount} {crypto ? crypto : payment.currency.toUpperCase() + 'R'}</Typography><br/>
+          <Typography variant="h6">
+            {paymentCrypto.amount}{" "}
+            {crypto ? crypto : payment.currency.toUpperCase() + "R"}
+          </Typography>
+          <br />
           <Typography variant="h5">Percentage of the fee was</Typography>
-          <Typography variant="h6">{paymentCrypto.feePercentage}%</Typography><br/>
+          <Typography variant="h6">{paymentCrypto.feePercentage}%</Typography>
+          <br />
           <Typography variant="h5">The total fee was</Typography>
-          <Typography variant="h6">{paymentCrypto.fee} {payment.currency.toUpperCase()}</Typography><br/>
-          
+          <Typography variant="h6">
+            {paymentCrypto.fee} {payment.currency.toUpperCase()}
+          </Typography>
+          <br />
           <Button className={classes.yellowButton} onClick={closeTab}>
             Close Tab
-          </Button> 
+          </Button>
         </div>
       ) : error === "Your card has insufficient funds." ? (
         <>
           <h1>{error}</h1>
           <h2>Try again with other card</h2>
           <h2>Or</h2>
-          <Button color='secondary' onClick={closeTab}>
+          <Button color="secondary" onClick={closeTab}>
             Close Tab
           </Button>
         </>

@@ -7,19 +7,15 @@ import {
   useMediaQuery,
   Grid,
 } from "@material-ui/core";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import depositHook from "../../customHooks/depositHook";
 import { Link } from "react-router-dom";
 import { setAset } from "redux/actions/actions";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { supabase } from "../../supabase/supabase";
 import useStyles from "styles";
 import Swal from "sweetalert2";
-
-import StellarSdk from "stellar-sdk";
 import HashLoader from "react-spinners/HashLoader";
-
-
 
 export const Deposit = () => {
   const dispatch = useDispatch();
@@ -33,10 +29,9 @@ export const Deposit = () => {
 
   const [assetIssuer, setAssetIssuer] = useState();
   const [responseHook, setResponseHook] = useState();
-  const [account, setAccount] = useState(false);
-  const [userCrypto, setUserCrypto] = useState(false);
-
-  const server = new StellarSdk.Server("https://horizon-testnet.stellar.org");
+  const assetsCrypto = useSelector((state) => state.assetsCrypto);
+  const assetsFiat = useSelector((state) => state.assetsFiat);
+  const account = useSelector((state) => state.account);
 
   const session = supabase.auth.session();
 
@@ -88,7 +83,7 @@ export const Deposit = () => {
       }
 
       const homeDomain = "rocketxchangeapi.herokuapp.com";
-      
+
       depositHook({
         publicKey,
         secretKey,
@@ -99,12 +94,12 @@ export const Deposit = () => {
       });
     } else {
       Swal.fire({
-        title: 'Ups!',
+        title: "Ups!",
         text: "There's an issue with your keys",
-        icon: 'warning',
-        confirmButtonText: 'Hmm..',
-        background: '#1f1f1f',
-        confirmButtonColor:'rgb(158, 158, 158)',
+        icon: "warning",
+        confirmButtonText: "Hmm..",
+        background: "#1f1f1f",
+        confirmButtonColor: "rgb(158, 158, 158)",
       });
     }
   }
@@ -122,19 +117,14 @@ export const Deposit = () => {
   };
 
   const handleClick = async (value, currency) => {
-    let { data } = await supabase
-      .from("UserAnchor")
-      .select("firstName, lastName")
-      .eq("id_user", session.user.id);
-
-    if (data.length < 1) {
+    if (currency === "fiat" && assetsFiat.length < 1) {
       return Swal.fire({
-        title: 'Hold it!',
-        text: "You need to complete your profile to do a deposit",
-        icon: 'warning',
-        confirmButtonText: 'Cool',
-        background: '#1f1f1f',
-        confirmButtonColor:'rgb(158, 158, 158)',
+        title: "Hold it!",
+        text: "You need to trust in tokens FIAT (EURR, ARSR or USDR) to do a deposit",
+        icon: "warning",
+        confirmButtonText: "Cool",
+        background: "#1f1f1f",
+        confirmButtonColor: "rgb(158, 158, 158)",
       });
     }
 
@@ -165,224 +155,229 @@ export const Deposit = () => {
     }
   };
 
-  const userExist = async () => {
-    let { data } = await supabase
-      .from("datauser")
-      .select("public_key")
-      .eq("id_user", session.user.id);
-
-    if (data?.length === 0) setUserCrypto(false);
-    if (data?.length > 0) {
-      getBalance();
-      
-    }
-  };
-
-  const getBalance = async () => {
-    let { data } = await supabase
-      .from("datauser")
-      .select("public_key")
-      .eq("id_user", session.user.id);
-
-    await server
-      .loadAccount(data[0]?.public_key)
-      .then((response) => { 
-        let filteredAssetsFiat = response.balances.filter(element => element.asset_code === 'ARSR' || element.asset_code === 'USDR' || element.asset_code === 'EURR')
-        let filteredAssetsCrypto = response.balances.filter(element => element.asset_type === 'native' || element.asset_code === 'HenryCoin' )
-        setAccount(filteredAssetsFiat)
-        setUserCrypto(filteredAssetsCrypto)
-      })
-      .catch((err) => console.log(err));
-  };
-
   const handleLink = () => {
     setSelector({
       fiat: "",
       crypto: "",
       xlm: "",
-    })
+    });
     setInput({
       fiat: "",
       crypto: "",
       xlm: "",
     });
-    setResponseHook()
-  }
-
-  useEffect(() => {
-    userExist();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    setResponseHook();
+  };
 
   return (
-    <Container>
-      {account ?
-      <Grid container justifyContent="space-between" direction={ourMediaQuery ? "row" : "column"} alignItems="center">
-        <Grid item xs={4} align="center" >
-          <Button
-            className={classes.depositYellowButton}
-            onClick={() => handleClick(true, "fiat")}
-            style={{ marginBottom: 10 }}
-          >
-            Deposit Fiat
-          </Button>
-        </Grid>
-        <Grid item xs={4} align="center">
-          <Button
-            className={classes.depositYellowButton}
-            onClick={() => handleClick(true, "crypto")}
-          >
-            Deposit Crypto
-          </Button>
-        </Grid>
-        <Grid item xs={4} align="center">
-          <Button
-            className={classes.depositYellowButton}
-            onClick={() => handleClick(true, "xlm")}
-          >
-            Buy XLM/HenryCoin
-          </Button>
-        </Grid>
+    <div>
+      {account ? (
+        <Container>
+          {assetsCrypto && assetsFiat ? (
+            <Grid container justifyContent="space-between">
+              <Grid item xs={4} align="center">
+                <Button
+                  className={classes.depositYellowButton}
+                  onClick={() => handleClick(true, "fiat")}
+                  style={{ marginBottom: 10 }}
+                >
+                  Deposit Fiat
+                </Button>
+              </Grid>
+              <Grid item xs={4} align="center">
+                <Button
+                  className={classes.depositYellowButton}
+                  onClick={() => handleClick(true, "crypto")}
+                >
+                  Deposit Crypto
+                </Button>
+              </Grid>
+              <Grid item xs={4} align="center">
+                <Button
+                  className={classes.depositYellowButton}
+                  onClick={() => handleClick(true, "xlm")}
+                >
+                  Buy XLM/HenryCoin
+                </Button>
+              </Grid>
 
-        {selector.fiat ? (
-          <Grid item align="center" xs={12}>
-            <Typography variant="h6">
-              What FIAT do you want to deposit?
-            </Typography>
-            <Select name="fiat" value={input.fiat} onChange={handleChange}>
-            {account ? 
-                  account.map(element =>                 
-                     <MenuItem value={element.asset_code }>{element.asset_code.substring(0,3)}</MenuItem>
-                  )
-                  : null} 
-              
-            </Select>{" "}
-            <br />
-            <Button
-              disabled={!input.fiat}
-              className={classes.depositYellowButton}
-              style={{ marginTop: 10 }}
-              onClick={handleFiat}
-            >
-              Deposit FIAT
-            </Button>{" "}
-            <br />
-            {responseHook && (
-              <Link
-              onClick={handleLink}
-                to={
-                  responseHook.interactiveResponse.url +
-                  `${input.fiat.slice(0, 3)}`
-                }
-                target="_blank"
-                style={{ textDecoration: "none", color: "primary" }}
-              >
-                Click here to continue
-              </Link>
-            )}
-          </Grid>
-        ) : null}
-        {selector.crypto ? (
-          <Grid item align="center" xs={12}>
-            <Typography variant="h6">
-              What crypto do you want to deposit?
-            </Typography>
-            <Select name="crypto" value={input.crypto} onChange={handleChange}>
-          
-              <MenuItem value="XLM">XLM</MenuItem>
-              <MenuItem value="SRT">SRT</MenuItem>
-              <MenuItem value="HenryCoin">HenryCoin</MenuItem>
-            </Select>{" "}
-            <br />
-            <Button
-              disabled={!input.crypto}
-              className={classes.depositYellowButton}
-              style={{ marginTop: 10 }}
-              onClick={handleFiat}
-            >
-              Deposit Crypto
-            </Button>{" "}
-            <br />
-            {responseHook && (
-              <Link
-              onClick={handleLink}
-                to={responseHook.interactiveResponse.url + `${input.crypto}`}
-                target="_blank"
-                style={{ textDecoration: "none", color: "primary" }}
-              >
-                Click here to continue
-              </Link>
-            )}
-          </Grid>
-        ) : null}
-        {selector.xlm ? (
-          <Grid align="center" xs={12}>
-            <Typography variant="h6">
-              What crypto do you want to buy?
-            </Typography>
-            <Select name="xlm" value={input.xlm} onChange={handleChange}>
-            {userCrypto ? 
-                  userCrypto.map(element =>                 
-                     <MenuItem value={element.asset_type === 'native' ? 'XLM' : element.asset_code }>{element.asset_type === 'native' ? 'XLM' : element.asset_code}</MenuItem>
-                  )
-                  : null} 
-          
-            </Select>{" "}
-            <br />
-            <Typography variant="h6">
-              With what FIAT currency are you going to pay?
-            </Typography>
-            <Select name="fiat" value={input.fiat} onChange={handleChange}>
-            {account ? 
-                  account.map(element =>                 
-                     <MenuItem value={element.asset_code }>{element.asset_code.substring(0,3)}</MenuItem>
-                  )
-                  : null} 
-             
-            </Select>{" "}
-            <br />
-            <Button
-              disabled={!input.xlm || !input.fiat}
-              className={classes.depositYellowButton}
-              style={{ marginTop: 10 }}
-              onClick={handleFiat}
-            >
-              Buy Crypto
-            </Button>{" "}
-            <br />
-            {responseHook && (
-              <Link
-              onClick={handleLink}
-                to={
-                  responseHook.interactiveResponse.url +
-                  `${input.fiat.slice(0, 3)}${input.xlm}`
-                }
-                target="_blank"
-                style={{
-                  textDecoration: "none",
-                  backgroundColor: "white",
-                  borderRadius: "2px",
-                }}
-              >
-                Click here to continue
-              </Link>
-            )}
-          </Grid>
-        ) : null}
-      </Grid>
-      :  
-      <div align='center'>
-          <br/>
-          <br/>
-          <br/>
-          
-      <HashLoader color={"#ffd523"} size={40} />
-         <br/>
-          <br/>
-          <br/>
-          <br/>
-      </div> }
-      
-    </Container>
+              {selector.fiat ? (
+                <Grid item align="center" xs={12}>
+                  <Typography variant="h6">
+                    What FIAT do you want to deposit?
+                  </Typography>
+                  <Select
+                    name="fiat"
+                    value={input.fiat}
+                    onChange={handleChange}
+                  >
+                    {assetsFiat
+                      ? assetsFiat.map((element) => (
+                          <MenuItem value={element.asset_code}>
+                            {element.asset_code.substring(0, 3)}
+                          </MenuItem>
+                        ))
+                      : null}
+                  </Select>{" "}
+                  <br />
+                  <Button
+                    disabled={!input.fiat}
+                    className={classes.depositYellowButton}
+                    style={{ marginTop: 10 }}
+                    onClick={handleFiat}
+                  >
+                    Deposit FIAT
+                  </Button>{" "}
+                  <br />
+                  {responseHook && (
+                    <Link
+                      onClick={handleLink}
+                      to={
+                        responseHook.interactiveResponse.url +
+                        `${input.fiat.slice(0, 3)}`
+                      }
+                      target="_blank"
+                      style={{ textDecoration: "none", color: "primary" }}
+                    >
+                      Click here to continue
+                    </Link>
+                  )}
+                </Grid>
+              ) : null}
+              {selector.crypto ? (
+                <Grid item align="center" xs={12}>
+                  <Typography variant="h6">
+                    What crypto do you want to deposit?
+                  </Typography>
+                  <Select
+                    name="crypto"
+                    value={input.crypto}
+                    onChange={handleChange}
+                  >
+                    {assetsCrypto
+                      ? assetsCrypto.map((element) => (
+                          <MenuItem
+                            value={
+                              element.asset_type === "native"
+                                ? "XLM"
+                                : element.asset_code
+                            }
+                          >
+                            {element.asset_type === "native"
+                              ? "XLM"
+                              : element.asset_code}
+                          </MenuItem>
+                        ))
+                      : null}
+                  </Select>
+                  <br />
+                  <Button
+                    disabled={!input.crypto}
+                    className={classes.depositYellowButton}
+                    style={{ marginTop: 10 }}
+                    onClick={handleFiat}
+                  >
+                    Deposit Crypto
+                  </Button>{" "}
+                  <br />
+                  {responseHook && (
+                    <Link
+                      onClick={handleLink}
+                      to={
+                        responseHook.interactiveResponse.url + `${input.crypto}`
+                      }
+                      target="_blank"
+                      style={{ textDecoration: "none", color: "primary" }}
+                    >
+                      Click here to continue
+                    </Link>
+                  )}
+                </Grid>
+              ) : null}
+              {selector.xlm ? (
+                <Grid align="center" xs={12}>
+                  <Typography variant="h6">
+                    What crypto do you want to buy?
+                  </Typography>
+                  <Select name="xlm" value={input.xlm} onChange={handleChange}>
+                    {assetsCrypto
+                      ? assetsCrypto.map((element) => (
+                          <MenuItem
+                            value={
+                              element.asset_type === "native"
+                                ? "XLM"
+                                : element.asset_code
+                            }
+                          >
+                            {element.asset_type === "native"
+                              ? "XLM"
+                              : element.asset_code}
+                          </MenuItem>
+                        ))
+                      : null}
+                  </Select>{" "}
+                  <br />
+                  <Typography variant="h6">
+                    With what FIAT currency are you going to pay?
+                  </Typography>
+                  <Select
+                    name="fiat"
+                    value={input.fiat}
+                    onChange={handleChange}
+                  >
+                    <MenuItem value="ARS">ARS</MenuItem>
+                    <MenuItem value="EUR">EUR</MenuItem>
+                    <MenuItem value="USD">USD</MenuItem>
+                  </Select>{" "}
+                  <br />
+                  <Button
+                    disabled={!input.xlm || !input.fiat}
+                    className={classes.depositYellowButton}
+                    style={{ marginTop: 10 }}
+                    onClick={handleFiat}
+                  >
+                    Buy Crypto
+                  </Button>{" "}
+                  <br />
+                  {responseHook && (
+                    <Link
+                      onClick={handleLink}
+                      to={
+                        responseHook.interactiveResponse.url +
+                        `${input.fiat.slice(0, 3)}${input.xlm}`
+                      }
+                      target="_blank"
+                      style={{
+                        textDecoration: "none",
+                        backgroundColor: "white",
+                        borderRadius: "2px",
+                      }}
+                    >
+                      Click here to continue
+                    </Link>
+                  )}
+                </Grid>
+              ) : null}
+            </Grid>
+          ) : (
+            <div align="center">
+              <br />
+              <br />
+              <br />
+
+              <HashLoader color={"#ffd523"} size={40} />
+              <br />
+              <br />
+              <br />
+              <br />
+            </div>
+          )}
+        </Container>
+      ) : (
+        <Typography variant="h4">
+          You have to create an account to deposit
+        </Typography>
+      )}
+    </div>
   );
 };
