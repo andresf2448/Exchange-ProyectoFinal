@@ -124,7 +124,7 @@ const feeCalculator = async (amount) => {
     
     let amount_out = parseFloat(amount) - amount_fee
 
-    return {amount_out: amount_out.toString(), fee: amount_fee.toString(), percentage: data[data.length - 1].percentage }
+    return {amount_out: amount_out, fee: amount_fee, percentage: data[data.length - 1].percentage }
 
 }
 

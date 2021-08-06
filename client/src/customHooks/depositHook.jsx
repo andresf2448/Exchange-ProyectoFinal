@@ -68,7 +68,7 @@ var flag = true
         token,
         claimableBalanceSupported: true,
       })
-      
+      console.log('ResponseHook')
       setResponseHook(() => {return { interactiveResponse, token }})
       flag = true
       return{ interactiveResponse, token } ;
