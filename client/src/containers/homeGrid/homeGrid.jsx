@@ -10,11 +10,11 @@ export const HomeGrid = () => {
       <Grid container alignItems="center">
         <Grid item xs={9}>
           <Card elevation={3} className={classes.backCryptoCard}>
-            <CryptoGraphics />
+            {/* <CryptoGraphics /> */}
           </Card>
         </Grid>
         <Grid item xs={3}>
-          <Twitter />
+          {/* <Twitter /> */}
         </Grid>
       </Grid>
     </Container>

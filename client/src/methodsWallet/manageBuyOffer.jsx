@@ -128,14 +128,14 @@ export default function ManageBuyOffer({
 
     try {
       const sourceKeypair = StellarSdk.Keypair.fromSecret(secretKey);
-      console.log("entramos carajo");
+      
       const [
         {
           max_fee: { mode: fee },
         },
         accounts,
       ] = await Promise.all([server.feeStats(), server.loadAccount(publicKey)]);
-      console.log("este es el account", account);
+      
       const transaction = new StellarSdk.TransactionBuilder(accounts, {
         fee,
         networkPassphrase: StellarSdk.Networks.TESTNET,
@@ -159,8 +159,8 @@ export default function ManageBuyOffer({
         .build();
 
       transaction.sign(sourceKeypair);
-      const asd = await server.submitTransaction(transaction);
-      console.log(asd);
+      server.submitTransaction(transaction).then((response)=> console.log(response))
+      
     } catch (e) {
       Swal.fire({
         text: "Oh no! Something went wrong.",

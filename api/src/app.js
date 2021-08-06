@@ -39,7 +39,7 @@ server.use("/.well-known/stellar.toml", routes.toml);
 server.use("/emails", routes.emails);
 server.use("/whatsapp", routes.whatsapp);
 server.use("/invite", routes.invite);
-server.use("/upload", routes.upload);
+/* server.use("/upload", routes.upload); */
 
 server.use((err, req, res, next) => {
   // eslint-disable-line no-unused-vars
