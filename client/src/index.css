@@ -1,0 +1,30 @@
+@import-normalize;
+body {
+  margin: 0;
+  font-family: 'Segoe UI', 'Poppins', -apple-system, BlinkMacSystemFont, 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scrollbar-width: thin;          /* "auto" or "thin" */
+}
+*::-webkit-scrollbar {
+  width: 3px;
+}
+
+*::-webkit-scrollbar {
+  width: 1em;
+}
+ 
+*::-webkit-scrollbar-track {
+  background-color: #000000ee;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #1f1f1fcb;
+  outline: 1px solid #ffd523;
+}
+
+.html {
+  font-size: 62.5%;
+}
+
+/*  */
