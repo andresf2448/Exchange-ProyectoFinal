@@ -171,8 +171,8 @@ export const Deposit = () => {
       .select("public_key")
       .eq("id_user", session.user.id);
 
-    if (data.length === 0) setUserCrypto(false);
-    if (data.length > 0) {
+    if (data?.length === 0) setUserCrypto(false);
+    if (data?.length > 0) {
       getBalance();
       
     }

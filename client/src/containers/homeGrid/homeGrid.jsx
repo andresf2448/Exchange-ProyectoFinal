@@ -22,7 +22,7 @@ export const HomeGrid = () => {
       </Grid>
       : 
       <Grid container >
-        <Grid item xs={12}>
+        <Grid item xs={12} alignItems="center" direction="column">
           <Card elevation={3} className={classes.backCryptoCard}>
             <CryptoGraphics />
           </Card>
