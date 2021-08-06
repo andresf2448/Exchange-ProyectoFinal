@@ -26,8 +26,8 @@ import {
 } from "@material-ui/core";
 import { useDispatch } from "react-redux";
 import { GET_USER_DETAILS_ID } from "redux/actions/actions";
-import { CardUser } from "components/cardUser/cardUser";
-
+/* import { CardUser } from "components/cardUser/cardUser";
+ */
 export const AdministratorUser = () => {
   const classes = useStyles();
   const history = useHistory();
@@ -606,7 +606,7 @@ export const AdministratorUser = () => {
                               onClose={handleModalClose}
                               style={{ overflow: "scroll", zIndex: "10000" }}
                             >
-                              <CardUser back={handleModalClose} />
+                              {/* <CardUser back={handleModalClose} /> */}
                             </Modal>
                           </TableCell>
                         </TableRow>

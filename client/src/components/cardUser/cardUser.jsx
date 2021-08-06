@@ -1,4 +1,4 @@
-import React from "react";
+/* import React from "react";
 import { supabase } from "../../supabase/supabase";
 import StellarSdk from "stellar-sdk";
 import { useState, useEffect } from "react";
@@ -44,6 +44,7 @@ export const CardUser = ({ back }) => {
           setAccount(response.balances[0]);
         })
         .catch((err) => console.log(err));
+        console.log("entramos")
       setValidatePublicKey(true);
     }
   };
@@ -231,3 +232,4 @@ export const CardUser = ({ back }) => {
     </Container>
   );
 };
+ */
