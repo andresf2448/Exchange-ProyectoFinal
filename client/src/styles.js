@@ -126,13 +126,12 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: '#272727b3',
     // backgroundColor: 'green',
     marginTop: 15,
-    marginLeft: 300,
+    /* marginLeft: 300, */
     // marginRight: 50,
     marginBottom: 5,
     paddingTop: 35,
     paddingBottom: 35,
-    paddingright:35
-
+    paddingright:35,
   },
   adminCardSearch: {
     display: "flex",
@@ -167,6 +166,7 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'column',
     backgroundColor: '#000',
     justifyContent: 'center',
+    height: '30vh'
   },
   offerTableHead: {
     backgroundColor: theme.palette.primary.light
