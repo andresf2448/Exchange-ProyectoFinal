@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import StellarSdk from "stellar-sdk";
+import Swal from "sweetalert2";
 
 export default function ClaimBalance({ publicKey, secretKey }) {
   const [balances, setBalances] = useState();
@@ -10,31 +11,38 @@ export default function ClaimBalance({ publicKey, secretKey }) {
       server
         .claimableBalances()
         .claimant(publicKey)
-        .limit(10) // there may be many in general
-        .order("desc") // so always get the latest one
+        .limit(10)
+        .order("desc")
         .call()
         .then((res) => setBalances(res.records))
         .catch(function (err) {
-          console.error(`Claimable balance retrieval failed: ${err}`);
+          Swal.fire({
+            text: `Claimable balance retrieval failed: ${err}`,
+            icon: "error",
+            confirmButtonText: "Okay!",
+            background: "#1f1f1f",
+            confirmButtonColor: "rgb(158, 158, 158)",
+          });
         });
     }
   }, []);
 
-  const claimBalance = async (event) => {
-     
+  const claimBalance = async (balance) => {
     const keyp = StellarSdk.Keypair.fromSecret(secretKey);
-
-    console.log("soy balances  aaaaa", balances);
-    const balanceId = balances.filter(
-      (b) => b.id === event.target.value
-    );
+    const balanceId = balances.filter((b) => b.id === balance.id);
 
     const claimBalance = StellarSdk.Operation.claimClaimableBalance({
-      balanceId: balanceId,
+      balanceId: balanceId[0].id,
     });
 
-    const Account = await server.loadAccount(publicKey).catch(function (err) {
-      console.error(`Failed to load ${publicKey}: ${err}`);
+    const Account = await server.loadAccount(publicKey).catch((err) => {
+      Swal.fire({
+        text: `Failed to load ${publicKey}: ${err}`,
+        icon: "error",
+        confirmButtonText: "Error!",
+        background: "#1f1f1f",
+        confirmButtonColor: "rgb(158, 158, 158)",
+      });
     });
 
     const tx = new StellarSdk.TransactionBuilder(Account, {
@@ -46,12 +54,25 @@ export default function ClaimBalance({ publicKey, secretKey }) {
       .build();
 
     tx.sign(keyp);
-    console.log("Este es el console de tx", tx);
     await server
       .submitTransaction(tx)
-      .then((res) => console.log("cosnole.log de res", res))
+      .then((res) =>
+        Swal.fire({
+          text: "Claim success",
+          icon: "success",
+          confirmButtonText: "Ok!",
+          background: "#1f1f1f",
+          confirmButtonColor: "rgb(158, 158, 158)",
+        })
+      )
       .catch(function (err) {
-        console.error(`Tx submission failed: ${err}`);
+        Swal.fire({
+          text: `Tx submission failed: ${err}`,
+          icon: "error",
+          confirmButtonText: "Error!",
+          background: "#1f1f1f",
+          confirmButtonColor: "rgb(158, 158, 158)",
+        });
       });
   };
 
@@ -67,7 +88,7 @@ export default function ClaimBalance({ publicKey, secretKey }) {
                 asset: {balance.asset}
                 id: {balance.id}
               </div>
-              <button onSubmit={(event) => claimBalance(event)}>Claim</button>
+              <button onClick={() => claimBalance(balance)}>Claim</button>
             </div>
           ))}
       </>

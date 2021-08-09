@@ -14,11 +14,22 @@ import Grow from "@material-ui/core/Grow";
 import useStyles from "styles";
 import { supabase } from "supabase/supabase";
 import StellarSdk from "stellar-sdk";
+import { makeStyles } from "@material-ui/core/styles";
+
+const useStylesBasic = makeStyles((theme) => ({
+  container: {
+    justifyContent: 'center',
+  },
+ 
+}));
+
+
 
 export default function MuxedAccount(props) {
   const [mux, setMux] = useState();
   const [muxedAccounts, setMuxedAccounts] = useState([]);
   const classes = useStyles();
+  const classesBasic = useStylesBasic();
   const publicKeyUser = props.pk;
   const server = new StellarSdk.Server("https://horizon-testnet.stellar.org");
   const session = supabase.auth.session();
@@ -68,7 +79,7 @@ export default function MuxedAccount(props) {
   };
 
   return (
-    <Container>
+    <Container >
       <form onSubmit={createMuxedAccount}>
         <Button
           className={classes.muxedYellowButton}
@@ -126,7 +137,7 @@ export default function MuxedAccount(props) {
               >
                 <List>
                   <Paper elevation={10} className={classes.cryptoCurrency}>
-                    <ListItem id={account.id}>
+                    <ListItem id={account.id} className={classesBasic.container} >
                       <Typography variant="subtitle2" align="center">
                         ID {account.idMuxedAccount}{" "}
                       </Typography>

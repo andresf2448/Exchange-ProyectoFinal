@@ -8,7 +8,7 @@ const supabase = createClient(
 router.get("/", async (req, res) => {
   console.log("entro a request");
 
-  /* const { id, name, txid } = req.query.type; */
+  
   const params = req.query.q;
 
   if (req.query.type === "name") {
