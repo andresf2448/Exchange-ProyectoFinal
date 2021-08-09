@@ -122,6 +122,18 @@ const useStyles = makeStyles(theme => ({
     paddingTop: 15,
     paddingBottom: 15,
   },
+  backCryptoCard2:{
+    backgroundColor: '#272727b3',
+    // backgroundColor: 'green',
+    marginTop: 15,
+    marginLeft: 300,
+    // marginRight: 50,
+    marginBottom: 5,
+    paddingTop: 35,
+    paddingBottom: 35,
+    paddingright:35
+
+  },
   adminCardSearch: {
     display: "flex",
     // justifyContent: "center",
