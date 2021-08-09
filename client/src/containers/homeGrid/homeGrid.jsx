@@ -1,5 +1,5 @@
 import { Container, Grid, Card, useMediaQuery } from "@material-ui/core";
-import Twitter from "components/twitter/twitter";
+/* import Twitter from "components/twitter/twitter"; */
 import { CryptoGraphics } from "components/cryptoGraphics/cryptoGraphics";
 import useStyles from "styles";
 import {
@@ -25,20 +25,20 @@ export const HomeGrid = () => {
     <Container maxWidth="lg" style={{ backgroundColor: "#1f1f1f" }}>
       {ourMediaQuery ? (
         <Grid container alignItems="center">
-          <Grid item xs={8}>
+          <Grid item xs={12}>
             <Card elevation={3} className={classes.backCryptoCard}>
-              {/* <CryptoGraphics /> */}
+              <CryptoGraphics /> 
             </Card>
           </Grid>
-          <Grid item xs={4}>
-            {/* <Twitter /> */}
-          </Grid>
+          {/* <Grid item xs={4}>
+             <Twitter />
+          </Grid> */}
         </Grid>
       ) : (
         <Grid container>
           <Grid item xs={12} alignItems="center" direction="column">
             <Card elevation={3} className={classes.backCryptoCard}>
-              {/* <CryptoGraphics /> */}
+              <CryptoGraphics />
             </Card>
           </Grid>
         </Grid>
