@@ -27,18 +27,18 @@ export const HomeGrid = () => {
         <Grid container alignItems="center">
           <Grid item xs={8}>
             <Card elevation={3} className={classes.backCryptoCard}>
-              <CryptoGraphics />
+              {/* <CryptoGraphics /> */}
             </Card>
           </Grid>
           <Grid item xs={4}>
-            <Twitter />
+            {/* <Twitter /> */}
           </Grid>
         </Grid>
       ) : (
         <Grid container>
           <Grid item xs={12} alignItems="center" direction="column">
             <Card elevation={3} className={classes.backCryptoCard}>
-              <CryptoGraphics />
+              {/* <CryptoGraphics /> */}
             </Card>
           </Grid>
         </Grid>

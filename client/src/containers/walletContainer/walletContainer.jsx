@@ -1,15 +1,23 @@
 import CreateAccount from "methodsWallet/createAccount";
 import Transaction from "components/transaction/transaction";
-/* import TransactionsHistory from "methodsWallet/historyTransactions"; */
+import TransactionsHistory from "methodsWallet/historyTransactions";
 import { Deposit } from "components/deposit/deposit";
 import BalanceAccount from "methodsWallet/balanceAccount";
 import { Withdraw } from "components/withdraw/withdraw";
 import { supabase } from "../../supabase/supabase";
 import StellarSdk from "stellar-sdk";
-import { Card, Tabs, Tab, Grid, AppBar, useMediaQuery } from "@material-ui/core";
+import {
+  Card,
+  Tabs,
+  Tab,
+  Grid,
+  AppBar,
+  useMediaQuery,
+} from "@material-ui/core";
 import { useState } from "react";
 import useStyles from "styles";
 import ChangeTrust from "methodsWallet/trustLines";
+import ClaimableBalances from "methodsWallet/claimableBalances";
 
 export default function WalletContainer() {
   const [publicKey, setPublicKey] = useState();
@@ -19,8 +27,6 @@ export default function WalletContainer() {
   const session = supabase.auth.session();
   const server = new StellarSdk.Server("https://horizon-testnet.stellar.org");
   const ourMediaQuery = useMediaQuery("(min-width:820px)");
-
-  
 
   const keys = async () => {
     const { data: assets } = await supabase.from("assets").select("*");
@@ -57,7 +63,10 @@ export default function WalletContainer() {
   return (
     <Grid container>
       <Grid item xs={2}>
-        <AppBar position="static" className={ourMediaQuery?classes.appBar:classes.appBarResponsive}>
+        <AppBar
+          position="static"
+          className={ourMediaQuery ? classes.appBar : classes.appBarResponsive}
+        >
           <Tabs
             orientation="vertical"
             value={value}
@@ -65,13 +74,44 @@ export default function WalletContainer() {
             variant="fullWidth"
             centered={true}
           >
-            <Tab label="Get key" className={ourMediaQuery?classes.tabsNormal:classes.tabsResponsive} />
-            <Tab label="Balance" className={ourMediaQuery?classes.tabsNormal:classes.tabsResponsive}/>
-            <Tab label="Transaction" className={ourMediaQuery?classes.tabsNormal:classes.tabsResponsive}/>
-            {/* <Tab label="Transaction history" /> */}
-            <Tab label="Change trust" className={ourMediaQuery?classes.tabsNormal:classes.tabsResponsive}/>
-            <Tab label="Deposit" className={ourMediaQuery?classes.tabs1:classes.tabs1Responsive} />
-            <Tab label='Withdraw' className={ourMediaQuery?classes.tabs2:classes.tabs2Responsive} />
+            <Tab
+              label="Get key"
+              className={
+                ourMediaQuery ? classes.tabsNormal : classes.tabsResponsive
+              }
+            />
+            <Tab
+              label="Balance"
+              className={
+                ourMediaQuery ? classes.tabsNormal : classes.tabsResponsive
+              }
+            />
+            <Tab
+              label="Transaction"
+              className={
+                ourMediaQuery ? classes.tabsNormal : classes.tabsResponsive
+              }
+            />
+            <Tab label="Transaction history" />
+            <Tab
+              label="Change trust"
+              className={
+                ourMediaQuery ? classes.tabsNormal : classes.tabsResponsive
+              }
+            />
+            <Tab label="Claimable Balances" />
+            <Tab
+              label="Deposit"
+              className={
+                ourMediaQuery ? classes.tabs1 : classes.tabs1Responsive
+              }
+            />
+            <Tab
+              label="Withdraw"
+              className={
+                ourMediaQuery ? classes.tabs2 : classes.tabs2Responsive
+              }
+            />
           </Tabs>
         </AppBar>
       </Grid>
@@ -81,8 +121,8 @@ export default function WalletContainer() {
           {value === 0 && <CreateAccount assets={assets} />}
           {value === 1 && <BalanceAccount assets={assets} />}
           {value === 2 && <Transaction />}
-          {/* {value === 3 && <TransactionsHistory publicKey={publicKey} />} */}
-          {value === 3 && (
+          {value === 3 && <TransactionsHistory publicKey={publicKey} />}
+          {value === 4 && (
             <ChangeTrust
               publicKey={publicKey}
               secretKey={secretKey}
@@ -90,8 +130,15 @@ export default function WalletContainer() {
               account={account}
             />
           )}
-          {value === 4 && <Deposit />}
-          {value === 5 && <Withdraw />}
+          {value === 5 && (
+            <ClaimableBalances
+              secretKey={secretKey}
+              publicKey={publicKey}
+              assets={assets}
+            />
+          )}
+          {value === 6 && <Deposit />}
+          {value === 7 && <Withdraw />}
         </Card>
       </Grid>
     </Grid>
