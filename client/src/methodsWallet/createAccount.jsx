@@ -31,7 +31,7 @@ const useStylesBasic = makeStyles((theme) => ({
     alignItems: 'center',
     maxWidth: "100%",
     width: "fit-content",
-    width: '100%',
+    
   },
   keys : {
      margin: '0.4rem'

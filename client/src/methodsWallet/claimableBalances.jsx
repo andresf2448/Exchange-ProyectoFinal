@@ -1,5 +1,6 @@
-import ClaimBalance from "./claimClamableBalance";
+import ClaimBalance from "./claimClaimableBalance";
 import CreateClaimableBalance from "./createClamableBalance";
+import GetClaimableBalances from "./getClaimableBalances";
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
@@ -24,6 +25,9 @@ export default function ClaimableBalances({ secretKey, publicKey, assets }) {
         secretKey={secretKey}
         publicKey={publicKey}
         assets={assets}
+      />
+      <GetClaimableBalances 
+        publicKey={publicKey}
       />
     </section>
     

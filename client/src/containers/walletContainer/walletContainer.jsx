@@ -4,6 +4,7 @@ import TransactionsHistory from "methodsWallet/historyTransactions";
 import { Deposit } from "components/deposit/deposit";
 import BalanceAccount from "methodsWallet/balanceAccount";
 import { Withdraw } from "components/withdraw/withdraw";
+import MergeAccount from "methodsWallet/mergeAccount";
 import { supabase } from "../../supabase/supabase";
 import StellarSdk from "stellar-sdk";
 import {
@@ -99,6 +100,7 @@ export default function WalletContainer() {
                 ourMediaQuery ? classes.tabsNormal : classes.tabsResponsive
               }
             />
+            <Tab label="Merge Account" />
             <Tab label="Claimable Balances" />
             <Tab
               label="Deposit"
@@ -131,14 +133,20 @@ export default function WalletContainer() {
             />
           )}
           {value === 5 && (
+            <MergeAccount
+              secretKey={secretKey}
+              publicKey={publicKey}
+            />
+          )}
+          {value === 6 && (
             <ClaimableBalances
               secretKey={secretKey}
               publicKey={publicKey}
               assets={assets}
             />
           )}
-          {value === 6 && <Deposit />}
-          {value === 7 && <Withdraw />}
+          {value === 7 && <Deposit />}
+          {value === 8 && <Withdraw />}
         </Card>
       </Grid>
     </Grid>
