@@ -10,7 +10,7 @@ const CryptoCard = (props) => {
   const classes = useStyles();
   return (
     <>
-        <Card className={classes.cryptoCurrency}>
+        <Card className={classes.cryptoCurrency} >
                 <Grid container align="center">
                   <Grid item sm={6} xs={4}>
                     <img className="cryptoIcons" src={img} alt="no img" />
