@@ -1,9 +1,11 @@
 import React from "react";
-import { Typography, Grid } from "@material-ui/core";
+import { useMediaQuery, Typography, Grid } from "@material-ui/core";
 // import './about.css';
 import AboutCard from "./aboutCard";
 
 export default function About() {
+  const ourMediaQuery = useMediaQuery("(min-width:820px)");
+
   let team = [
     {
       name: "Rodrigo Juarez",
@@ -50,22 +52,45 @@ export default function About() {
   return (
     <Grid
       container
-      style={{
+      
+      style={ourMediaQuery ? {
+
         display: "flex",
         flexDirection: "column",
         width: "90%",
         marginLeft: "86px",
-      }}
+        backgroundColor: "#1f1f1f",
+      }
+        :
+        {
+          display: "flex",
+          flexDirection: "column",
+          // width: "90%",
+          marginTop: '12%',
+          marginRight: '0%',
+          // marginLeft: "6px",
+
+          backgroundColor: "#1f1f1f",
+        }}
     >
       <Grid
         item
-        style={{
-          textAlign: "center",
-          justifyContent: "center",
-          marginRight: "90px",
-        }}
+        style={
+          ourMediaQuery ?
+
+            {
+              textAlign: "center",
+              justifyContent: "center",
+              marginRight: "90px",
+            }
+            :
+            {
+              textAlign: "center",
+              marginRight:'20%'
+            }
+        }
       >
-        <Typography variant="h3">Meet The Team</Typography>
+        <Typography variant="h5" style={ourMediaQuery ? {color:'#FFD523'} : { marginBottom: '35%', color:'#FFD523', marginLeft: '28%' }}>Meet The Team</Typography>
       </Grid>
       <Grid container style={{ display: "flex", marginTop: "-80px" }}>
         {team.map((element, index) => {
@@ -74,7 +99,7 @@ export default function About() {
               key={index}
               item
               sm={1}
-              style={{ margin: "6%", marginBottom: "16%" }}
+              style={ourMediaQuery ?{ margin: "6%", marginBottom: "16%" } : {  marginBottom: "90%", marginLeft:'7%' }}
             >
               <AboutCard
                 name={element.name}

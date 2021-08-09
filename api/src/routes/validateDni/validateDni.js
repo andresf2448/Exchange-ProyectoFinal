@@ -1,10 +1,10 @@
-const router = require("express").Router();
-const multer = require("multer");
-const ocrad = require("async-ocrad");
+/* const router = require("express").Router(); */
+/* const multer = require("multer"); */
+/* const ocrad = require("async-ocrad"); */
 
-const upload = multer();
+/* const upload = multer(); */
 
-router.post("/", upload.single("file"), async (req, res, next) => {
+/* router.post("/", upload.single("file"), async (req, res, next) => {
   const { file } = req;
   const { identificacion } = req.body;
 
@@ -21,4 +21,5 @@ router.post("/", upload.single("file"), async (req, res, next) => {
   return res.send(false);
 });
 
-module.exports = router;
+module.exports = router; */
+   

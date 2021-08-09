@@ -12,19 +12,19 @@ const CryptoCard = (props) => {
     <>
         <Card className={classes.cryptoCurrency} >
                 <Grid container align="center">
-                  <Grid item sm={6} >
+                  <Grid item sm={6} xs={4}>
                     <img className="cryptoIcons" src={img} alt="no img" />
                   </Grid>
-                  <Grid item sm={6}>
+                  <Grid item sm={6} xs={8}>
                     <Typography variant="h5" className="coinSymbol"> {symbol} </Typography>
                   </Grid>
-                  <Grid item sm={12}>
+                  <Grid item sm={12} xs={12}>
                     <Typography variant="h5" className={color}>
                       {price ? `$ ${price}` : <SkewLoader size={10} color='white' />}{" "}
                     </Typography>
                   </Grid>
                 </Grid>
-                <Grid item sm={12} className={classes.cryptoChart} >
+                <Grid item sm={12} xs={12} className={classes.cryptoChart} >
                     <CryptoChart crypto={symbol} />
                 </Grid>
         </Card>
