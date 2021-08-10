@@ -1,5 +1,5 @@
 import { Container, Grid, Card, useMediaQuery } from "@material-ui/core";
-/* import Twitter from "components/twitter/twitter"; */
+import Twitter from "components/twitter/twitter";
 import { CryptoGraphics } from "components/cryptoGraphics/cryptoGraphics";
 import useStyles from "styles";
 import {
@@ -30,9 +30,9 @@ export const HomeGrid = () => {
               <CryptoGraphics /> 
             </Card>
           </Grid>
-          {/* <Grid item xs={4}>
+          <Grid item xs={4}>
              <Twitter />
-          </Grid> */}
+          </Grid>
         </Grid>
       ) : (
         <Grid container>

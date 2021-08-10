@@ -1,7 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState, useMemo, useEffect } from "react";
 import StellarSdk from "stellar-sdk";
-import useStyles from "styles";
-import { useMediaQuery, FormControl, TextField, Select, MenuItem, Grid, Button } from "@material-ui/core";
+import { FormControl, TextField, Select, MenuItem, Grid, Button } from "@material-ui/core";
 
 
 export default function CreateClaimableBalance({
@@ -13,10 +12,10 @@ export default function CreateClaimableBalance({
   const [userDestination, setUserDestination] = useState();
   const [asset, setAsset] = useState();
   const [amount, setAmount] = useState();
-  const classes = useStyles();
-  const server = new StellarSdk.Server("https://horizon-testnet.stellar.org");
-
-  const ourMediaQuery = useMediaQuery("(min-width:820px)");
+  const server = useMemo(
+    () => new StellarSdk.Server("https://horizon-testnet.stellar.org"),
+    []
+  );
 
   useEffect(async () => {
     if (publicKey) {

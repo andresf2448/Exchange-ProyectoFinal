@@ -1,7 +1,7 @@
-import ClaimBalance from "./claimClamableBalance";
+import ClaimBalance from "./claimClaimableBalance";
 import CreateClaimableBalance from "./createClamableBalance";
 import { Container } from "@material-ui/core";
-
+import GetClaimableBalances from "./getClaimableBalances";
 
 export default function ClaimableBalances({ secretKey, publicKey, assets }) {
 
@@ -17,7 +17,9 @@ export default function ClaimableBalances({ secretKey, publicKey, assets }) {
         publicKey={publicKey}
         assets={assets}
       />
+      <GetClaimableBalances 
+        publicKey={publicKey}
+        />
     </Container>
-    
   );
 }
