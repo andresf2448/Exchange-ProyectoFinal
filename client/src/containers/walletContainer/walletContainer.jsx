@@ -92,14 +92,22 @@ export default function WalletContainer() {
                 ourMediaQuery ? classes.tabsNormal : classes.tabsResponsive
               }
             />
-            <Tab label="Transaction history" />
+            <Tab label="Transaction history" 
+              className={
+                ourMediaQuery ? classes.tabsNormal : classes.tabsResponsive
+              }
+            />
             <Tab
               label="Change trust"
               className={
                 ourMediaQuery ? classes.tabsNormal : classes.tabsResponsive
               }
             />
-            <Tab label="Claimable Balances" />
+            <Tab label="Claimable Balances" 
+              className={
+                ourMediaQuery ? classes.tabsNormal : classes.tabsResponsive
+              }
+            />
             <Tab
               label="Deposit"
               className={
