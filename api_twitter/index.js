@@ -42,7 +42,7 @@ const rules = [{
                 Authorization: `Bearer ${TOKEN}`
             }
         });
-        // console.log(response.body)
+        // console.log(response.body);
         return response.body
     };
 

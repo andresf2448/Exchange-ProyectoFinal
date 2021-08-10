@@ -1,20 +1,12 @@
 import ClaimBalance from "./claimClamableBalance";
 import CreateClaimableBalance from "./createClamableBalance";
-import { makeStyles } from "@material-ui/core/styles";
+import { Container } from "@material-ui/core";
 
-const useStyles = makeStyles((theme) => ({
-  container: {
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-
-}));
 
 export default function ClaimableBalances({ secretKey, publicKey, assets }) {
-  const classes = useStyles();
 
   return (
-    <section className={classes.container}>
+    <Container >
       <CreateClaimableBalance
         secretKey={secretKey}
         publicKey={publicKey}
@@ -25,7 +17,7 @@ export default function ClaimableBalances({ secretKey, publicKey, assets }) {
         publicKey={publicKey}
         assets={assets}
       />
-    </section>
+    </Container>
     
   );
 }

@@ -1,32 +1,8 @@
 import { useState, useEffect } from "react";
 import StellarSdk from "stellar-sdk";
-import { makeStyles } from "@material-ui/core/styles";
-import { TextField, Select, MenuItem } from "@material-ui/core";
+import useStyles from "styles";
+import { useMediaQuery, FormControl, TextField, Select, MenuItem, Grid, Button } from "@material-ui/core";
 
-const useStyles = makeStyles((theme) => ({
-  container: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  form: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    width: "75%",
-  },
-  input: {
-    margin: "1rem",
-    textAlign: "center",
-    width: "auto",
-  },
-  buttom: {
-    borderRadius: "20px",
-    border: "none",
-    height: "40px",
-    width: "130px",
-  },
-}));
 
 export default function CreateClaimableBalance({
   secretKey,
@@ -39,6 +15,8 @@ export default function CreateClaimableBalance({
   const [amount, setAmount] = useState();
   const classes = useStyles();
   const server = new StellarSdk.Server("https://horizon-testnet.stellar.org");
+
+  const ourMediaQuery = useMediaQuery("(min-width:820px)");
 
   useEffect(async () => {
     if (publicKey) {
@@ -117,15 +95,17 @@ export default function CreateClaimableBalance({
   }
 
   return (
-    <div className={classes.container}>
-      <form onSubmit={(e) => handleSubmmit(e)} className={classes.form}>
+    <Grid container justifyContent="center" >
+      <Grid item fullWidth={true} alignItems="center" direction="column">
+      <FormControl onSubmit={(e) => handleSubmmit(e)} margin='dense'>
         <TextField
-          label={"Public key destination"}
+          label={"PublicKey destination"}
           name="userDestination"
           type="text"
           value={userDestination}
           onChange={(e) => setUserDestination(e.target.value)}
-          className={classes.input}
+          variant='filled'
+          
         />
         <TextField
           label={"Amount"}
@@ -133,7 +113,8 @@ export default function CreateClaimableBalance({
           type="text"
           value={amount}
           onChange={(e) => setAmount(e.target.value)}
-          className={classes.input}
+          variant='filled'
+          
         />
 
         <Select
@@ -163,10 +144,11 @@ export default function CreateClaimableBalance({
             })}
         </Select>
 
-        <button type="submit" className={classes.buttom}>
+        <Button type="submit" variant='contained' style={{backgroundColor:'#ffd523', color:'#1f1f1f', borderRadius: '3px'}}>
           Create order
-        </button>
-      </form>
-    </div>
+        </Button>
+      </FormControl>
+      </Grid>
+    </Grid>
   );
 }

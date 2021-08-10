@@ -175,7 +175,7 @@ export const Deposit = () => {
       {account ? (
         <Container>
           {assetsCrypto && assetsFiat ? (
-            <Grid container justifyContent="space-between">
+            <Grid container justifyContent="space-between">                                    
               <Grid item xs={4} align="center">
                 <Button
                   className={classes.depositYellowButton}
