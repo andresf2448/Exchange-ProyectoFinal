@@ -1,17 +1,20 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import StellarSdk from "stellar-sdk";
 import Swal from "sweetalert2";
 
 export default function ClaimBalance({ publicKey, secretKey }) {
   const [balances, setBalances] = useState();
-  const server = new StellarSdk.Server("https://horizon-testnet.stellar.org");
+  const server = useMemo(
+    () => new StellarSdk.Server("https://horizon-testnet.stellar.org"),
+    []
+  );
 
   useEffect(() => {
     if (publicKey) {
       server
         .claimableBalances()
         .claimant(publicKey)
-        .limit(10)
+        .limit(20)
         .order("desc")
         .call()
         .then((res) => setBalances(res.records))
@@ -25,7 +28,7 @@ export default function ClaimBalance({ publicKey, secretKey }) {
           });
         });
     }
-  }, []);
+  }, [publicKey, server]);
 
   const claimBalance = async (balance) => {
     const keyp = StellarSdk.Keypair.fromSecret(secretKey);
@@ -58,7 +61,7 @@ export default function ClaimBalance({ publicKey, secretKey }) {
       .submitTransaction(tx)
       .then((res) =>
         Swal.fire({
-          text: "Claim success",
+          text: `Claim success. Operation ID: ${res.id}`,
           icon: "success",
           confirmButtonText: "Ok!",
           background: "#1f1f1f",
@@ -77,21 +80,19 @@ export default function ClaimBalance({ publicKey, secretKey }) {
   };
 
   return (
-    <div>
-      <>
-        {balances?.length > 1 &&
-          balances.map((balance) => (
-            <div key={balance.id}>
-              <div>
-                monto: {balance.amount}
-                sponsor: {balance.sponsor}
-                asset: {balance.asset}
-                id: {balance.id}
-              </div>
-              <button onClick={() => claimBalance(balance)}>Claim</button>
+    <>
+      {balances?.length > 1 &&
+        balances.map((balance) => (
+          <div key={balance.id}>
+            <div>
+              monto: {balance.amount}
+              sponsor: {balance.sponsor}
+              asset: {balance.asset}
+              id: {balance.id}
             </div>
-          ))}
-      </>
-    </div>
+            <button onClick={() => claimBalance(balance)}>Claim</button>
+          </div>
+        ))}
+    </>
   );
 }

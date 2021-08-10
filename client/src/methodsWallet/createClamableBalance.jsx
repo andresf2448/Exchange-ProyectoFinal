@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useMemo } from "react";
 import StellarSdk from "stellar-sdk";
 import { makeStyles } from "@material-ui/core/styles";
 import { TextField, Select, MenuItem } from "@material-ui/core";
@@ -33,30 +33,16 @@ export default function CreateClaimableBalance({
   publicKey,
   assets,
 }) {
-  const [balances, setBalances] = useState();
+  
   const [userDestination, setUserDestination] = useState();
   const [asset, setAsset] = useState();
   const [amount, setAmount] = useState();
   const classes = useStyles();
-  const server = new StellarSdk.Server("https://horizon-testnet.stellar.org");
+  const server = useMemo(
+    () => new StellarSdk.Server("https://horizon-testnet.stellar.org"),
+    []
+  );
 
-  useEffect(async () => {
-    if (publicKey) {
-      await server
-        .claimableBalances()
-        .sponsor(publicKey)
-        .limit(10) // there may be many in general
-        .order("desc") // so always get the latest one
-        .call()
-        .then((res) => {
-          console.log(res.records);
-          setBalances(res.records);
-        })
-        .catch(function (err) {
-          console.error(`Claimable balance retrieval failed: ${err}`);
-        });
-    }
-  }, []);
 
   async function main(publicKey, secretKey, userDestination, asset, amount) {
     const userSponsor = StellarSdk.Keypair.fromSecret(secretKey);
