@@ -180,8 +180,6 @@ export default function ClaimableBalance() {
 
   }
 
-
-
   return (
     <Container width="100px">
       <Grid container justifyContent="center" spacing={2}>

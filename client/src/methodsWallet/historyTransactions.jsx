@@ -20,10 +20,14 @@ export default function HistoryTransactions({ publicKey }) {
     error: false,
     loading: false,
   });
-  const server = useMemo(() => new StellarSdk.Server("https://horizon-testnet.stellar.org"), [])
+  const server = useMemo(
+    () => new StellarSdk.Server("https://horizon-testnet.stellar.org"),
+    []
+  );
   const classes = useStyles();
 
   useEffect(() => {
+<<<<<<< HEAD
     if (publicKey) {
       setTransactions({ ...transactions, loading: true });
       server
@@ -37,17 +41,29 @@ export default function HistoryTransactions({ publicKey }) {
             return setTransactions({ ...transactions, loading: false });
           }
           // console.log(page?.records);
+=======
+    if (publicKey) getTransactions();
+  }, [publicKey]); // eslint-disable-next-line
+>>>>>>> a48c7df4f6d3febd86e1351f1bc4b7640cd83e08
 
-          transactions.history.push(page.records);
-          setTransactions({ ...transactions, loading: false });
-          return page.next();
-        })
-        .catch(function (err) {
-          setTransactions({ ...transactions, loading: false });
-          console.log(err);
-        });
-    }
-  }, [publicKey, transactions, server]); // eslint-disable-next-line
+  const getTransactions = () => {
+    setTransactions({ ...transactions, loading: true });
+    server
+      .transactions()
+      .forAccount(publicKey)
+      .call()
+      .then(function (page) {
+        if (page.records.length === 0) {
+          return setTransactions({ ...transactions, error: true, loading: false });
+        }
+        transactions.history.push(page.records);
+        return setTransactions({ ...transactions, loading: false });
+      })
+      .catch(function (err) {
+        setTransactions({ ...transactions, error: true, loading: false });
+        console.log(err);
+      });
+  };
 
   const getDetail = (e) => {
     server
@@ -67,7 +83,6 @@ export default function HistoryTransactions({ publicKey }) {
 
   return (
     <div>
-      
       {transactions.history.length > 0 && !transactions.loading ? (
         <TableContainer
           className={classes.adminTableContainer}
