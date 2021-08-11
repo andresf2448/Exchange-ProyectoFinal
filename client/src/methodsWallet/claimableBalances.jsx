@@ -24,7 +24,6 @@ export default function ClaimableBalances({ secretKey, publicKey, assets }) {
       <ClaimBalance
         secretKey={secretKey}
         publicKey={publicKey}
-        assets={assets}
       />
       <GetClaimableBalances 
         publicKey={publicKey}

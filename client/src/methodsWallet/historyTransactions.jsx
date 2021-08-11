@@ -20,34 +20,34 @@ export default function HistoryTransactions({ publicKey }) {
     error: false,
     loading: false,
   });
-  const server = useMemo(() => new StellarSdk.Server("https://horizon-testnet.stellar.org"), [])
+  const server = useMemo(
+    () => new StellarSdk.Server("https://horizon-testnet.stellar.org"),
+    []
+  );
   const classes = useStyles();
 
   useEffect(() => {
-    if (publicKey) {
-      setTransactions({ ...transactions, loading: true });
-      server
-        .transactions()
-        .forAccount(publicKey)
-        .call()
-        .then(function (page) {
-          if (page.records.length === 0) {
-            console.log("entro a if errado");
-            setTransactions({ ...transactions, error: true });
-            return setTransactions({ ...transactions, loading: false });
-          }
-          console.log(page?.records);
+    if (publicKey) getTransactions();
+  }, [publicKey]); // eslint-disable-next-line
 
-          transactions.history.push(page.records);
-          setTransactions({ ...transactions, loading: false });
-          return page.next();
-        })
-        .catch(function (err) {
-          setTransactions({ ...transactions, loading: false });
-          console.log(err);
-        });
-    }
-  }, [publicKey, transactions, server]); // eslint-disable-next-line
+  const getTransactions = () => {
+    setTransactions({ ...transactions, loading: true });
+    server
+      .transactions()
+      .forAccount(publicKey)
+      .call()
+      .then(function (page) {
+        if (page.records.length === 0) {
+          return setTransactions({ ...transactions, error: true, loading: false });
+        }
+        transactions.history.push(page.records);
+        return setTransactions({ ...transactions, loading: false });
+      })
+      .catch(function (err) {
+        setTransactions({ ...transactions, error: true, loading: false });
+        console.log(err);
+      });
+  };
 
   const getDetail = (e) => {
     server
@@ -67,7 +67,6 @@ export default function HistoryTransactions({ publicKey }) {
 
   return (
     <div>
-      
       {transactions.history.length > 0 && !transactions.loading ? (
         <TableContainer
           className={classes.adminTableContainer}
