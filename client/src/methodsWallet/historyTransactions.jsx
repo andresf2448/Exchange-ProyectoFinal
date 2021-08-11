@@ -27,24 +27,8 @@ export default function HistoryTransactions({ publicKey }) {
   const classes = useStyles();
 
   useEffect(() => {
-<<<<<<< HEAD
-    if (publicKey) {
-      setTransactions({ ...transactions, loading: true });
-      server
-        .transactions()
-        .forAccount(publicKey)
-        .call()
-        .then(function (page) {
-          if (page.records.length === 0) {
-            // console.log("entro a if errado");
-            setTransactions({ ...transactions, error: true });
-            return setTransactions({ ...transactions, loading: false });
-          }
-          // console.log(page?.records);
-=======
     if (publicKey) getTransactions();
   }, [publicKey]); // eslint-disable-next-line
->>>>>>> a48c7df4f6d3febd86e1351f1bc4b7640cd83e08
 
   const getTransactions = () => {
     setTransactions({ ...transactions, loading: true });

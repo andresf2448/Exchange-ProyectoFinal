@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { Button, TextField } from "@material-ui/core";
+import { Button, TextField, Grid, FormControl, Typography } from "@material-ui/core";
 import StellarSdk from "stellar-sdk";
 import Swal from "sweetalert2";
 import axios from "axios";
 import { supabase } from "supabase/supabase";
+import useStyles from "styles";
 
 export default function MergeAccount({ publicKey, secretKey }) {
   const [accountDestination, setAccountDestination] = useState();
@@ -13,6 +14,8 @@ export default function MergeAccount({ publicKey, secretKey }) {
     secretKey: false,
   });
   const session = supabase.auth.session();
+
+  const classes = useStyles();
 
   const createAccount = async () => {
     const response = await axios.get("http://localhost:3001/createWallet");
@@ -98,36 +101,46 @@ export default function MergeAccount({ publicKey, secretKey }) {
     merge();
   }
   return (
-    <div>
-      <p></p>
-      <form onSubmit={(event) => handleSubmit(event)}>
-        <TextField
-          variant="standard"
-          value={accountDestination}
-          type="text"
-          onChange={(event) => setAccountDestination(event.target.value)}
-          placeholder="Account destination"
-          inputProps={{ style: { textAlign: "center" } }}
-        />
-        <Button
-          type="submit"
-          disabled={accountDestination?.length === 56 ? false : true}
-        >
-          Submit
-        </Button>
-      </form>
-      <p>
-        No tenes una cuenta valida? Crea una:{" "}
-        <Button type="text" onClick={() => createAccount()}>
-          Create
-        </Button>
-      </p>
-      {newAccount.publicKey ? (
-        <p>
-          Insert this Public Key: {newAccount.publicKey}. Your new secret key:{" "}
-          {newAccount.secretKey}
-        </p>
-      ) : null}
-    </div>
+    <Grid container align="center">
+      <Grid item xs={12}>
+        <form onSubmit={(event) => handleSubmit(event)}>
+          <FormControl>
+          <TextField
+            variant="standard"
+            value={accountDestination}
+            type="text"
+            onChange={(event) => setAccountDestination(event.target.value)}
+            placeholder="Account destination"
+            inputProps={{ style: { textAlign: "center" } }}
+            />
+          <Button
+            type="submit"
+            disabled={accountDestination?.length === 56 ? false : true}
+            // className={classes.yellowButton}
+            style={{color: '#000', background: "#ffd523" }}
+            >
+            Submit
+            </Button>
+          </FormControl>
+        </form>
+      </Grid>
+      <Grid item xs={12} style={{margin: '2%'}}>
+        <Typography variant='subtitle1'>
+          Don't have a valid account?
+        </Typography>
+        <Typography variant='subtitle1'>
+          Create one:{" "}
+        </Typography>
+          <Button type="text" onClick={() => createAccount()} style={{color: '#000', background: "#ffe579" }}>
+            Create
+          </Button>
+        {newAccount.publicKey ? (
+          <p>
+            Insert this Public Key: {newAccount.publicKey}. Your new secret key:{" "}
+            {newAccount.secretKey}
+          </p>
+        ) : null}
+      </Grid>
+    </Grid>
   );
 }
